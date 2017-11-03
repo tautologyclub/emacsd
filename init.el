@@ -1,10 +1,10 @@
 ;;; package --- Summary
-
 (setq inhibit-splash-screen t)
 
 ;; keep from backuping in current directory
 (setq backup-directory-alist `(("." . "~/.saves")))
-
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -17,36 +17,37 @@
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-focus-out t)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
- '(auto-dim-other-buffers-mode t)
+ '(auto-dim-other-buffers-mode nil)
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
- '(column-number-mode t)
+ '(column-number-mode nil)
  '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#839496")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
- '(custom-enabled-themes (quote (tango-dark)))
+ '(counsel-mode t)
+ '(custom-enabled-themes (quote (adwaita)))
  '(debug-on-error nil)
  '(default ((t (:height 90 :width normal :family "Inconsolata"))))
+ '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0)
+ '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elfeed-feeds
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
  '(elpy-rpc-backend "rope")
  '(fci-rule-color "#c7c7c7")
+ '(fill-column 79)
+ '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t t)
  '(global-fci-mode nil)
+ '(global-flycheck-mode t)
  '(global-linum-mode nil)
- '(helm-autoresize-max-height 22)
- '(helm-autoresize-min-height 22)
+ '(helm-autoresize-max-height 24)
+ '(helm-autoresize-min-height 24)
  '(helm-autoresize-mode t)
+ '(helm-descbinds-mode t)
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
  '(helm-mode t)
- '(helm-split-window-default-side (quote right))
- '(helm-split-window-in-side-p t)
  '(helm-swoop-split-direction (quote split-window-vertically))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -76,22 +77,28 @@
  '(hl-sexp-background-color "#1c1f26")
  '(hlt-max-region-no-warning 30)
  '(ivy-fixed-height-minibuffer t)
- '(ivy-height 14)
+ '(ivy-height 24)
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
+ '(ivy-mode t)
  '(keyboard-coding-system (quote utf-8-unix))
+ '(line-number-mode nil)
  '(magit-commit-arguments nil)
  '(magit-diff-use-overlays nil)
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(max-mini-window-height 10)
+ '(mode-line-default-help-echo nil)
+ '(mode-line-in-non-selected-windows nil)
+ '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
- '(org-agenda-files (quote ("~/tmp/1.org")))
+ '(org-agenda-files nil)
+ '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode bookmark+ helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -100,6 +107,8 @@
  '(projectile-globally-ignored-modes
    (quote
     ("erc-mode" "help-mode" "completion-list-mode" "Buffer-menu-mode" "gnus-.*-mode" "occur-mode" "term-mode")))
+ '(python-indent-guess-indent-offset t)
+ '(python-indent-guess-indent-offset-verbose nil)
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
@@ -108,7 +117,7 @@
  '(scroll-bar-mode nil)
  '(semantic-idle-scheduler-idle-time 10)
  '(semantic-mode t)
- '(shell-file-name "/bin/dash")
+ '(shell-file-name "/bin/bash")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
@@ -124,7 +133,8 @@
      ("C-f" . term-send-del)
      ("C-p" . previous-line)
      ("C-n" . next-line)
-     ("C-s" . isearch-forward)
+     ("C-s" . swiper)
+     ("C-x t" . jnm/term-toggle-mode)
      ("C-r" . isearch-backward)
      ("C-m" . term-send-return)
      ("C-y" . term-paste)
@@ -177,20 +187,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Inconsolata" :foundry "PfEd" :slant normal :weight normal :height 90 :width normal))))
- '(auto-dim-other-buffers-face ((t (:background "#252525" :foreground "dark gray"))))
+ '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
+ '(auto-dim-other-buffers-face ((t (:background "#d8d8c3" :foreground "#151515"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
- '(cursor ((t (:background "dark orange"))))
- '(hl-line ((t (:inherit highlight :background "#6a7c6e" :foreground "gainsboro"))))
- '(linum ((t (:inherit (shadow default) :foreground "khaki"))))
- '(minibuffer-prompt ((t (:foreground "gold" :weight normal))))
- '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :box (:line-width -1 :style released-button)))))
+ '(highlight-indentation-face ((t nil)))
+ '(hl-line ((t (:background "#f2cca5"))))
+ '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
+ '(minibuffer-prompt ((t (:foreground "red" :weight normal))))
+ '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
+ '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(powerline-active1 ((t (:inherit mode-line :background "#333333"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
- '(term-color-red ((t (:background "red3" :foreground "indian red")))))
-(set-cursor-color "#000000")
+ '(term-color-red ((t (:background "red3" :foreground "indian red"))))
+ '(whitespace-line ((t (:foreground "dark magenta")))))
 
 ;; Package managing
 (require 'package)
@@ -206,64 +217,22 @@
 (add-to-list 'package-archives '("marmalade" .
                                  "http://marmalade-repo.org/packages/"))
 
-;; fixme: check for nil etc
-(defun buffer-name-to-echo-area (&optional ARG PRED)
-  (message "[%s] %s"
-           (format-time-string "%H:%M:%S")
-           (buffer-file-name))
-  )
-
-(setq echo-keystrokes 0.05)
-
+(setq echo-keystrokes 0)
 
 (require 'cc-mode)
 (require 'counsel)
 (setq-default indent-tabs-mode nil)
 (setq tab-width 4)
 (setq tab-always-indent t)
-;; (setq tab-always-indent 'complete)  ;; uncommenting because it sucks in minibuffer
 (setq scroll-error-top-bottom t)
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
 
-(require 'multi-term)
-(setq multi-term-program "/bin/bash")
-
-;; fixme...
-(defcustom term-bind-key-alist
-  '(
-    ("C-S-c" . term-interrupt-subjob)
-    ("C-c C-c" . term-interrupt-subjob)
-    ("C-p" . previous-line)
-    ("C-n" . next-line)
-    ("C-s" . isearch-forward)
-    ("C-r" . isearch-backward)
-    ("C-m" . term-send-raw)
-    ("C-S-x" . term-send-raw)
-    )
-  "The key alist that will need to be bind.
-If you do not like default setup, modify it, with (KEY . COMMAND) format."
-  :type 'alist
-  :group 'multi-term)
-
-(ansi-color-for-comint-mode-on)
-
-(defun simplified-end-of-buffer ()
-  "Move point to the beginning of the buffer;
-     leave mark at previous position."
-  (interactive)
-  (push-mark)
-  (goto-char (point-max)))
-(defun simplified-beginning-of-buffer ()
-  "Move point to the beginning of the buffer;
-     leave mark at previous position."
-  (interactive)
-  (push-mark)
-  (goto-char (point-min)))
-
+(global-auto-revert-mode)
 
 (defun set-newline-and-indent ()
+  "Rebind RET."
   (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'prog-mode-hook 'set-newline-and-indent)
 ;; (add-hook 'prog-mode-hook 'nlinum-mode)
@@ -290,11 +259,11 @@ If you do not like default setup, modify it, with (KEY . COMMAND) format."
 
 ;; CEDET BINDINGS
 (semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
-(global-set-key (kbd "C-x C-g") 'semantic-ia-fast-jump)
-(global-set-key (kbd "C-x C-,") 'semantic-complete-jump)
+(semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
+;(global-set-key (kbd "C-x C-g") 'semantic-ia-fast-jump)
+;(global-set-key (kbd "C-x C-,") 'semantic-complete-jump)
 
 ;; flycheck for c/c++
-
 (defun my-flycheck-c-setup ()
   (setq flycheck-clang-language-standard "gnu99"))
 
@@ -309,26 +278,20 @@ If you do not like default setup, modify it, with (KEY . COMMAND) format."
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 
-;; Open .emacs as default
-(find-file "~/.emacs")
-(find-file "~/.emacs.d/bindings-us.el")
-(find-file "~/.org/emacs.org")
-(find-file "~/.org/unjo.org")
-(find-file "~/.org/tracking/1741.org")
-
 ;; TOOGLE COMMENT FOR CURRENT LINE OR REGION
 (defun comment-or-uncomment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no "
-  "active region."
+  "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
   (let (beg end)
     (if (region-active-p)
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)))
+
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
                                                       activate)
-  (if (called-interactively-p)
+  "Asdf.  Aaa..."
+  (if (called-interactively-p interactive)
       (setq deactivate-mark nil)))
 
 (defadvice kill-ring-save (before slick-copy activate compile)
@@ -339,30 +302,14 @@ If you do not like default setup, modify it, with (KEY . COMMAND) format."
      (message "Copied line")
      (list (line-beginning-position) (line-beginning-position 2)))))
 
-;; For convenience
-(setq default-directory "~/" )
-
 (require 'expand-region)
 
 (add-hook 'python-mode-hook 'anaconda-mode)
-(add-hook 'prog-mode-hook (lambda () (interactive) (setq mode-line-format nil)))
+;; (add-hook 'prog-mode-hook (lambda () (interactive) (setq mode-line-format nil)))
 
 ;; (lambda () (interactive) (term-send-raw-string "\eb")))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(load "~/.emacs.d/annotation-custom.el")
-(load "~/.emacs.d/ivy-custom.el")
-(load "~/.emacs.d/face-by-mode.el")
-(load "~/.emacs.d/luddite-custom.el")
-(load "~/.emacs.d/multiterm-custom.el")
-(load "~/.emacs.d/irony-custom.el")
-(load "~/.emacs.d/helm-custom.el")
-(load "~/.emacs.d/simple-paren.el")
-(load "~/.emacs.d/helm-swoop-custom.el")
-;; (load "~/.emacs.d/ggtags-custom.el")
-(load "~/.emacs.d/fci-custom.el")
-(load "~/.emacs.d/tmp-crux.el")
 
 
 ;(setq mode-line-format nil)
@@ -500,7 +447,6 @@ This function is suitable to add to `find-file-hook'."
 
 (require 'whitespace)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
-(global-whitespace-mode t)
 
 ;; Set backup options, for example save backups in ~/.saves/
 (setq
@@ -513,7 +459,6 @@ This function is suitable to add to `find-file-hook'."
  version-control t)       ; use versioned backups
 
 
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Flycheck
 (add-hook 'c++-mode-hook 'flycheck-mode)
 (add-hook 'c-mode-hook 'flycheck-mode)
@@ -523,23 +468,13 @@ This function is suitable to add to `find-file-hook'."
 
 ;; Check buffer on save, new line and immediately after anbling flycheck-mode
 (setq flycheck-check-syntax-automatically '(mode-enabled save)) ;; new-line also possible
-;; (setq flycheck-check-syntax-automatically '(mode-enabled new-line)) ;; new-line also possible
+(setq flycheck-check-syntax-automatically '(mode-enabled new-line)) ;; new-line also possible
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company-mode
 (require 'company)
 ;; Use company-mode in all buffers
 (add-hook 'after-init-hook 'global-company-mode)
-
-
-(load "~/.emacs.d/bindings-us.el")
-
-;; Unbind stupid cc-mode binding
-(eval-after-load "cc-mode"
-  '(define-key c-mode-map (kbd "M-e") nil))
-
-;; Auto-revert buffers when changed on disk
-;; (global-auto-revert-mode 1)
 
 ;; Delete selection on input
 (delete-selection-mode t)
@@ -550,6 +485,8 @@ This function is suitable to add to `find-file-hook'."
 
 ;; scroll margin
 (setq scroll-margin 1)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
 
 ;; kill current line if no region active
 (defadvice kill-region (before slick-cut activate compile)
@@ -568,8 +505,6 @@ This function is suitable to add to `find-file-hook'."
 (package-initialize)
 (setq elpy-rpc-backend "jedi")
 (elpy-enable)
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
 
 ;; ;; not a huge fan, commenting out
 ;; (require 'hungry-delete)
@@ -581,20 +516,60 @@ This function is suitable to add to `find-file-hook'."
     (let ((help (get-char-property (point) 'help-echo)))
       (if help (message "%s" help)))))
 
-(add-hook 'python-mode-hook
-          '(lambda() (flymake-mode)))
+;; (add-hook 'python-mode-hook
+;;           '(lambda() (flycheck-mode)))
+;; FIXME commented out due to disturbing elpy syntax checks. But should disable
+;; elpy checker instead, because I have a HYDRA!
+
 (add-hook 'post-command-hook 'my-flymake-show-help)
-;; (auto-dim-other-buffers-mode nil)
-;(auto-compile-mode nil)
 
 (projectile-global-mode t)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
-                         '(default (:background "#454740")))))
+                         '(default (:background "#ccd886")))))
 
 (auto-dim-other-buffers-mode 1)
 
+(require 'dired)
+
+;; Open some defaults
+(find-file "~/.emacs.d/bindings-us.el")
+(find-file "~/.org/emacs.org")
+(find-file "~/.org/unjo.org")
+(find-file "~/.org/reac.org")
+(find-file "~/.org/medfield.org")
+(find-file "~/.org/home.org")
+(find-file "~/.emacs.d/init.el")
+
+
+(load "~/.emacs.d/custom-defun.el")
+(load "~/.emacs.d/hydras.el")
+(load "~/.emacs.d/hydra-nav.el")
+(load "~/.emacs.d/semicolon-modifier.el")
+(load "~/.emacs.d/annotation-custom.el")
+(load "~/.emacs.d/ivy-custom.el")
+(load "~/.emacs.d/face-by-mode.el")
+(load "~/.emacs.d/luddite-custom.el")
+(load "~/.emacs.d/multiterm-custom.el")
+(load "~/.emacs.d/irony-custom.el")
+(load "~/.emacs.d/helm-custom.el")
+(load "~/.emacs.d/simple-paren.el")
+(load "~/.emacs.d/helm-swoop-custom.el")
+;; (load "~/.emacs.d/ggtags-custom.el")
+(load "~/.emacs.d/fci-custom.el")
+(load "~/.emacs.d/tmp-crux.el")
+(load "~/.emacs.d/bindings-us.el")
+(load "~/.emacs.d/projectile-custom.el")
+(load "~/.emacs.d/flycheck-custom.el")
+
+(setq org-agenda-files (list "~/.org/medfield.org"
+                             "~/.org/work.org"
+                             "~/.org/reac.org"
+                             "~/.org/unjo.org"
+                             "~/.org/home.org"))
+(golden-ratio-mode 1)
 (provide '.emacs)
 ;;; .emacs ends here
+(put 'downcase-region 'disabled nil)

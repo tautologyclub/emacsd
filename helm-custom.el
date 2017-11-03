@@ -1,8 +1,8 @@
 (require 'helm)
 (require 'helm-config)
 (require 'helm-ring)
-(helm-mode 1)
-(helm-descbinds-mode 1)
+;; (helm-mode 1)
+;; (helm-descbinds-mode 1)
 
 (defun helm-toggle-header-line ()
   (if (= (length helm-sources) 1)

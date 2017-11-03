@@ -234,7 +234,7 @@ COLOR is selected from `helm-colors' when run interactively."
   (when (get-text-property (point) 'highlighted)
     (set-text-properties
      (next-single-property-change (point) 'highlighted)
-     (previous-single-property-change (point) 'highlighted)
+     (previous-single-property-change (+ 1 (point)) 'highlighted)
      nil)))
 
 
