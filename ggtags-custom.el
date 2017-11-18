@@ -3,7 +3,10 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-              (ggtags-mode 1))))
+              (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags:~/workspace/reac/inc/")
+              (helm-gtags-mode 1))))
+
+(setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
 
 (define-key ggtags-mode-map (kbd "C-c g s") 'ggtags-find-other-symbol)
 (define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)

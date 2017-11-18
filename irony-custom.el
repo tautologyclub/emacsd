@@ -29,6 +29,3 @@
 ;; Integrate Irony with Flycheck
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
-;; Set cppcheck standard to C++11
-(setq irony-additional-clang-options '("-std=gnu99"
-                       "-I/home/benjamin/workspace/alkit/"))

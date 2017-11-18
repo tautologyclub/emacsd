@@ -15,9 +15,9 @@
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "dark orange" "#cc79a7" "#56b4e9" "white"])
  '(async-bytecomp-allowed-packages nil)
- '(auto-dim-other-buffers-dim-on-focus-out t)
- '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
- '(auto-dim-other-buffers-mode nil)
+ '(avy-keys
+   (quote
+    (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
@@ -36,11 +36,16 @@
  '(fci-rule-color "#c7c7c7")
  '(fill-column 79)
  '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
+ '(flycheck-clang-includes
+   (quote
+    ("/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")))
  '(fringe-mode (quote (1 . 1)) nil (fringe))
- '(gdb-many-windows t t)
+ '(gdb-many-windows t)
+ '(gdb-show-main t)
  '(global-fci-mode nil)
  '(global-flycheck-mode t)
  '(global-linum-mode nil)
+ '(global-semantic-stickyfunc-mode nil)
  '(helm-autoresize-max-height 24)
  '(helm-autoresize-min-height 24)
  '(helm-autoresize-mode t)
@@ -76,6 +81,9 @@
  '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(hl-sexp-background-color "#1c1f26")
  '(hlt-max-region-no-warning 30)
+ '(irony-additional-clang-options
+   (quote
+    ("-I/home/benjamin/workspace/reac/inc" "-std=c90" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D __USE_GNU")))
  '(ivy-fixed-height-minibuffer t)
  '(ivy-height 24)
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
@@ -98,7 +106,7 @@
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -107,18 +115,27 @@
  '(projectile-globally-ignored-modes
    (quote
     ("erc-mode" "help-mode" "completion-list-mode" "Buffer-menu-mode" "gnus-.*-mode" "occur-mode" "term-mode")))
+ '(projectile-mode-line "PROJECTILE")
  '(python-indent-guess-indent-offset t)
  '(python-indent-guess-indent-offset-verbose nil)
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((company-clang-arguments "-I/home/benjamin/workspace/"))))
+    ((irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/ior5f100mj.h")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D P14_bit __BITS8" "-D P11_bit __BITS8")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+     (irony-additional-clang-options quote
+                                     ("-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
- '(semantic-idle-scheduler-idle-time 10)
+ '(semantic-idle-scheduler-idle-time 20)
  '(semantic-mode t)
  '(shell-file-name "/bin/bash")
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#073642" 0.2))
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
@@ -178,6 +195,8 @@
  '(weechat-color-list
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
+ '(wgrep-auto-save-buffer t)
+ '(windmove-wrap-around nil)
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -187,16 +206,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 95 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#d8d8c3" :foreground "#151515"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
+ '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
+ '(header-line ((t (:background "#e2ddaa" :foreground "#CCCCCC"))))
  '(highlight-indentation-face ((t nil)))
  '(hl-line ((t (:background "#f2cca5"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "red" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
- '(powerline-active1 ((t (:inherit mode-line :background "#333333"))))
+ '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
@@ -216,190 +237,87 @@
 
 (add-to-list 'package-archives '("marmalade" .
                                  "http://marmalade-repo.org/packages/"))
-
-(setq echo-keystrokes 0)
-
-(require 'cc-mode)
-(require 'counsel)
-(setq-default indent-tabs-mode nil)
-(setq tab-width 4)
-(setq tab-always-indent t)
-(setq scroll-error-top-bottom t)
-
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
 
-(global-auto-revert-mode)
+(package-initialize)
 
-(defun set-newline-and-indent ()
-  "Rebind RET."
-  (local-set-key (kbd "RET") 'newline-and-indent))
-(add-hook 'prog-mode-hook 'set-newline-and-indent)
+(defmacro csetq (variable value)
+  "Abo-abo weird macro.  Look at VARIABLE and VALUE, wow."
+  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
+
+(require 'cc-mode)
+(require 'counsel)
+(require 'helm)
+(require 'auto-complete)
+(require 'semantic)
+(require 'semantic/bovine/gcc)
+(require 'expand-region)
+(require 'whitespace)
+(require 'company)
+(require 'volatile-highlights)
+
+(setq scroll-margin 2)
+(setq whitespace-style '(face empty tabs lines-tail trailing))
+(setq tab-width 4)
+(setq tab-always-indent t)
+(setq scroll-error-top-bottom t)
+(setq save-interprogram-paste-before-kill t)
+(setq mode-line-format nil)
+(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+(setq-default indent-tabs-mode nil)
+
+(setq scroll-preserve-screen-position nil)
+(global-undo-tree-mode 1)
+(delete-selection-mode t)
+(volatile-highlights-mode t)
+(menu-bar-mode -1)
+(toggle-scroll-bar -1)
+(global-auto-revert-mode)
+(put 'scroll-left 'disabled nil)
+(add-hook 'after-init-hook 'global-company-mode)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'after-init-hook 'global-company-mode)
 ;; (add-hook 'prog-mode-hook 'nlinum-mode)
 ;; (add-hook 'prog-mode-hook 'hl-line-mode)
 ;; (add-hook 'prog-mode-hook 'fci-mode)
 ;; (add-hook 'org-mode-hook 'fci-mode)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
+(electric-pair-mode)
+(projectile-global-mode t)
+(setq backup-by-copying t      ; don't clobber symlinks
+      backup-directory-alist
+      '(("." . "~/.saves"))    ; don't litter my fs tree
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)       ; use versioned backups
+(add-hook 'minibuffer-setup-hook
+          (lambda ()
+            (make-local-variable 'face-remapping-alist)
+            (add-to-list 'face-remapping-alist
+                         '(default (:background "#ccd886")))))
+(auto-dim-other-buffers-mode 1)
 
 
-;; (require 'tabbar)
-;; (tabbar-mode)
-(require 'auto-complete)
-(require 'semantic)
-(require 'semantic/bovine/gcc)
-(semanticdb-enable-gnu-global-databases 'c-mode)
-(semanticdb-enable-gnu-global-databases 'c++-mode)
-
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-;; (add-to-list 'semantic-default-submodes
-;;              'global-semantic-idle-local-symbol-highlight-mode)
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(semantic-mode 1)
-;(global-ede-mode t)
-;(ede-enable-generic-projects)
-
-;; CEDET BINDINGS
-(semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
-(semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
-;(global-set-key (kbd "C-x C-g") 'semantic-ia-fast-jump)
-;(global-set-key (kbd "C-x C-,") 'semantic-complete-jump)
-
-;; flycheck for c/c++
-(defun my-flycheck-c-setup ()
-  (setq flycheck-clang-language-standard "gnu99"))
-
-(add-hook 'c-mode-hook
-          (lambda () (setq flycheck-clang-include-path
-                           (list (expand-file-name "~/workspace/")))))
-(add-hook 'c-mode-hook 'flycheck-mode)
-(add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'c-mode-hook #'my-flycheck-c-setup)
 
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
-
-;; TOOGLE COMMENT FOR CURRENT LINE OR REGION
-(defun comment-or-uncomment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
-
-(defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
-                                                      activate)
-  "Asdf.  Aaa..."
-  (if (called-interactively-p interactive)
-      (setq deactivate-mark nil)))
-
-(defadvice kill-ring-save (before slick-copy activate compile)
-  "When called interactively with no active region, copy a single line instead."
-  (interactive
-   (if mark-active
-       (list (region-beginning) (region-end))
-     (message "Copied line")
-     (list (line-beginning-position) (line-beginning-position 2)))))
-
-(require 'expand-region)
-
-(add-hook 'python-mode-hook 'anaconda-mode)
-;; (add-hook 'prog-mode-hook (lambda () (interactive) (setq mode-line-format nil)))
-
-;; (lambda () (interactive) (term-send-raw-string "\eb")))
-
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(defun set-hook-newline-and-indent ()
+  "Rebind RET."
+  (local-set-key (kbd "RET") 'newline-and-indent))
+(add-hook 'prog-mode-hook 'set-hook-newline-and-indent)
 
 
-;(setq mode-line-format nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; company mode
-
-(require 'company)
-(add-hook 'after-init-hook 'global-company-mode)
-
-                                        ;(setq company-backends (delete 'company-semantic company-backends))
-(define-key c-mode-map  [(tab)] 'company-complete)
-(define-key c++-mode-map  [(tab)] 'company-complete)
-
-;; don't prompt when killing buffers with active processes
-(setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-
-;; Function for getting last multi-term buffer if one exists, or create a new one if not.
-(defun last-term-buffer (l)
-  "Return most recently used term buffer."
-  (when l
-    (if (eq 'term-mode (with-current-buffer (car l) major-mode))
-        (car l) (last-term-buffer (cdr l)))))
-(defun get-term ()
-  "Switch to the term buffer last used, or create a new one if
-    none exists, or if the current buffer is already a term."
-  (interactive)
-  (let ((b (last-term-buffer (buffer-list))))
-    (if (or (not b) (eq 'term-mode major-mode))
-        (multi-term)
-      (switch-to-buffer b))))
-
-;; More fixes for multi-term
-(eval-after-load "term"
-  '(progn
-     ;; Fix forward/backward word when (term-in-char-mode).
-     (define-key term-raw-map (kbd "<C-left>")
-       (lambda () (interactive) (term-send-raw-string "\eb")))
-     (define-key term-raw-map (kbd "<C-right>")
-       (lambda () (interactive) (term-send-raw-string "\ef")))
-     ;; Disable killing and yanking in char mode (term-raw-map).
-     (mapc
-      (lambda (func)
-        (eval `(define-key term-raw-map [remap ,func]
-                 (lambda () (interactive) (ding)))))
-      '(backward-kill-paragraph
-        backward-kill-sentence backward-kill-sexp backward-kill-word
-        bookmark-kill-line kill-backward-chars kill-backward-up-list
-        kill-forward-chars kill-line kill-paragraph kill-rectangle
-        kill-region kill-sentence kill-sexp kill-visual-line
-        kill-whole-line kill-word subword-backward-kill subword-kill
-        yank yank-pop yank-rectangle))))
-
-
-;; set tab width, c mode
-(setq-default c-basic-offset 4)
-
-;; hide show mode
-(add-hook 'prog-mode-hook #'hs-minor-mode)
-
-(defun back-to-indentation-or-beginning () (interactive)
-       (if (= (point) (progn (back-to-indentation) (point)))
-           (beginning-of-line)))
-
-;; Transposing lines up/down
-(defun move-line (n)
-  "Move the current line up or down by N lines."
-  (interactive "p")
-  (setq col (current-column))
-  (beginning-of-line) (setq start (point))
-  (end-of-line) (forward-char) (setq end (point))
-  (let ((line-text (delete-and-extract-region start end)))
-    (forward-line n)
-    (insert line-text)
-    ;; restore point to original column in moved line
-    (forward-line -1)
-    (forward-char col)))
-
-(defun move-line-up (n)
-  "Move the current line up by N lines."
-  (interactive "p")
-  (move-line (if (null n) -1 (- n))))
-(defun move-line-down (n)
-  "Move the current line down by N lines."
-  (interactive "p")
-  (move-line (if (null n) 1 n)))
-
-(put 'scroll-left 'disabled nil)
-(electric-pair-mode)
+(add-to-list 'semantic-default-submodes
+             'global-semantic-idle-local-symbol-highlight-mode)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
+(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
+(semantic-mode 1)
+(global-semantic-idle-scheduler-mode)
+;(global-ede-mode t)
+;(ede-enable-generic-projects)
 
 (defface find-file-root-header-face
   '((t (:foreground "white" :background "red3")))
@@ -421,155 +339,71 @@ This function is suitable to add to `find-file-hook'."
 (add-hook 'dired-mode-hook 'find-file-root-header-warning)
 
 
-;; Make emacs not kill entire word if newline or backspace
-(defun backward-kill-char-or-word ()
-  (interactive)
-  (cond
-   ((looking-back (rx (char word)) 1)
-    (backward-kill-word 1))
-   ((looking-back (rx (char blank)) 1)
-    (delete-horizontal-space t))
-   (t
-    (backward-delete-char 1))))
-
-(defun kill-line-save (&optional arg)
-  "Copy to the kill ring from point to the end of the current line.
-    With a prefix argument, copy that many lines from point. Negative
-    arguments copy lines backward. With zero argument, copies the
-    text before point to the beginning of the current line."
-  (interactive "p")
-  (save-excursion
-    (copy-region-as-kill
-     (point)
-     (progn (if arg (forward-visible-line arg)
-              (end-of-visible-line))
-            (point)))))
-
-(require 'whitespace)
-(setq whitespace-style '(face empty tabs lines-tail trailing))
-
-;; Set backup options, for example save backups in ~/.saves/
-(setq
- backup-by-copying t      ; don't clobber symlinks
- backup-directory-alist
- '(("." . "~/.saves"))    ; don't litter my fs tree
- delete-old-versions t
- kept-new-versions 6
- kept-old-versions 2
- version-control t)       ; use versioned backups
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Flycheck
-(add-hook 'c++-mode-hook 'flycheck-mode)
-(add-hook 'c-mode-hook 'flycheck-mode)
-(add-hook 'c-mode-common-hook 'flycheck-mode)
-(add-hook 'c-mode-common-hook 'irony-mode)
-(add-hook 'c-mode-common-hook 'company-mode)
-
-;; Check buffer on save, new line and immediately after anbling flycheck-mode
-(setq flycheck-check-syntax-automatically '(mode-enabled save)) ;; new-line also possible
-(setq flycheck-check-syntax-automatically '(mode-enabled new-line)) ;; new-line also possible
-
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; company-mode
-(require 'company)
-;; Use company-mode in all buffers
-(add-hook 'after-init-hook 'global-company-mode)
-
-;; Delete selection on input
-(delete-selection-mode t)
-
-;; volatile highlights
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
-
-;; scroll margin
-(setq scroll-margin 1)
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-
-;; kill current line if no region active
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (list (line-beginning-position)
-           (line-beginning-position 2)))))
-
-;; cursor stuff when scrolling
-(setq scroll-preserve-screen-position 1)
-
-;; undo-tree
-(global-undo-tree-mode 1)
-
-(package-initialize)
-(setq elpy-rpc-backend "jedi")
-(elpy-enable)
-
-;; ;; not a huge fan, commenting out
-;; (require 'hungry-delete)
-;; (global-hungry-delete-mode)
-
 ;; annoying fix for flymake error messages
 (defun my-flymake-show-help ()
   (when (get-char-property (point) 'flymake-overlay)
     (let ((help (get-char-property (point) 'help-echo)))
       (if help (message "%s" help)))))
 
-;; (add-hook 'python-mode-hook
-;;           '(lambda() (flycheck-mode)))
-;; FIXME commented out due to disturbing elpy syntax checks. But should disable
-;; elpy checker instead, because I have a HYDRA!
-
 (add-hook 'post-command-hook 'my-flymake-show-help)
 
-(projectile-global-mode t)
-(add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (make-local-variable 'face-remapping-alist)
-            (add-to-list 'face-remapping-alist
-                         '(default (:background "#ccd886")))))
 
-(auto-dim-other-buffers-mode 1)
-
-(require 'dired)
 
 ;; Open some defaults
-(find-file "~/.emacs.d/bindings-us.el")
+(find-file "~/.emacs.d/bindings2.el")
 (find-file "~/.org/emacs.org")
-(find-file "~/.org/unjo.org")
-(find-file "~/.org/reac.org")
-(find-file "~/.org/medfield.org")
+(find-file "~/.org/work.org")
 (find-file "~/.org/home.org")
 (find-file "~/.emacs.d/init.el")
 
-
+;; ugly load
 (load "~/.emacs.d/custom-defun.el")
+(load "~/.emacs.d/multiterm-custom.el")
 (load "~/.emacs.d/hydras.el")
 (load "~/.emacs.d/hydra-nav.el")
 (load "~/.emacs.d/semicolon-modifier.el")
 (load "~/.emacs.d/annotation-custom.el")
 (load "~/.emacs.d/ivy-custom.el")
 (load "~/.emacs.d/face-by-mode.el")
-(load "~/.emacs.d/luddite-custom.el")
-(load "~/.emacs.d/multiterm-custom.el")
-(load "~/.emacs.d/irony-custom.el")
+(load "~/.emacs.d/defuns.el")
 (load "~/.emacs.d/helm-custom.el")
+(load "~/.emacs.d/python-custom.el")
 (load "~/.emacs.d/simple-paren.el")
-(load "~/.emacs.d/helm-swoop-custom.el")
-;; (load "~/.emacs.d/ggtags-custom.el")
+(load "~/.emacs.d/ggtags-custom.el")
 (load "~/.emacs.d/fci-custom.el")
-(load "~/.emacs.d/tmp-crux.el")
-(load "~/.emacs.d/bindings-us.el")
+;; (load "~/.emacs.d/helm-swoop-custom.el")
+;; (load "~/.emacs.d/tmp-crux.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
+(load "~/.emacs.d/c-custom.el")
+(load "~/.emacs.d/ora-ediff.el")
+(load "~/.emacs.d/hydra-jumper.el")
+(load "~/.emacs.d/guide-key-custom.el")
+(load "~/.emacs.d/git-custom.el")
+;; (load "~/.emacs.d/irony-custom.el")
+(load "~/.emacs.d/bindings2.el")
 
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"
                              "~/.org/reac.org"
                              "~/.org/unjo.org"
                              "~/.org/home.org"))
-(golden-ratio-mode 1)
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;; (make-variable-buffer-local 'compile-command)
+
+(counsel-projectile-on)
+
+(defun message-buffer-file-name-or-nothing ()
+  "Mode line proxy."
+  (if buffer-file-name
+      (message "[%s] %s"
+           (format-time-string "%H:%M:%S")
+           (buffer-file-name)))
+  )
+(setq focus-in-hook 'message-buffer-file-name-or-nothing)
+
 (provide '.emacs)
 ;;; .emacs ends here
 (put 'downcase-region 'disabled nil)

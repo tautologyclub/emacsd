@@ -2,10 +2,12 @@
                                   :hint nil
                                   )
   "
-  _p_: undo  _n_: redo _s_: save _l_: load   "
+  _p__j__u_: undo  _n__k__U_: redo _s_: save _l_: load   "
   ("p"   undo-tree-undo)
+  ("j"   undo-tree-undo)
   ("u"   undo-tree-undo)
   ("n"   undo-tree-redo)
+  ("k"   undo-tree-redo)
   ("U"   undo-tree-redo)
   ("s"   undo-tree-save-history)
   ("l"   undo-tree-load-history)
@@ -13,27 +15,18 @@
   ("q"   nil "quit" :color blue))
 
 (defun fake-C-c ()
-  "Fakes the user typing C-c."
+  "Fakes the user typing Ctrl-c."
   (interactive)
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-c"))
                                      unread-command-events)))
 (defun fake-C-x ()
-  "Fakes the user typing C-x."
+  "Fakes the user typing Ctrl-x."
   (interactive)
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
                                      unread-command-events)))
 
 (defhydra hydra-weird-chars (:hint nil)
   "
-   () q       - a
-   \\  w       _ s
-   =  e       : d
-   [] r       φ f
-   ~  t       φ f
-   υ  y       φ f
-   ψ  u υ  y       φ f
-   ψ  u υ  y       φ f
-
 "
   ;; ("q"   (lambda () (interactive) (insert "[]")(backward-char)) :color blue)
   ("<f8>"   (lambda () (interactive) (insert "ö")) :color blue)
@@ -43,6 +36,7 @@
   )
 
 
+(require 'dired)
 (defhydra hydra-dired (:hint nil :color pink)
   "
 _+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
