@@ -27,7 +27,7 @@
  '(debug-on-error nil)
  '(default ((t (:height 90 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
- '(echo-keystrokes 0)
+ '(echo-keystrokes 0.01)
  '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elfeed-feeds
    (quote
@@ -133,7 +133,7 @@
                                      ("-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
- '(semantic-idle-scheduler-idle-time 20)
+ '(semantic-idle-scheduler-idle-time 5)
  '(semantic-mode t)
  '(shell-file-name "/bin/bash")
  '(sml/active-background-color "#34495e")

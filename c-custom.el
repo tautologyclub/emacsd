@@ -1,3 +1,16 @@
+(defun c-occur-overview ()
+  "Display an occur buffer with declarations/definitions/etc.
+
+Also, switch to that buffer."
+  (interactive)
+  (let ((list-matching-lines-face nil))
+    (occur "^[a-z].*("))
+  (let ((window (get-buffer-window "*Occur*")))
+    (if window
+        (select-window window)
+      (switch-to-buffer "*Occur*"))))
+
+
 (require 'semantic)
 (semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
 (setq-default c-basic-offset 4)
@@ -54,7 +67,7 @@
 (define-key c-mode-base-map (kbd "C-M-k") nil)
 (define-key c-mode-base-map (kbd "M-.") 'helm-gtags-dwim)
 (define-key c-mode-base-map (kbd "C-c f") 'helm-flycheck)
-(define-key c-mode-base-map (kbd "C-c c") 'compile)
+(define-key c-mode-base-map (kbd "C-c o") 'c-occur-overview)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gud/body)
 (define-key gud-mode-map (kbd "M-c") 'hydra-gud/body)
@@ -71,10 +84,11 @@
 ;;         "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__"
 ;;         "-D __ARL78__" "-D __CORE__=__RL78_1__")))
 
+(setq c-mode-hook nil)
 (defun benjamin/c-hook ()
   "You know.  My hook and stuff."
   (subword-mode)
-  (semantic-stickyfunc-mode)
+  ;; (semantic-stickyfunc-mode)
   (auto-fill-mode)
   (flycheck-mode)
   (helm-gtags-mode)
@@ -100,8 +114,8 @@
                     company-semantic
                     company-files
                     company-cmake
-                    company-keywords
-                    company-gtags
+                    ;; company-keywords
+                    ;; company-gtags
                     company-capf
                     )))
 

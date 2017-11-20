@@ -7,7 +7,15 @@
 ;;              dired?
 ;;              ivy-restrict-to-matches
 ;;              ivy-occur
+;;              C-x (       kb macro
+;;              C-x )       ..
 
+(require 'helm)
+(require 'ivy)
+(require 'undo-tree)
+(require 'projectile)
+(require 'git-gutter+)
+(require 'guide-key)
 
 ;; unbind
 (global-unset-key (kbd "M-r")) ;; useless
@@ -25,13 +33,9 @@
 (global-unset-key (kbd "C-x r"))
 (global-unset-key (kbd "C-x C-c"))
 (global-unset-key (kbd "s-g"))
-
-(require 'helm)
-(require 'ivy)
-(require 'undo-tree)
-(require 'projectile)
-(require 'git-gutter+)
-(require 'guide-key)
+(global-unset-key (kbd "C-x C-v"))
+(global-unset-key (kbd "C-x C-z"))
+(global-unset-key (kbd "C-x C-d"))
 
 (eval-after-load "undo-tree-mode"
   (define-key undo-tree-map (kbd "C-x r") nil))
@@ -42,6 +46,7 @@
 (global-set-key (kbd "<S-f8>") (lambda () (interactive) (insert ":")))  ;; todo
 (global-set-key (kbd "<f9>") 'hydra-nav/body)
 (global-set-key (kbd "<f10>") 'er/expand-region)
+(global-set-key (kbd "<f11>") 'counsel-find-file)
 (global-set-key (kbd "<f12>") 'benjamin/helm-buffers-list)
 ;; (global-set-key (kbd "<f12>") 'set-mark-command)
 
@@ -53,39 +58,41 @@
 (global-set-key (kbd "(") 'ora-parens)
 ;; (global-set-key (kbd "[") 'ora-brackets)
 ;; (global-set-key (kbd "Ρ") 'ora-braces)
+(global-set-key (kbd "ψ") 'universal-argument)
 
 
 ;; C
-;; (global-set-key (kbd "C-q") nil)
+(global-set-key (kbd "C-q") 'quoted-insert)  ;; todo
 (global-set-key (kbd "C-w") 'kill-region)
-(global-set-key (kbd "C-e") 'forward-char)
+(global-set-key (kbd "C-e") 'xah-end-of-line-or-block)
 (global-set-key (kbd "C-r") 'backward-delete-char-untabify)
 (global-set-key (kbd "C-t") nil)
-(global-set-key (kbd "C-t C-t") 'multi-term)
-(global-set-key (kbd "C-t C-g") 'get-term)
-(global-set-key (kbd "C-t C-d") 'terminal-with-focus-below)
-;; (global-set-key (kbd "C-y") nil)
-;; (global-set-key (kbd "C-u) nil)
+    (global-set-key (kbd "C-t t") 'multi-term)
+    (global-set-key (kbd "C-t g") 'get-term)
+    (global-set-key (kbd "C-t d") 'terminal-with-focus-below)
+    (global-set-key (kbd "C-t p") 'projectile-get-term)
+(global-set-key (kbd "C-y") 'yank)
+(global-set-key (kbd "C-u") 'kill-line)
 ;; (global-set-key (kbd "C-i) nil)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
-;; (global-set-key (kbd "C-p") nil)  ;; todo
+(global-set-key (kbd "C-p") 'benjamin/jump-char-bwd)
 
-(global-set-key (kbd "C-a") 'backward-char)
+(global-set-key (kbd "C-a") 'xah-beginning-of-line-or-block)
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-d") 'delete-char)
-(global-set-key (kbd "C-f") 'benjamin/jump-char-fwd)
-;; (global-set-key (kbd "C-g") nil)
-;; (global-set-key (kbd "C-h") nil) ;; todo
+(global-set-key (kbd "C-f") 'forward-to-word)
+(global-set-key (kbd "C-g") 'keyboard-quit)
+(global-set-key (kbd "C-h") 'backward-char)
 (global-set-key (kbd "C-j") 'next-line)
 (global-set-key (kbd "C-k") 'previous-line)
-(global-set-key (kbd "C-l") 'kill-line)
+(global-set-key (kbd "C-l") 'forward-char)
 
-;; (global-set-key (kbd "C-z") nil)
+(global-set-key (kbd "C-z") 'kill-line)  ;; todo
 ;; (global-set-key (kbd "C-x") nil)
 ;; (global-set-key (kbd "C-c") nil)
 ;; (global-set-key (kbd "C-v") nil)  ;; todo
-(global-set-key (kbd "C-b") 'benjamin/jump-char-bwd)
-;; (global-set-key (kbd "C-n") nil)  ;; todo
+(global-set-key (kbd "C-b") 'left-word)
+(global-set-key (kbd "C-n") 'benjamin/jump-char-fwd)
 ;; (global-set-key (kbd "C-m") nil)
 
 (global-set-key (kbd "C-,") 'set-mark-and-deactive)
@@ -95,8 +102,8 @@
 
 ;; M
 ;; (global-set-key (kbd "M-q") nil) ;; todo
-;; (global-set-key (kbd "M-w") nil)
-(global-set-key (kbd "M-e") 'xah-end-of-line-or-block)
+(global-set-key (kbd "M-w") 'kill-ring-save)
+(global-set-key (kbd "M-e") 'forward-char)  ;; todo
 (global-set-key (kbd "M-r") 'benjamin/backward-kill-word)
 ;; (global-set-key (kbd "M-t") nil)  ;; todo
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
@@ -104,19 +111,18 @@
 ;; (global-set-key (kbd "M-i") nil)  ;; tabbing is quite nice tbh
 (global-set-key (kbd "M-o") 'other-window-or-frame)
 ;; (global-set-key (kbd "M-p") nil)  ;; todo
-;; ace-window is overkill for my workflow
 
-(global-set-key (kbd "M-a") 'xah-beginning-of-line-or-block)
-(global-set-key (kbd "M-s M-s") 'save-buffer)
-(global-set-key (kbd "M-s M-f") 'counsel-find-file)
-(global-set-key (kbd "M-s M-k") 'volatile-kill-buffer)
-(global-set-key (kbd "M-s M-e") 'eval-buffer)
-(global-set-key (kbd "M-s M-d") 'delete-window)
-(global-set-key (kbd "M-s M-p") 'counsel-projectile)
-(global-set-key (kbd "M-s M-g") 'get-term)
-(global-set-key (kbd "M-s M-b") 'bury-buffer)
-
-(global-set-key (kbd "M-s o") 'find-file-other-window)
+(global-set-key (kbd "M-a") 'backward-char)
+(global-set-key (kbd "M-s") nil)
+    (global-set-key (kbd "M-s M-s") 'save-buffer)
+    (global-set-key (kbd "M-s M-f") 'counsel-find-file)
+    (global-set-key (kbd "M-s M-k") 'volatile-kill-buffer)
+    (global-set-key (kbd "M-s M-e") 'eval-buffer)
+    (global-set-key (kbd "M-s M-d") 'delete-window)
+    (global-set-key (kbd "M-s M-p") 'counsel-projectile)
+    (global-set-key (kbd "M-s M-g") 'get-term)
+    (global-set-key (kbd "M-s M-b") 'bury-buffer)
+    (global-set-key (kbd "M-s o") 'find-file-other-window)
 (global-set-key (kbd "M-d") 'benjamin/kill-word)
 (global-set-key (kbd "M-f") 'avy-goto-word-0-below)
 (global-set-key (kbd "M-g") 'hydra-jumper/body)
@@ -215,6 +221,7 @@
 (define-key projectile-command-map (kbd "t") #'projectile-get-term)
 (define-key projectile-command-map (kbd "r") #'counsel-projectile-rg)
 (define-key projectile-command-map (kbd "o") #'projectile-find-other-file)
+(define-key projectile-command-map (kbd "p") #'counsel-projectile)
 (define-key projectile-command-map (kbd "a") #'counsel-projectile-ag)
 (define-key projectile-command-map (kbd "s") #'counsel-projectile-switch-project)
 (define-key projectile-command-map (kbd "d") #'counsel-projectile-find-dir)
@@ -224,7 +231,7 @@
 
 ;; guide-key for almost-hydras!
 (guide-key-mode 1)
-(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g"))
+(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t"))
 (setq guide-key/idle-delay 0)
 (setq guide-key/recursive-key-sequence-flag t)
 

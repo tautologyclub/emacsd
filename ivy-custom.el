@@ -31,15 +31,21 @@
 
 ;; ivy-occur-grep-mode-map
 
-(define-key ivy-minibuffer-map (kbd "C-<down>") 'ivy-next-line-and-call)
-(define-key ivy-minibuffer-map (kbd "C-j") 'ivy-next-line-and-call)
-(define-key ivy-switch-buffer-map (kbd "C-j") 'ivy-next-line-and-call)
-(define-key ivy-minibuffer-map (kbd "C-<up>") 'ivy-previous-line-and-call)
-(define-key ivy-minibuffer-map (kbd "C-k") 'ivy-previous-line-and-call)
-(define-key ivy-switch-buffer-map (kbd "C-k") 'ivy-previous-line-and-call)
+(define-key ivy-minibuffer-map      (kbd "C-j") 'ivy-next-line)
+(define-key ivy-switch-buffer-map   (kbd "C-j") 'ivy-next-line)
+(define-key ivy-minibuffer-map      (kbd "C-k") 'ivy-previous-line)
+(define-key ivy-switch-buffer-map   (kbd "C-k") 'ivy-previous-line)
+(define-key ivy-minibuffer-map      (kbd "C-S-j") 'ivy-next-line-and-call)
+(define-key ivy-switch-buffer-map   (kbd "C-S-j") 'ivy-next-line-and-call)
+(define-key ivy-minibuffer-map      (kbd "C-S-k") 'ivy-previous-line-and-call)
+(define-key ivy-switch-buffer-map   (kbd "C-S-k") 'ivy-previous-line-and-call)
+
 (define-key ivy-minibuffer-map (kbd "C-<return>") 'ivy-restrict-to-matches)
 (define-key ivy-minibuffer-map (kbd "C-s") 'ivy-next-history-element)
+
 (define-key ivy-minibuffer-map (kbd "<return>") 'ivy-alt-done)
+(define-key ivy-minibuffer-map (kbd "C-<up>") 'ivy-previous-line-and-call)
+(define-key ivy-minibuffer-map (kbd "C-<down>") 'ivy-next-line-and-call)
 
 ;; wut?
 (define-key ivy-occur-grep-mode-map (kbd "C-o") 'other-window)

@@ -4,8 +4,7 @@
   (if (not (region-active-p))
       (set-mark-command nil)))
 
-(defhydra hydra-nav (
-                     :color yellow
+(defhydra hydra-nav (:color yellow
                      :hint nil
                      :pre (progn
                             (overwrite-mode -1)
@@ -24,7 +23,7 @@
   ("q"   keyboard-quit :color blue)
   ("w"   kill-region-or-backward-word)
   ("e"   xah-end-of-line-or-block)
-  ;; ("r"   nil)
+  ;; ("r"   nil)  ;; todo
   ("t"   transpose-chars)
   ("y"   yank)
   ("u"   (up-list -1)) ;; dubious perhaps
