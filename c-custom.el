@@ -1,3 +1,9 @@
+(require 'semantic)
+(require 'company)
+(require 'cc-mode)
+(require 'helm-gtags)
+(require 'gud)
+
 (defun c-occur-overview ()
   "Display an occur buffer with declarations/definitions/etc.
 
@@ -11,14 +17,12 @@ Also, switch to that buffer."
       (switch-to-buffer "*Occur*"))))
 
 
-(require 'semantic)
-(semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
+;; (semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
 (setq-default c-basic-offset 4)
 
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 
-(require 'gud)
 (defhydra hydra-gud (:color amaranth)
   "
 "
@@ -38,6 +42,7 @@ Also, switch to that buffer."
   ("N" gud-nexti "nexti")
   ("c" gud-cont "cont")
   ("M-c" compile "compile")
+  ("M-r" recompile "recompile")
   ("o" gud-finish "out")
   ("r" gud-run "run")
   ("s" gud-step "step")
@@ -51,7 +56,7 @@ Also, switch to that buffer."
           "exit")
   ("iv"  (gud-basic-call "info variables") "info")
 
-  ("<up>" windmove-up )
+  ("<up>" windmove-up)
   ("<down>" windmove-down)
   ("<left>" windmove-left)
   ("<left>" windmove-right)
@@ -59,7 +64,6 @@ Also, switch to that buffer."
 
 ;; note: gud-basic-cmd
 
-(require 'helm-gtags)
 (define-key c-mode-base-map (kbd "M-e") nil)
 (define-key c-mode-base-map (kbd "M-a") nil)
 (define-key c-mode-base-map (kbd "M-j") nil)
@@ -68,23 +72,15 @@ Also, switch to that buffer."
 (define-key c-mode-base-map (kbd "M-.") 'helm-gtags-dwim)
 (define-key c-mode-base-map (kbd "C-c f") 'helm-flycheck)
 (define-key c-mode-base-map (kbd "C-c o") 'c-occur-overview)
+(define-key c-mode-base-map (kbd "C-c C-c") 'compile)
+(define-key c-mode-base-map (kbd "C-c C-w") 'senator-kill-tag)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gud/body)
 (define-key gud-mode-map (kbd "M-c") 'hydra-gud/body)
 
-(require 'company)
 (define-key c-mode-map  [(tab)] 'company-complete)
 (define-key c++-mode-map  [(tab)] 'company-complete)
 
-;; (setq irony-additional-clang-options
-;;       (quote
-;;        ("-I/home/benjamin/workspace/reac/inc"
-;;         "-std=c90"
-;;         "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init="
-;;         "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__"
-;;         "-D __ARL78__" "-D __CORE__=__RL78_1__")))
-
-(setq c-mode-hook nil)
 (defun benjamin/c-hook ()
   "You know.  My hook and stuff."
   (subword-mode)
@@ -96,9 +92,7 @@ Also, switch to that buffer."
   (company-mode)
   )
 (add-hook 'c-mode-hook 'benjamin/c-hook)
-
 (add-hook 'c++-mode-hook 'flycheck-mode)
-
 
 (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
 (add-hook 'c-mode-common-hook
@@ -111,7 +105,7 @@ Also, switch to that buffer."
 (setq company-backends
                  '((
                     company-irony
-                    company-semantic
+                    ;; company-semantic
                     company-files
                     company-cmake
                     ;; company-keywords
@@ -163,12 +157,6 @@ Also, switch to that buffer."
     ;;     (set-gdb-layout c-buffer))
     ;;   )
 
-
-
-
-
-
-
 ;; ;; useless
 ;; (defun switch-to-gud-cmd () (interactive)
 ;;        (dolist (buffer (buffer-list))
@@ -185,3 +173,11 @@ Also, switch to that buffer."
 ;;       (when (and name (not (string-equal name ""))
 ;;                  (string-match "^\\*gud" name))
 ;;         (switch-to-buffer buffer)))))
+
+;; (setq irony-additional-clang-options
+;;       (quote
+;;        ("-I/home/benjamin/workspace/reac/inc"
+;;         "-std=c90"
+;;         "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init="
+;;         "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__"
+;;         "-D __ARL78__" "-D __CORE__=__RL78_1__")))

@@ -56,3 +56,5 @@
         kill-region kill-sentence kill-sexp kill-visual-line
         kill-whole-line kill-word subword-backward-kill subword-kill
         yank yank-pop yank-rectangle))))
+
+(define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)

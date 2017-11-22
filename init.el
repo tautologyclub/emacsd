@@ -1,10 +1,4 @@
 ;;; package --- Summary
-(setq inhibit-splash-screen t)
-
-;; keep from backuping in current directory
-(setq backup-directory-alist `(("." . "~/.saves")))
-    (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t)))
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -206,7 +200,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 95 :width normal :foundry "PfEd" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#d8d8c3" :foreground "#151515"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
@@ -267,6 +261,10 @@
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
 
+(setq inhibit-splash-screen t)
+(setq backup-directory-alist `(("." . "~/.saves")))
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
 (setq scroll-preserve-screen-position nil)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)
@@ -404,6 +402,14 @@ This function is suitable to add to `find-file-hook'."
   )
 (setq focus-in-hook 'message-buffer-file-name-or-nothing)
 
+(condition-case nil
+    (kill-buffer "*scratch*")
+  (error nil))
+(condition-case nil
+    (kill-buffer "*CEDET Global*")
+  (error nil))
+
 (provide '.emacs)
 ;;; .emacs ends here
 (put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)

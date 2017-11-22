@@ -89,8 +89,8 @@
 (defun benjamin/set-mark-command ()
   (interactive)
   (if (region-active-p)
-      (deactivate-mark)
-    (set-mark-command))
+      nil
+    (set-mark-command nil))
   )
 
 (defun simplified-end-of-buffer ()

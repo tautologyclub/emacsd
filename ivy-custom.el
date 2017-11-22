@@ -2,20 +2,24 @@
 
 (require 'ivy)
 (ivy-mode t)
-(defun reloading (cmd)
-    (lambda (x)
-      (funcall cmd x)
-      (ivy--reset-state ivy-last)))
-  (defun given-file (cmd prompt) ; needs lexical-binding
-    (lambda (source)
-      (let ((target
-	     (let ((enable-recursive-minibuffers t))
-	       (read-file-name
-		(format "%s %s to:" prompt source)))))
-	(funcall cmd source target 1))))
-  (defun confirm-delete-file (x)
-    (dired-delete-file x 'confirm-each-subdirectory))
 
+(defun reloading (cmd)
+  (lambda (x)
+    (funcall cmd x)
+    (ivy--reset-state ivy-last)))
+
+(defun given-file (cmd prompt) ; needs lexical-binding
+  (lambda (source)
+    (let ((target
+           (let ((enable-recursive-minibuffers t))
+             (read-file-name
+              (format "%s %s to:" prompt source)))))
+      (funcall cmd source target 1))))
+
+(defun confirm-delete-file (x)
+  (dired-delete-file x 'confirm-each-subdirectory))
+
+(setq ivy-display-style 'fancy)
   (ivy-add-actions
    'counsel-find-file
    `(("c" ,(given-file #'copy-file "Copy") "copy")
