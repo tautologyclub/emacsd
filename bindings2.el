@@ -56,22 +56,23 @@
 (define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
 
 (global-set-key (kbd "(") 'ora-parens)
+(global-set-key (kbd "θ") 'ora-parens)
 ;; (global-set-key (kbd "[") 'ora-brackets)
 ;; (global-set-key (kbd "Ρ") 'ora-braces)
 (global-set-key (kbd "ψ") 'universal-argument)
 
 
 ;; C
-(keyboard-translate ?\C-q ?\C-c)                         ; swap
-(keyboard-translate ?\C-c ?\C-q)                         ; swap
+(keyboard-translate ?\C-q ?\C-c)
+;; (keyboard-translate ?\C-c ?\C-q)
 ;; (global-set-key (kbd "C-q") 'quoted-insert)
 (global-set-key (kbd "C-w") 'kill-region)
 (global-set-key (kbd "C-e") 'xah-end-of-line-or-block)
-(global-set-key (kbd "C-S-e") (lambda () (interactive)
-                                (benjamin/set-mark-command)
-                                (xah-end-of-line-or-block)))
+    (global-set-key (kbd "C-S-e") (lambda () (interactive)
+                                    (benjamin/set-mark-command)
+                                    (xah-end-of-line-or-block)))
 (global-set-key (kbd "C-r") 'backward-delete-char-untabify)
-(global-set-key (kbd "C-S-r") 'hungry-delete-backward)
+    (global-set-key (kbd "C-S-r") 'hungry-delete-backward)
 (global-set-key (kbd "C-t") nil)
     (global-set-key (kbd "C-t t") 'multi-term)
     (global-set-key (kbd "C-t g") 'get-term)
@@ -81,36 +82,34 @@
 (global-set-key (kbd "C-u") 'duplicate-current-line-or-region)
 ;; (global-set-key (kbd "C-i) nil)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
-(global-set-key (kbd "C-p") 'avy-goto-char-2-above)
+(global-set-key (kbd "C-p") 'lispy-backward)
 
 (global-set-key (kbd "C-a") 'xah-beginning-of-line-or-block)
-(global-set-key (kbd "C-S-a") (lambda () (interactive)
-                                 (benjamin/set-mark-command)
-                                 (xah-beginning-of-line-or-block)))
+    (global-set-key (kbd "C-S-a") (lambda () (interactive)
+                                    (benjamin/set-mark-command)
+                                    (xah-beginning-of-line-or-block)))
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-d") 'delete-char)
 (global-set-key (kbd "C-S-d") 'hungry-delete-forward)
-(global-set-key (kbd "C-f") 'forward-to-word)
+(global-set-key (kbd "C-f") 'benjamin/jump-char-fwd)
 (global-set-key (kbd "C-g") 'keyboard-quit)
-(global-set-key (kbd "C-S-g") 'goto-line-with-feedback)
-(global-set-key (kbd "C-h") 'fastnav-zap-up-to-char-backward)
+    (global-set-key (kbd "C-S-g") 'goto-line-with-feedback)
+(global-set-key (kbd "C-h") 'backward-char)
 (global-set-key (kbd "C-j") 'next-line)
 (global-set-key (kbd "C-k") 'previous-line)
-(global-set-key (kbd "C-l") 'fastnav-zap-up-to-char-forward)
+(global-set-key (kbd "C-l") 'forward-char)
 
-;; (global-set-key (kbd "C-z") nil)
+(global-set-key (kbd "C-z") 'bury-buffer)
 ;; (global-set-key (kbd "C-x") nil)
 ;; (global-set-key (kbd "C-c") nil)
-(global-set-key (kbd "C-v") 'scroll-up-half)
-(global-set-key (kbd "C-b") 'left-word)
-(global-set-key (kbd "C-n") 'avy-goto-char-2-below)
-;; (global-set-key (kbd "C-n") (lambda () (interactive)
-;;                               (re-search-forward "\[a-z*]")))    ;; todo
-;; (global-set-key (kbd "C-m") nil) ;; maybe
+(global-set-key (kbd "C-v") 'scroll-up-half)                        ;; todo
+(global-set-key (kbd "C-b") 'benjamin/jump-char-bwd)
+(global-set-key (kbd "C-n") 'lispy-forward)
+;; (global-set-key (kbd "C-m") nil)                                 ;; maybe
 
 (global-set-key (kbd "C-,") 'set-mark-and-deactive)
 (global-set-key (kbd "C-.") 'exchange-point-and-mark-and-deactive)
-;; (global-set-key (kbd "C-/") nil)
+(global-set-key (kbd "C-/") nil)
 
 
 ;; M
@@ -137,24 +136,23 @@
     (global-set-key (kbd "M-s M-b") 'bury-buffer)
     (global-set-key (kbd "M-s o") 'find-file-other-window)
 (global-set-key (kbd "M-d") 'benjamin/kill-word)
-(global-set-key (kbd "M-f") 'benjamin/jump-char-fwd)
+(global-set-key (kbd "M-f") 'forward-to-word)
 (global-set-key (kbd "M-g") 'hydra-jumper/body)
 (global-set-key (kbd "M-h") nil)                    ;; todo
-(global-set-key (kbd "M-j") 'avy-goto-char-timer)
+(global-set-key (kbd "M-j") 'avy-goto-char)
 (global-set-key (kbd "M-k") 'kill-line)
 (global-set-key (kbd "M-K") 'kill-line-save)
 ;; (global-set-key (kbd "M-n") nil)                 ;; todo
 
 ;; (global-set-key (kbd "M-z") nil)
 (global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-v") 'scroll-down-half)
-(global-set-key (kbd "M-b") 'benjamin/jump-char-bwd)
+(global-set-key (kbd "M-v") 'scroll-down-half)      ;; todo
+(global-set-key (kbd "M-b") 'left-word)
 ;; (global-set-key (kbd "M-n") nil)                 ;; todo
 (global-set-key (kbd "M-m") 'counsel-mark-ring)
 
 (global-set-key (kbd "M--") 'zoom-frm-out)
 (global-set-key (kbd "M-=") 'zoom-frm-in)
-
 (global-set-key (kbd "M-SPC") (lambda () (interactive)
                                 (fastnav-search-char-forward 1 ? )))
 
@@ -168,7 +166,7 @@
 (global-set-key (kbd "C-S-p") 'next-buffer)
 
 (global-set-key (kbd "C-S-h") 'highlight-region)
-(global-set-key (kbd "C-x C-S-h") 'highlight-clear)
+    (global-set-key (kbd "C-x C-S-h") 'highlight-clear)
 (global-set-key (kbd "C-S-l") 'recenter-top-bottom)
 
 (global-set-key (kbd "C-S-c") 'comment-or-uncomment-region-or-line)
