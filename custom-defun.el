@@ -89,7 +89,7 @@
 (defun benjamin/set-mark-command ()
   (interactive)
   (if (region-active-p)
-      nil
+      ()
     (set-mark-command nil))
   )
 

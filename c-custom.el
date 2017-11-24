@@ -67,6 +67,8 @@ Also, switch to that buffer."
 (define-key c-mode-base-map (kbd "M-e") nil)
 (define-key c-mode-base-map (kbd "M-a") nil)
 (define-key c-mode-base-map (kbd "M-j") nil)
+(define-key c-mode-base-map (kbd "C-M-a") nil)
+(define-key c-mode-base-map (kbd "C-M-e") nil)
 (define-key c-mode-base-map (kbd "C-M-j") nil)
 (define-key c-mode-base-map (kbd "C-M-k") nil)
 (define-key c-mode-base-map (kbd "M-.") 'helm-gtags-dwim)

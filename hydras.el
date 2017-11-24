@@ -35,6 +35,11 @@
   ("ESC" nil "quit" :color blue)
   )
 
+(defhydra hydra-errgo (:hint nil)
+  ("h" first-error "first")
+  ("j" next-error "next")
+  ("k" previous-error "prev")
+  )
 
 (require 'dired)
 (defhydra hydra-dired (:hint nil :color pink)

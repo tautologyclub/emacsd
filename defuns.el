@@ -188,13 +188,6 @@
     )
   )
 
-(defun benjamin/set-mark-command ()
-  (interactive)
-  (if (region-active-p)
-      (deactivate-mark)
-    (set-mark-command))
-  )
-
 (defun zap-up-to-char (arg char)
   "Kill up to, but not including ARGth occurrence of CHAR.
 Case is ignored if `case-fold-search' is non-nil in the current buffer.

@@ -51,8 +51,10 @@
 (define-key ivy-minibuffer-map (kbd "C-<up>") 'ivy-previous-line-and-call)
 (define-key ivy-minibuffer-map (kbd "C-<down>") 'ivy-next-line-and-call)
 
-;; wut?
-(define-key ivy-occur-grep-mode-map (kbd "C-o") 'other-window)
+(define-key ivy-occur-grep-mode-map (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
+
+(require 'projectile)
+(add-hook 'wgrep-setup-hook 'projectile-save-project-buffers)
 
 (define-key ivy-switch-buffer-map (kbd "M-k")
   (lambda () (interactive)

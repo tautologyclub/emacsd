@@ -36,6 +36,17 @@
 (global-unset-key (kbd "C-x C-v"))
 (global-unset-key (kbd "C-x C-z"))
 (global-unset-key (kbd "C-x C-d"))
+(global-unset-key (kbd "C-x +"))
+(global-unset-key (kbd "C-x C-n"))
+(global-unset-key (kbd "C-x C-o"))
+(global-unset-key (kbd "C-x C-p"))
+(global-unset-key (kbd "C-x #"))
+(global-unset-key (kbd "C-x ("))
+(global-unset-key (kbd "C-x )"))
+(global-unset-key (kbd "C-x $"))
+(global-unset-key (kbd "C-<f10>"))
+
+
 
 (eval-after-load "undo-tree-mode"
   (define-key undo-tree-map (kbd "C-x r") nil))
@@ -79,7 +90,7 @@
     (global-set-key (kbd "C-t d") 'terminal-with-focus-below)
     (global-set-key (kbd "C-t p") 'projectile-get-term)
 (global-set-key (kbd "C-y") 'yank)
-(global-set-key (kbd "C-u") 'duplicate-current-line-or-region)
+(global-set-key (kbd "C-u") 'duplicate-current-line-or-region)          ;; todo
 ;; (global-set-key (kbd "C-i) nil)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
 (global-set-key (kbd "C-p") 'lispy-backward)
@@ -156,10 +167,6 @@
 (global-set-key (kbd "M-SPC") (lambda () (interactive)
                                 (fastnav-search-char-forward 1 ? )))
 
-(global-set-key (kbd "C-M-e") 'elpy-nav-indent-shift-right)
-(global-set-key (kbd "C-M-a") 'elpy-nav-indent-shift-left)
-
-
 ;; C-S-...
 (global-set-key (kbd "C-S-w") 'my-i3-make-frame)
 (global-set-key (kbd "C-S-o") 'previous-buffer)
@@ -171,30 +178,35 @@
 
 (global-set-key (kbd "C-S-c") 'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "C-S-q C-S-q") 'delete-window)
+
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "C->") 'hs-toggle-hiding)  ;; C-S-.
 
 
-;; M-C-...
-(global-set-key (kbd "M-C-j") 'elpy-nav-move-line-or-region-down)
-(global-set-key (kbd "M-C-k") 'elpy-nav-move-line-or-region-up)
+(global-set-key (kbd "C-M-e") 'elpy-nav-indent-shift-right)
+(global-set-key (kbd "C-M-a") 'elpy-nav-indent-shift-left)
+(global-set-key (kbd "C-M-j") 'elpy-nav-move-line-or-region-down)
+(global-set-key (kbd "C-M-k") 'elpy-nav-move-line-or-region-up)
 
 
 ;; C-x
 (global-set-key (kbd "C-x q") 'query-replace)
-(global-set-key (kbd "C-x S-q") 'query-replace-regexp)
-(global-set-key (kbd "C-x w") 'my-i3-make-frame)
+    (global-set-key (kbd "C-x S-q") 'query-replace-regexp)
+(global-set-key (kbd "C-x w") 'my-i3-make-frame)                ;; todo
 (global-set-key (kbd "C-x e") 'simplified-end-of-buffer)
 (global-set-key (kbd "C-x r") 'counsel-rg)
-(global-set-key (kbd "C-x C-r") (lambda () (interactive) (revert-buffer nil t)))
-(global-set-key (kbd "C-x t") 'helm-top)
+(global-set-key (kbd "C-x C-r") (lambda () (interactive)
+                                  (revert-buffer nil t)))
+(global-set-key (kbd "C-x t") 'transpose-chars)
 (global-set-key (kbd "C-x u") 'undo-tree-visualize)
-(global-set-key (kbd "C-x i") 'iedit-mode)
+(global-set-key (kbd "C-x i") 'iedit-mode)                      ;; todo
+(global-set-key (kbd "C-x o") 'occur-dwim)
 (global-set-key (kbd "C-x p") 'proced)
 
 (global-set-key (kbd "C-x a") 'simplified-beginning-of-buffer)
-(global-set-key (kbd "C-x s") 'save-buffer)
+(global-set-key (kbd "C-x s") 'save-buffer)                     ;; todo
 (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
+(global-set-key (kbd "C-x f") 'hydra-flycheck/flycheck-next-error)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x h") help-map)
 (global-set-key (kbd "C-x k") 'volatile-kill-buffer)
@@ -205,6 +217,7 @@
 
 
 ;; C-c
+(global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
 (global-set-key (kbd "C-c f") 'hydra-flycheck/body)
 (global-set-key (kbd "C-c C-d") 'duplicate-current-line-or-region)
 (global-set-key (kbd "C-c C-c") 'compile)
@@ -214,25 +227,20 @@
 ;; super
 (global-set-key (kbd "s-r") 'counsel-projectile-rg)
 (global-set-key (kbd "s-b") 'counsel-bookmark)
+(global-set-key (kbd "s-s") 'kmacro-start-macro)
+(global-set-key (kbd "s-S") 'kmacro-end-macro)  ;; todo rebind s-s in macro mode
+(global-set-key (kbd "s-c") 'kmacro-call-macro)
+
+(global-set-key (kbd "s-j") nil)  ;; reserved
+(global-set-key (kbd "s-i") nil)  ;; reserved
+(global-set-key (kbd "s-k") nil)  ;; reserved
+(global-set-key (kbd "s-l") nil)  ;; reserved
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (global-set-key (kbd "s-D") (lambda () (interactive)
                               (dired-jump)
                               (hydra-dired/body)))
 
 (define-key git-gutter+-mode-map (kbd "s-g") 'hydra-git-gutter/body)
-;; (define-key git-gutter+-mode-map (kbd "s-g n") 'git-gutter+-next-hunk)
-;; (define-key git-gutter+-mode-map (kbd "s-g j") 'hydra-git-gutter/git-gutter+-next-hunk)
-;; (define-key git-gutter+-mode-map (kbd "s-g p") 'git-gutter+-previous-hunk)
-;; (define-key git-gutter+-mode-map (kbd "s-g k") 'hydra-git-gutter/git-gutter+-previous-hunk)
-;; (define-key git-gutter+-mode-map (kbd "s-g S") 'git-gutter+-show-hunk)
-;; (define-key git-gutter+-mode-map (kbd "s-g r") 'git-gutter+-revert-hunks)
-;; (define-key git-gutter+-mode-map (kbd "s-g t") 'git-gutter+-stage-hunks)
-;; (define-key git-gutter+-mode-map (kbd "s-g c") 'git-gutter+-commit)
-;; (define-key git-gutter+-mode-map (kbd "s-g C") 'git-gutter+-stage-and-commit)
-;; (define-key git-gutter+-mode-map (kbd "s-g C-y") 'git-gutter+-stage-and-commit-whole-buffer)
-;; (define-key git-gutter+-mode-map (kbd "s-g U") 'git-gutter+-unstage-whole-buffer)
-;; (define-key git-gutter+-mode-map (kbd "s-g g") 'hydra-git-gutter/body)
-
 
 (global-set-key (kbd "s-h g") 'helm-google)
 
@@ -251,8 +259,8 @@
 
 ;; guide-key for almost-hydras!
 (guide-key-mode 1)
-(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t"))
-(setq guide-key/idle-delay 0)
+(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x"))
+(setq guide-key/idle-delay 0.33)
 (setq guide-key/recursive-key-sequence-flag t)
 
 ;;      http://pragmaticemacs.com/emacs/add-the-system-clipboard-to-the-emacs-kill-ring/
