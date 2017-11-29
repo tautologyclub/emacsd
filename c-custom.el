@@ -4,17 +4,17 @@
 (require 'helm-gtags)
 (require 'gud)
 
+
 (defun c-occur-overview ()
   "Display an occur buffer with declarations/definitions/etc.
 
-Also, switch to that buffer."
+Also, resize somewhat. Really hacky :D"
   (interactive)
   (let ((list-matching-lines-face nil))
     (occur "^[a-z].*("))
-  (let ((window (get-buffer-window "*Occur*")))
-    (if window
-        (select-window window)
-      (switch-to-buffer "*Occur*"))))
+  (enlarge-window 25)
+  (hydra-errgo/body)
+  )
 
 
 ;; (semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
@@ -22,6 +22,9 @@ Also, switch to that buffer."
 
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
+(require 'semantic/bovine/c)
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file
+             "/usr/lib/clang/5.0.0/include/stddef.h")
 
 (defhydra hydra-gud (:color amaranth)
   "
@@ -62,7 +65,13 @@ Also, switch to that buffer."
   ("<left>" windmove-right)
   ("q" nil "quit"))
 
-;; note: gud-basic-cmd
+
+(defun benjamin/flycheck-list-errors ()
+  (interactive)
+  "List errors in a separate window, decrease the size."
+  (flycheck-list-errors)
+  (enlarge-window 20)
+  (hydra-errgo/body))
 
 (define-key c-mode-base-map (kbd "M-e") nil)
 (define-key c-mode-base-map (kbd "M-a") nil)
@@ -72,10 +81,11 @@ Also, switch to that buffer."
 (define-key c-mode-base-map (kbd "C-M-j") nil)
 (define-key c-mode-base-map (kbd "C-M-k") nil)
 (define-key c-mode-base-map (kbd "M-.") 'helm-gtags-dwim)
-(define-key c-mode-base-map (kbd "C-c f") 'helm-flycheck)
 (define-key c-mode-base-map (kbd "C-c o") 'c-occur-overview)
 (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
 (define-key c-mode-base-map (kbd "C-c C-w") 'senator-kill-tag)
+
+(define-key c-mode-map (kbd "C-c f") 'benjamin/flycheck-list-errors)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gud/body)
 (define-key gud-mode-map (kbd "M-c") 'hydra-gud/body)
@@ -114,6 +124,15 @@ Also, switch to that buffer."
                     ;; company-gtags
                     company-capf
                     )))
+;; fixme make company mode-local
+
+
+
+
+
+
+
+
 
 
     ;; (setq gdb-many-windows nil)

@@ -51,7 +51,13 @@
 (define-key ivy-minibuffer-map (kbd "C-<up>") 'ivy-previous-line-and-call)
 (define-key ivy-minibuffer-map (kbd "C-<down>") 'ivy-next-line-and-call)
 
+;; ivy-occur
+(define-key ivy-minibuffer-map (kbd "C-c o") 'ivy-occur)
 (define-key ivy-occur-grep-mode-map (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
+
+(require 'counsel)
+(define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
+
 
 (require 'projectile)
 (add-hook 'wgrep-setup-hook 'projectile-save-project-buffers)
@@ -76,3 +82,4 @@
 )
 
 (setq ivy-ignore-buffers '("\\` " "\\`\\*"))
+(add-hook 'occur-hook 'occur-rename-buffer)

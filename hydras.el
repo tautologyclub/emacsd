@@ -1,3 +1,22 @@
+;; I heart abo-abo
+(defhydra hydra-vimish-fold (:color blue
+                             :columns 3)
+  "fold"
+  ("a" vimish-fold-avy "avy")
+  ("d" vimish-fold-delete "del")
+  ("D" vimish-fold-delete-all "del-all")
+  ("u" vimish-fold-unfold "unfold")
+  ("U" vimish-fold-unfold-all "unfold-all")
+  ("f" vimish-fold "fold")
+  ("r" vimish-fold-refold "refold")
+  ("R" vimish-fold-refold-all "refold-all")
+  ("t" vimish-fold-toggle "toggle" :exit nil)
+  ("T" vimish-fold-toggle-all "toggle-all" :exit nil)
+  ("j" vimish-fold-next-fold "down" :exit nil)
+  ("k" vimish-fold-previous-fold "up" :exit nil)
+  ("q" nil "quit"))
+
+;; This is garbage
 (defhydra hydra-undo-tree (:color red
                                   :hint nil
                                   )
@@ -14,6 +33,7 @@
   ("v"   undo-tree-visualize "visualize" :color blue)
   ("q"   nil "quit" :color blue))
 
+;; Perfect hydra-material but we will see
 (defun fake-C-c ()
   "Fakes the user typing Ctrl-c."
   (interactive)
@@ -25,6 +45,7 @@
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
                                      unread-command-events)))
 
+;; lol
 (defhydra hydra-weird-chars (:hint nil)
   "
 "

@@ -89,11 +89,13 @@
     (global-set-key (kbd "C-t g") 'get-term)
     (global-set-key (kbd "C-t d") 'terminal-with-focus-below)
     (global-set-key (kbd "C-t p") 'projectile-get-term)
+    (global-set-key (kbd "C-t e") 'eshell)
 (global-set-key (kbd "C-y") 'yank)
-(global-set-key (kbd "C-u") 'duplicate-current-line-or-region)          ;; todo
+;; (global-set-key (kbd "C-u") 'duplicate-current-line-or-region)          ;; todo
 ;; (global-set-key (kbd "C-i) nil)
+    (global-set-key (kbd "C-S-i") 'tab-to-tab-stop)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
-(global-set-key (kbd "C-p") 'lispy-backward)
+(global-set-key (kbd "C-p") 'hippie-expand)                            ;; toeval
 
 (global-set-key (kbd "C-a") 'xah-beginning-of-line-or-block)
     (global-set-key (kbd "C-S-a") (lambda () (interactive)
@@ -113,10 +115,11 @@
 (global-set-key (kbd "C-z") 'bury-buffer)
 ;; (global-set-key (kbd "C-x") nil)
 ;; (global-set-key (kbd "C-c") nil)
-(global-set-key (kbd "C-v") 'scroll-up-half)                        ;; todo
+(global-set-key (kbd "C-v") 'hydra-vimish-fold/body)
+(global-set-key (kbd "C-S-v") 'vimish-fold)
 (global-set-key (kbd "C-b") 'benjamin/jump-char-bwd)
-(global-set-key (kbd "C-n") 'lispy-forward)
-;; (global-set-key (kbd "C-m") nil)                                 ;; maybe
+(global-set-key (kbd "C-n") 'lispy-forward)                         ;; todo
+;; (global-set-key (kbd "C-m") nil)                                 ;; todo
 
 (global-set-key (kbd "C-,") 'set-mark-and-deactive)
 (global-set-key (kbd "C-.") 'exchange-point-and-mark-and-deactive)
@@ -131,7 +134,7 @@
 (global-set-key (kbd "M-t") 'lispy-kill-at-point)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "M-u") 'hydra-undo-tree/undo-tree-undo)
-;; (global-set-key (kbd "M-i") nil)
+(global-set-key (kbd "M-i") 'ivy-resume)
 (global-set-key (kbd "M-o") 'other-window-or-frame)
 (global-set-key (kbd "M-p") 'exchange-point-and-mark-and-deactive)
 
@@ -139,17 +142,18 @@
 (global-set-key (kbd "M-s") nil)
     (global-set-key (kbd "M-s M-s") 'save-buffer)
     (global-set-key (kbd "M-s M-f") 'counsel-find-file)
-    (global-set-key (kbd "M-s M-k") 'volatile-kill-buffer)
+    (global-set-key (kbd "M-s M-k") nil)
     (global-set-key (kbd "M-s M-e") 'eval-buffer)
     (global-set-key (kbd "M-s M-d") 'delete-window)
     (global-set-key (kbd "M-s M-p") 'counsel-projectile)
     (global-set-key (kbd "M-s M-g") 'get-term)
     (global-set-key (kbd "M-s M-b") 'bury-buffer)
     (global-set-key (kbd "M-s o") 'find-file-other-window)
+    (global-set-key (kbd "M-s M-u M-d M-o") 'sudo-edit-current)
 (global-set-key (kbd "M-d") 'benjamin/kill-word)
 (global-set-key (kbd "M-f") 'forward-to-word)
 (global-set-key (kbd "M-g") 'hydra-jumper/body)
-(global-set-key (kbd "M-h") nil)                    ;; todo
+(global-set-key (kbd "M-h") 'hippie-expand)                    ;; todo
 (global-set-key (kbd "M-j") 'avy-goto-char)
 (global-set-key (kbd "M-k") 'kill-line)
 (global-set-key (kbd "M-K") 'kill-line-save)
@@ -166,6 +170,7 @@
 (global-set-key (kbd "M-=") 'zoom-frm-in)
 (global-set-key (kbd "M-SPC") (lambda () (interactive)
                                 (fastnav-search-char-forward 1 ? )))
+(global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
 
 ;; C-S-...
 (global-set-key (kbd "C-S-w") 'my-i3-make-frame)
@@ -177,7 +182,6 @@
 (global-set-key (kbd "C-S-l") 'recenter-top-bottom)
 
 (global-set-key (kbd "C-S-c") 'comment-or-uncomment-region-or-line)
-(global-set-key (kbd "C-S-q C-S-q") 'delete-window)
 
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "C->") 'hs-toggle-hiding)  ;; C-S-.
@@ -218,9 +222,25 @@
 
 ;; C-c
 (global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
-(global-set-key (kbd "C-c f") 'hydra-flycheck/body)
 (global-set-key (kbd "C-c C-d") 'duplicate-current-line-or-region)
 (global-set-key (kbd "C-c C-c") 'compile)
+
+(defun set-kblayout-swedish ()
+  "Set layout to swedish."
+  (interactive)
+  (shell-command "setxkbmap -layout se"))
+(defun set-kblayout-benjamin ()
+  "Set layout to benjaminish."
+  (interactive)
+  (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
+
+(global-set-key (kbd "C-c k") nil)
+    (global-set-key (kbd "C-c ks") 'set-kblayout-swedish)
+    (global-set-key (kbd "C-c kb") 'set-kblayout-benjamin)
+(global-set-key (kbd "C-c f") 'benjamin/flycheck-list-errors)
+(global-set-key (kbd "C-c C-f") 'find-file-at-point)
+
+
 ;; (global-set-key (kbd "C-c C-c") 'counsel-bookmark)
 
 
@@ -245,22 +265,10 @@
 (global-set-key (kbd "s-h g") 'helm-google)
 
 
-(define-key projectile-command-map (kbd "SPC") #'counsel-projectile)
-(define-key projectile-command-map (kbd "t") #'projectile-get-term)
-(define-key projectile-command-map (kbd "r") #'counsel-projectile-rg)
-(define-key projectile-command-map (kbd "o") #'projectile-find-other-file)
-(define-key projectile-command-map (kbd "p") #'counsel-projectile)
-(define-key projectile-command-map (kbd "a") #'counsel-projectile-ag)
-(define-key projectile-command-map (kbd "s") #'counsel-projectile-switch-project)
-(define-key projectile-command-map (kbd "d") #'counsel-projectile-find-dir)
-(define-key projectile-command-map (kbd "g") #'counsel-projectile-git-grep)
-(define-key projectile-command-map (kbd "w") #'projectile-find-file-other-optimal-frame)
-
-
 ;; guide-key for almost-hydras!
 (guide-key-mode 1)
-(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x"))
-(setq guide-key/idle-delay 0.33)
+(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x" "M-s"))
+(setq guide-key/idle-delay 0.66)
 (setq guide-key/recursive-key-sequence-flag t)
 
 ;;      http://pragmaticemacs.com/emacs/add-the-system-clipboard-to-the-emacs-kill-ring/
