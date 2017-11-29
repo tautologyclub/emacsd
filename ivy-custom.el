@@ -60,7 +60,7 @@
 
 
 (require 'projectile)
-(add-hook 'wgrep-setup-hook 'projectile-save-project-buffers)
+(add-hook 'wgrep-setup-hook 'save-some-buffers)
 
 (define-key ivy-switch-buffer-map (kbd "M-k")
   (lambda () (interactive)

@@ -4,6 +4,7 @@
 (require 'helm-gtags)
 (require 'gud)
 
+;; Note -- don't forget ~/.gdbinit add-to-save-path stuff
 
 (defun c-occur-overview ()
   "Display an occur buffer with declarations/definitions/etc.
@@ -26,44 +27,53 @@ Also, resize somewhat. Really hacky :D"
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
              "/usr/lib/clang/5.0.0/include/stddef.h")
 
-(defhydra hydra-gud (:color amaranth)
-  "
-"
-  ("g" gdb :color blue)
-  ;; vi
-  ("h" backward-char)
-  ("j" next-line)
-  ("k" previous-line)
-  ("l" forward-char)
-  ;; gud
-  ("t" gud-tbreak )
-  ("b" gud-break "break")
-  ("l" gud-remove "clear")
-  ("p" gud-print)
-  ("m" gud-until "move")
-  ("n" gud-next "next")
-  ("N" gud-nexti "nexti")
-  ("c" gud-cont "cont")
-  ("M-c" compile "compile")
-  ("M-r" recompile "recompile")
-  ("o" gud-finish "out")
-  ("r" gud-run "run")
-  ("s" gud-step "step")
-  ("u" gud-up "up")
-  ("d" gud-down "down")
-  ("w" gud-watch "watch")
-  ("z" switch-to-gud-cmd "cmd")
-  ("X" (lambda () (interactive)
-         (gud-basic-call "quit")
-         (delete-window)) :color blue
-          "exit")
-  ("iv"  (gud-basic-call "info variables") "info")
+(defhydra hydra-gud (:color amaranth :columns 5 :hint nil)
+  "gdb/gud"
+  ("g"      gdb "gdb")
+  ("r"      gdb-restore-windows "restore")
 
-  ("<up>" windmove-up)
-  ("<down>" windmove-down)
-  ("<left>" windmove-left)
-  ("<left>" windmove-right)
-  ("q" nil "quit"))
+  ("h"      backward-char )
+  ("j"      next-line )
+  ("k"      previous-line )
+  ("l"      forward-char )
+
+  ("t"      gud-tbreak )
+  ("SPC"    gud-break   "break")
+  ("l"      gud-remove  "clear")
+  ("p"      gud-print   "print ")
+  ("m"      gud-until   "move")
+  ("n"      gud-next    "next")
+  ("N"      gud-nexti   "next instr")
+  ("c"      gud-cont    "continue")
+  ("o"      gud-finish  "out")
+  ("r"      gud-run     "run")
+  ("s"      gud-step    "step")
+  ("u"      gud-up      "up")
+  ("d"      gud-down    "down")
+  ("w"      gud-watch   "watch")    ;; todo completing read
+  ("z"      switch-to-gud-cmd "cmd")
+  ("iv"     (gud-basic-call "info variables") "info vars")
+  ("ir"     (gud-basic-call "info registers") "info regs")
+  ("bm"     (gud-basic-call "b main") "b main")
+  ("bs"     (gud-basic-call "save breakpoints gdb_breaks") "save breaks")
+  ("bl"     (gud-basic-call "source gdb_breaks") "load breaks")
+
+  ("C-a"    xah-beginning-of-line-or-block)
+  ("C-e"    xah-end-of-line-or-block)
+
+  ("M-c"    compile "compile")
+  ("M-r"    recompile "recompile")
+
+  ("C-k"    windmove-up)
+  ("C-j"    windmove-down)
+  ("C-h"    windmove-left)
+  ("C-l"    windmove-right)
+
+  ("X"      (lambda () (interactive)
+              (gud-basic-call "quit")
+              (delete-window)) :color blue
+              "exit")
+  ("q"      nil "quit"))
 
 
 (defun benjamin/flycheck-list-errors ()
@@ -84,7 +94,6 @@ Also, resize somewhat. Really hacky :D"
 (define-key c-mode-base-map (kbd "C-c o") 'c-occur-overview)
 (define-key c-mode-base-map (kbd "C-c C-c") 'compile)
 (define-key c-mode-base-map (kbd "C-c C-w") 'senator-kill-tag)
-
 (define-key c-mode-map (kbd "C-c f") 'benjamin/flycheck-list-errors)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gud/body)
