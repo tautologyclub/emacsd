@@ -19,13 +19,9 @@
  '(counsel-mode t)
  '(custom-enabled-themes (quote (adwaita)))
  '(debug-on-error nil)
- '(default ((t (:height 90 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
  '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
- '(elfeed-feeds
-   (quote
-    ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
  '(elpy-rpc-backend "rope")
  '(fci-rule-color "#c7c7c7")
  '(fill-column 79)
@@ -46,35 +42,8 @@
  '(helm-descbinds-mode t)
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
- '(helm-mode nil)
+ '(helm-mode t)
  '(helm-swoop-split-direction (quote split-window-vertically))
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#002b36" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#93a1a1")
- '(highlight-tail-colors
-   (quote
-    (("#073642" . 0)
-     ("#546E00" . 20)
-     ("#00736F" . 30)
-     ("#00629D" . 50)
-     ("#7B6000" . 60)
-     ("#8B2C02" . 70)
-     ("#93115C" . 85)
-     ("#073642" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
- '(hl-fg-colors
-   (quote
-    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
- '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
- '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
- '(hl-sexp-background-color "#1c1f26")
- '(hlt-max-region-no-warning 30)
  '(irony-additional-clang-options
    (quote
     ("-I/home/benjamin/workspace/reac/inc" "-std=c90" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D __USE_GNU")))
@@ -115,12 +84,7 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((projectile-project-compilation-cmd . "make package install")
-     (company-clang-arguments . irony-additional-clang-options)
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" " -D DEBUG=1")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" " -D DEBUG")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
+    ((irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
@@ -135,10 +99,6 @@
  '(semantic-idle-scheduler-idle-time 5)
  '(semantic-mode t)
  '(shell-file-name "/bin/bash")
- '(sml/active-background-color "#34495e")
- '(sml/active-foreground-color "#ecf0f1")
- '(sml/inactive-background-color "#dfe4ea")
- '(sml/inactive-foreground-color "#34495e")
  '(tab-width 4)
  '(term-bind-key-alist
    (quote
@@ -168,34 +128,8 @@
  '(tramp-verbose 6)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows 80)
- '(vc-annotate-background "#d4d4d4")
- '(vc-annotate-background-mode nil)
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#437c7c")
-     (40 . "#336c6c")
-     (60 . "#205070")
-     (80 . "#2f4070")
-     (100 . "#1f3060")
-     (120 . "#0f2050")
-     (140 . "#a080a0")
-     (160 . "#806080")
-     (180 . "#704d70")
-     (200 . "#603a60")
-     (220 . "#502750")
-     (240 . "#401440")
-     (260 . "#6c1f1c")
-     (280 . "#935f5c")
-     (300 . "#834744")
-     (320 . "#732f2c")
-     (340 . "#6b400c")
-     (360 . "#23733c"))))
- '(vc-annotate-very-old-color "#23733c")
- '(weechat-color-list
-   (quote
-    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(wgrep-auto-save-buffer t)
- '(windmove-wrap-around t)
+ '(windmove-wrap-around nil)
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -205,7 +139,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#EDEDED" :foreground "#2E3436" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#d8d8c3" :foreground "#151515"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
@@ -215,13 +148,11 @@
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "red" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
- '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
- '(term-color-red ((t (:background "red3" :foreground "indian red"))))
- '(whitespace-line ((t (:foreground "dark magenta")))))
+ '(term-color-red ((t (:background "red3" :foreground "indian red")))))
 
 ;; Package managing
 (require 'package)
@@ -303,7 +234,6 @@
 (auto-dim-other-buffers-mode 1)
 
 
-
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
@@ -381,10 +311,12 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/hydra-jumper.el")
-(load "~/.emacs.d/guide-key-custom.el")
 (load "~/.emacs.d/git-custom.el")
 ;; (load "~/.emacs.d/irony-custom.el")
 (load "~/.emacs.d/bindings2.el")
+(load "~/.emacs.d/magnars-defun.el")
+(load "~/.emacs.d/i3.el")
+(load "~/.emacs.d/i3-integration.el")
 
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"
@@ -405,7 +337,16 @@ This function is suitable to add to `find-file-hook'."
            (format-time-string "%H:%M:%S")
            (buffer-file-name)))
   )
-(setq focus-in-hook 'message-buffer-file-name-or-nothing)
+
+;; Get the modeline proxy to work with i3 switch focus
+(defadvice handle-switch-frame (around switch-frame-message-name)
+  (message-buffer-file-name-or-nothing)
+  ad-do-it
+  (message-buffer-file-name-or-nothing))
+(ad-activate 'handle-switch-frame)
+(add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
+(add-hook 'occur-mode-hook 'occur-rename-buffer)
+
 
 (condition-case nil
     (kill-buffer "*scratch*")

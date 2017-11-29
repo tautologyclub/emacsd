@@ -84,13 +84,13 @@
                                     (xah-end-of-line-or-block)))
 (global-set-key (kbd "C-r") 'backward-delete-char-untabify)
     (global-set-key (kbd "C-S-r") 'hungry-delete-backward)
-(global-set-key (kbd "C-t") nil)
+(global-set-key (kbd "C-t") nil)            ;; shit
     (global-set-key (kbd "C-t t") 'multi-term)
     (global-set-key (kbd "C-t g") 'get-term)
     (global-set-key (kbd "C-t d") 'terminal-with-focus-below)
     (global-set-key (kbd "C-t p") 'projectile-get-term)
 (global-set-key (kbd "C-y") 'yank)
-(global-set-key (kbd "C-u") 'duplicate-current-line-or-region)          ;; todo
+(global-set-key (kbd "C-u") 'duplicate-current-line-or-region)
 ;; (global-set-key (kbd "C-i) nil)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
 (global-set-key (kbd "C-p") 'lispy-backward)
@@ -121,6 +121,8 @@
 (global-set-key (kbd "C-,") 'set-mark-and-deactive)
 (global-set-key (kbd "C-.") 'exchange-point-and-mark-and-deactive)
 (global-set-key (kbd "C-/") nil)
+(global-set-key (kbd "C-<tab>") 'mc/mark-next-like-this)
+(global-set-key (kbd "M-<tab>") 'mc/mark-previous-like-this)
 
 
 ;; M
@@ -165,7 +167,12 @@
 (global-set-key (kbd "M--") 'zoom-frm-out)
 (global-set-key (kbd "M-=") 'zoom-frm-in)
 (global-set-key (kbd "M-SPC") (lambda () (interactive)
+                                (set-mark-if-inactive)
                                 (fastnav-search-char-forward 1 ? )))
+
+(global-set-key (kbd "C-M-e") 'elpy-nav-indent-shift-right)
+(global-set-key (kbd "C-M-a") 'elpy-nav-indent-shift-left)
+
 
 ;; C-S-...
 (global-set-key (kbd "C-S-w") 'my-i3-make-frame)

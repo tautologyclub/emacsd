@@ -15,36 +15,37 @@
                      :post (progn
                              (delete-selection-mode t)
                              (hl-line-mode -1))
+                     :columns 5
                      )
   "
 --- navigation-hydra ---------------------------------------------
 "
 
-  ("q"   keyboard-quit :color blue)
-  ("w"   kill-region-or-backward-word)
-  ("e"   xah-end-of-line-or-block)
-  ;; ("r"   nil)  ;; todo
-  ("t"   transpose-chars)
-  ("y"   yank)
-  ("u"   (up-list -1)) ;; dubious perhaps
+  ("q"   keyboard-quit :color blue      "quit")
+  ("w"   kill-region                    "kill")
+  ("e"   xah-end-of-line-or-block       "eol")
+  ("r"   nil)  ;; todo
+  ("t"   transpose-chars                "transpose")
+  ("y"   yank                           "yank")
+  ("u"   (up-list -1)                   "up list") ;; dubious perhaps
   ;; ("i"   nil)  ;; todo
   ;; ("o"   nil)  ;; todo
   ;; ("p"   nil)  ;; todo
 
-  ("a"   xah-beginning-of-line-or-block)
-  ("s"   swiper)
-  ("d"   (up-list 1))
-  ("f"   benjamin/jump-char-fwd)
-  ("g"   avy-goto-word-1-below)
-  ("h"   backward-char)
-  ("j"   next-line)
-  ("k"   previous-line)
-  ("l"   forward-char)
+  ("a"   xah-beginning-of-line-or-block "bol")
+  ("s"   swiper                         "swiper")
+  ("d"   (up-list 1)                    "down list")
+  ("f"   benjamin/jump-char-fwd         "jumpc fwd")
+  ("g"   avy-goto-char                  "avy-char")
+  ("h"   backward-char                  "bwd char")
+  ("j"   next-line                      "down line")
+  ("k"   previous-line                  "up line")
+  ("l"   forward-char                   "fwd char")
 
   ("z"   avy-goto-word-1-above)
   ;; ("x"   nil)
   ;; ("v"   scroll-down-half)
-  ("b"   benjamin/jump-char-bwd)
+  ("b"   benjamin/jump-char-bwd         "jumpc bwd")
   ("n"   left-word)  ;;
   ("m"   forward-to-word) ;;
   (","   highlight-region)
