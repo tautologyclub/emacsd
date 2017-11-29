@@ -9,6 +9,7 @@
  '(ansi-color-names-vector
    ["black" "#d55e00" "#009e73" "#f8ec59" "dark orange" "#cc79a7" "#56b4e9" "white"])
  '(async-bytecomp-allowed-packages nil)
+ '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(avy-keys
    (quote
     (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
@@ -17,10 +18,11 @@
  '(column-number-mode nil)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
- '(custom-enabled-themes (quote (adwaita)))
+ '(custom-enabled-themes (quote (tango-dark)))
  '(debug-on-error nil)
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
+ '(eldoc-idle-delay 1.5)
  '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elpy-rpc-backend "rope")
  '(fci-rule-color "#c7c7c7")
@@ -29,6 +31,7 @@
  '(flycheck-clang-includes
    (quote
     ("/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")))
+ '(flycheck-display-errors-delay 1.5)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -67,14 +70,15 @@
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
  '(org-log-done (quote time))
+ '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(powerline-display-hud nil)
- '(projectile-enable-caching t)
+ '(projectile-enable-caching nil)
  '(projectile-globally-ignored-modes
    (quote
     ("erc-mode" "help-mode" "completion-list-mode" "Buffer-menu-mode" "gnus-.*-mode" "occur-mode" "term-mode")))
@@ -139,14 +143,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-dim-other-buffers-face ((t (:background "#d8d8c3" :foreground "#151515"))))
+ '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "Inconsolata"))))
+ '(auto-dim-other-buffers-face ((t (:background "#242b2d" :foreground "#c4c4c4"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
- '(header-line ((t (:background "#e2ddaa" :foreground "#CCCCCC"))))
  '(highlight-indentation-face ((t nil)))
- '(hl-line ((t (:background "#f2cca5"))))
+ '(hl-line ((t (:background "#101010"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
- '(minibuffer-prompt ((t (:foreground "red" :weight normal))))
+ '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
  '(term ((t nil)))
@@ -186,6 +190,10 @@
 (require 'whitespace)
 (require 'company)
 (require 'volatile-highlights)
+(require 'wgrep)
+(require 'function-args)
+(require 'org-trello)
+;; (fa-config-default) ;; stop stealing my bindings
 
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -193,7 +201,6 @@
 (setq tab-always-indent t)
 (setq scroll-error-top-bottom t)
 (setq save-interprogram-paste-before-kill t)
-(setq mode-line-format nil)
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
 
@@ -230,9 +237,10 @@
           (lambda ()
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
-                         '(default (:background "#ccd886")))))
+                         '(default (:background "#3c4447")))))
 (auto-dim-other-buffers-mode 1)
-
+(setq x-select-enable-clipboard t)
+(fset 'yes-or-no-p 'y-or-n-p)
 
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
@@ -313,11 +321,8 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/hydra-jumper.el")
 (load "~/.emacs.d/git-custom.el")
 ;; (load "~/.emacs.d/irony-custom.el")
+(load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/bindings2.el")
-(load "~/.emacs.d/magnars-defun.el")
-(load "~/.emacs.d/i3.el")
-(load "~/.emacs.d/i3-integration.el")
-
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"
                              "~/.org/reac.org"
@@ -345,7 +350,8 @@ This function is suitable to add to `find-file-hook'."
   (message-buffer-file-name-or-nothing))
 (ad-activate 'handle-switch-frame)
 (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
-(add-hook 'occur-mode-hook 'occur-rename-buffer)
+
+
 
 
 (condition-case nil

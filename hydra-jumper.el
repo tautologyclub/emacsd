@@ -1,34 +1,35 @@
 (defhydra hydra-jumper (:color blue
-                             :hint nil
+                               :hint nil
+                               :columns 4
                              )
   "
-     FIXME
+--- jumper hydra ---------------------------------------------------------------
 "
-  ("rg"   counsel-rg)
-  ("o"   occur-dwim) ;; fixme
-  ("cd"   dired-jump)
+  ("rg"   counsel-rg                    "rg")
+  ("o"   occur-dwim                     "occur")
+  ("cd"   dired-jump                    "dired")
 
-  ("gg"   counsel-git-grep)
-  ("gr"   counsel-git-grep-query-replace)
+  ("gg"   counsel-git-grep              "git grep")
+  ("gr"   counsel-git-grep-query-replace
+                                        "git replace")
   ("gs"   magit-status)
-  ("gh"   vc-region-history)
+  ("gh"   vc-region-history             "vc history")
 
-  ("fo"   ff-find-other-file)
+  ("fo"   ff-find-other-file            "other file")
   ;; ("?"   mark-defun)
 
-  ("sd"   ggtags-show-definition)
-  ("tg"   ggtags-grep)
-  ("ts"   helm-gtags-select)
-  ("<return>"   helm-gtags-dwim)
-  ("tr"   helm-gtags-find-rtag)
-  ("tt"   helm-gtags-show-stack)
-  ("tu"   helm-gtags-update-tags)
-  ("tp"   helm-gtags-previous-history)
-  ("tn"   helm-gtags-next-history)
+  ("sd"   ggtags-show-definition        "hg show def")
+  ("ts"   helm-gtags-select             "hg select")
+  ("RET"   helm-gtags-dwim              "hg dwim")
+  ("tr"   helm-gtags-find-rtag          "find rtag")
+  ("tt"   helm-gtags-show-stack         "hg stack")
+  ("."   helm-gtags-pop-stack           "hg pop")
+  ("tu"   helm-gtags-update-tags        "hg update")
+  ("tp"   helm-gtags-previous-history   "hg prev")
+  ("tn"   helm-gtags-next-history       "hg next")
 
   ("l"   goto-line-with-feedback)
 
-  ("."   helm-gtags-pop-stack)
-  ("t DEL"   helm-gtags-clear-stack)
+  ("t DEL"   helm-gtags-clear-stack     "hg clear")
 
   ("q"   nil "cancel" :color blue))

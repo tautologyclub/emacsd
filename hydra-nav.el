@@ -10,47 +10,49 @@
                             (overwrite-mode -1)
                             (delete-selection-mode nil)
                             (set-mark-if-inactive)
-                            (hl-line-mode)
+                            (set-cursor-color "#FF0000")
                             (message-buffer-file-name-or-nothing))
                      :post (progn
                              (delete-selection-mode t)
-                             (hl-line-mode -1))
-                     :columns 5
+                             (set-cursor-color "#16A085")
+                             )
+                     :columns 4
                      )
-  "
---- navigation-hydra ---------------------------------------------
-"
+  "--- nav -----------------------------------------------------------------------"
 
-  ("q"   keyboard-quit :color blue      "quit")
-  ("w"   kill-region                    "kill")
+  ("q"   keyboard-quit                      "quit "     :color blue)
+  ("w"   (transpose-words -1)                        "trsp word <")
+  ("W"   (transpose-words 1)                        "trsp word >")
   ("e"   xah-end-of-line-or-block       "eol")
-  ("r"   nil)  ;; todo
-  ("t"   transpose-chars                "transpose")
+  ;; ("r"   nil)  ;; todo
   ("y"   yank                           "yank")
-  ("u"   (up-list -1)                   "up list") ;; dubious perhaps
+  ("t"   (transpose-chars -1)                    "trsp char <")
+  ("T"   (transpose-chars 1)                    "trsp char >")
+  ("u"   undo-tree-undo                     "undo")
+  ("U"   undo-tree-redo                     "redo")
   ;; ("i"   nil)  ;; todo
   ;; ("o"   nil)  ;; todo
-  ;; ("p"   nil)  ;; todo
+  ("p"   transpose-params                   "trsp param")  ;; todo
 
   ("a"   xah-beginning-of-line-or-block "bol")
-  ("s"   swiper                         "swiper")
-  ("d"   (up-list 1)                    "down list")
-  ("f"   benjamin/jump-char-fwd         "jumpc fwd")
+  ("s"   swiper                             "swipe")
+  ("d"   (up-list 1))
+  ("f"   benjamin/jump-char-fwd             "jump fwd")
   ("g"   avy-goto-char                  "avy-char")
-  ("h"   backward-char                  "bwd char")
-  ("j"   next-line                      "down line")
-  ("k"   previous-line                  "up line")
-  ("l"   forward-char                   "fwd char")
+  ("h"   backward-char)
+  ("j"   next-line)
+  ("k"   previous-line)
+  ("l"   forward-char)
 
-  ("z"   avy-goto-word-1-above)
+  ;; ("z"   avy-goto-word-1-above)
   ;; ("x"   nil)
   ;; ("v"   scroll-down-half)
-  ("b"   benjamin/jump-char-bwd         "jumpc bwd")
-  ("n"   left-word)  ;;
-  ("m"   forward-to-word) ;;
-  (","   highlight-region)
-  ("<"   highlight-clear)
-  ("."   exchange-point-and-mark)
+  ("b"   benjamin/jump-char-bwd             "jump bwd")
+  ("n"   left-word)
+  ("m"   forward-to-word)
+  (","   highlight-region                   "highlight")
+  ("<"   highlight-clear                    "hl clear")
+  ("."   exchange-point-and-mark            "flip p/mark")
 
   ("A"   back-to-indentation)
   ("="   er/expand-region)
@@ -66,7 +68,7 @@
 
   ("C-g" (lambda () (interactive)
            (keyboard-quit)
-           (hydra-nav/body)))
+           (hydra-nav/body))                "unmark")
   ("C-x a" simplified-beginning-of-buffer)
   ("C-x e" simplified-end-of-buffer)
 

@@ -9,6 +9,37 @@
 "Does nothing cuz we roll Luddite."
 )
 
+(defun benjamin/helm-buffers-list ()
+  "Preconfigured `helm' to list buffers."
+  (interactive)
+  (unless helm-source-buffers-list
+    (setq helm-source-buffers-list
+          (helm-make-source "Buffers" 'helm-source-buffers)))
+  (setq helm-split-window-default-side 'right)
+  (helm :sources '(helm-source-buffers-list
+                   helm-source-ido-virtual-buffers
+                   helm-source-buffer-not-found)
+        :buffer "*helm buffers*"
+        :keymap helm-buffer-map
+        :input "\!\\* "
+        :truncate-lines helm-buffers-truncate-lines)
+  (setq helm-split-window-default-side 'below))
+
+(require 'helm-projectile)
+(defun benjamin/helm-projectile ()
+  "helm buffers filtering away star-buffers as default"
+  (interactive)
+  (setq helm-split-window-default-side 'right)
+  (let ((helm-ff-transformer-show-only-basename nil))
+    (helm :sources helm-projectile-sources-list
+          :buffer "*helm projectile*"
+          :truncate-lines helm-projectile-truncate-lines
+          :prompt (projectile-prepend-project-name (if (projectile-project-p)
+                                                       "pattern: "
+                                                     "Switch to project: "))))
+  (setq helm-split-window-default-side 'below))
+
+
 (defhydra helm-like-unite (:hint nil
                            :color pink)
   "

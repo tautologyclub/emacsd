@@ -6,7 +6,6 @@
      (list (line-beginning-position)
            (line-beginning-position 2)))))
 
-
 ;; TOOGLE COMMENT FOR CURRENT LINE OR REGION
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
@@ -90,6 +89,23 @@
     )
   )
 
+(defun rename-current-buffer-file ()
+  "Renames current buffer and file it is visiting."
+  (interactive)
+  (let ((name (buffer-name))
+        (filename (buffer-file-name)))
+    (if (not (and filename (file-exists-p filename)))
+        (error "Buffer '%s' is not visiting a file!" name)
+      (let ((new-name (read-file-name "New name: " filename)))
+        (if (get-buffer new-name)
+            (error "A buffer named '%s' already exists!" new-name)
+          (rename-file filename new-name 1)
+          (rename-buffer new-name)
+          (set-visited-file-name new-name)
+          (set-buffer-modified-p nil)
+          (message "File '%s' successfully renamed to '%s'"
+                   name (file-name-nondirectory new-name)))))))
+
 (defun kill-to-beginning-of-line ()
   (interactive)
   (kill-line 0)
@@ -100,6 +116,18 @@
   (if (or arg (not buffer-file-name))
       (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
+
+(defun copy-current-file-path ()
+  "Add current file path to kill ring. Limits the filename to project root if possible."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (kill-new (if eproject-mode
+                  (s-chop-prefix (eproject-root) filename)
+                filename))))
+
+(defun sudo-edit-current ()
+  (interactive)
+      (find-file (concat "/sudo:root@localhost:" buffer-file-name)))
 
 (defun char-upcasep (letter)
   (eq letter (upcase letter)))
@@ -218,37 +246,6 @@ With argument, do this that many times."
       (when (search-forward-regexp "\n" nil 'noerror)
         (goto-char (match-beginning 0)))
     (forward-word)))
-
-(require 'helm)
-(defun benjamin/helm-buffers-list ()
-  "Preconfigured `helm' to list buffers."
-  (interactive)
-  (unless helm-source-buffers-list
-    (setq helm-source-buffers-list
-          (helm-make-source "Buffers" 'helm-source-buffers)))
-  (setq helm-split-window-default-side 'right)
-  (helm :sources '(helm-source-buffers-list
-                   helm-source-ido-virtual-buffers
-                   helm-source-buffer-not-found)
-        :buffer "*helm buffers*"
-        :keymap helm-buffer-map
-        :input "\!\\* "
-        :truncate-lines helm-buffers-truncate-lines)
-  (setq helm-split-window-default-side 'below))
-
-(require 'helm-projectile)
-(defun benjamin/helm-projectile ()
-  "helm buffers filtering away star-buffers as default"
-  (interactive)
-  (setq helm-split-window-default-side 'right)
-  (let ((helm-ff-transformer-show-only-basename nil))
-    (helm :sources helm-projectile-sources-list
-          :buffer "*helm projectile*"
-          :truncate-lines helm-projectile-truncate-lines
-          :prompt (projectile-prepend-project-name (if (projectile-project-p)
-                                                       "pattern: "
-                                                     "Switch to project: "))))
-  (setq helm-split-window-default-side 'below))
 
 (defun occur-dwim ()
   "Call `occur' with a sane default."
