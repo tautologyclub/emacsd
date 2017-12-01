@@ -322,6 +322,7 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/git-custom.el")
 ;; (load "~/.emacs.d/irony-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
+(load "~/.emacs.d/compile-custom.el")
 (load "~/.emacs.d/bindings2.el")
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"

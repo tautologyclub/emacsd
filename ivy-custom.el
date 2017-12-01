@@ -60,11 +60,7 @@
 
 
 (require 'projectile)
-(add-hook 'wgrep-setup-hook 'projectile-save-project-buffers)
-(define-key ivy-occur-grep-mode-map (kbd "C-M-w")
-  (lambda () (interactive)
-    (projectile-save-project-buffers)
-    (ivy-wgrep-change-to-wgrep-mode)))
+(add-hook 'wgrep-setup-hook 'save-some-buffers)
 
 (define-key ivy-switch-buffer-map (kbd "M-k")
   (lambda () (interactive)
