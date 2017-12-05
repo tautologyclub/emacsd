@@ -58,6 +58,7 @@
 (require 'counsel)
 (define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
 
+(setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 79 --max-count 200 --max-filesize  --color never %s .")
 
 (require 'projectile)
 (add-hook 'wgrep-setup-hook 'save-some-buffers)

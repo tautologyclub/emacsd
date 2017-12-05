@@ -1,3 +1,52 @@
+
+(defhydra hydra-text (:color pink :columns 5 :hint nil)
+  "gdb"
+  ("g"      gdb blue"gdb")
+  ("r"      gdb-restore-windows "restore")
+
+  ("h"      backward-char )
+  ("j"      next-line )
+  ("k"      previous-line )
+  ("l"      forward-char )
+
+  ("t"      gud-tbreak )
+  ("SPC"    gud-break   "break")
+  ("l"      gud-remove  "clear")
+  ("p"      gud-print   "print ")
+  ("m"      gud-until   "move")
+  ("n"      gud-next    "next")
+  ("N"      gud-nexti   "next instr")
+  ("c"      gud-cont    "continue")
+  ("o"      gud-finish  "out")
+  ("r"      gud-run     "run")
+  ("s"      gud-step    "step")
+  ("u"      gud-up      "up")
+  ("d"      gud-down    "down")
+  ("w"      gud-watch   "watch")    ;; todo completing read
+
+  ("iv"     (gud-basic-call "info variables")               "info vars")
+  ("ir"     (gud-basic-call "info registers")               "info regs")
+  ("bm"     (gud-basic-call "b main")                       "break main")
+  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")  "save breaks")
+  ("bl"     (gud-basic-call "source .gdb_breaks")            "load breaks")
+
+  ("C-a"    xah-beginning-of-line-or-block)
+  ("C-e"    xah-end-of-line-or-block)
+
+  ("M-c"    compile "compile")
+  ("M-r"    recompile "recompile")
+
+  ("C-k"    windmove-up)
+  ("C-j"    windmove-down)
+  ("C-h"    windmove-left)
+  ("C-l"    windmove-right)
+
+  ("X"      (lambda () (interactive)
+              (gud-basic-call "quit")
+              (delete-window)) :color blue
+              "exit")
+  ("q"      nil "quit hydra"))
+
 ;; I heart abo-abo
 (defhydra hydra-vimish-fold (:color blue
                              :columns 3)
@@ -57,9 +106,10 @@
   )
 
 (defhydra hydra-errgo (:hint nil)
-  ("h" first-error "first")
-  ("j" next-error "next")
-  ("k" previous-error "prev")
+  ("h" first-error      "first")
+  ("j" next-error       "next")
+  ("k" previous-error   "prev")
+  ("l" last-error       "last")
   )
 
 (require 'dired)

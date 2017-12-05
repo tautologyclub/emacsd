@@ -1,14 +1,23 @@
 ;; *** Todo:
-;;              customize projectile, helm-projectile
 ;;              smart way of getting C-x to the terminal
-;;              separate key maps for linemode/charmode?!?
-;;              C-S-a; set mark, do C-a
+;;              separate key maps for linemode/charmode!
 ;;              repeat-command on next line
 ;;              dired?
 ;;              ivy-restrict-to-matches
-;;              ivy-occur
-;;              C-x (       kb macro
-;;              C-x )       ..
+
+;; *** Todo bindings:
+;;              C-u
+;;              C-z
+;;              C-m
+;;              C-m
+;;              M-q
+;;              M-h
+;;              M-z
+;;              M-v
+;;              M-s ...
+;;              C-x ...
+;;              C-c ...
+;;              C-t ...
 
 (require 'helm)
 (require 'ivy)
@@ -70,19 +79,18 @@
 (global-set-key (kbd "θ") 'ora-parens)
 ;; (global-set-key (kbd "[") 'ora-brackets)
 ;; (global-set-key (kbd "Ρ") 'ora-braces)
-(global-set-key (kbd "ψ") 'universal-argument)
+(global-set-key (kbd "ψ") 'universal-argument)                      ;; Mode_shift + u
 
 
 ;; C
 (keyboard-translate ?\C-q ?\C-c)
-;; (keyboard-translate ?\C-c ?\C-q)
 ;; (global-set-key (kbd "C-q") 'quoted-insert)
 (global-set-key (kbd "C-w") 'kill-region)
 (global-set-key (kbd "C-e") 'xah-end-of-line-or-block)
     (global-set-key (kbd "C-S-e") (lambda () (interactive)
                                     (benjamin/set-mark-command)
                                     (xah-end-of-line-or-block)))
-(global-set-key (kbd "C-r") 'backward-delete-char-untabify)
+(global-set-key (kbd "C-r") 'backward-delete-char)
     (global-set-key (kbd "C-S-r") 'hungry-delete-backward)
 (global-set-key (kbd "C-t") nil)
     (global-set-key (kbd "C-t t") 'multi-term)
@@ -136,17 +144,19 @@
 (global-set-key (kbd "M-u") 'hydra-undo-tree/undo-tree-undo)
 (global-set-key (kbd "M-i") 'ivy-resume)
 (global-set-key (kbd "M-o") 'other-window-or-frame)
-(global-set-key (kbd "M-p") 'exchange-point-and-mark-and-deactive)
+(global-set-key (kbd "M-p") 'exchange-point-and-mark-and-deactive)      ;; todo
 
 (global-set-key (kbd "M-a") 'backward-char)
 (global-set-key (kbd "M-s") nil)
     (global-set-key (kbd "M-s M-s") 'save-buffer)
     (global-set-key (kbd "M-s M-f") 'counsel-find-file)
     (global-set-key (kbd "M-s M-k") nil)
-    (global-set-key (kbd "M-s M-e") 'eval-buffer)
+    (global-set-key (kbd "M-s eb") 'eval-buffer)
+    (global-set-key (kbd "M-s er") 'eval-region)
     (global-set-key (kbd "M-s M-d") 'delete-window)
     (global-set-key (kbd "M-s M-p") 'counsel-projectile)
     (global-set-key (kbd "M-s M-g") 'get-term)
+    (global-set-key (kbd "M-s M-t") 'multi-term)
     (global-set-key (kbd "M-s M-b") 'bury-buffer)
     (global-set-key (kbd "M-s o") 'find-file-other-window)
     (global-set-key (kbd "M-s M-u M-d M-o") 'sudo-edit-current)
@@ -157,19 +167,18 @@
 (global-set-key (kbd "M-j") 'avy-goto-char)
 (global-set-key (kbd "M-k") 'kill-line)
 (global-set-key (kbd "M-K") 'kill-line-save)
-;; (global-set-key (kbd "M-n") nil)                 ;; todo
 
-;; (global-set-key (kbd "M-z") nil)
-(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-z") 'zap-up-to-char)                        ;; todo
+(global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "M-v") 'scroll-down-half)      ;; todo
 (global-set-key (kbd "M-b") 'left-word)
-;; (global-set-key (kbd "M-n") nil)                 ;; todo
+(global-set-key (kbd "M-n") 'hydra-errgo/next-error)
 (global-set-key (kbd "M-m") 'counsel-mark-ring)
 
 (global-set-key (kbd "M--") 'zoom-frm-out)
 (global-set-key (kbd "M-=") 'zoom-frm-in)
-(global-set-key (kbd "M-SPC") (lambda () (interactive)
-                                (fastnav-search-char-forward 1 ? )))
+(global-set-key (kbd "C-SPC") 'forward-to-char-after-ws)
+(global-set-key (kbd "M-SPC") 'backward-to-char-before-ws)
 (global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
 
 ;; C-S-...
@@ -210,7 +219,7 @@
 (global-set-key (kbd "C-x a") 'simplified-beginning-of-buffer)
 (global-set-key (kbd "C-x s") 'save-buffer)                     ;; todo
 (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
-(global-set-key (kbd "C-x f") 'hydra-flycheck/flycheck-next-error)
+(global-set-key (kbd "C-x f") 'hydra-errgo/next-error)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x h") help-map)
 (global-set-key (kbd "C-x k") 'volatile-kill-buffer)
@@ -219,20 +228,18 @@
 
 (global-set-key (kbd "C-x b") 'browse-url)
 
+(global-set-key (kbd "C-x C-x e") 'eval-buffer)
+(global-set-key (kbd "C-x C-x r") 'eval-region)
+
 
 ;; C-c
-(global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
+;; (global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
+(global-set-key (kbd "C-c E f") 'ediff-files)
+(global-set-key (kbd "C-c E b") 'ediff-buffers)
+(global-set-key (kbd "C-c E d") 'ediff-directories)
 (global-set-key (kbd "C-c C-d") 'duplicate-current-line-or-region)
 (global-set-key (kbd "C-c C-c") 'compile)
-
-(defun set-kblayout-swedish ()
-  "Set layout to swedish."
-  (interactive)
-  (shell-command "setxkbmap -layout se"))
-(defun set-kblayout-benjamin ()
-  "Set layout to benjaminish."
-  (interactive)
-  (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
+(global-set-key (kbd "C-c \"") 'quoted-insert)
 
 (global-set-key (kbd "C-c k") nil)
     (global-set-key (kbd "C-c ks") 'set-kblayout-swedish)
@@ -241,11 +248,8 @@
 (global-set-key (kbd "C-c C-f") 'find-file-at-point)
 
 
-;; (global-set-key (kbd "C-c C-c") 'counsel-bookmark)
-
-
 ;; super
-(global-set-key (kbd "s-r") 'counsel-projectile-rg)
+(global-set-key (kbd "s-r") 'counsel-projectile-rg) ;; so greedy
 (global-set-key (kbd "s-b") 'counsel-bookmark)
 (global-set-key (kbd "s-s") 'kmacro-start-macro)
 (global-set-key (kbd "s-S") 'kmacro-end-macro)  ;; todo rebind s-s in macro mode
@@ -263,6 +267,7 @@
 (define-key git-gutter+-mode-map (kbd "s-g") 'hydra-git-gutter/body)
 
 (global-set-key (kbd "s-h g") 'helm-google)
+(global-set-key (kbd "s-h w") 'helm-man-woman)
 
 
 ;; guide-key for almost-hydras!

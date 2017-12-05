@@ -1,3 +1,5 @@
+(setq c-default-style "linux" c-basic-offset 4)
+;; (setq c-default-style "python")
 (require 'semantic)
 (require 'company)
 (require 'cc-mode)
@@ -18,19 +20,15 @@ Also, resize somewhat. Really hacky :D"
   )
 
 
-;; (semantic-add-system-include "/home/benjamin/workspace/" 'c-mode)
-(setq-default c-basic-offset 4)
-
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 (require 'semantic/bovine/c)
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
              "/usr/lib/clang/5.0.0/include/stddef.h")
 
-(defhydra hydra-gud (:color amaranth :columns 5 :hint nil)
-  "gdb/gud"
-  ("g"      gdb "gdb")
-  ("r"      gdb-restore-windows "restore")
+(defhydra hydra-gdb (:color amaranth :columns 5 :hint nil)
+  "gdb"
+  ("g"      gdb blue"gdb")
 
   ("h"      backward-char )
   ("j"      next-line )
@@ -39,7 +37,6 @@ Also, resize somewhat. Really hacky :D"
 
   ("t"      gud-tbreak )
   ("SPC"    gud-break   "break")
-  ("l"      gud-remove  "clear")
   ("p"      gud-print   "print ")
   ("m"      gud-until   "move")
   ("n"      gud-next    "next")
@@ -51,12 +48,13 @@ Also, resize somewhat. Really hacky :D"
   ("u"      gud-up      "up")
   ("d"      gud-down    "down")
   ("w"      gud-watch   "watch")    ;; todo completing read
-  ("z"      switch-to-gud-cmd "cmd")
-  ("iv"     (gud-basic-call "info variables") "info vars")
-  ("ir"     (gud-basic-call "info registers") "info regs")
-  ("bm"     (gud-basic-call "b main") "b main")
-  ("bs"     (gud-basic-call "save breakpoints gdb_breaks") "save breaks")
-  ("bl"     (gud-basic-call "source gdb_breaks") "load breaks")
+
+  ("iv"     (gud-basic-call "info variables")               "info vars")
+  ("ir"     (gud-basic-call "info registers")               "info regs")
+  ("bm"     (gud-basic-call "b main")                       "break main")
+  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")  "save breaks")
+  ("bl"     (gud-basic-call "source .gdb_breaks")            "load breaks")
+  ("bl"     gud-remove  "clear")
 
   ("C-a"    xah-beginning-of-line-or-block)
   ("C-e"    xah-end-of-line-or-block)
@@ -64,6 +62,7 @@ Also, resize somewhat. Really hacky :D"
   ("M-c"    compile "compile")
   ("M-r"    recompile "recompile")
 
+  ("C-p"    previous-buffer "prev-buffer")
   ("C-k"    windmove-up)
   ("C-j"    windmove-down)
   ("C-h"    windmove-left)
@@ -73,14 +72,14 @@ Also, resize somewhat. Really hacky :D"
               (gud-basic-call "quit")
               (delete-window)) :color blue
               "exit")
-  ("q"      nil "quit"))
+  ("q"      nil "quit hydra"))
 
 
 (defun benjamin/flycheck-list-errors ()
-  (interactive)
   "List errors in a separate window, decrease the size."
+  (interactive)
   (flycheck-list-errors)
-  (enlarge-window 20)
+  (enlarge-window 25)
   (hydra-errgo/body))
 
 (define-key c-mode-base-map (kbd "M-e") nil)
@@ -96,8 +95,8 @@ Also, resize somewhat. Really hacky :D"
 (define-key c-mode-base-map (kbd "C-c C-w") 'senator-kill-tag)
 (define-key c-mode-map (kbd "C-c f") 'benjamin/flycheck-list-errors)
 
-(define-key c-mode-base-map (kbd "M-c") 'hydra-gud/body)
-(define-key gud-mode-map (kbd "M-c") 'hydra-gud/body)
+(define-key c-mode-base-map (kbd "M-c") 'hydra-gdb/body)
+(define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body)
 
 (define-key c-mode-map  [(tab)] 'company-complete)
 (define-key c++-mode-map  [(tab)] 'company-complete)

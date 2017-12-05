@@ -1,4 +1,6 @@
-;;; package --- Summary
+(package-initialize)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -16,6 +18,7 @@
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
+ '(company-auto-complete-chars nil)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
@@ -104,7 +107,7 @@
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
  '(package-selected-packages
    (quote
-    (org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -235,7 +238,9 @@
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(package-initialize)
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+
+
 
 (add-to-list 'package-archives '("marmalade" .
                                  "http://marmalade-repo.org/packages/"))
@@ -261,6 +266,8 @@
 (require 'wgrep)
 (require 'function-args)
 (require 'org-trello)
+(setq org-trello-current-prefix-keybinding (kbd "C-c o"))
+
 ;; (fa-config-default) ;; stop stealing my bindings
 
 (setq scroll-margin 2)
@@ -307,7 +314,7 @@
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
 (auto-dim-other-buffers-mode 1)
-(setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
 (eval-after-load 'flycheck
@@ -387,7 +394,6 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/hydra-jumper.el")
-(load "~/.emacs.d/guide-key-custom.el")
 (load "~/.emacs.d/git-custom.el")
 ;; (load "~/.emacs.d/irony-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
@@ -408,9 +414,13 @@ This function is suitable to add to `find-file-hook'."
 (defun message-buffer-file-name-or-nothing ()
   "Mode line proxy."
   (if buffer-file-name
-      (message "[%s] %s"
+      (message "[%s] (%s:%s) %s"
            (format-time-string "%H:%M:%S")
-           (buffer-file-name)))
+           (string-to-number (format-mode-line "%l"))
+           (current-column)
+           (buffer-file-name)
+           )
+    (message "[%s]" (format-time-string "%H:%M:%S")))
   )
 
 ;; Get the modeline proxy to work with i3 switch focus
@@ -422,13 +432,8 @@ This function is suitable to add to `find-file-hook'."
 (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
 
 
-
-
 (condition-case nil
     (kill-buffer "*scratch*")
-  (error nil))
-(condition-case nil
-    (kill-buffer "*CEDET Global*")
   (error nil))
 
 (provide '.emacs)
