@@ -265,10 +265,11 @@
 (require 'volatile-highlights)
 (require 'wgrep)
 (require 'function-args)
+;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
+
 (require 'org-trello)
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
-
-;; (fa-config-default) ;; stop stealing my bindings
+(custom-set-variables '(org-trello-files '("~/.org/mf/trello.org")))
 
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))

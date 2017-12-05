@@ -209,17 +209,6 @@
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
 
-(defun goto-line-with-feedback (&optional line)
-  "Show line numbers temporarily, while prompting for the line number input"
-  (interactive "P")
-  (if line
-      (goto-line line)
-    (unwind-protect
-        (progn
-          (linum-mode 1)
-          (goto-line (read-number "Goto line: ")))
-      (linum-mode -1))))
-
 (defvar benjamin/last-char-forward-jumped-to nil)
 (defvar benjamin/last-char-backward-jumped-to nil)
 

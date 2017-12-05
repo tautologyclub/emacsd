@@ -55,10 +55,15 @@
 (global-unset-key (kbd "C-x $"))
 (global-unset-key (kbd "C-<f10>"))
 
+;; C-q is nicer than C-c. Quoted insert moved somewhere else
+(keyboard-translate ?\C-q ?\C-c)
+
 
 
 (eval-after-load "undo-tree-mode"
   (define-key undo-tree-map (kbd "C-x r") nil))
+(eval-after-load "undo-tree-mode"
+  (define-key undo-tree-map (kbd "C-_") nil))
 
 
 ;; beautiful xcape hacks
@@ -83,8 +88,6 @@
 
 
 ;; C
-(keyboard-translate ?\C-q ?\C-c)
-;; (global-set-key (kbd "C-q") 'quoted-insert)
 (global-set-key (kbd "C-w") 'kill-region)
 (global-set-key (kbd "C-e") 'xah-end-of-line-or-block)
     (global-set-key (kbd "C-S-e") (lambda () (interactive)
@@ -135,28 +138,30 @@
 
 
 ;; M
-;; (global-set-key (kbd "M-q") nil)                 ;; todo
+;; (global-set-key (kbd "M-q") nil)                                     ;; todo
 (global-set-key (kbd "M-w") 'kill-ring-save)
 (global-set-key (kbd "M-e") 'forward-char)
 (global-set-key (kbd "M-r") 'benjamin/backward-kill-word)
 (global-set-key (kbd "M-t") 'lispy-kill-at-point)
 (global-set-key (kbd "M-y") 'counsel-yank-pop)
 (global-set-key (kbd "M-u") 'hydra-undo-tree/undo-tree-undo)
-(global-set-key (kbd "M-i") 'ivy-resume)
+(global-set-key (kbd "M-i") 'ivy-resume)                                ;; todo
 (global-set-key (kbd "M-o") 'other-window-or-frame)
 (global-set-key (kbd "M-p") 'exchange-point-and-mark-and-deactive)      ;; todo
 
 (global-set-key (kbd "M-a") 'backward-char)
 (global-set-key (kbd "M-s") nil)
+    (global-set-key (kbd "M-s e") nil)
+        (global-set-key (kbd "M-s eb") 'eval-buffer)
+        (global-set-key (kbd "M-s er") 'eval-region)
     (global-set-key (kbd "M-s M-s") 'save-buffer)
     (global-set-key (kbd "M-s M-f") 'counsel-find-file)
-    (global-set-key (kbd "M-s M-k") nil)
-    (global-set-key (kbd "M-s eb") 'eval-buffer)
-    (global-set-key (kbd "M-s er") 'eval-region)
+    (global-set-key (kbd "M-s M-k") nil)                                ;; todo
     (global-set-key (kbd "M-s M-d") 'delete-window)
     (global-set-key (kbd "M-s M-p") 'counsel-projectile)
     (global-set-key (kbd "M-s M-g") 'get-term)
     (global-set-key (kbd "M-s M-t") 'multi-term)
+    (global-set-key (kbd "M-s M-e") 'eshell)
     (global-set-key (kbd "M-s M-b") 'bury-buffer)
     (global-set-key (kbd "M-s o") 'find-file-other-window)
     (global-set-key (kbd "M-s M-u M-d M-o") 'sudo-edit-current)
@@ -222,6 +227,7 @@
 (global-set-key (kbd "C-x f") 'hydra-errgo/next-error)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x h") help-map)
+    (global-set-key (kbd "C-x h u") 'counsel-unicode-char)
 (global-set-key (kbd "C-x k") 'volatile-kill-buffer)
 (global-set-key (kbd "C-x l") 'counsel-locate)
 (global-set-key (kbd "C-x h b") 'counsel-descbinds)
@@ -234,12 +240,16 @@
 
 ;; C-c
 ;; (global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
-(global-set-key (kbd "C-c E f") 'ediff-files)
-(global-set-key (kbd "C-c E b") 'ediff-buffers)
-(global-set-key (kbd "C-c E d") 'ediff-directories)
+(global-set-key (kbd "C-c q") 'quoted-insert)
+
+(global-set-key (kbd "C-c E") nil)
+    (global-set-key (kbd "C-c E f") 'ediff-files)
+    (global-set-key (kbd "C-c E b") 'ediff-buffers)
+    (global-set-key (kbd "C-c E d") 'ediff-directories)
+    (global-set-key (kbd "C-c E m f") 'ediff-merge-files)
+    (global-set-key (kbd "C-c E m b") 'ediff-merge-buffers)
 (global-set-key (kbd "C-c C-d") 'duplicate-current-line-or-region)
 (global-set-key (kbd "C-c C-c") 'compile)
-(global-set-key (kbd "C-c \"") 'quoted-insert)
 
 (global-set-key (kbd "C-c k") nil)
     (global-set-key (kbd "C-c ks") 'set-kblayout-swedish)
