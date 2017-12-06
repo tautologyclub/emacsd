@@ -9,16 +9,18 @@
   (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
 
 (defun forward-to-char-after-ws ()
-  "docstring"
+  "Wow, docstring."
   (interactive)
   (fastnav-search-char-forward 1 ? )
   (forward-char)
-  (if (looking-at " ")
-      (forward-to-word 1))
+  (if (looking-at "[[:space:]]")
+      (forward-to-word 1)
+      ;; (forward-to-char-after-ws)
+    )
   )
 
 (defun backward-to-char-before-ws ()
-  "docstring"
+  "Here's my docstring."
   (interactive)
   (while (not (looking-at "[[:space:]]"))
     (backward-char))
@@ -48,8 +50,7 @@
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
                                                       activate)
   "Asdf.  Aaa..."
-  (if (called-interactively-p interactive)
-      (setq deactivate-mark nil)))
+      (setq deactivate-mark nil))
 
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
@@ -361,5 +362,3 @@ Position the cursor at it's beginning, according to the current mode."
   (newline-and-indent)
   (forward-line -1)
   (indent-according-to-mode))
-
-(global-set-key [(control shift return)] 'smart-open-line-above)

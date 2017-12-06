@@ -1,5 +1,18 @@
-(package-initialize)
 
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+  (add-to-list 'package-archives (cons "melpa" url) t))
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+(add-to-list 'package-archives '("marmalade" .
+                                 "http://marmalade-repo.org/packages/"))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path "~/.emacs.d/lisp/helm/")
+(package-initialize)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -19,6 +32,10 @@
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
  '(company-auto-complete-chars nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 9)
+ '(company-tooltip-idle-delay 0.5)
+ '(company-tooltip-limit 20)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
@@ -74,6 +91,7 @@
  '(org-agenda-files nil)
  '(org-log-done (quote time))
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
+ '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
     (slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
@@ -148,10 +166,13 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#242b2d" :foreground "#c4c4c4"))))
+ '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
+ '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
+ '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
- '(hl-line ((t (:background "#101010"))))
+ '(hl-line ((t (:background "#303a3d"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
@@ -161,25 +182,6 @@
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
  '(term-color-red ((t (:background "red3" :foreground "indian red")))))
 
-;; Package managing
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-
-
-
-(add-to-list 'package-archives '("marmalade" .
-                                 "http://marmalade-repo.org/packages/"))
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(add-to-list 'load-path "~/.emacs.d/lisp/helm/")
-
-(package-initialize)
 
 (defmacro csetq (variable value)
   "Abo-abo weird macro.  Look at VARIABLE and VALUE, wow."
@@ -197,11 +199,12 @@
 (require 'volatile-highlights)
 (require 'wgrep)
 (require 'function-args)
+(require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
 (require 'org-trello)
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
-(custom-set-variables '(org-trello-files '("~/.org/mf/trello.org")))
+
 
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -211,12 +214,22 @@
 (setq save-interprogram-paste-before-kill t)
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
-
 (setq inhibit-splash-screen t)
 (setq backup-directory-alist `(("." . "~/.saves")))
-    (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 (setq scroll-preserve-screen-position nil)
+(setq backup-by-copying t      ; don't clobber symlinks
+      backup-directory-alist
+      '(("." . "~/.saves"))    ; don't litter my fs tree
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)       ; use versioned backups
+(setq select-enable-clipboard t)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(yas-global-mode 1)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)
 (volatile-highlights-mode t)
@@ -227,28 +240,16 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-init-hook 'global-company-mode)
-;; (add-hook 'prog-mode-hook 'nlinum-mode)
-;; (add-hook 'prog-mode-hook 'hl-line-mode)
-;; (add-hook 'prog-mode-hook 'fci-mode)
-;; (add-hook 'org-mode-hook 'fci-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (electric-pair-mode)
 (projectile-global-mode t)
-(setq backup-by-copying t      ; don't clobber symlinks
-      backup-directory-alist
-      '(("." . "~/.saves"))    ; don't litter my fs tree
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)       ; use versioned backups
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
 (auto-dim-other-buffers-mode 1)
-(setq select-enable-clipboard t)
-(fset 'yes-or-no-p 'y-or-n-p)
+(counsel-projectile-on)
 
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
@@ -301,8 +302,6 @@ This function is suitable to add to `find-file-hook'."
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
 (find-file "~/.org/emacs.org")
-(find-file "~/.org/work.org")
-(find-file "~/.org/home.org")
 (find-file "~/.emacs.d/init.el")
 
 ;; ugly load
@@ -321,7 +320,6 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/ggtags-custom.el")
 (load "~/.emacs.d/fci-custom.el")
 ;; (load "~/.emacs.d/helm-swoop-custom.el")
-;; (load "~/.emacs.d/tmp-crux.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
@@ -337,12 +335,9 @@ This function is suitable to add to `find-file-hook'."
                              "~/.org/reac.org"
                              "~/.org/unjo.org"
                              "~/.org/home.org"))
-(require 'yasnippet)
-(yas-global-mode 1)
 
-(make-variable-buffer-local 'compile-command)
+(make-variable-buffer-local 'compile-command) ;; todo
 
-(counsel-projectile-on)
 
 (defun message-buffer-file-name-or-nothing ()
   "Mode line proxy."
