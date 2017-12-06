@@ -42,7 +42,7 @@
   ("j"   next-line)
   ("k"   previous-line)
   ("l"   forward-char)
-  ("L"   recenter-top-to-bottom             "recener")
+  ("L"   recenter-top-bottom             "recenter")
 
   ;; ("z"   avy-goto-word-1-above)
   ;; ("x"   nil)

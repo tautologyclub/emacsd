@@ -117,8 +117,7 @@ URL `http://ergoemacs.org/emacs/emacs_keybinding_design_beginning-of-line-or-blo
 Version 2017-05-13"
   (interactive)
   (let (($p (point)))
-    (if (or (equal (point) (line-beginning-position))
-            (equal last-command this-command ))
+    (if (equal (point) (line-beginning-position))
         (if (backward-paragraph)
             (progn
               (skip-chars-backward "\n\t ")
