@@ -7,7 +7,6 @@
 (defhydra hydra-nav (:color yellow
                      :hint nil
                      :pre (progn
-                            (overwrite-mode -1)
                             (delete-selection-mode nil)
                             (set-mark-if-inactive)
                             (set-cursor-color "#FF0000")
@@ -21,18 +20,18 @@
   "--- nav -----------------------------------------------------------------------"
 
   ("q"   keyboard-quit                      "quit "     :color blue)
-  ("w"   (transpose-words -1)                        "trsp word <")
-  ("W"   (transpose-words 1)                        "trsp word >")
+  ("z"   (transpose-words -1)               "flip word <")
+  ("Z"   (transpose-words 1)                "flip word >")
   ("e"   xah-end-of-line-or-block       "eol")
   ;; ("r"   nil)  ;; todo
   ("y"   yank                           "yank")
-  ("t"   (transpose-chars -1)                    "trsp char <")
-  ("T"   (transpose-chars 1)                    "trsp char >")
+  ("t"   (transpose-chars -1)               "flip char <")
+  ("T"   (transpose-chars 1)                "flip char >")
   ("u"   undo-tree-undo                     "undo")
   ("U"   undo-tree-redo                     "redo")
   ;; ("i"   nil)  ;; todo
   ;; ("o"   nil)  ;; todo
-  ("p"   transpose-params                   "trsp param")  ;; todo
+  ("p"   transpose-params                   "flip param")  ;; todo
 
   ("a"   xah-beginning-of-line-or-block "bol")
   ("s"   swiper                             "swipe")
@@ -43,16 +42,19 @@
   ("j"   next-line)
   ("k"   previous-line)
   ("l"   forward-char)
+  ("L"   recenter-top-to-bottom             "recener")
 
   ;; ("z"   avy-goto-word-1-above)
   ;; ("x"   nil)
   ;; ("v"   scroll-down-half)
   ("b"   benjamin/jump-char-bwd             "jump bwd")
-  ("n"   left-word)
-  ("m"   forward-to-word)
+  ;; ("n"   left-word)
+  ("m" (lambda () (interactive)
+               (keyboard-quit)
+               (hydra-nav/body))            "new mark")
   (","   highlight-region                   "highlight")
   ("<"   highlight-clear                    "hl clear")
-  ("."   exchange-point-and-mark            "flip p/mark")
+  ("."   exchange-point-and-mark            "xch p/m")
 
   ("A"   back-to-indentation)
   ("="   er/expand-region)
@@ -64,11 +66,7 @@
   ("]"   (fastnav-search-char-backward 1 ?]))
   ("{"   (fastnav-search-char-forward 1 ?{))
   ("}"   (fastnav-search-char-backward 1 ?}))
-  ("SPC"   (fastnav-search-char-forward 1 ? ))
-
-  ("C-g" (lambda () (interactive)
-           (keyboard-quit)
-           (hydra-nav/body))                "unmark")
+  ("SPC"   forward-to-char-after-ws)
   ("C-x a" simplified-beginning-of-buffer)
   ("C-x e" simplified-end-of-buffer)
 

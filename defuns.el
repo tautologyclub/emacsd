@@ -1,3 +1,32 @@
+;; helps when you run us keyboard layout without a right bracket :P
+(defun set-kblayout-swedish ()
+  "Set layout to swedish."
+  (interactive)
+  (shell-command "setxkbmap -layout se"))
+(defun set-kblayout-benjamin ()
+  "Set layout to benjaminish."
+  (interactive)
+  (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
+
+(defun forward-to-char-after-ws ()
+  "docstring"
+  (interactive)
+  (fastnav-search-char-forward 1 ? )
+  (forward-char)
+  (if (looking-at " ")
+      (forward-to-word 1))
+  )
+
+(defun backward-to-char-before-ws ()
+  "docstring"
+  (interactive)
+  (while (not (looking-at "[[:space:]]"))
+    (backward-char))
+  (backward-char)
+  (if (looking-at "[[:space:]]")
+      (backward-to-char-before-ws))
+  )
+
 ;; kill current line if no region active
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
@@ -179,17 +208,6 @@
   (interactive)
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
-
-(defun goto-line-with-feedback (&optional line)
-  "Show line numbers temporarily, while prompting for the line number input"
-  (interactive "P")
-  (if line
-      (goto-line line)
-    (unwind-protect
-        (progn
-          (linum-mode 1)
-          (goto-line (read-number "Goto line: ")))
-      (linum-mode -1))))
 
 (defvar benjamin/last-char-forward-jumped-to nil)
 (defvar benjamin/last-char-backward-jumped-to nil)
