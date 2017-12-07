@@ -139,7 +139,7 @@
 (global-set-key (kbd "C-s") 'swiper)
 (global-set-key (kbd "C-S-s") 'swiper-all)
 (global-set-key (kbd "C-d") 'delete-char)
-(global-set-key ((kbd "") "C-S-d") 'hungry-delete-forward)
+(global-set-key (kbd "C-S-d") 'hungry-delete-forward)
 (global-set-key (kbd "C-f") 'benjamin/jump-char-fwd)
 (global-set-key (kbd "C-g") 'keyboard-quit)
 (global-set-key (kbd "C-h") 'backward-char)

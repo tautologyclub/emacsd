@@ -309,7 +309,7 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (electric-pair-mode)
-(projectile-global-mode t)
+(projectile-mode t)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
@@ -358,6 +358,7 @@ This function is suitable to add to `find-file-hook'."
 
 ;; annoying fix for flymake error messages
 (defun my-flymake-show-help ()
+  "Don't remember why this is necessary..."
   (when (get-char-property (point) 'flymake-overlay)
     (let ((help (get-char-property (point) 'help-echo)))
       (if help (message "%s" help)))))
@@ -418,8 +419,8 @@ This function is suitable to add to `find-file-hook'."
     (message "[%s]" (format-time-string "%H:%M:%S")))
   )
 
-;; Get the modeline proxy to work with i3 switch focus
 (defadvice handle-switch-frame (around switch-frame-message-name)
+  "Get the modeline proxy to work with i3 switch focus."
   (message-buffer-file-name-or-nothing)
   ad-do-it
   (message-buffer-file-name-or-nothing))

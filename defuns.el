@@ -87,7 +87,6 @@
   "Move the current line down by N lines."
   (interactive "p")
   (move-line (if (null n) 1 n)))
-e
 
 (defun backward-kill-char-or-word ()
   "Not kill entire word if newline or backspace."
