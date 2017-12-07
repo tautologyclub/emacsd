@@ -124,12 +124,12 @@ Also, resize somewhat. Really hacky :D"
 (setq company-backends
                  '((
                     company-irony
-                    ;; company-semantic
+                    company-semantic
                     company-files
                     company-cmake
-                    ;; company-keywords
-                    ;; company-gtags
-                    company-capf
+                    company-keywords
+                    company-gtags
+                    ;; company-capf
                     )))
 ;; fixme make company mode-local
 
