@@ -19,7 +19,6 @@ Also, resize somewhat. Really hacky :D"
   (hydra-errgo/body)
   )
 
-
 (semanticdb-enable-gnu-global-databases 'c-mode)
 (semanticdb-enable-gnu-global-databases 'c++-mode)
 (require 'semantic/bovine/c)
@@ -115,24 +114,40 @@ Also, resize somewhat. Really hacky :D"
 (add-hook 'c++-mode-hook 'flycheck-mode)
 
 (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
-(add-hook 'c-mode-common-hook
-          (lambda ()
-            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-              (setenv "GTAGSLIBPATH" "$GTAGSLIBPATH:~/workspace/reac/inc/")
-              (helm-gtags-mode 1))))
+;; (add-hook 'c-mode-common-hook
+;;           (lambda ()
+;;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+;;               (setenv "GTAGSLIBPATH" "$GTAGSLIBPATH:~/workspace/reac/inc/")
+;;               (helm-gtags-mode 1))))
 
 (require 'company)
 (setq company-backends
                  '((
                     company-irony
-                    ;; company-semantic
+                    company-semantic
                     company-files
                     company-cmake
-                    ;; company-keywords
-                    ;; company-gtags
-                    company-capf
+                    company-keywords
+                    company-gtags
+                    ;; company-capf
                     )))
 ;; fixme make company mode-local
+
+(setq helm-gtags-auto-update t)             ;; feel this one out.
+(setq helm-gtags-use-input-at-cursor t)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -66,6 +66,7 @@
 
 (defun benjamin/jump-char-fwd (arg)
   (interactive "p")
+  (push-mark)
   (if (or (equal last-command this-command)
           (eq last-command 'fastnav-jump-to-char-forward))
       (fastnav-search-char-forward 1 benjamin/last-char-forward-jumped-to)
@@ -77,6 +78,7 @@
 
 (defun benjamin/jump-char-bwd (arg)
   (interactive "p")
+  (push-mark)
   (if (or (equal last-command this-command)
           (eq last-command 'fastnav-jump-to-char-forkward))
       (fastnav-search-char-forward -1 benjamin/last-char-backward-jumped-to)
@@ -88,8 +90,7 @@
 
 (defun benjamin/set-mark-command ()
   (interactive)
-  (if (region-active-p)
-      ()
+  (if (region-active-p) ()
     (set-mark-command nil))
   )
 
