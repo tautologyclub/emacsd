@@ -20,8 +20,8 @@
 (setq elpy-rpc-backend "jedi")
 (elpy-enable)
 
-(setq python-shell-interpreter "ipython"
-      python-shell-interpreter-args "-i")
+;; (setq python-shell-interpreter "ipython"
+;;       python-shell-interpreter-args "-i")
 
 (provide 'python-custom)
 ;;; python-custom ends here
