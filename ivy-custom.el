@@ -6,7 +6,7 @@
 (ivy-mode t)
 
 (setq ivy-use-virtual-buffers t)
-;; (setq ivy-count-format "(%d/%d)") ;; meh
+(setq ivy-count-format "%d/%d - ")
 (setq ivy-wrap t)
 (setq ivy-use-selectable-prompt t)
 (setq magit-completing-read-function 'ivy-completing-read)
