@@ -1,4 +1,6 @@
 (require 'projectile)
+(require 'ivy)
+(setq projectile-completion-system 'ivy)
 
 (defun projectile-get-term ()
   "Get dedicated multi-term in project root"

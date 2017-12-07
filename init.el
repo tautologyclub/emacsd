@@ -1,3 +1,22 @@
+
+;; Package managing
+(require 'package)
+(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
+                    (not (gnutls-available-p))))
+       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
+  (add-to-list 'package-archives (cons "melpa" url) t))
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+
+
+
+(add-to-list 'package-archives '("marmalade" .
+                                 "http://marmalade-repo.org/packages/"))
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path "~/.emacs.d/lisp/helm/")
+
 (package-initialize)
 
 
@@ -105,9 +124,10 @@
  '(org-agenda-files nil)
  '(org-log-done (quote time))
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
+ '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -119,6 +139,7 @@
  '(projectile-mode-line "PROJECTILE")
  '(python-indent-guess-indent-offset t)
  '(python-indent-guess-indent-offset-verbose nil)
+ '(python-pylint-command "pylint+ 2")
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
@@ -229,26 +250,6 @@
  '(term-color-red ((t (:background "red3" :foreground "indian red"))))
  '(whitespace-line ((t (:foreground "dark magenta")))))
 
-;; Package managing
-(require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(when (< emacs-major-version 24)
-  ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-
-
-
-(add-to-list 'package-archives '("marmalade" .
-                                 "http://marmalade-repo.org/packages/"))
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-(add-to-list 'load-path "~/.emacs.d/lisp/helm/")
-
-(package-initialize)
-
 (defmacro csetq (variable value)
   "Abo-abo weird macro.  Look at VARIABLE and VALUE, wow."
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
@@ -269,8 +270,9 @@
 
 (require 'org-trello)
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
-(custom-set-variables '(org-trello-files '("~/.org/mf/trello.org")))
 
+
+(window-divider-mode -1)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
 (setq tab-width 4)
