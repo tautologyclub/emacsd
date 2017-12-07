@@ -4,73 +4,92 @@
   (if (not (region-active-p))
       (set-mark-command nil)))
 
+(hl-line-mode t)
+
+
+(require 'elpy)
 (defhydra hydra-nav (:color yellow
                      :hint nil
                      :pre (progn
                             (delete-selection-mode nil)
                             (set-mark-if-inactive)
                             (set-cursor-color "#FF0000")
+                            (hl-line-mode -1)
+                            (setq shift-select-mode nil)
                             (message-buffer-file-name-or-nothing))
                      :post (progn
+                             (setq shift-select-mode t)
                              (delete-selection-mode t)
                              (set-cursor-color "#16A085")
+                             (hl-line-mode t)
                              )
-                     :columns 4
+                     :columns 5
                      )
   "--- nav -----------------------------------------------------------------------"
 
-  ("q"   keyboard-quit                      "quit "     :color blue)
-  ("z"   (transpose-words -1)               "flip word <")
-  ("Z"   (transpose-words 1)                "flip word >")
-  ("e"   xah-end-of-line-or-block           "eol")
+  ("a"      xah-beginning-of-line-or-block      "bol")
+  ("u"      undo-tree-undo                      "undo")
+  ("t"      (transpose-chars -1)                "flip char")
+  ("z"      (transpose-words -1)                "flip word")
+  ("y"      yank                                "yank")
+  ("e"      xah-end-of-line-or-block            "eol")
+  ("U"      undo-tree-redo                      "redo")
+  ("T"      (transpose-chars 1)                 "rflip char")
+  ("Z"      (transpose-words 1)                 "rflip word")
+  ("P"      transpose-params                    "flip param")
+  ("o"      smart-open-line-above               "open above")
+  ("s"      swiper                              "swipe")
+
+  ("f"      benjamin/jump-char-fwd              "jump fwd")
+  ("g"      avy-goto-char                       "avy-char")
+  ("v"      scroll-down-half)
+  ("h"      backward-char)
+  ("j"      next-line)
+  ("k"      previous-line)
+  ("l"      forward-char)
+
+  ("p"      exchange-point-and-mark             "xch p/m")
+  ("w"      kill-region                         "kill")
+
+  ("d"      duplicate-current-line-or-region    "dupl")
+  ("c"      comment-or-uncomment-region-or-line "comment")  ;; todo
   ;; ("r"   nil)  ;; todo
-  ("y"   yank                               "yank")
-  ("t"   (transpose-chars -1)               "flip char <")
-  ("T"   (transpose-chars 1)                "flip char >")
-  ("u"   undo-tree-undo                     "undo")
-  ("U"   undo-tree-redo                     "redo")
   ;; ("i"   nil)  ;; todo
-  ;; ("o"   nil)  ;; todo
-  ("p"   transpose-params                   "flip param")  ;; todo
-
-  ("a"   xah-beginning-of-line-or-block     "bol")
-  ("s"   swiper                             "swipe")
-  ("d"   (up-list 1))
-  ("f"   benjamin/jump-char-fwd             "jump fwd")
-  ("g"   avy-goto-char                      "avy-char")
-  ("h"   backward-char)
-  ("j"   next-line)
-  ("k"   previous-line)
-  ("l"   forward-char)
-  ("L"   recenter-top-to-bottom             "recener")
-
-  ;; ("z"   avy-goto-word-1-above)
   ;; ("x"   nil)
-  ;; ("v"   scroll-down-half)
-  ("b"   benjamin/jump-char-bwd             "jump bwd")
   ;; ("n"   left-word)
-  ("m" (lambda () (interactive)
-               (keyboard-quit)
-               (hydra-nav/body))            "new mark")
-  (","   highlight-region                   "highlight")
-  ("<"   highlight-clear                    "hl clear")
-  ("."   exchange-point-and-mark            "xch p/m")
 
-  ("A"   back-to-indentation)
-  ("="   er/expand-region)
-  ("-"   er/contract-region)
+  ("H"      mark-paragraph)
+  ("L"      recenter-top-bottom                 "recenter")
+  ("C-h"    elpy-nav-indent-shift-left)
+  ("C-j"    elpy-nav-move-line-or-region-down)
+  ("C-k"    elpy-nav-move-line-or-region-up)
+  ("C-l"    elpy-nav-indent-shift-right)
+  ("b"      benjamin/jump-char-bwd             "jump bwd")
+  ("m"      (lambda () (interactive)
+              (keyboard-quit)
+              (hydra-nav/body))                 "new mark")
+  ;; ("."      exchange-point-and-mark)
+  ;; ("]"      exchange-point-and-mark)
 
-  ("("   (fastnav-search-char-forward 1 ?())  ;; fantastic, should bind more of these
-  (")"   (fastnav-search-char-backward 1 ?)))
-  ("["   (fastnav-search-char-forward 1 ?[))
-  ("]"   (fastnav-search-char-backward 1 ?]))
-  ("{"   (fastnav-search-char-forward 1 ?{))
-  ("}"   (fastnav-search-char-backward 1 ?}))
-  ("SPC"   forward-to-char-after-ws)
-  ("C-x a" simplified-beginning-of-buffer)
-  ("C-x e" simplified-end-of-buffer)
+  ("q"      (lambda () (interactive)
+              (deactivate-mark)
+              (keyboard-quit))                  "quit" :color blue)
+  ("C-g"    (lambda () (interactive)
+              (deactivate-mark)
+              (keyboard-quit)) :color blue)
+  (","      highlight-region)
+  ("<"      highlight-clear)
 
-  ("<f9>" nil))
+  ("="      er/expand-region)
+  ("-"      er/contract-region)
+
+  ("("      (fastnav-search-char-forward 1 ?())  ;; cool
+  (")"      (fastnav-search-char-forward 1 ?)))
+  ("SPC"    forward-to-char-after-ws)
+  ("C-x a"  simplified-beginning-of-buffer)
+  ("C-x e"  simplified-end-of-buffer)
+
+  ("<f9>"   nil))
 
 
 

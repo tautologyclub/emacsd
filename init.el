@@ -1,5 +1,4 @@
 
-;; Package managing
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -9,16 +8,11 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
-
-
-
 (add-to-list 'package-archives '("marmalade" .
                                  "http://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
-
 (package-initialize)
-
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -38,6 +32,10 @@
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
  '(company-auto-complete-chars nil)
+ '(company-idle-delay 0)
+ '(company-minimum-prefix-length 9)
+ '(company-tooltip-idle-delay 0.5)
+ '(company-tooltip-limit 20)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
@@ -71,7 +69,7 @@
  '(helm-descbinds-mode t)
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
- '(helm-mode nil)
+ '(helm-mode t)
  '(helm-swoop-split-direction (quote split-window-vertically))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -143,11 +141,9 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((projectile-project-compilation-cmd . "make package install")
+    ((irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
      (company-clang-arguments . irony-additional-clang-options)
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" " -D DEBUG=1")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" " -D DEBUG")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
@@ -223,7 +219,7 @@
    (quote
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(wgrep-auto-save-buffer t)
- '(windmove-wrap-around t)
+ '(windmove-wrap-around nil)
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -235,10 +231,13 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#242b2d" :foreground "#c4c4c4"))))
+ '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
+ '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
+ '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
- '(hl-line ((t (:background "#101010"))))
+ '(hl-line ((t (:background "#303a3d"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
@@ -266,6 +265,7 @@
 (require 'volatile-highlights)
 (require 'wgrep)
 (require 'function-args)
+(require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
 (require 'org-trello)
@@ -281,12 +281,22 @@
 (setq save-interprogram-paste-before-kill t)
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
-
 (setq inhibit-splash-screen t)
 (setq backup-directory-alist `(("." . "~/.saves")))
-    (setq auto-save-file-name-transforms
-          `((".*" ,temporary-file-directory t)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
 (setq scroll-preserve-screen-position nil)
+(setq backup-by-copying t      ; don't clobber symlinks
+      backup-directory-alist
+      '(("." . "~/.saves"))    ; don't litter my fs tree
+      delete-old-versions t
+      kept-new-versions 6
+      kept-old-versions 2
+      version-control t)       ; use versioned backups
+(setq select-enable-clipboard t)
+(fset 'yes-or-no-p 'y-or-n-p)
+
+(yas-global-mode 1)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)
 (volatile-highlights-mode t)
@@ -297,28 +307,16 @@
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'after-init-hook 'global-company-mode)
-;; (add-hook 'prog-mode-hook 'nlinum-mode)
-;; (add-hook 'prog-mode-hook 'hl-line-mode)
-;; (add-hook 'prog-mode-hook 'fci-mode)
-;; (add-hook 'org-mode-hook 'fci-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (electric-pair-mode)
 (projectile-global-mode t)
-(setq backup-by-copying t      ; don't clobber symlinks
-      backup-directory-alist
-      '(("." . "~/.saves"))    ; don't litter my fs tree
-      delete-old-versions t
-      kept-new-versions 6
-      kept-old-versions 2
-      version-control t)       ; use versioned backups
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
 (auto-dim-other-buffers-mode 1)
-(setq select-enable-clipboard t)
-(fset 'yes-or-no-p 'y-or-n-p)
+(counsel-projectile-on)
 
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
@@ -371,8 +369,6 @@ This function is suitable to add to `find-file-hook'."
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
 (find-file "~/.org/emacs.org")
-(find-file "~/.org/work.org")
-(find-file "~/.org/home.org")
 (find-file "~/.emacs.d/init.el")
 
 ;; ugly load
@@ -391,7 +387,6 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/ggtags-custom.el")
 (load "~/.emacs.d/fci-custom.el")
 ;; (load "~/.emacs.d/helm-swoop-custom.el")
-;; (load "~/.emacs.d/tmp-crux.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
@@ -407,12 +402,9 @@ This function is suitable to add to `find-file-hook'."
                              "~/.org/reac.org"
                              "~/.org/unjo.org"
                              "~/.org/home.org"))
-(require 'yasnippet)
-(yas-global-mode 1)
 
-(make-variable-buffer-local 'compile-command)
+(make-variable-buffer-local 'compile-command) ;; todo
 
-(counsel-projectile-on)
 
 (defun message-buffer-file-name-or-nothing ()
   "Mode line proxy."

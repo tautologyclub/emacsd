@@ -106,6 +106,13 @@
   (push-mark)
   (goto-char (point-min)))
 
+(defun indent-or-company-complete ()
+  "Complete if point is at end of a word, otherwise indent line."
+  (interactive)
+  (if (looking-at "\\>")
+      (company-complete)
+    (indent-for-tab-command)
+    ))
 
 (defun xah-beginning-of-line-or-block ()
   "Move cursor to beginning of line or previous paragraph.
@@ -117,8 +124,7 @@ URL `http://ergoemacs.org/emacs/emacs_keybinding_design_beginning-of-line-or-blo
 Version 2017-05-13"
   (interactive)
   (let (($p (point)))
-    (if (or (equal (point) (line-beginning-position))
-            (equal last-command this-command ))
+    (if (equal (point) (line-beginning-position))
         (if (backward-paragraph)
             (progn
               (skip-chars-backward "\n\t ")
@@ -166,6 +172,7 @@ there's a region, all lines that region covers will be duplicated."
         (goto-char end)
         (newline)
         (insert region)
+        (kill-ring-save beg end)
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 

@@ -73,3 +73,4 @@
 (define-key projectile-command-map (kbd "d") #'counsel-projectile-find-dir)
 (define-key projectile-command-map (kbd "g") #'counsel-projectile-git-grep)
 (define-key projectile-command-map (kbd "w") #'projectile-find-file-other-optimal-frame)
+(define-key projectile-command-map (kbd "q") #'projectile-replace)
