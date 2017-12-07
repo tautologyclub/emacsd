@@ -112,35 +112,36 @@
 ;; C
 (global-set-key (kbd "C-w") 'kill-region)
 (global-set-key (kbd "C-e") 'xah-end-of-line-or-block)
-    (global-set-key (kbd "C-S-e") (lambda () (interactive)
-                                    (benjamin/set-mark-command)
-                                    (xah-end-of-line-or-block)))
+(global-set-key (kbd "C-S-e") (lambda () (interactive)
+                                (benjamin/set-mark-command)
+                                (xah-end-of-line-or-block))) ;; hack
 (global-set-key (kbd "C-r") 'backward-delete-char)
-    (global-set-key (kbd "C-S-r") 'hungry-delete-backward)
-(global-set-key (kbd "C-t") nil)            ;; shit
+(global-set-key (kbd "C-S-r") 'hungry-delete-backward)
+(global-set-key (kbd "C-t") nil)
     (global-set-key (kbd "C-t t") 'multi-term)
     (global-set-key (kbd "C-t g") 'get-term)
     (global-set-key (kbd "C-t d") 'terminal-with-focus-below)
     (global-set-key (kbd "C-t p") 'projectile-get-term)
     (global-set-key (kbd "C-t e") 'eshell)
 (global-set-key (kbd "C-y") 'yank)
-;; (global-set-key (kbd "C-u") 'duplicate-current-line-or-region)          ;; todo
-;; (global-set-key (kbd "C-i) nil)
+(global-set-key (kbd "C-S-y") 'yank-after-cursor)
+;; (global-set-key (kbd "C-u") 'duplicate-current-line-or-region)           ;; todo
+;; (global-set-key (kbd "C-i) nil)                                          ;; fine
     (global-set-key (kbd "C-S-i") 'tab-to-tab-stop)
 (global-set-key (kbd "C-o") 'smart-open-line-above)
 (global-set-key (kbd "C-p") 'hippie-expand)                                 ;; toeval
-(define-key prog-mode-map (kbd "TAB") 'indent-or-company-complete)                    ;; toeval
+(define-key prog-mode-map (kbd "TAB") 'indent-or-company-complete)          ;; toeval
 
 (global-set-key (kbd "C-a") 'xah-beginning-of-line-or-block)
-    (global-set-key (kbd "C-S-a") (lambda () (interactive)
-                                    (benjamin/set-mark-command)
-                                    (xah-beginning-of-line-or-block)))
+(global-set-key (kbd "C-S-a") (lambda () (interactive)
+                                (benjamin/set-mark-command)
+                                (xah-beginning-of-line-or-block))) ;; hack
 (global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "C-S-s") 'swiper-all)
 (global-set-key (kbd "C-d") 'delete-char)
-(global-set-key (kbd "C-S-d") 'hungry-delete-forward)
+(global-set-key ((kbd "") "C-S-d") 'hungry-delete-forward)
 (global-set-key (kbd "C-f") 'benjamin/jump-char-fwd)
 (global-set-key (kbd "C-g") 'keyboard-quit)
-    (global-set-key (kbd "C-S-g") 'goto-line-with-feedback)
 (global-set-key (kbd "C-h") 'backward-char)
 (global-set-key (kbd "C-j") 'next-line)
 (global-set-key (kbd "C-k") 'previous-line)
@@ -150,7 +151,7 @@
 ;; (global-set-key (kbd "C-x") nil)
 ;; (global-set-key (kbd "C-c") nil)
 (global-set-key (kbd "C-v") 'hydra-vimish-fold/body)
-(global-set-key (kbd "C-S-v") 'vimish-fold)
+    (global-set-key (kbd "C-S-v") 'vimish-fold)
 (global-set-key (kbd "C-b") 'benjamin/jump-char-bwd)
 (global-set-key (kbd "C-n") 'lispy-forward)                         ;; todo
 ;; (global-set-key (kbd "C-m") nil)                                 ;; todo
@@ -172,7 +173,7 @@
 (global-set-key (kbd "M-u") 'hydra-undo-tree/undo-tree-undo)
 (global-set-key (kbd "M-i") 'ivy-resume)                                ;; todo
 (global-set-key (kbd "M-o") 'other-window-or-frame)
-(global-set-key (kbd "M-p") 'exchange-point-and-mark-and-deactive)      ;; todo
+(global-set-key (kbd "M-p") 'exchange-point-and-mark)
 
 (global-set-key (kbd "M-a") 'backward-char)
 (global-set-key (kbd "M-s") nil)
@@ -193,16 +194,15 @@
     (global-set-key (kbd "M-s M-u M-d M-o") 'sudo-edit-current)
 (global-set-key (kbd "M-d") 'benjamin/kill-word)
 (global-set-key (kbd "M-f") 'forward-to-word)
-;; (global-set-key (kbd "M-g") 'hydra-jumper/body)
-(global-set-key (kbd "M-h") 'hippie-expand)                    ;; todo:
+;; (global-set-key (kbd "M-h") 'hippie-expand)                    ;; todo
 (global-set-key (kbd "M-g") 'avy-goto-char)
 (global-set-key (kbd "M-j") 'avy-goto-word-1)
 (global-set-key (kbd "M-k") 'kill-line)
 (global-set-key (kbd "M-K") 'kill-line-save)
 
-(global-set-key (kbd "M-z") 'zap-up-to-char)                        ;; todo
+;; (global-set-key (kbd "M-z") 'zap-up-to-char)                        ;; todo
 (global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "M-v") 'scroll-down-half)      ;; todo
+;; (global-set-key (kbd "M-v") 'scroll-down-half)                      ;; todo
 (global-set-key (kbd "M-b") 'left-word)
 (global-set-key (kbd "M-n") 'hydra-errgo/next-error)
 (global-set-key (kbd "M-m") 'counsel-mark-ring)
@@ -218,6 +218,7 @@
 (global-set-key (kbd "C-S-o") 'previous-buffer)
 (global-set-key (kbd "C-S-p") 'next-buffer)
 
+(global-set-key (kbd "C-S-g") 'goto-line-with-feedback)
 (global-set-key (kbd "C-S-h") 'highlight-region)
     (global-set-key (kbd "C-x C-S-h") 'highlight-clear)
 (global-set-key (kbd "C-S-l") 'recenter-top-bottom)
@@ -236,46 +237,39 @@
 
 ;; C-x
 (global-set-key (kbd "C-x q") 'query-replace)
-    (global-set-key (kbd "C-x S-q") 'query-replace-regexp)
+(global-set-key (kbd "C-x S-q") 'query-replace-regexp)
 (global-set-key (kbd "C-x w") 'my-i3-make-frame)                ;; todo
 (global-set-key (kbd "C-x e") 'simplified-end-of-buffer)
 (global-set-key (kbd "C-x r") 'counsel-rg)
 (global-set-key (kbd "C-x C-r") (lambda () (interactive)
                                   (revert-buffer nil t)))
-(global-set-key (kbd "C-x t") 'transpose-chars)
 (global-set-key (kbd "C-x u") 'undo-tree-visualize)
-(global-set-key (kbd "C-x i") 'iedit-mode)                      ;; todo
+(global-set-key (kbd "C-x i") 'iedit-mode)
 (global-set-key (kbd "C-x o") 'occur-dwim)
 (global-set-key (kbd "C-x p") 'proced)
 
 (global-set-key (kbd "C-x a") 'simplified-beginning-of-buffer)
 (global-set-key (kbd "C-x s") 'save-buffer)                     ;; todo
 (global-set-key (kbd "C-x d") 'duplicate-current-line-or-region)
-(global-set-key (kbd "C-x f") 'hydra-errgo/next-error)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x h") help-map)
     (global-set-key (kbd "C-x h u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-x h b") 'counsel-descbinds)
 (global-set-key (kbd "C-x k") 'volatile-kill-buffer)
 (global-set-key (kbd "C-x l") 'counsel-locate)
-(global-set-key (kbd "C-x h b") 'counsel-descbinds)
 
 (global-set-key (kbd "C-x b") 'browse-url)
 
-(global-set-key (kbd "C-x C-x e") 'eval-buffer)
-(global-set-key (kbd "C-x C-x r") 'eval-region)
-
 
 ;; C-c
-;; (global-set-key (kbd "C-c e") 'hydra-errgo/next-error)
 (global-set-key (kbd "C-c q") 'quoted-insert)
 
-(global-set-key (kbd "C-c E") nil)
-    (global-set-key (kbd "C-c E f") 'ediff-files)
-    (global-set-key (kbd "C-c E b") 'ediff-buffers)
-    (global-set-key (kbd "C-c E d") 'ediff-directories)
-    (global-set-key (kbd "C-c E m f") 'ediff-merge-files)
-    (global-set-key (kbd "C-c E m b") 'ediff-merge-buffers)
-(global-set-key (kbd "C-c C-d") 'duplicate-current-line-or-region)
+(global-set-key (kbd "C-c e") nil)
+    (global-set-key (kbd "C-c e f") 'ediff-files)
+    (global-set-key (kbd "C-c e b") 'ediff-buffers)
+    (global-set-key (kbd "C-c e d") 'ediff-directories)
+    (global-set-key (kbd "C-c e m f") 'ediff-merge-files)
+    (global-set-key (kbd "C-c e m b") 'ediff-merge-buffers)
 (global-set-key (kbd "C-c C-c") 'compile)
 
 (global-set-key (kbd "C-c k") nil)
@@ -292,10 +286,10 @@
 (global-set-key (kbd "s-S") 'kmacro-end-macro)  ;; todo rebind s-s in macro mode
 (global-set-key (kbd "s-c") 'kmacro-call-macro)
 
-(global-set-key (kbd "s-j") nil)  ;; reserved
-(global-set-key (kbd "s-i") nil)  ;; reserved
-(global-set-key (kbd "s-k") nil)  ;; reserved
-(global-set-key (kbd "s-l") nil)  ;; reserved
+(global-set-key (kbd "s-j") nil)  ;; reserved for i3wm
+(global-set-key (kbd "s-i") nil)  ;; reserved for i3wm
+(global-set-key (kbd "s-k") nil)  ;; reserved for i3wm
+(global-set-key (kbd "s-l") nil)  ;; reserved for i3wm
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (global-set-key (kbd "s-D") (lambda () (interactive)
                               (dired-jump)
