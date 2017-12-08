@@ -212,6 +212,7 @@
 (global-set-key (kbd "C-M-k")   'elpy-nav-move-line-or-region-up)
 (global-set-key (kbd "C-M-e")   'elpy-nav-indent-shift-right)
 (global-set-key (kbd "C-M-a")   'elpy-nav-indent-shift-left)
+(global-set-key (kbd "C-M-p")   'pop-global-mark)
 
 
 ;; C-x

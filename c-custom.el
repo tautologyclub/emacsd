@@ -9,9 +9,7 @@
 ;; Note -- don't forget ~/.gdbinit add-to-save-path stuff
 
 (defun c-occur-overview ()
-  "Display an occur buffer with declarations/definitions/etc.
-
-Also, resize somewhat. Really hacky :D"
+  "Display an occur buffer with declarations/definitions/etc.  Also, resize somewhat. Really hacky :D"
   (interactive)
   (let ((list-matching-lines-face nil))
     (occur "^[a-z].*("))

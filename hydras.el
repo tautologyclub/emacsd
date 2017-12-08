@@ -48,9 +48,13 @@
   ("q"      nil "quit hydra"))
 
 ;; I heart abo-abo
+(require 'hideshow)
 (defhydra hydra-vimish-fold (:color blue
                              :columns 3)
-  "fold"
+  "folder"
+
+  ("h" hs-hide-all "hs-hide all")
+  ("s" hs-show-all "hs-show all")
   ("a" vimish-fold-avy "avy")
   ("d" vimish-fold-delete "del")
   ("D" vimish-fold-delete-all "del-all")
