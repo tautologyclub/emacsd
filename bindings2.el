@@ -181,6 +181,9 @@
 (global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
 (global-set-key   (kbd "C-c a")   'org-agenda)
 (global-set-key      (kbd "ρ")   (lambda () (interactive) (insert "/")))  ;; [a]
+(global-set-key      (kbd "/")   (lambda () (interactive)
+                                   (message "Use ;-a instead!")
+                                   (insert "/")))  ;; [a]
 
 (global-set-key     (kbd "C-s")   'swiper)
 (global-set-key   (kbd "C-S-s")   'swiper-all)
@@ -188,6 +191,9 @@
 (global-set-key     (kbd "s-S")   'kmacro-end-macro)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 (global-set-key       (kbd "β")   (lambda () (interactive) (insert "_"))) ;; [s]
+(global-set-key       (kbd "_")   (lambda () (interactive)
+                                    (message "Use ;-s instead!")
+                                    (insert "_")))
 
 (global-set-key     (kbd "C-d")   'delete-char)
 (global-set-key   (kbd "C-S-d")   'benjamin/kill-word)                   ;; todo
@@ -212,6 +218,9 @@
 (global-set-key   (kbd "C-c g")   'helm-google)
 (global-set-key     (kbd "s-g")   'hydra-git-gutter/body)
 (global-set-key       (kbd "γ")   (lambda () (interactive) (insert "?"))) ;; [g]
+(global-set-key       (kbd "?")   (lambda () (interactive)
+                                    (message "Use ;-g instead!")
+                                    (self-insert-command 1)))
 
 (global-set-key     (kbd "C-h")   'backward-char)
 (global-set-key   (kbd "C-S-h")   'mark-paragraph)
@@ -222,11 +231,11 @@
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-x h u") 'counsel-unicode-char)
 (global-set-key   (kbd "C-x h b") 'counsel-descbinds)
-(global-set-key       (kbd "η")   'ora-braces)            ;; [h]
+(global-set-key       (kbd "η")   'ora-braces)                             ;; [h]
 
 (global-set-key     (kbd "C-j")   'next-line)
-(global-set-key   (kbd "C-S-j")   'avy-goto-word-1)
-(global-set-key     (kbd "M-j")   'elpy-nav-move-line-or-region-down)
+(global-set-key   (kbd "C-S-j")   'avy-goto-word-1)                       ;; todo
+(global-set-key     (kbd "M-j")   'avy-goto-word-1)
 (global-set-key   (kbd "C-x j")   (lambda () (interactive)
                                     (dired-jump)
                                     (hydra-dired/body)))
