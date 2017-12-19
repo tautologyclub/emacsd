@@ -2,6 +2,7 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
+# FIXME this is not a good check
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -55,8 +56,12 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
-oldps=$PS1
-PS1='${debian_chroot:+($debian_chroot)}\[\033[02;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\n\$ '
+fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir (this is an emacs

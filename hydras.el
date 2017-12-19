@@ -180,7 +180,8 @@ _y_ flycheck-mode      %`flycheck-mode
 _w_ whitespace-mode:   %`whitespace-mode
 _l_ linum-mode:        %`linum-mode
 _i_ fci:               %`fci-mode
-_o_ read-only
+_o_ overwrite-mode     %`overwrite-mode
+_r_ read-only-mode
 "
   ("a" abbrev-mode)
   ("d" toggle-debug-on-error)
@@ -191,5 +192,6 @@ _o_ read-only
   ("w" whitespace-mode)
   ("l" linum-mode)
   ("i" fci-mode)
-  ("o" read-only-mode)
+  ("o" overwrite-mode)
+  ("r" read-only-mode)
   ("q" nil "quit"))
