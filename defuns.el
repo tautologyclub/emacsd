@@ -19,6 +19,52 @@
     )
   )
 
+(defun benjamin/pop-to-mark-command ()
+  "Jump to mark, and pop a new position for mark off the ring.
+\(Does not affect global mark ring)."
+  (interactive)
+  (if (null (mark t))
+      (pop-global-mark)
+    (if (= (point) (mark t))
+	(message "Mark popped"))
+    (goto-char (mark t))
+    (pop-mark)))
+
+(defun open-line-indent (n)
+  "Insert a new line and leave point before it. With arg N insert N newlines."
+  (interactive "*p")
+  (save-excursion
+    (newline n)
+    (indent-according-to-mode)))
+
+(defun open-next-line (arg)
+  "Move to the next line and then opens a line.
+    See also `newline-and-indent'."
+  (interactive "p")
+  (end-of-line)
+  (newline-and-indent))
+
+(defun copy-keep-highlight (beg end)
+  (interactive "r")
+  (prog1 (kill-ring-save beg end)
+    (setq deactivate-mark nil)))
+
+;; todo -- broken obv
+(defun benjamin/find-file-other-frame ()
+  "Jump to mark, and pop a new position for mark off the ring.
+\(Does not affect global mark ring)."
+  (interactive)
+  (my-i3-make-frame)
+  (counsel-find-file))
+
+(defun benjamin/set-mark-command ()
+  (interactive)
+  (message-buffer-file-name-or-nothing)
+  (if (region-active-p) ()
+    (set-mark-command nil))
+  (exchange-point-and-mark)
+  )
+
 (defun backward-to-char-before-ws ()
   "Here's my docstring."
   (interactive)
@@ -99,6 +145,33 @@
    (t
     (backward-delete-char 1))))
 
+(defun upcase-word-toggle ()
+  (interactive)
+  (let ((bounds (bounds-of-thing-at-point 'symbol))
+        (regionp
+         (if (eq this-command last-command)
+             (get this-command 'regionp)
+           (put this-command 'regionp nil)))
+        beg end)
+    (cond
+      ((or (region-active-p) regionp)
+       (setq beg (region-beginning)
+             end (region-end))
+       (put this-command 'regionp t))
+      (bounds
+       (setq beg (car bounds)
+             end (cdr bounds)))
+      (t
+       (setq beg (point)
+             end (1+ beg))))
+    (save-excursion
+      (goto-char (1- beg))
+      (and (re-search-forward "[A-Za-z]" end t)
+           (funcall (if (char-upcasep (char-before))
+                        'downcase-region
+                      'upcase-region)
+                    beg end)))))
+
 (defun kill-line-save (&optional arg)
   "Copy to the kill ring from point to the end of the current line.
     With a prefix argument, copy that many lines from point. Negative
@@ -110,7 +183,8 @@
      (point)
      (progn (if arg (forward-visible-line arg)
               (end-of-visible-line))
-            (point)))))
+            (point))))
+  (message "Kill-saved line"))
 
 (defun yank-after-cursor ()
   (interactive)
@@ -362,3 +436,30 @@ Position the cursor at it's beginning, according to the current mode."
   (newline-and-indent)
   (forward-line -1)
   (indent-according-to-mode))
+
+(defun increment-number-at-point ()
+  (interactive)
+  (skip-chars-backward "0-9")
+  (or (looking-at "[0-9]+")
+      (error "No number at point"))
+  (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+(defun my-increment-number-decimal (&optional arg)
+  "Increment the number forward from point by 'arg'."
+  (interactive "p*")
+  (save-excursion
+    (save-match-data
+      (let (inc-by field-width answer)
+        (setq inc-by (if arg arg 1))
+        (skip-chars-backward "0123456789")
+        (when (re-search-forward "[0-9]+" nil t)
+          (setq field-width (- (match-end 0) (match-beginning 0)))
+          (setq answer (+ (string-to-number (match-string 0) 10) inc-by))
+          (when (< answer 0)
+            (setq answer (+ (expt 10 field-width) answer)))
+          (replace-match (format (concat "%0" (int-to-string field-width) "d")
+                                 answer)))))))
+
+(defun my-decrement-number-decimal (&optional arg)
+  (interactive "p*")
+  (my-increment-number-decimal (if arg (- arg) -1)))

@@ -101,5 +101,7 @@
     (call-interactively #'ivy-switch-buffer))
 )
 
-(setq ivy-ignore-buffers '("\\` " "\\`\\*"))
+;; (setq ivy-ignore-buffers '("\\` " "\\`\\*"))
+(setq ivy-ignore-buffers '("\\` "))
+
 (add-hook 'occur-hook 'occur-rename-buffer)

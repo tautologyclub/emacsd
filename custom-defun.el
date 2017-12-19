@@ -88,12 +88,6 @@
     )
   )
 
-(defun benjamin/set-mark-command ()
-  (interactive)
-  (if (region-active-p) ()
-    (set-mark-command nil))
-  )
-
 (defun simplified-end-of-buffer ()
   "Move point to the beginning of the buffer;
      leave mark at previous position."

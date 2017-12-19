@@ -22,6 +22,7 @@ Git (gutter and other stuff):
   ("l" (progn (goto-char (point-min))
               (git-gutter+-previous-hunk 1)))
 
+  ("t" git-timemachine-mode)
   ("d" magit-diff)
   ("s" git-gutter+-stage-hunks)
   ("S" git-gutter+-stage-whole-buffer :color blue)
