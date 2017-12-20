@@ -78,7 +78,9 @@
 (define-key ivy-minibuffer-map      (kbd "C-c o")       'ivy-occur)
 (define-key ivy-occur-grep-mode-map (kbd "C-c w")       'ivy-wgrep-change-to-wgrep-mode)
 
+;; counsel/swiper specific
 (define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
+(define-key swiper-map (kbd "M-<tab>") 'swiper-mc)
 
 (setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize  --color never %s .")
 

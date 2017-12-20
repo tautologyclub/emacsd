@@ -2,6 +2,11 @@
 ;;              smart way of getting C-x to the terminal
 ;;              separate key maps for linemode/charmode
 ;;              wdired
+;;              ace-window
+;; C-p?         hippie-expand
+;; DONE         swiper-mc
+;;              flyspell
+
 
 (defun BIND-ME ())
 
@@ -165,7 +170,7 @@
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file)
 (global-set-key   (kbd "C-x o")   'occur-dwim)
 
-(global-set-key     (kbd "C-p")   'newline-and-indent)                     ;; ??
+(global-set-key     (kbd "C-p")   'hippie-expand)
 (global-set-key   (kbd "C-S-p")   'shell-command)
 (global-set-key     (kbd "M-p")   'benjamin/pop-to-mark-command)
 (global-set-key     (kbd "s-p")   'projectile-command-map)
@@ -300,9 +305,9 @@
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
 (global-set-key   (kbd "C-c m")   'mark-defun)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
-(global-set-key       (kbd "μ")   'projectile-command-map)
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
+(global-set-key       (kbd "μ")   'projectile-command-map)
 
 
 ;; misc.
