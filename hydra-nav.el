@@ -14,10 +14,8 @@
                             (delete-selection-mode nil)
                             (set-cursor-color "#FF0000")
                             (hl-line-mode -1)
-                            (setq shift-select-mode nil)
                             (message-buffer-file-name-or-nothing))
                      :post (progn
-                             (setq shift-select-mode t)
                              (delete-selection-mode t)
                              (set-cursor-color "#16A085")
                              (hl-line-mode t)

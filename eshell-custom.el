@@ -7,7 +7,7 @@
 (add-hook 'eshell-mode-hook (lambda ()
                               (define-key eshell-mode-map (kbd "M-s") nil)))
 (add-hook 'eshell-mode-hook (lambda ()
-                              (define-key eshell-mode-map (kbd "<tab>") 'company-complete)))
+                              (define-key eshell-mode-map (kbd "<tab>") 'completion-at-point)))
 
 (setq eshell-prompt-function
       (lambda nil

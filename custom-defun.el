@@ -101,11 +101,11 @@
   (push-mark)
   (goto-char (point-min)))
 
-(defun indent-or-company-complete ()
+(defun indent-or-complete ()
   "Complete if point is at end of a word, otherwise indent line."
   (interactive)
   (if (looking-at "\\>")
-      (company-complete)
+      (completion-at-point)
     (indent-for-tab-command)
     ))
 

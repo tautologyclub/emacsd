@@ -281,7 +281,6 @@
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
 
-(window-divider-mode -1)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -306,6 +305,7 @@
 (setq select-enable-clipboard t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(window-divider-mode -1)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)

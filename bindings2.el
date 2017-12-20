@@ -1,11 +1,12 @@
-;; *** Todo:
-;;              smart way of getting C-x to the terminal
-;;              separate key maps for linemode/charmode
+;; *** todo:
 ;;              wdired
 ;;              ace-window
 ;; C-p?         hippie-expand
-;; DONE         swiper-mc
 ;;              flyspell
+;;
+;;; multi-term: (eshell looks better though)
+;;              smart way of getting C-x to the terminal
+;;              separate key maps for linemode/charmode
 
 
 (defun BIND-ME ())
@@ -65,7 +66,7 @@
   (define-key undo-tree-map (kbd "C-x r") nil))
 (eval-after-load "undo-tree-mode"
   (define-key undo-tree-map (kbd "C-_") nil))
-(define-key prog-mode-map (kbd "TAB") 'indent-or-company-complete) ;; meeehh
+(define-key prog-mode-map (kbd "TAB") 'indent-or-complete)
 
 
 ;; beautiful xcape hacks
@@ -174,8 +175,9 @@
 (global-set-key   (kbd "C-S-p")   'shell-command)
 (global-set-key     (kbd "M-p")   'benjamin/pop-to-mark-command)
 (global-set-key     (kbd "s-p")   'projectile-command-map)
-(global-set-key   (kbd "C-c ps")  'profiler-start)
-(global-set-key   (kbd "C-c pt")  'profiler-stop)
+(global-set-key   (kbd "C-c Ps")  'profiler-start)
+(global-set-key   (kbd "C-c Pr")  'profiler-report)
+(global-set-key   (kbd "C-c Pt")  'profiler-stop)
 (global-set-key   (kbd "C-x p")   'mark-paragraph)
 
 (global-set-key     (kbd "C-a")   'xah-beginning-of-line-or-block)
@@ -270,7 +272,6 @@
 (global-set-key     (kbd "M-z")   'kill-line-save)
 (global-set-key       (kbd "Ϗ")   'kill-line-save)
 
-
 (global-set-key     (kbd "M-x")   'counsel-M-x)
 (global-set-key       (kbd "χ")   'BIND-ME)                              ;; todo
 
@@ -290,12 +291,14 @@
 (global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)           ;; todo
 (global-set-key   (kbd "C-x b")   'browse-url)
 (global-set-key   (kbd "M-s b")   'counsel-bookmark)
+(global-set-key (kbd "M-s M-b")   'counsel-bookmark)
 (global-set-key       (kbd "」")  'BIND-ME)                              ;; todo
 
 (global-set-key     (kbd "C-n")   'lispy-forward)                        ;; TODO
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                        ;; TODO
 (global-set-key     (kbd "M-n")   'hydra-errgo/next-error)
-(global-set-key       (kbd "ν")   'BIND-ME)                              ;; todo
+(global-set-key   (kbd "M-s n")   'hydra-nav/body)
+(global-set-key       (kbd "ν")   'hydra-nav/body)
 
 (define-key input-decode-map [?\C-m] [C-m])
 (global-set-key    (kbd "<C-m>")  (lambda () (interactive)
