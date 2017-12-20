@@ -240,17 +240,17 @@
                                     (dired-jump)
                                     (hydra-dired/body)))
 (global-set-key     (kbd "s-j")    nil)                     ;; reserved for i3wm
-;; (global-set-key (kbd "ι")       'BIND-ME)               ;; [j]
+(global-set-key       (kbd "ι")   'elpy-nav-move-line-or-region-down)      ;; [j]
 
 (global-set-key     (kbd "C-k")   'previous-line)
 (global-set-key   (kbd "C-S-k")   'kill-line)
-(global-set-key     (kbd "M-k")   'elpy-nav-move-line-or-region-up)
+;; (global-set-key     (kbd "M-k")   'elpy-nav-move-line-or-region-up) ;; todo
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-c k")    nil)
 (global-set-key   (kbd "C-c ks")  'set-kblayout-swedish)
 (global-set-key   (kbd "C-c kb")  'set-kblayout-benjamin)
 (global-set-key     (kbd "s-k")    nil)                     ;; reserved for i3wm
-;; (global-set-key (kbd "κ")       'BIND-ME)               ;; [k]
+(global-set-key      (kbd "κ")    'elpy-nav-move-line-or-region-up)       ;; [k]
 
 (global-set-key     (kbd "C-l")   'forward-char)
 (global-set-key   (kbd "C-S-l")   'recenter-top-bottom)
@@ -264,6 +264,7 @@
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
 (global-set-key     (kbd "M-z")   'zap-up-to-char)
+
 
 (global-set-key     (kbd "M-x")   'counsel-M-x)
 
