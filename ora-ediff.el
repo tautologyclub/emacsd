@@ -4,6 +4,17 @@
 (csetq ediff-split-window-function 'split-window-horizontally)
 (csetq ediff-diff-options "--text")
 (csetq ediff-diff-options "-w --text")
+
+(defvar benjamin/ediff-last-windows nil)
+(defun benjamin/store-pre-ediff-winconfig ()
+  (setq benjamin/ediff-last-windows (current-window-configuration)))
+
+(defun benjamin/restore-pre-ediff-winconfig ()
+  (set-window-configuration benjamin/ediff-last-windows))
+
+(add-hook 'ediff-before-setup-hook #'benjamin/store-pre-ediff-winconfig)
+(add-hook 'ediff-quit-hook #'benjamin/restore-pre-ediff-winconfig)
+
 (defun ora-ediff-prepare-buffer ()
   (when (memq major-mode '(org-mode emacs-lisp-mode))
     (outline-show-all)))

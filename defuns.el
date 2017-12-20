@@ -284,28 +284,27 @@
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
 
-(defvar benjamin/last-char-forward-jumped-to nil)
-(defvar benjamin/last-char-backward-jumped-to nil)
-
+(defvar benjamin/last-char-jumped-to nil)
 (defun benjamin/jump-char-fwd (arg)
   (interactive "p")
+  ;; (message "%s" last-command)
   (if (or (equal last-command this-command)
-          (eq last-command 'fastnav-jump-to-char-forward))
-      (fastnav-search-char-forward 1 benjamin/last-char-forward-jumped-to)
+          (equal last-command 'benjamin/jump-char-bwd))
+      (fastnav-search-char-forward 1 benjamin/last-char-jumped-to)
     (progn
       (fastnav-jump-to-char-forward arg)
-      (setq benjamin/last-char-forward-jumped-to (char-after (point))))
+      (setq benjamin/last-char-jumped-to (char-after (point))))
     )
   )
-
 (defun benjamin/jump-char-bwd (arg)
   (interactive "p")
+  ;; (message "%s" last-command)
   (if (or (equal last-command this-command)
-          (eq last-command 'fastnav-jump-to-char-forkward))
-      (fastnav-search-char-forward -1 benjamin/last-char-backward-jumped-to)
+          (equal last-command 'benjamin/jump-char-fwd))
+      (fastnav-search-char-forward -1 benjamin/last-char-jumped-to)
     (progn
       (fastnav-jump-to-char-backward arg)
-      (setq benjamin/last-char-backward-jumped-to (char-after (point))))
+      (setq benjamin/last-char-jumped-to (char-after (point))))
     )
   )
 
