@@ -104,7 +104,7 @@
 (defun indent-or-complete ()
   "Complete if point is at end of a word, otherwise indent line."
   (interactive)
-  (if (looking-at "\\>")
+  (if (looking-back "[a-zA-z0-9]")
       (completion-at-point)
     (indent-for-tab-command)
     ))
