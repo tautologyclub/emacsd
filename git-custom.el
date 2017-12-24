@@ -1,3 +1,21 @@
+
+(defun git-branch-string ()
+  "Return current git branch as a string, or the empty string if pwd is not in a git repo (or the git command is not found)."
+  (interactive)
+  (when (and (eshell-search-path "git")
+             (locate-dominating-file default-directory ".git"))
+    (let ((git-output (shell-command-to-string (concat "cd " default-directory " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
+      (if (> (length git-output) 0)
+          (substring git-output 0 -1)
+          ;; (concat " :" (substring git-output 0 -1))
+        "(no branch)"))))
+
+(defun git-branch-to-kill-ring ()
+  (interactive)
+  (kill-new (format "%s" (git-branch-string)))
+  )
+
+
 (global-git-gutter+-mode)
 
 (defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
@@ -11,7 +29,7 @@ Git (gutter and other stuff):
            _p_opup hunk     _cl_ counsel-log   _cg_ grep
   set start _R_evision
 "
-  ("f" magit-find-file)
+  ("f" magit-find-file :color blue)
   ("b" magit-blame)
   ("cg" counsel-git-grep :color blue)
   ("cl" counsel-git-log :color blue)
@@ -22,7 +40,7 @@ Git (gutter and other stuff):
   ("l" (progn (goto-char (point-min))
               (git-gutter+-previous-hunk 1)))
 
-  ("t" git-timemachine-mode :color blue)
+  ("t" git-timemachine :color blue)
   ("e" vc-ediff :color blue)
   ("d" magit-diff)
   ("s" git-gutter+-stage-hunks)
@@ -38,6 +56,7 @@ Git (gutter and other stuff):
               (sit-for 0.1)
               (git-gutter+-clear))
        :color blue))
+
 
 
 
@@ -267,5 +286,3 @@ Git (gutter and other stuff):
      "git difftool" (list item))))
 
 ;; (add-hook 'magit-mode-hook #'endless/add-PR-fetch)
-
-(provide 'ora-magit)

@@ -32,7 +32,7 @@
  '(column-number-mode nil)
  '(company-auto-complete-chars nil)
  '(company-idle-delay 0)
- '(company-minimum-prefix-length 9)
+ '(company-minimum-prefix-length 3)
  '(company-tooltip-idle-delay 0.5)
  '(company-tooltip-limit 20)
  '(compilation-message-face (quote default))
@@ -48,6 +48,9 @@
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
  '(elpy-rpc-backend "rope")
+ '(eshell-banner-message
+   "--- eshell ---------------------------------------------------------------------
+")
  '(fci-rule-color "#c7c7c7")
  '(fill-column 79)
  '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
@@ -55,6 +58,7 @@
    (quote
     ("/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")))
  '(flycheck-display-errors-delay 1.5)
+ '(flycheck-pos-tip-timeout 20)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -68,7 +72,7 @@
  '(helm-descbinds-mode t)
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
- '(helm-mode t)
+ '(helm-mode nil)
  '(helm-swoop-split-direction (quote split-window-vertically))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
@@ -124,7 +128,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -144,11 +148,8 @@
      (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
      (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86" "-Wall -Wextra" "-D EVIDENTE_TRACE")
      (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/alpha/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
-     (eval setenv "GTAGSLIBPATH" "")
      (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
      (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc:~/.gtags")
-     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc:~/workspace/.gtags")
-     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
      (company-clang-arguments . irony-additional-clang-options)
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG")
@@ -259,8 +260,12 @@
  '(whitespace-line ((t (:foreground "dark magenta")))))
 
 (defmacro csetq (variable value)
-  "Abo-abo weird macro.  Look at VARIABLE and VALUE, wow."
+  "Stolen from abo-abo.  VARIABLE and VALUE blabla."
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
+
+(defmacro lambi (&rest b)
+  "Laziest macro in the world!  B etc."
+  `(lambda () (interactive),@b))
 
 (require 'cc-mode)
 (require 'counsel)
@@ -276,6 +281,10 @@
 (require 'function-args)
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
+
+(require 'flycheck-pos-tip)
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
 
 (require 'org-trello)
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
@@ -305,6 +314,12 @@
 (setq select-enable-clipboard t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(savehist-mode 1)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
+      savehist-file "~/.emacs.d/savehist")
+
 (window-divider-mode -1)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
@@ -325,7 +340,7 @@
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
 (auto-dim-other-buffers-mode 1)
-(counsel-projectile-on)
+;; (counsel-projectile-on)
 
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
@@ -335,6 +350,11 @@
   (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'prog-mode-hook 'set-hook-newline-and-indent)
 
+(defadvice hippie-expand (around hippie-expand-case-fold)
+  "Try to do case-sensitive matching (not effective with all functions)."
+  (let ((case-fold-search nil))
+    ad-do-it))
+(ad-activate 'hippie-expand)
 
 (add-to-list 'semantic-default-submodes
              'global-semantic-idle-local-symbol-highlight-mode)
@@ -345,35 +365,6 @@
 ;(global-ede-mode t)
 ;(ede-enable-generic-projects)
 
-(defface find-file-root-header-face
-  '((t (:foreground "white" :background "red3")))
-  "*Face use to display header-lines for files opened as root.")
-(defun find-file-root-header-warning ()
-  "*Display a warning in header line of the current buffer.
-This function is suitable to add to `find-file-hook'."
-  (when (string-equal
-         (file-remote-p (or buffer-file-name default-directory) 'user)
-         "root")
-    (let* ((warning "WARNING: EDITING FILE AS ROOT!")
-           (space (+ 6 (- (window-width) (length warning))))
-           (bracket (make-string (/ space 2) ?-))
-           (warning (concat bracket warning bracket)))
-      (setq header-line-format
-            (propertize  warning 'face 'find-file-root-header-face)))))
-
-(add-hook 'find-file-hook 'find-file-root-header-warning)
-(add-hook 'dired-mode-hook 'find-file-root-header-warning)
-
-
-;; annoying fix for flymake error messages
-(defun my-flymake-show-help ()
-  "Don't remember why this is necessary..."
-  (when (get-char-property (point) 'flymake-overlay)
-    (let ((help (get-char-property (point) 'help-echo)))
-      (if help (message "%s" help)))))
-
-(add-hook 'post-command-hook 'my-flymake-show-help)
-
 
 
 ;; Open some defaults
@@ -383,6 +374,7 @@ This function is suitable to add to `find-file-hook'."
 
 ;; ugly load
 (load "~/.emacs.d/custom-defun.el")
+(load "~/.emacs.d/blq-display.el")
 (load "~/.emacs.d/multiterm-custom.el")
 (load "~/.emacs.d/hydras.el")
 (load "~/.emacs.d/org-custom.el")
@@ -429,8 +421,8 @@ This function is suitable to add to `find-file-hook'."
            (current-column)
            (buffer-file-name)
            )
-    (message "[%s]" (format-time-string "%H:%M:%S")))
-  )
+    ;; (message "[%s]" (format-time-string "%H:%M:%S")))
+    ))
 
 (defadvice handle-switch-frame (around switch-frame-message-name)
   "Get the modeline proxy to work with i3 switch focus."

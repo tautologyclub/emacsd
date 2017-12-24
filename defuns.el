@@ -49,20 +49,19 @@
   (prog1 (kill-ring-save beg end)
     (setq deactivate-mark nil)))
 
-;; todo -- broken obv
 (defun benjamin/find-file-other-frame ()
-  "Jump to mark, and pop a new position for mark off the ring.
-\(Does not affect global mark ring)."
+  "Open file in new frame, but do it optimally."
   (interactive)
-  (my-i3-make-frame)
-  (counsel-find-file))
+  (shell-command "/bin/bash ~/.config/split_optimal.sh")
+  (call-interactively 'find-file-other-frame)
+  )
 
 (defun benjamin/set-mark-command ()
   (interactive)
-  (message-buffer-file-name-or-nothing)
   (if (region-active-p) ()
     (set-mark-command nil))
   (exchange-point-and-mark)
+  (message-buffer-file-name-or-nothing)
   )
 
 (defun backward-to-char-before-ws ()
@@ -462,3 +461,23 @@ Position the cursor at it's beginning, according to the current mode."
 (defun my-decrement-number-decimal (&optional arg)
   (interactive "p*")
   (my-increment-number-decimal (if arg (- arg) -1)))
+
+
+(defface find-file-root-header-face
+  '((t (:foreground "white" :background "red3")))
+  "*Face use to display header-lines for files opened as root.")
+(defun find-file-root-header-warning ()
+  "*Display a warning in header line of the current buffer.
+This function is suitable to add to `find-file-hook'."
+  (when (string-equal
+         (file-remote-p (or buffer-file-name default-directory) 'user)
+         "root")
+    (let* ((warning "WARNING: EDITING FILE AS ROOT!")
+           (space (+ 6 (- (window-width) (length warning))))
+           (bracket (make-string (/ space 2) ?-))
+           (warning (concat bracket warning bracket)))
+      (setq header-line-format
+            (propertize  warning 'face 'find-file-root-header-face)))))
+
+(add-hook 'find-file-hook 'find-file-root-header-warning)
+(add-hook 'dired-mode-hook 'find-file-root-header-warning)

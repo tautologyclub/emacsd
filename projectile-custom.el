@@ -63,14 +63,49 @@
      (message "Copied line")
      (list (line-beginning-position) (line-beginning-position 2)))))
 
-(define-key projectile-command-map (kbd "SPC") #'counsel-projectile)
-(define-key projectile-command-map (kbd "t") #'projectile-get-term)
-(define-key projectile-command-map (kbd "r") #'counsel-projectile-rg)
-(define-key projectile-command-map (kbd "o") #'projectile-find-other-file)
-(define-key projectile-command-map (kbd "p") #'counsel-projectile)
-(define-key projectile-command-map (kbd "a") #'counsel-projectile-ag)
-(define-key projectile-command-map (kbd "s") #'counsel-projectile-switch-project)
-(define-key projectile-command-map (kbd "d") #'counsel-projectile-find-dir)
-(define-key projectile-command-map (kbd "g") #'counsel-projectile-git-grep)
-(define-key projectile-command-map (kbd "w") #'projectile-find-file-other-optimal-frame)
-(define-key projectile-command-map (kbd "q") #'projectile-replace)
+(define-key projectile-command-map (kbd "t")    #'projectile-get-term)
+(define-key projectile-command-map (kbd "r")    #'counsel-projectile-rg)
+(define-key projectile-command-map (kbd "o")    #'projectile-find-other-file)
+(define-key projectile-command-map (kbd "p")    #'counsel-projectile)
+(define-key projectile-command-map (kbd "a")    #'counsel-projectile-ag)
+(define-key projectile-command-map (kbd "s")    #'counsel-projectile-switch-project)
+(define-key projectile-command-map (kbd "d")    #'counsel-projectile-find-dir)
+(define-key projectile-command-map (kbd "g")    #'counsel-projectile-git-grep)
+(define-key projectile-command-map (kbd "w")    #'projectile-find-file-other-optimal-frame)
+(define-key projectile-command-map (kbd "q")    #'projectile-replace)
+(define-key projectile-command-map (kbd "C-p")  #'counsel-projectile)
+(define-key projectile-command-map (kbd "C-f")    #'projectile-find-file-in-known-projects)
+(define-key projectile-command-map (kbd "C-s")  #'projectile-run-shell-command-in-root)
+(define-key projectile-command-map (kbd "C-e")  #'projectile-run-eshell)
+
+(define-key projectile-command-map (kbd "C-S-s")
+  #'projectile-run-async-shell-command-in-root)
+
+(define-key projectile-command-map (kbd "ESC")  nil)
+(define-key projectile-command-map (kbd "SPC")  nil)
+(define-key projectile-command-map (kbd "!")    nil)
+(define-key projectile-command-map (kbd "&")    nil)
+(define-key projectile-command-map (kbd "I")    nil)
+(define-key projectile-command-map (kbd "f")    nil)
+(define-key projectile-command-map (kbd "h")    nil)
+(define-key projectile-command-map (kbd "l")    nil)
+(define-key projectile-command-map (kbd "m")    nil)
+(define-key projectile-command-map (kbd "4")    nil)
+(define-key projectile-command-map (kbd "5")    nil)
+
+    ;; C-c p !         projectile-run-shell-command-in-root
+    ;; C-c p &         projectile-run-async-shell-command-in-root
+    ;; C-c p C         projectile-configure-project
+    ;; C-c p D         projectile-dired
+    ;; C-c p F         projectile-find-file-in-known-projects
+    ;; C-c p T         projectile-find-test-file
+    ;; C-c p c         projectile-compile-project
+    ;; C-c p c         projectile-compile-project
+    ;; C-c p d         counsel-projectile-find-dir
+    ;; C-c p i         projectile-invalidate-cache
+    ;; C-c p j         projectile-find-tag
+    ;; C-c p x e       projectile-run-eshell
+    ;; C-c p 5 D       projectile-dired-other-frame
+    ;; C-c p 5 a       projectile-find-other-file-other-frame
+    ;; C-c p 5 t       projectile-find-implementation-or-test-other-frame
+    ;; s-r             counsel-projectile-rg
