@@ -98,6 +98,7 @@
 (define-key c-mode-map  [(tab)] 'company-complete)
 (define-key c++-mode-map  [(tab)] 'company-complete)
 
+(require 'company)
 (defun benjamin/c-hook ()
   "You know.  My hook and stuff."
   (subword-mode)
@@ -107,7 +108,17 @@
   (helm-gtags-mode)
   (irony-mode)
   (company-mode)
-  )
+  (setq company-backends
+        '((
+           company-c-headers
+           company-irony
+           ;; company-semantic
+           ;; company-files
+           ;; company-cmake
+           ;; company-keywords
+           ;; company-gtags
+           ;; company-capf
+           ))))
 (add-hook 'c-mode-hook 'benjamin/c-hook)
 (add-hook 'c++-mode-hook 'flycheck-mode)
 
@@ -117,19 +128,6 @@
 ;;             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
 ;;               (setenv "GTAGSLIBPATH" "$GTAGSLIBPATH:~/workspace/reac/inc/")
 ;;               (helm-gtags-mode 1))))
-
-(require 'company)
-(setq company-backends
-                 '((
-                    company-irony
-                    company-semantic
-                    company-files
-                    company-cmake
-                    company-keywords
-                    company-gtags
-                    ;; company-capf
-                    )))
-;; fixme make company mode-local
 
 (setq helm-gtags-auto-update t)             ;; feel this one out.
 (setq helm-gtags-use-input-at-cursor t)

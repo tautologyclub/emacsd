@@ -74,13 +74,11 @@
                                   :hint nil
                                   )
   "
-  _p__j__u_: undo  _n__k__U_: redo _s_: save _l_: load   "
-  ("p"   undo-tree-undo)
+  _C-u_/_j_: undo  _C-n_/_k_: redo _s_: save _l_: load   "
   ("j"   undo-tree-undo)
-  ("u"   undo-tree-undo)
-  ("n"   undo-tree-redo)
+  ("C-u"   undo-tree-undo)
+  ("C-n"   undo-tree-redo)
   ("k"   undo-tree-redo)
-  ("U"   undo-tree-redo)
   ("s"   undo-tree-save-history)
   ("l"   undo-tree-load-history)
   ("v"   undo-tree-visualize "visualize" :color blue)
@@ -169,3 +167,31 @@ T - tag prefix
   ("." nil :color blue))
 
 (define-key dired-mode-map "." 'hydra-dired/body)
+
+
+(defhydra hydra-toggle (:color pink :hint nil)
+  "
+_a_ abbrev-mode:       %`abbrev-mode
+_d_ debug-on-error:    %`debug-on-error
+_f_ auto-fill-mode:    %`auto-fill-function
+_h_ highlight          %`highlight-nonselected-windows
+_t_ truncate-lines:    %`truncate-lines
+_y_ flycheck-mode      %`flycheck-mode
+_w_ whitespace-mode:   %`whitespace-mode
+_l_ linum-mode:        %`linum-mode
+_i_ fci:               %`fci-mode
+_o_ overwrite-mode     %`overwrite-mode
+_r_ read-only-mode
+"
+  ("a" abbrev-mode)
+  ("d" toggle-debug-on-error)
+  ("f" auto-fill-mode)
+  ("h" (setq highlight-nonselected-windows (not highlight-nonselected-windows)))
+  ("t" toggle-truncate-lines)
+  ("y" flycheck-mode)
+  ("w" whitespace-mode)
+  ("l" linum-mode)
+  ("i" fci-mode)
+  ("o" overwrite-mode)
+  ("r" read-only-mode)
+  ("q" nil "quit"))

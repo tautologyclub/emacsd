@@ -7,8 +7,8 @@
 Git (gutter and other stuff):
   _j_: next hunk        _s_tage hunk     _f_ind-file        _q_uit
   _k_: previous hunk    _r_evert hunk    _b_lame            _Q_uit hard
-  _h_: first hunk       _l_ast hunk      ^ ^                _S_tage buffer
-  _p_opup hunk          _cl_ counsel-log _cg_ grep
+  _h_: first hunk       _l_ast hunk      _e_: vc-ediff      _S_tage buffer
+           _p_opup hunk     _cl_ counsel-log   _cg_ grep
   set start _R_evision
 "
   ("f" magit-find-file)
@@ -22,6 +22,8 @@ Git (gutter and other stuff):
   ("l" (progn (goto-char (point-min))
               (git-gutter+-previous-hunk 1)))
 
+  ("t" git-timemachine-mode :color blue)
+  ("e" vc-ediff :color blue)
   ("d" magit-diff)
   ("s" git-gutter+-stage-hunks)
   ("S" git-gutter+-stage-whole-buffer :color blue)
@@ -39,10 +41,7 @@ Git (gutter and other stuff):
 
 
 
-;; ------------------------------------------------------------
-;; magit
-;; ------------------------------------------------------------
-;;* Customs
+;; --- magit ------------------------------------------------------------
 (require 'magit)
 (eval-after-load 'magit-blame
   '(progn

@@ -88,12 +88,6 @@
     )
   )
 
-(defun benjamin/set-mark-command ()
-  (interactive)
-  (if (region-active-p) ()
-    (set-mark-command nil))
-  )
-
 (defun simplified-end-of-buffer ()
   "Move point to the beginning of the buffer;
      leave mark at previous position."
@@ -107,11 +101,11 @@
   (push-mark)
   (goto-char (point-min)))
 
-(defun indent-or-company-complete ()
+(defun indent-or-complete ()
   "Complete if point is at end of a word, otherwise indent line."
   (interactive)
   (if (looking-at "\\>")
-      (company-complete)
+      (completion-at-point)
     (indent-for-tab-command)
     ))
 

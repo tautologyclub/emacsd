@@ -1,4 +1,3 @@
-
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -40,7 +39,7 @@
  '(counsel-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
  '(debug-on-error nil)
- '(default ((t (:height 90 :width normal :family "Inconsolata"))))
+ '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
  '(eldoc-idle-delay 1.5)
@@ -125,7 +124,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -141,7 +140,16 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
+    ((irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86/include" "-Wall -Wextra" "-D EVIDENTE_TRACE_FUNCTIONS")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86" "-Wall -Wextra" "-D EVIDENTE_TRACE")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/alpha/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
+     (eval setenv "GTAGSLIBPATH" "")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
+     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc:~/.gtags")
+     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc:~/workspace/.gtags")
+     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc")
+     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
      (company-clang-arguments . irony-additional-clang-options)
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG")
      (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
@@ -159,6 +167,7 @@
  '(semantic-idle-scheduler-idle-time 5)
  '(semantic-mode t)
  '(shell-file-name "/bin/bash")
+ '(shift-select-mode nil)
  '(sml/active-background-color "#34495e")
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
@@ -272,7 +281,7 @@
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
 
-(window-divider-mode -1)
+(setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
 (setq tab-width 4)
@@ -296,6 +305,7 @@
 (setq select-enable-clipboard t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(window-divider-mode -1)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)
@@ -306,7 +316,6 @@
 (put 'scroll-left 'disabled nil)
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (electric-pair-mode)
 (projectile-mode t)
@@ -376,12 +385,14 @@ This function is suitable to add to `find-file-hook'."
 (load "~/.emacs.d/custom-defun.el")
 (load "~/.emacs.d/multiterm-custom.el")
 (load "~/.emacs.d/hydras.el")
+(load "~/.emacs.d/org-custom.el")
 (load "~/.emacs.d/hydra-nav.el")
 (load "~/.emacs.d/semicolon-modifier.el")
 (load "~/.emacs.d/annotation-custom.el")
 (load "~/.emacs.d/ivy-custom.el")
 (load "~/.emacs.d/face-by-mode.el")
 (load "~/.emacs.d/defuns.el")
+(load "~/.emacs.d/defun-lexical.el")
 (load "~/.emacs.d/helm-custom.el")
 (load "~/.emacs.d/python-custom.el")
 (load "~/.emacs.d/simple-paren.el")
@@ -397,6 +408,7 @@ This function is suitable to add to `find-file-hook'."
 ;; (load "~/.emacs.d/irony-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
+(load "~/.emacs.d/eshell-custom.el")
 (load "~/.emacs.d/bindings2.el")
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"
@@ -404,7 +416,8 @@ This function is suitable to add to `find-file-hook'."
                              "~/.org/unjo.org"
                              "~/.org/home.org"))
 
-(make-variable-buffer-local 'compile-command) ;; todo
+(make-variable-buffer-local 'compile-command)
+(make-variable-buffer-local 'company-backends)
 
 
 (defun message-buffer-file-name-or-nothing ()

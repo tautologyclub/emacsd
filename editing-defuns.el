@@ -34,6 +34,18 @@
         (indent-for-tab-command)))
     (indent-for-tab-command)))
 
+(defun duplicate-current-line-or-region (arg)
+  "Duplicates the current line or region ARG times.
+If there's no region, the current line will be duplicated."
+  (interactive "p")
+  (if (region-active-p)
+      (let ((beg (region-beginning))
+            (end (region-end)))
+        (duplicate-region arg beg end)
+        (one-shot-keybinding "d" (λ (duplicate-region 1 beg end))))
+    (duplicate-current-line arg)
+    (one-shot-keybinding "d" 'duplicate-current-line)))
+
 (defun one-shot-keybinding (key command)
   (set-temporary-overlay-map
    (let ((map (make-sparse-keymap)))
@@ -79,41 +91,6 @@ region-end is used."
         (newline)
         (forward-char -1))
       (duplicate-region num (point-at-bol) (1+ (point-at-eol))))))
-
-;; automatically indenting yanked text if in programming-modes
-
-(require 'dash)
-
-(defvar yank-indent-modes '(prog-mode
-                            sgml-mode
-                            js2-mode)
-  "Modes in which to indent regions that are yanked (or yank-popped)")
-
-(defvar yank-advised-indent-threshold 1000
-  "Threshold (# chars) over which indentation does not automatically occur.")
-
-(defun yank-advised-indent-function (beg end)
-  "Do indentation, as long as the region isn't too large."
-  (if (<= (- end beg) yank-advised-indent-threshold)
-      (indent-region beg end nil)))
-
-(defadvice yank (after yank-indent activate)
-  "If current mode is one of 'yank-indent-modes, indent yanked text (with prefix arg don't indent)."
-  (if (and (not (ad-get-arg 0))
-           (--any? (derived-mode-p it) yank-indent-modes))
-      (let ((transient-mark-mode nil))
-        (yank-advised-indent-function (region-beginning) (region-end)))))
-
-(defadvice yank-pop (after yank-pop-indent activate)
-  "If current mode is one of 'yank-indent-modes, indent yanked text (with prefix arg don't indent)."
-  (if (and (not (ad-get-arg 0))
-           (member major-mode yank-indent-modes))
-      (let ((transient-mark-mode nil))
-        (yank-advised-indent-function (region-beginning) (region-end)))))
-
-(defun yank-unindented ()
-  (interactive)
-  (yank 1))
 
 ;; toggle quotes
 
