@@ -9,7 +9,10 @@ keycode  17 = 8 asterisk asterisk U2605
 keycode  18 = 9 parenleft parenleft U2089
 keycode  19 = 0 parenright parenright U2080
 
-keycode  24 = q Q parenleft parenright
+! Rebind q to act as Hyper (xcape to make it work like regular)
+!keycode  24 = q Q parenleft parenright
+keycode  24 = Hyper_L Hyper_L Hyper_L
+
 keycode  25 = w W backslash bar
 keycode  26 = e E equal U0395
 keycode  27 = r R bracketleft braceleft
@@ -19,7 +22,11 @@ keycode  30 = u U U03C8 U03A8
 keycode  31 = i I U03CA U03CA
 keycode  32 = o O BackSpace U039F
 keycode  33 = p P U03C0 U03A0
+
+! Map [ to Alt and ] to Hyper
 keycode  34 = Alt_R Alt_R Alt_R
+keycode  35 = Hyper_L Hyper_L Hyper_L
+
 keycode  38 = a A U03C1 U03b1
 keycode  39 = s S U03B2 U03B4
 keycode  40 = d D U03B5 U03B6
@@ -29,7 +36,10 @@ keycode  43 = h H U03B7 U0397
 keycode  44 = j J U03B9 U03AA
 keycode  45 = k K U03BA U039A
 keycode  46 = l L U03BE U039B
+
+! Map ; to Alt_Gr
 keycode  47 = Mode_switch Mode_switch Mode_switch
+
 keycode  48 = apostrophe quotedbl
 keycode  49 = grave asciitilde 0 asciitilde
 keycode  52 = z Z U03CF U0396
@@ -39,3 +49,8 @@ keycode  55 = v V Return U03DE
 keycode  56 = b B bar U0392
 keycode  57 = n N U03BD U039D
 keycode  58 = m M U03BC U039C
+keycode 255 = semicolon colon
+
+! Enable Hyper modifier, disabled by default for some reason.
+remove mod4 = Hyper_L
+add mod3 = Hyper_L

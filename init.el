@@ -390,7 +390,6 @@
 (load "~/.emacs.d/simple-paren.el")
 (load "~/.emacs.d/ggtags-custom.el")
 (load "~/.emacs.d/fci-custom.el")
-;; (load "~/.emacs.d/helm-swoop-custom.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
