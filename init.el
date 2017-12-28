@@ -128,7 +128,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -432,9 +432,10 @@
 (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
 
 
-(condition-case nil
-    (kill-buffer "*scratch*")
-  (error nil))
+;; (condition-case nil
+;;     (kill-buffer "*scratch*")
+;;   (error nil))
+(setq initial-major-mode 'org-mode)
 
 (provide '.emacs)
 ;;; .emacs ends here
