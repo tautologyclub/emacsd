@@ -14,7 +14,7 @@ keycode  19 = 0 parenright parenright U2080
 keycode  24 = Hyper_L Hyper_L Hyper_L
 
 keycode  25 = w W backslash bar
-keycode  26 = e E equal U0395
+keycode  26 = e E bar U0395
 keycode  27 = r R bracketleft braceleft
 keycode  28 = t T asciitilde U03A4
 keycode  29 = y Y U03C5 U03A5
@@ -49,6 +49,9 @@ keycode  55 = v V Return U03DE
 keycode  56 = b B bar U0392
 keycode  57 = n N U03BD U039D
 keycode  58 = m M U03BC U039C
+
+! Have to find a new place for these since they don't really exist any more
+keycode 254 = q Q quotedbl U033F
 keycode 255 = semicolon colon
 
 ! Enable Hyper modifier, disabled by default for some reason.

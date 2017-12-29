@@ -70,23 +70,21 @@
 
 
 ;; beautiful xcape hacks
-;; (global-set-key (kbd "f8")    (lambi (insert ";")))
-;; (global-set-key (kbd "<S-f8>")  (lambi (insert ":")))
-(global-set-key (kbd "<f9>")    'benjamin/jump-char-fwd)
-(global-set-key (kbd "<S-f9>")  'benjamin/jump-char-bwd)
-(global-set-key (kbd "<f10>")   'er/expand-region)
-(global-set-key (kbd "<f11>")   'counsel-projectile)
-(global-set-key (kbd "<f12>")   'ivy-switch-buffer)
-
+(global-set-key      (kbd "<f9>")  'benjamin/jump-char-fwd)
+(global-set-key      (kbd "<S-f9>")'benjamin/jump-char-bwd)
+(global-set-key      (kbd "<f10>") 'er/expand-region)
+(global-set-key      (kbd "<f11>") 'counsel-projectile)
+(global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
 (define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
 (define-key helm-map (kbd "<f12>") 'helm-keyboard-quit)
 (define-key ivy-minibuffer-map (kbd "<f11>") 'minibuffer-keyboard-quit)
 (define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
 
-(global-set-key        (kbd "(")    'ora-parens)
+(global-set-key        (kbd "(")    'blq/parens)
+(global-set-key        (kbd "[")    'blq/brackets)
 
 
-;; --- HERE WE GO YALL ---------------------------------------------------------
+;; --- 1-2-3 go ----------------------------------------------------------------
 (global-set-key      (kbd "C-q")    'left-word)
 (global-set-key      (kbd "s-q")    'BIND-ME)                            ;; todo
 (global-set-key    (kbd "C-S-q")    'shell-command)
@@ -97,24 +95,21 @@
                                       (delete-window)))
 
 (global-set-key     (kbd "C-w")     'kill-region)
-(global-set-key     (kbd "H-w")      nil)                            ;; reserved
 (global-set-key     (kbd "s-w")     'BIND-ME)                            ;; todo
-(global-set-key   (kbd "C-S-w")     'my-i3-make-frame)
 (global-set-key     (kbd "M-w")     'kill-ring-save)
-(global-set-key (kbd "M-s M-w")     (lambi
+(global-set-key     (kbd "H-w")     'find-file-other-window)
+(global-set-key  (kbd "M-s M-w")     (lambi
                                      (shell-command "~/.config/./split_optimal.sh")
                                      (call-interactively 'find-file-other-frame)))
+(global-set-key   (kbd "C-S-w")     'my-i3-make-frame)
 
 (global-set-key     (kbd "C-e")     'xah-end-of-line-or-block)
 (global-set-key     (kbd "M-e")     'forward-whitespace)
 (global-set-key     (kbd "H-e")     'shell-command)
-(global-set-key   (kbd "C-S-e")     'end-of-defun)
+(global-set-key     (kbd "s-e")      nil)                            ;; reserved
+(global-set-key   (kbd "C-S-e")     'end-of-defun)                       ;; todo
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
 (global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
-(global-set-key       (kbd "϶")     (lambi (insert "|")))
-(global-set-key       (kbd "|")     (lambi
-                                     (call-interactively 'self-insert-command)
-                                     (benjamin/notify "Use ;-e instead!")))
 (global-set-key (kbd "M-s M-e")     'eshell)
 (global-set-key (kbd "M-s M-1")     (lambi (eshell 1)))
 (global-set-key (kbd "M-s M-2")     (lambi (eshell 2)))
@@ -216,9 +211,7 @@
                                    (call-interactively 'self-insert-command)))
 
 (global-set-key     (kbd "C-d")   'delete-char)
-(global-set-key     (kbd "H-d")   (lambi (split-window-below)
-                                         (windmove-down)
-                                         (multi-term)))
+(global-set-key     (kbd "H-d")   'dropdown-multiterm)
 (global-set-key     (kbd "M-d")   'benjamin/kill-word)
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)                ;; todo
 (global-set-key (kbd "M-s M-d")   'delete-window)
@@ -233,12 +226,13 @@
 
 (global-set-key     (kbd "C-f")   'right-word)
 (global-set-key     (kbd "M-f")   'benjamin/jump-char-fwd)               ;; todo
+(global-set-key     (kbd "H-f")   'find-file)
 (global-set-key     (kbd "s-f")   'find-file)
-(global-set-key   (kbd "C-S-f")   'find-file)
+(global-set-key   (kbd "C-S-f")   'find-file)                            ;; todo
 (global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 (global-set-key (kbd "C-c C-f")   'find-file-at-point)
-(global-set-key       (kbd "ώ")   (lambi (insert ":")))
+(global-set-key       (kbd "ώ")   'ora-parens)
 
 (global-set-key   (kbd "C-S-g")   'goto-line-with-feedback)              ;; todo
 (global-set-key     (kbd "M-g")   'avy-goto-char)
@@ -314,8 +308,8 @@
 (global-set-key   (kbd "C-S-v")   (lambi (forward-line -30)))
 
 (global-set-key     (kbd "C-b")   'switch-to-buffer)
-(global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)           ;; todo
-(global-set-key     (kbd "H-b")   'BIND-ME)                              ;; todo
+(global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)
+(global-set-key     (kbd "H-b")   'switch-to-buffer-other-window)
 (global-set-key   (kbd "C-S-b")   'benjamin/jump-char-bwd)               ;; todo
 (global-set-key   (kbd "C-x b")   'browse-url)
 (global-set-key   (kbd "M-s b")   'counsel-bookmark)
@@ -347,17 +341,18 @@
 (global-set-key (kbd "C-,")     'set-mark-and-deactive)
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
 (global-set-key (kbd "C-<f9>")  'benjamin/set-mark-command)
+(global-set-key (kbd "C-<backspace>")  'volatile-kill-buffer)
 (global-set-key (kbd "C--")     'previous-buffer)
 (global-set-key (kbd "C-=")     'next-buffer)
 (global-set-key (kbd "C->")     'hs-toggle-hiding)
-(global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "M--")     'zoom-frm-out)
 (global-set-key (kbd "M-=")     'zoom-frm-in)
 (global-set-key (kbd "C-_")     (lambi (shrink-window 5)))
 (global-set-key (kbd "C-+")     (lambi (enlarge-window 5)))
-(global-set-key (kbd "<H-return>") 'get-term)
-(global-set-key (kbd "<H-backspace>") (lambi (volatile-kill-buffer)
-                                             (delete-window)))
+(global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
+(global-set-key (kbd "<H-return>")      'get-term)
+(global-set-key (kbd "<H-backspace>")   (lambi (volatile-kill-buffer)
+                                               (delete-window)))
 
 ;; guide-key
 (guide-key-mode 1)

@@ -38,6 +38,9 @@
  '(compilation-message-face (quote default))
  '(counsel-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-safe-themes
+   (quote
+    ("c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
  '(debug-on-error nil)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
@@ -48,6 +51,9 @@
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
  '(elpy-rpc-backend "rope")
+ '(erc-autojoin-channels-alist (quote (("#emacs"))))
+ '(erc-nick "g00iekabl00ie")
+ '(erc-rename-buffers t)
  '(eshell-banner-message
    "--- eshell ---------------------------------------------------------------------
 ")
@@ -230,6 +236,8 @@
     (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(wgrep-auto-save-buffer t)
  '(windmove-wrap-around nil)
+ '(window-divider-default-bottom-width 1)
+ '(window-divider-default-places (quote bottom-only))
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -320,7 +328,8 @@
       '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
       savehist-file "~/.emacs.d/savehist")
 
-(window-divider-mode -1)
+(fset 'yes-or-no-p 'y-or-n-p)
+(window-divider-mode t)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
 (delete-selection-mode t)
@@ -430,6 +439,7 @@
   (message-buffer-file-name-or-nothing))
 (ad-activate 'handle-switch-frame)
 (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
+(add-hook 'buffer-list-update-hook 'message-buffer-file-name-or-nothing)
 
 
 ;; (condition-case nil

@@ -1,25 +1,25 @@
-;; Use variable width font faces in current buffer
- (defun my-buffer-face-mode-variable ()
-   "Set font to a variable width (proportional) fonts in current buffer"
-   (interactive)
-   (setq buffer-face-mode-face '(:family "Symbola" :height 100 :width semi-condensed))
-   (buffer-face-mode))
+(defun set-boring-prog-mode-face ()
+  (interactive)
+  (setq buffer-face-mode-face '(:background "gray" :foreground "black"))
+  (setq font-lock-comment-face '(:foreground "#253f14"))
+  (setq font-lock-builtin-face '(:foreground "#572a6b" :weight semibold))
+  (setq font-lock-preprocessor-face '(:foreground "#572a6b" :weight semibold))
+  (setq font-lock-string-face '(:foreground "#14314c"))
+  (setq font-lock-function-name-face '(:foreground "#d3aa83"))
+  (buffer-face-mode)
+  )
 
- ;; Use monospaced font faces in current buffer
- (defun my-buffer-face-mode-fixed ()
-   "Sets a fixed width (monospace) font in current buffer"
+(defun set-boring-buffer-face ()
+   "Kind of a dry bland face for some stuff."
    (interactive)
    (setq buffer-face-mode-face '(:background "gray" :foreground "black"))
    (buffer-face-mode))
 
  ;; Set default font faces for Info and ERC modes
-;; (add-hook 'fundamental-mode-hook 'my-buffer-face-mode-fixed)
-(add-hook 'help-mode-hook 'my-buffer-face-mode-fixed)
- ;; (add-hook 'Info-mode-hook 'my-buffer-face-mode-variable)
+(add-hook 'help-mode-hook 'set-boring-buffer-face)
+(add-hook 'Info-mode-hook 'set-boring-buffer-face)
+(add-hook 'erc-mode-hook  'set-boring-buffer-face)
+(add-hook 'org-mode-hook 'set-boring-buffer-face)
+;; (add-hook 'prog-mode-hook 'set-boring-prog-mode-face)
 
-
-;;    '((t :foreground "black"
-;;        :background "aquamarine"
-;;        :weight semi-bold
-;;        :underline nil
-;;        ))
+(global-set-key (kbd "H-f") 'describe-face)

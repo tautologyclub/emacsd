@@ -1,37 +1,15 @@
-;; helps when you run us keyboard layout without a right bracket :P
-(defun set-kblayout-swedish ()
-  "Set layout to swedish."
-  (interactive)
-  (shell-command "setxkbmap -layout se"))
-(defun set-kblayout-benjamin ()
-  "Set layout to benjaminish."
-  (interactive)
-  (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
 
-(defun forward-to-char-after-ws ()
-  "Wow, docstring."
+(defun dropdown-multiterm ()
+  "Split window, open a terminal below and move focus to it."
   (interactive)
-  (fastnav-search-char-forward 1 ? )
-  (forward-char)
-  (if (looking-at "[[:space:]]")
-      (forward-to-word 1)
-      ;; (forward-to-char-after-ws)
-    )
-  )
-
-(defun benjamin/pop-to-mark-command ()
-  "Jump to mark, and pop a new position for mark off the ring.
-\(Does not affect global mark ring)."
-  (interactive)
-  (if (null (mark t))
-      (pop-global-mark)
-    (if (= (point) (mark t))
-	(message "Mark popped"))
-    (goto-char (mark t))
-    (pop-mark)))
+  (split-window-below)
+  (windmove-down)
+  (multi-term))
 
 (defun open-line-indent (n)
-  "Insert a new line and leave point before it. With arg N insert N newlines."
+  "Insert a new line and leave point before it.
+
+With arg N insert N newlines."
   (interactive "*p")
   (save-excursion
     (newline n)
@@ -49,6 +27,16 @@
   (prog1 (kill-ring-save beg end)
     (setq deactivate-mark nil)))
 
+(defun benjamin/pop-to-mark-command ()
+  "Pop mark ring, unless empty, pop global mark ring if so."
+  (interactive)
+  (if (null (mark t))
+      (pop-global-mark)
+    (if (= (point) (mark t))
+	(message "Mark popped"))
+    (goto-char (mark t))
+    (pop-mark)))
+
 (defun benjamin/find-file-other-frame ()
   "Open file in new frame, but do it optimally."
   (interactive)
@@ -64,17 +52,6 @@
   (message-buffer-file-name-or-nothing)
   )
 
-(defun backward-to-char-before-ws ()
-  "Here's my docstring."
-  (interactive)
-  (while (not (looking-at "[[:space:]]"))
-    (backward-char))
-  (backward-char)
-  (if (looking-at "[[:space:]]")
-      (backward-to-char-before-ws))
-  )
-
-;; kill current line if no region active
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
@@ -82,7 +59,6 @@
      (list (line-beginning-position)
            (line-beginning-position 2)))))
 
-;; TOOGLE COMMENT FOR CURRENT LINE OR REGION
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
@@ -94,7 +70,7 @@
 
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
                                                       activate)
-  "Asdf.  Aaa..."
+  "Don't deactivate mark when commenting."
       (setq deactivate-mark nil))
 
 (defadvice kill-ring-save (before slick-copy activate compile)
@@ -109,29 +85,6 @@
   (interactive)
   (if (= (point) (progn (back-to-indentation) (point)))
       (beginning-of-line)))
-
-;; Transposing lines up/down
-(defun move-line (n)
-  "Move the current line up or down by N lines."
-  (interactive "p")
-  (setq col (current-column))
-  (beginning-of-line) (setq start (point))
-  (end-of-line) (forward-char) (setq end (point))
-  (let ((line-text (delete-and-extract-region start end)))
-    (forward-line n)
-    (insert line-text)
-    ;; restore point to original column in moved line
-    (forward-line -1)
-    (forward-char col)))
-
-(defun move-line-up (n)
-  "Move the current line up by N lines."
-  (interactive "p")
-  (move-line (if (null n) -1 (- n))))
-(defun move-line-down (n)
-  "Move the current line down by N lines."
-  (interactive "p")
-  (move-line (if (null n) 1 n)))
 
 (defun backward-kill-char-or-word ()
   "Not kill entire word if newline or backspace."
@@ -350,6 +303,46 @@ With argument, do this that many times."
               (regexp-quote sym))))
         regexp-history)
   (call-interactively 'occur))
+
+;;;###autoload
+(defun blq/brackets ()
+  (interactive)
+  (cond ((eq major-mode 'term-mode)
+         (term-send-raw-string "[]")
+         (term-send-raw-string ""))
+        ((region-active-p)
+         (lispy--surround-region "[" "]"))
+        (
+         (self-insert-command 1)
+         (insert "]")
+         (backward-char))))
+
+(defun blq/parens ()
+  (interactive)
+  (cond ((eq major-mode 'term-mode)
+         (term-send-raw-string "()")
+         (term-send-raw-string ""))
+        ((region-active-p)
+         (let ((beg (region-beginning))
+               (end (region-end)))
+           (goto-char end)
+           (insert ")")
+           (goto-char beg)
+           (insert "(")
+           (deactivate-mark)))
+        ((looking-back "\\\\")
+         (insert "(\\)")
+         (backward-char 2))
+        (t
+         (if (or (looking-back "\\(if\\)\\|\\(for\\)\\|\\(switch\\)\\|\\(while\\)")
+                 (eq major-mode 'sml-mode))
+             (unless (looking-back " \\|\\[\\|(")
+               (insert " ")))
+         (self-insert-command 1)
+         (insert "")
+         (backward-char))))
+
+;----- source: oremacs ---------------------------------------------------------
 
 ;;;###autoload
 (defun ora-parens ()
