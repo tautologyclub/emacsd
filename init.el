@@ -27,6 +27,9 @@
  '(avy-keys
    (quote
     (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
+ '(aw-keys
+   (quote
+    (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
@@ -121,6 +124,7 @@
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(max-mini-window-height 10)
  '(mode-line-default-help-echo nil)
+ '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
  '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(multi-term-buffer-name "TERM")
@@ -252,6 +256,7 @@
  '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
  '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
  '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
+ '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
@@ -409,6 +414,7 @@
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
 (load "~/.emacs.d/eshell-custom.el")
+(load "~/.emacs.d/feebleline.el")
 (load "~/.emacs.d/bindings2.el")
 (setq org-agenda-files (list "~/.org/medfield.org"
                              "~/.org/work.org"
@@ -419,32 +425,45 @@
 (make-variable-buffer-local 'compile-command)
 (make-variable-buffer-local 'company-backends)
 
+;; (defun message-buffer-file-name-or-nothing ()
+;;   "Mode line proxy."
+;;   (if buffer-file-name
+;;       (message "[%s] (%s:%s) %s"
+;;            (format-time-string "%H:%M:%S")
+;;            (string-to-number (format-mode-line "%l"))
+;;            (current-column)
+;;            (buffer-file-name)
+;;            )
+;;     ))
 
-(defun message-buffer-file-name-or-nothing ()
-  "Mode line proxy."
-  (if buffer-file-name
-      (message "[%s] (%s:%s) %s"
-           (format-time-string "%H:%M:%S")
-           (string-to-number (format-mode-line "%l"))
-           (current-column)
-           (buffer-file-name)
-           )
-    ;; (message "[%s]" (format-time-string "%H:%M:%S")))
-    ))
+;; (defun mode-line-proxy-fn ()
+;;   "Put a mode-line in the echo area if echo area is empty."
+;;   (unwind-protect
+;;       (progn
+;;         (setq message-log-max nil)
+;;         (if (not (current-message))
+;;                  (message-buffer-file-name-or-nothing)))
+;;     (setq message-log-max 1000)))
+;; (run-with-timer 0 0.1 'mode-line-proxy-fn)
 
-(defadvice handle-switch-frame (around switch-frame-message-name)
-  "Get the modeline proxy to work with i3 switch focus."
-  (message-buffer-file-name-or-nothing)
-  ad-do-it
-  (message-buffer-file-name-or-nothing))
-(ad-activate 'handle-switch-frame)
-(add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
-(add-hook 'buffer-list-update-hook 'message-buffer-file-name-or-nothing)
+;; ;; (defadvice handle-switch-frame (around switch-frame-message-name)
+;; ;;   "Get the modeline proxy to work with i3 switch focus."
+;; ;;   (message-buffer-file-name-or-nothing)
+;; ;;   ad-do-it
+;; ;;   (message-buffer-file-name-or-nothing))
+;; ;; (ad-activate 'handle-switch-frame)
+;; ;; (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
+;; ;; (add-hook 'buffer-list-update-hook 'message-buffer-file-name-or-nothing)
+;; (defadvice handle-switch-frame (around switch-frame-message-name)
+;;   "Get the modeline proxy to work with i3 switch focus."
+;;   (mode-line-proxy-fn)
+;;   ad-do-it
+;;   (mode-line-proxy-fn))
+;; (ad-activate 'handle-switch-frame)
+;; (add-hook 'focus-in-hook 'mode-line-proxy-fn)
+;; (add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
 
-
-;; (condition-case nil
-;;     (kill-buffer "*scratch*")
-;;   (error nil))
+;; org-mode *Scratch* buffer
 (setq initial-major-mode 'org-mode)
 
 (provide '.emacs)
