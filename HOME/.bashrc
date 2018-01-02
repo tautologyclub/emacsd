@@ -56,7 +56,6 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
-oldps=$PS1
 PS1='${debian_chroot:+($debian_chroot)}\[\033[02;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
 unset color_prompt force_color_prompt
 
@@ -88,7 +87,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # source some temporary aliases
-. ~/.config/tmp_aliases.sh
+# . ~/.config/tmp_aliases.sh
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -137,10 +136,10 @@ export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
 
-# setxkbmap -layout us
-# xmodmap ~/.config/semicolon.xmodmap
-
-# Ugly tmp
+# setxkbmap -layout us; xmodmap ~/.Xmodmap
 if [ -z "$(pgrep xcape)" ]; then
-    xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11;Control_L=F12;Alt_R=F9;Mode_switch=F8'
+    # xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11;Control_L=F12;Alt_R=F9'
+    xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11;Alt_R=F9'
+    xcape -e 'Mode_switch=semicolon'                                 # Reclaim ;
+    xcape -e 'Hyper_L=q'                                             # Reclaim q
 fi

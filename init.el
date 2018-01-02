@@ -302,7 +302,7 @@
 (require 'org-trello)
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
-
+;; Random vanilla settings
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))

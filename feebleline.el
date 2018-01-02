@@ -43,8 +43,7 @@
            (string-to-number (format-mode-line "%l"))
            (current-column)
            (buffer-file-name)
-           )
-    ))
+           )))
 
 (defun mode-line-proxy-fn ()
   "Put a mode-line proxy in the echo area if echo area is empty."
@@ -56,15 +55,14 @@
     (setq message-log-max 1000)))
 (run-with-timer 0 0.1 'mode-line-proxy-fn)
 
-(defadvice handle-switch-frame (around switch-frame-message-name)
-  "Get the modeline proxy to work with i3 switch focus."
-  (mode-line-proxy-fn)
-  ad-do-it
-  (mode-line-proxy-fn))
-(ad-activate 'handle-switch-frame)
-
+;; (defadvice handle-switch-frame (around switch-frame-message-name)
+;;   "Get the modeline proxy to work with i3 switch focus."
+;;   (mode-line-proxy-fn)
+;;   ad-do-it
+;;   (mode-line-proxy-fn))
+;; (ad-activate 'handle-switch-frame)
 (add-hook 'focus-in-hook 'mode-line-proxy-fn)
-(add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
+;; (add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
 
 (provide 'feebleline)
 

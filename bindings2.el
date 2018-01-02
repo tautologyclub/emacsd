@@ -70,17 +70,20 @@
 
 
 ;; beautiful xcape hacks
-(global-set-key      (kbd "<f9>")  'benjamin/jump-char-fwd)
-(global-set-key      (kbd "<S-f9>")'benjamin/jump-char-bwd)
+(global-set-key       (kbd "<f9>") 'benjamin/jump-char-fwd)
+(global-set-key     (kbd "<S-f9>") 'benjamin/jump-char-bwd)
+(global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)
 (global-set-key      (kbd "<f10>") 'er/expand-region)
 (global-set-key      (kbd "<f11>") 'counsel-projectile)
-(global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
+;; (global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
+(global-set-key      (kbd "<f12>") nil)
+
 (define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
 (define-key helm-map (kbd "<f12>") 'helm-keyboard-quit)
 (define-key ivy-minibuffer-map (kbd "<f11>") 'minibuffer-keyboard-quit)
 (define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
 
-(global-set-key        (kbd "(")    'blq/parens)
+(global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")    'blq/brackets)
 
 
@@ -100,16 +103,17 @@
 (global-set-key     (kbd "C-w")     'kill-region)
 (global-set-key     (kbd "s-w")     'BIND-ME)                            ;; todo
 (global-set-key     (kbd "M-w")     'kill-ring-save)
-(global-set-key     (kbd "H-w")     'find-file-other-window)
-(global-set-key  (kbd "M-s M-w")     (lambi
-                                      (shell-command "~/.config/./split_optimal.sh")
-                                      (call-interactively 'find-file-other-frame)))
+(global-set-key     (kbd "H-w")     'find-file-other-window)             ;; todo
+(global-set-key (kbd "M-s M-w")     (lambi
+                                     (shell-command "~/.config/./split_optimal.sh")
+                                     (call-interactively 'find-file-other-frame)))
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)
 
 (global-set-key     (kbd "s-e")      nil)                            ;; reserved
 (global-set-key     (kbd "C-e")     'xah-end-of-line-or-block)
 (global-set-key     (kbd "M-e")     'forward-whitespace)
 (global-set-key     (kbd "H-e")     'switch-to-buffer)
+(global-set-key     (kbd "H-E")     'switch-to-buffer-other-window)
 (global-set-key   (kbd "C-S-e")     'end-of-defun)                       ;; todo
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
 (global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
@@ -131,7 +135,7 @@
 (global-set-key       (kbd "M-r")   'benjamin/backward-kill-word)
 (global-set-key       (kbd "H-r")   'counsel-projectile-rg)
 (global-set-key       (kbd "H-R")   'counsel-rg)
-(global-set-key     (kbd "H-M-r")   'counsel-rg)
+(global-set-key     (kbd "H-M-r")   'rgrep)
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
@@ -157,7 +161,7 @@
 
 (global-set-key     (kbd "C-u")   'hydra-undo-tree/undo-tree-undo)
 (global-set-key     (kbd "M-u")   'universal-argument)                   ;; todo
-(global-set-key     (kbd "H-u")   'upcase-word-toggle)                   ;; todo
+(global-set-key     (kbd "H-u")   'unfill-paragraph)
 (global-set-key     (kbd "s-u")   'BIND-ME)                              ;; todo
 (global-set-key   (kbd "C-S-u")   'upcase-word-toggle)
 (global-set-key   (kbd "C-x u")   'undo-tree-visualize)
@@ -167,7 +171,7 @@
 
 (global-set-key     (kbd "C-i")   'indent-or-complete)
 (global-set-key     (kbd "M-i")   'counsel-imenu)
-(global-set-key     (kbd "H-i")   'yank)
+(global-set-key     (kbd "H-i")   'completion-at-point)
 (global-set-key     (kbd "s-i")    nil)                              ;; reserved
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
 (global-set-key   (kbd "H-M-i")   'my-increment-number-decimal)
@@ -177,7 +181,7 @@
 (global-set-key       (kbd "ϊ")   'BIND-ME)                              ;; todo
 
 (global-set-key     (kbd "C-o")   'smart-open-line-above)
-(global-set-key     (kbd "M-o")   'other-window-or-frame)
+(global-set-key     (kbd "M-o")   'other-window-or-frame)                ;; todo
 (global-set-key     (kbd "H-o")   'switch-to-buffer-other-window)        ;; todo
 (global-set-key     (kbd "s-o")   'other-window-or-frame)
 (global-set-key   (kbd "C-S-o")   'open-next-line)
@@ -196,7 +200,7 @@
 (global-set-key   (kbd "C-x p")   'BIND-ME)
 
 (global-set-key     (kbd "C-a")   'xah-beginning-of-line-or-block)
-(global-set-key     (kbd "M-a")   (lambi (forward-whitespace -3)))
+(global-set-key     (kbd "M-a")   (lambi (forward-whitespace -1)))
 (global-set-key     (kbd "H-a")   'ace-window)
 (global-set-key     (kbd "s-a")   'BIND-ME)                              ;; todo
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
@@ -271,9 +275,9 @@
 
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'next-line)
-(global-set-key     (kbd "M-j")   'avy-goto-word-1)
+(global-set-key     (kbd "M-j")   'avy-goto-word-or-subword-1)
 (global-set-key     (kbd "s-j")    nil)                              ;; reserved
-(global-set-key   (kbd "C-S-j")   'avy-goto-word-1)                      ;; todo
+(global-set-key   (kbd "C-S-j")   'avy-goto-word-or-subword-1)           ;; todo
 (global-set-key   (kbd "C-x j")   (lambi (dired-jump) (hydra-dired/body)))
 (global-set-key       (kbd "ι")   'move-text-down)
 
@@ -341,12 +345,11 @@
                                     (call-interactively 'er/expand-region)))
 (global-set-key   (kbd "C-S-m")   'er/contract-region)
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
-(global-set-key   (kbd "C-<f9>")  'benjamin/set-mark-command)
 (global-set-key   (kbd "C-c m")   'mark-defun)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
-(global-set-key       (kbd "μ")   'projectile-command-map)               ;; todo
+(global-set-key       (kbd "μ")   'BIND-ME)                              ;; todo
 
 (global-set-key (kbd "C-,")     'set-mark-and-deactive)
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
