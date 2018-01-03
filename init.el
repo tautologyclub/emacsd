@@ -34,6 +34,11 @@
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
  '(company-auto-complete-chars nil)
+ '(company-backends
+   (quote
+    (company-semantic company-clang company-xcode company-cmake company-capf company-files
+                      (company-dabbrev-code company-gtags company-etags company-keywords)
+                      company-oddmuse company-dabbrev)))
  '(company-idle-delay 0)
  '(company-minimum-prefix-length 3)
  '(company-tooltip-idle-delay 0.5)
@@ -53,13 +58,14 @@
  '(elfeed-feeds
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
- '(elpy-rpc-backend "rope")
+ '(elpy-rpc-backend "rope" t)
  '(erc-autojoin-channels-alist (quote (("#emacs"))))
  '(erc-nick "g00iekabl00ie")
  '(erc-rename-buffers t)
  '(eshell-banner-message
    "--- eshell ---------------------------------------------------------------------
 ")
+ '(explicit-shell-file-name "/usr/bin/xterm")
  '(fci-rule-color "#c7c7c7")
  '(fill-column 79)
  '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
@@ -138,7 +144,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -265,6 +271,13 @@
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
+ '(org-date ((t (:foreground "dark red" :underline t))))
+ '(org-done ((t (:foreground "purple" :weight bold))))
+ '(org-level-1 ((t (:foreground "dark red" :weight bold :height 1.35))))
+ '(org-level-2 ((t (:foreground "dark green" :weight bold :height 1.2))))
+ '(org-level-3 ((t (:foreground "navy" :weight bold :height 1.0))))
+ '(org-level-4 ((t (:foreground "magenta"))))
+ '(org-special-keyword ((t (:slant italic :weight semi-bold))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
@@ -333,6 +346,7 @@
       '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
       savehist-file "~/.emacs.d/savehist")
 
+(recentf-mode)
 (fset 'yes-or-no-p 'y-or-n-p)
 (window-divider-mode t)
 (yas-global-mode 1)
@@ -364,11 +378,12 @@
   (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'prog-mode-hook 'set-hook-newline-and-indent)
 
-(defadvice hippie-expand (around hippie-expand-case-fold)
-  "Try to do case-sensitive matching (not effective with all functions)."
-  (let ((case-fold-search nil))
-    ad-do-it))
-(ad-activate 'hippie-expand)
+;;;; garbage:
+;; (defadvice hippie-expand (around hippie-expand-case-fold)
+;;   "Try to do case-sensitive matching (not effective with all functions)."
+;;   (let ((case-fold-search nil))
+;;     ad-do-it))
+;; (ad-activate 'hippie-expand)
 
 (add-to-list 'semantic-default-submodes
              'global-semantic-idle-local-symbol-highlight-mode)

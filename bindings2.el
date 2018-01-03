@@ -133,9 +133,11 @@
 (global-set-key       (kbd "s-r")    nil)                            ;; reserved
 (global-set-key       (kbd "C-r")   'backward-delete-char)
 (global-set-key       (kbd "M-r")   'benjamin/backward-kill-word)
-(global-set-key       (kbd "H-r")   'counsel-projectile-rg)
+(global-set-key       (kbd "H-r")   'counsel-projectile-rg)              ;; TODO
+(global-set-key       (kbd "H-r")   'backward-delete-char-untabify)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'rgrep)
+(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
@@ -146,7 +148,8 @@
 (global-set-key     (kbd "s-t")    nil)                              ;; reserved
 (global-set-key     (kbd "C-t")   'transpose-chars)                      ;; todo
 (global-set-key     (kbd "M-t")   'transpose-words)                      ;; todo
-(global-set-key     (kbd "H-t")   'get-term)
+(global-set-key     (kbd "H-t")   'dropdown-multiterm)
+(global-set-key     (kbd "H-T")   'multi-term)
 (global-set-key   (kbd "C-S-t")   'hydra-toggle/body)
 (global-set-key   (kbd "C-c t")   'transpose-params)
 (global-set-key (kbd "M-s M-t")   'multi-term)
@@ -208,8 +211,6 @@
 (global-set-key   (kbd "C-c a")   'org-agenda)
 (global-set-key      (kbd "ρ")    (lambi (insert "/")))
 (global-set-key      (kbd "α")    (lambi (insert "*")))
-(global-set-key      (kbd "/")    (lambi (benjamin/notify "Use ;-a instead!")
-                                   (call-interactively 'self-insert-command)))
 (global-set-key      (kbd "*")    (lambi (benjamin/notify "Use ;-A instead!")
                                    (call-interactively 'self-insert-command)))
 
@@ -221,13 +222,12 @@
 (global-set-key   (kbd "C-M-s")   'save-buffer)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 (global-set-key       (kbd "β")   (lambi (insert "_")))
-(global-set-key       (kbd "_")   (lambi (benjamin/notify "Use ;-s instead!")
-                                   (call-interactively 'self-insert-command)))
 
 (global-set-key     (kbd "C-d")   'delete-char)
-(global-set-key     (kbd "H-d")   'dropdown-multiterm)
+(global-set-key     (kbd "H-d")   'dropdown-multiterm)                   ;; TODO
+(global-set-key     (kbd "H-d")   'delete-char)
 (global-set-key     (kbd "M-d")   'benjamin/kill-word)
-(global-set-key   (kbd "C-S-d")   'hungry-delete-forward)                ;; todo
+(global-set-key   (kbd "C-S-d")   'dropdown-multiterm)
 (global-set-key (kbd "M-s M-d")   'delete-window)
 (global-set-key   (kbd "M-s d")   'my-decrement-number-decimal)
 (global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)
@@ -247,7 +247,6 @@
 (global-set-key (kbd "M-s M-f")   'find-file)                            ;; todo
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 (global-set-key (kbd "C-c C-f")   'find-file-at-point)
-(global-set-key       (kbd "ώ")   'ora-parens)
 
 (global-set-key   (kbd "C-S-g")   'goto-line-with-feedback)              ;; todo
 (global-set-key     (kbd "M-g")   'avy-goto-char)
@@ -258,8 +257,6 @@
 (global-set-key   (kbd "C-c g")   'helm-google)
 (global-set-key   (kbd "M-s g")   'hydra-git-gutter/body)
 (global-set-key       (kbd "γ")   (lambi (insert "?")))
-(global-set-key       (kbd "?")   (lambi (benjamin/notify "Use ;-g instead!")
-                                   (self-insert-command 1)))
 
 (global-set-key     (kbd "C-h")   'backward-char)
 (global-set-key     (kbd "M-h")   'er/mark-defun)                        ;; todo
@@ -300,10 +297,6 @@
 (global-set-key   (kbd "C-x l")   'counsel-locate)
 (global-set-key     (kbd "s-l")    nil)                              ;; reserved
 (global-set-key       (kbd "ξ")   (lambi (insert "+")))
-(global-set-key       (kbd "+")   (lambi (benjamin/notify "use ;-l instead!")
-                                   (self-insert-command 1)))
-(global-set-key       (kbd "+")   (lambi (benjamin/notify "use ;-l instead!")
-                                   (self-insert-command 1)))
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
 (global-set-key     (kbd "M-z")   'kill-line-save)
@@ -370,7 +363,6 @@
 (global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-s SPC") 'shell-command)
 (global-set-key (kbd "C-<f8>")  'benjamin/set-mark-command)
-(global-set-key (kbd "C-<backspace>")  'BIND-ME)                         ;; todo
 
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "<H-return>")      'get-term)

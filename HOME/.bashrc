@@ -87,7 +87,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 # source some temporary aliases
-# . ~/.config/tmp_aliases.sh
+. ~/.config/tmp_aliases.sh
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -100,6 +100,9 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
+fi
+if [ -f ~/.bash_bindings ]; then
+    . ~/.bash_bindings
 fi
 
 # enable programmable completion features (you don't need to enable
