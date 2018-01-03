@@ -1,12 +1,3 @@
-(defun set-kblayout-swedish ()
-  "Set layout to swedish."
-  (interactive)
-  (shell-command "setxkbmap -layout se"))
-(defun set-kblayout-benjamin ()
-  "Set layout to benjaminish."
-  (interactive)
-  (shell-command "setxkbmap us; xmodmap ~/.Xmodmap"))
-
 (defun dropdown-multiterm ()
   "Split window, open a terminal below and move focus to it."
   (interactive)
