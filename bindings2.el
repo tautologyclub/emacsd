@@ -70,18 +70,18 @@
 
 
 ;; beautiful xcape hacks
-(global-set-key       (kbd "<f9>") 'benjamin/jump-char-fwd)
-(global-set-key     (kbd "<S-f9>") 'benjamin/jump-char-bwd)
-(global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)
-(global-set-key      (kbd "<f10>") 'er/expand-region)
-(global-set-key      (kbd "<f11>") 'counsel-projectile)
-;; (global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
-(global-set-key      (kbd "<f12>") nil)
+(define-key key-translation-map (kbd "<f11>") (kbd "C-c"))               ;; todo
+(global-set-key                 (kbd "<f10>") 'er/expand-region)
+(global-set-key                 (kbd "<f9>") 'benjamin/jump-char-fwd)
+(global-set-key                 (kbd "<S-f9>") 'benjamin/jump-char-bwd)
+(global-set-key                 (kbd "C-<f9>") 'benjamin/set-mark-command)
 
-(define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
-(define-key helm-map (kbd "<f12>") 'helm-keyboard-quit)
-(define-key ivy-minibuffer-map (kbd "<f11>") 'minibuffer-keyboard-quit)
-(define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
+;; (global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
+;; (global-set-key      (kbd "<f12>") nil)
+;; (define-key helm-map            (kbd "<f11>") 'helm-keyboard-quit)
+;; (define-key ivy-minibuffer-map  (kbd "<f11>") 'minibuffer-keyboard-quit)
+;; (define-key helm-map (kbd "<f12>") 'helm-keyboard-quit)
+;; (define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
 
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")    'blq/brackets)
@@ -90,23 +90,21 @@
 ;; --- 1-2-3 go ----------------------------------------------------------------
 (global-set-key (kbd "M-s M-1")     (lambi (eshell 1)))
 (global-set-key (kbd "M-s M-2")     (lambi (eshell 2)))
+(global-set-key     (kbd "H-0")     'delete-other-windows)
 
 (global-set-key      (kbd "C-q")    'left-word)
 (global-set-key      (kbd "s-q")    'BIND-ME)                            ;; todo
-(global-set-key    (kbd "C-S-q")    'shell-command)                      ;; todo
 (global-set-key      (kbd "M-q")    'benjamin/jump-char-bwd)
+(global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key  (kbd "C-x S-q")    'query-replace-regexp)
-(global-set-key  (kbd "M-s M-q")     (lambi (volatile-kill-buffer)
-                                      (delete-window)))
+(global-set-key  (kbd "M-s M-q")    (lambi (volatile-kill-buffer) (delete-window)))
 
 (global-set-key     (kbd "C-w")     'kill-region)
 (global-set-key     (kbd "s-w")     'BIND-ME)                            ;; todo
 (global-set-key     (kbd "M-w")     'kill-ring-save)
-(global-set-key     (kbd "H-w")     'find-file-other-window)             ;; todo
-(global-set-key (kbd "M-s M-w")     (lambi
-                                     (shell-command "~/.config/./split_optimal.sh")
-                                     (call-interactively 'find-file-other-frame)))
+(global-set-key     (kbd "H-w")     'find-file-other-window)
+(global-set-key (kbd "M-s M-w")     (lambi (shell-command "~/.config/./split_optimal.sh") (call-interactively 'find-file-other-frame)))
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)
 
 (global-set-key     (kbd "s-e")      nil)                            ;; reserved
@@ -191,12 +189,15 @@
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file)
 (global-set-key   (kbd "C-x o")   'occur-dwim)
 
+(define-key projectile-mode-map (kbd "C-c p") nil)
 (global-set-key     (kbd "C-p")   'projectile-command-map)
 (global-set-key     (kbd "M-p")   'benjamin/pop-to-mark-command)
-(global-set-key     (kbd "H-p")   'BIND-ME)
+(global-set-key     (kbd "H-p")   (lambi (avy-push-mark)))
+(global-set-key  (kbd "H-<f9>")   (lambi (avy-pop-mark)))
 (global-set-key     (kbd "s-p")   'counsel-yank-pop)
 (global-set-key   (kbd "H-M-p")   'BIND-ME)
 (global-set-key   (kbd "C-S-p")   'async-shell-command)
+(global-set-key   (kbd "C-c p")   'er/mark-paragraph)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
 (global-set-key   (kbd "C-c Pt")  'profiler-stop)
@@ -212,7 +213,7 @@
 (global-set-key      (kbd "ρ")    (lambi (insert "/")))
 (global-set-key      (kbd "α")    (lambi (insert "*")))
 
-(global-set-key     (kbd "C-s")   'swiper)
+(global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
 (global-set-key     (kbd "H-s")   'BIND-ME)                              ;; todo
 (global-set-key     (kbd "s-s")   'counsel-git-grep)
 (global-set-key   (kbd "C-x s")   'save-buffer)
@@ -267,7 +268,7 @@
 (global-set-key       (kbd "η")   'ora-braces)
 
 (global-set-key     (kbd "C-j")   'next-line)
-(global-set-key     (kbd "H-j")   'next-line)
+(global-set-key     (kbd "H-j")   'newline-and-indent)
 (global-set-key     (kbd "M-j")   'avy-goto-word-or-subword-0)
 (global-set-key     (kbd "s-j")    nil)                              ;; reserved
 (global-set-key   (kbd "C-S-j")   'avy-goto-word-or-subword-1)           ;; todo
@@ -332,10 +333,11 @@
 (define-key input-decode-map [?\C-m] [C-m])
 (global-set-key    (kbd "<C-m>")  (lambi (call-interactively 'er/expand-region)
                                     (call-interactively 'er/expand-region)))
-(global-set-key   (kbd "C-S-m")   'er/contract-region)
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
-(global-set-key   (kbd "C-c m")   'mark-defun)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
+(global-set-key     (kbd "H-m")   'hydra-toggle/body)
+(global-set-key   (kbd "C-S-m")   'er/contract-region)
+(global-set-key   (kbd "C-c m")   'er/mark-defun)
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
 (global-set-key       (kbd "μ")   'BIND-ME)                              ;; todo
@@ -345,12 +347,11 @@
 (global-set-key (kbd "C->")     'hs-toggle-hiding)
 
 (global-set-key (kbd "C--")     'previous-buffer)
-(global-set-key (kbd "C--")     'previous-buffer)
 (global-set-key (kbd "C-=")     'next-buffer)
-(global-set-key (kbd "M--")     'zoom-frm-out)
-(global-set-key (kbd "M-=")     'zoom-frm-in)
 (global-set-key (kbd "H--")     'previous-buffer)
 (global-set-key (kbd "H-=")     'next-buffer)
+(global-set-key (kbd "M--")     'zoom-frm-out)
+(global-set-key (kbd "M-=")     'zoom-frm-in)
 (global-set-key (kbd "C-H--")   'my-decrement-number-decimal)
 (global-set-key (kbd "C-H-=")   'my-increment-number-decimal)
 (global-set-key (kbd "C-_")     (lambi (shrink-window 5)))

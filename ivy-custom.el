@@ -13,6 +13,7 @@
 (setq ivy-use-selectable-prompt t)
 (setq magit-completing-read-function 'ivy-completing-read)
 (setq ivy-extra-directories nil)
+(setq counsel-grep-swiper-limit 60000)
 
 
 
