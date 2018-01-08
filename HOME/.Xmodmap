@@ -1,5 +1,5 @@
-keycode  10 = 1 exclam exclam U2081
-keycode  11 = 2 at at U2082
+keycode  10 = 1 exclam asterisk U2081
+keycode  11 = 2 at ampersand U2082
 keycode  12 = 3 numbersign numbersign U2083
 keycode  13 = 4 dollar dollar U2084
 keycode  14 = 5 percent percent U2085

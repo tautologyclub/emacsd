@@ -146,3 +146,10 @@ if [ -z "$(pgrep xcape)" ]; then
     xcape -e 'Mode_switch=semicolon'                                 # Reclaim ;
     xcape -e 'Hyper_L=q'                                             # Reclaim q
 fi
+
+# having $TERM==xterm-termite messes up remote terminals among other
+# things. Easily fixed though:
+if [[ $TERM == *"xterm"* ]]; then
+    # echo Renaming "$TERM" to xterm
+    export TERM=xterm
+fi

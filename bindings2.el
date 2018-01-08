@@ -211,8 +211,6 @@
 (global-set-key   (kbd "C-c a")   'org-agenda)
 (global-set-key      (kbd "ρ")    (lambi (insert "/")))
 (global-set-key      (kbd "α")    (lambi (insert "*")))
-(global-set-key      (kbd "*")    (lambi (benjamin/notify "Use ;-A instead!")
-                                   (call-interactively 'self-insert-command)))
 
 (global-set-key     (kbd "C-s")   'swiper)
 (global-set-key     (kbd "H-s")   'BIND-ME)                              ;; todo
@@ -235,8 +233,6 @@
 (global-set-key   (kbd "C-c dd")  'benjamin/desktop-mode)
 (global-set-key       (kbd "ε")   (lambi (insert ":")))
 (global-set-key       (kbd "ζ")   (lambi (insert "&")))
-(global-set-key       (kbd "&")   (lambi (benjamin/notify "Use ;-D instead!")
-                                   (call-interactively 'self-insert-command)))
 
 (global-set-key     (kbd "C-f")   'right-word)
 (global-set-key     (kbd "M-f")   'benjamin/jump-char-fwd)               ;; todo
@@ -272,7 +268,7 @@
 
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'next-line)
-(global-set-key     (kbd "M-j")   'avy-goto-word-or-subword-1)
+(global-set-key     (kbd "M-j")   'avy-goto-word-or-subword-0)
 (global-set-key     (kbd "s-j")    nil)                              ;; reserved
 (global-set-key   (kbd "C-S-j")   'avy-goto-word-or-subword-1)           ;; todo
 (global-set-key   (kbd "C-x j")   (lambi (dired-jump) (hydra-dired/body)))
