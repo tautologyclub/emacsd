@@ -74,6 +74,7 @@
     ("/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")))
  '(flycheck-display-errors-delay 1.5)
  '(flycheck-pos-tip-timeout 20)
+ '(font-lock-maximum-decoration nil)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -123,6 +124,7 @@
  '(ivy-height 24)
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
  '(ivy-mode t)
+ '(jit-lock-stealth-time 1)
  '(keyboard-coding-system (quote utf-8-unix))
  '(line-number-mode nil)
  '(magit-commit-arguments nil)
@@ -318,6 +320,7 @@
 (setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
 ;; Random vanilla settings
+;; (setq enable-recursive-minibuffers t)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))

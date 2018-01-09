@@ -133,12 +133,11 @@
 (global-set-key       (kbd "s-r")    nil)                            ;; reserved
 (global-set-key       (kbd "C-r")   'backward-delete-char)
 (global-set-key       (kbd "M-r")   'benjamin/backward-kill-word)
-(global-set-key       (kbd "H-r")   'counsel-projectile-rg)              ;; TODO
-(global-set-key       (kbd "H-r")   'backward-delete-char-untabify)
+(global-set-key       (kbd "H-r")   'backward-delete-char)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'rgrep)
 (global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
-(global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
+(global-set-key     (kbd "C-S-r")   'counsel-projectile-rg)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
@@ -200,6 +199,7 @@
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
 (global-set-key   (kbd "C-c Pt")  'profiler-stop)
+(global-set-key   (kbd "C-c Pe")  'profiler-reset)
 (global-set-key   (kbd "C-x p")   'BIND-ME)
 
 (global-set-key     (kbd "C-a")   'xah-beginning-of-line-or-block)
@@ -212,11 +212,12 @@
 (global-set-key      (kbd "ρ")    (lambi (insert "/")))
 (global-set-key      (kbd "α")    (lambi (insert "*")))
 
-(global-set-key     (kbd "C-s")   'swiper)
+(global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
 (global-set-key     (kbd "H-s")   'BIND-ME)                              ;; todo
 (global-set-key     (kbd "s-s")   'counsel-git-grep)
 (global-set-key   (kbd "C-x s")   'save-buffer)
 (global-set-key   (kbd "C-S-s")   'swiper-all)
+(global-set-key   (kbd "C-S-s")   'helm-swoop)
 (global-set-key   (kbd "C-M-s")   'save-buffer)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 (global-set-key       (kbd "β")   (lambi (insert "_")))

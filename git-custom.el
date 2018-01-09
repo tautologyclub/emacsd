@@ -23,14 +23,13 @@
                             :hint nil)
   "
 Git (gutter and other stuff):
-  _j_: next hunk        _s_tage hunk     _f_ind-file        _q_uit
-  _k_: previous hunk    _r_evert hunk    _b_lame            _Q_uit hard
-  _h_: first hunk       _l_ast hunk      _e_: vc-ediff      _S_tage buffer
-           _p_opup hunk     _cl_ counsel-log   _cg_ grep
-  set start _R_evision
+  _j_: next hunk        _s_tage hunk     _f_ind-file     _q_uit
+  _k_: previous hunk    _r_evert hunk    _b_lame         _Q_uit hard
+  _h_: first hunk       vc-_e_diff       _S_tage buffer
+  _l_: last hunk  setStart_R_evision  _p_opup hunk  _cg_rep   _cl_og
 "
   ("f" magit-find-file :color blue)
-  ("b" magit-blame)
+  ("b" magit-blame :color blue)
   ("cg" counsel-git-grep :color blue)
   ("cl" counsel-git-log :color blue)
   ("j" git-gutter+-next-hunk)
