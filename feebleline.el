@@ -55,13 +55,13 @@
     (setq message-log-max 1000)))
 (run-with-timer 0 0.1 'mode-line-proxy-fn)
 
-;; (defadvice handle-switch-frame (around switch-frame-message-name)
-;;   "Get the modeline proxy to work with i3 switch focus."
-;;   (mode-line-proxy-fn)
-;;   ad-do-it
-;;   (mode-line-proxy-fn))
-;; (ad-activate 'handle-switch-frame)
-(add-hook 'focus-in-hook 'mode-line-proxy-fn)
+(defadvice handle-switch-frame (after switch-frame-message-name)
+  "Get the modeline proxy to work with i3 switch focus."
+  (mode-line-buffer-file-name-or-nothing)
+  ad-do-it
+  (mode-line-proxy-fn))
+(ad-activate 'handle-switch-frame)
+(add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
 ;; (add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
 
 (provide 'feebleline)
