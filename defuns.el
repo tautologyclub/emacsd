@@ -5,6 +5,13 @@
   (windmove-down)
   (multi-term))
 
+(defun clear-text-properties-from-buffer ()
+  "Remove all text properties from the buffer."
+  (interactive)
+  (let ((inhibit-read-only t))
+    (set-text-properties (point-min) (point-max) nil))
+  )
+
 (defun open-line-indent (n)
   "Insert a new line and leave point before it.
 

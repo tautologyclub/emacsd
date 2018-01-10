@@ -74,7 +74,6 @@
     ("/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")))
  '(flycheck-display-errors-delay 1.5)
  '(flycheck-pos-tip-timeout 20)
- '(font-lock-maximum-decoration nil)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -146,7 +145,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav pdf-tools dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -289,6 +288,7 @@
  '(term-color-red ((t (:background "red3" :foreground "indian red"))))
  '(whitespace-line ((t (:foreground "dark magenta")))))
 
+
 (defmacro csetq (variable value)
   "Stolen from abo-abo.  VARIABLE and VALUE blabla."
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
@@ -296,6 +296,8 @@
 (defmacro lambi (&rest b)
   "Laziest macro in the world!  B etc."
   `(lambda () (interactive),@b))
+
+(eval-after-load 'pdf-view '(define-key pdf-view-mode-map (kbd "C-s") 'isearch-forward)  )
 
 (require 'cc-mode)
 (require 'counsel)
@@ -321,6 +323,7 @@
 
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
+(setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -427,6 +430,7 @@
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
+(load "~/.emacs.d/gdb-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/hydra-jumper.el")
 (load "~/.emacs.d/git-custom.el")
