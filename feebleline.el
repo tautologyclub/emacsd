@@ -57,7 +57,7 @@
 
 (defadvice handle-switch-frame (after switch-frame-message-name)
   "Get the modeline proxy to work with i3 switch focus."
-  (mode-line-buffer-file-name-or-nothing)
+  (message-buffer-file-name-or-nothing)
   ad-do-it
   (mode-line-proxy-fn))
 (ad-activate 'handle-switch-frame)
