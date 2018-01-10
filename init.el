@@ -58,7 +58,7 @@
  '(elfeed-feeds
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
- '(elpy-rpc-backend "rope" t)
+ '(elpy-rpc-backend "rope")
  '(erc-autojoin-channels-alist (quote (("#emacs"))))
  '(erc-nick "g00iekabl00ie")
  '(erc-rename-buffers t)
@@ -342,6 +342,7 @@
 (setq select-enable-clipboard t)
 (fset 'yes-or-no-p 'y-or-n-p)
 
+(setq mouse-autoselect-window t)
 (savehist-mode 1)
 (setq savehist-save-minibuffer-history 1)
 (setq savehist-additional-variables

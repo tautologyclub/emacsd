@@ -70,7 +70,7 @@
 
 
 ;; beautiful xcape hacks
-(define-key key-translation-map (kbd "<f11>") (kbd "C-c"))               ;; todo
+(global-set-key                 (kbd "<f11>") 'ace-window)
 (global-set-key                 (kbd "<f10>") 'er/expand-region)
 (global-set-key                 (kbd "<f9>") 'benjamin/jump-char-fwd)
 (global-set-key                 (kbd "<S-f9>") 'benjamin/jump-char-bwd)
