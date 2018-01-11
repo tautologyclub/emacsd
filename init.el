@@ -346,16 +346,21 @@
       kept-old-versions 2
       version-control t)       ; use versioned backups
 (setq select-enable-clipboard t)
-(fset 'yes-or-no-p 'y-or-n-p)
 
-(savehist-mode 1)
-(setq savehist-save-minibuffer-history 1)
-(setq savehist-additional-variables
-      '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
-      savehist-file "~/.emacs.d/savehist")
+(make-variable-buffer-local 'compile-command)
+(make-variable-buffer-local 'company-backends)
+(setq initial-major-mode 'org-mode)     ;; for *Scratch*
+
+;; (savehist-mode 1)
+;; (setq savehist-save-minibuffer-history 1)
+;; (setq savehist-additional-variables
+;;       '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
+;;       savehist-file "~/.emacs.d/savehist")
+
+(fset 'yes-or-no-p 'y-or-n-p)
+(put 'scroll-left 'disabled nil)
 
 (recentf-mode)
-(fset 'yes-or-no-p 'y-or-n-p)
 (window-divider-mode t)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
@@ -364,20 +369,19 @@
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
 (global-auto-revert-mode)
-(put 'scroll-left 'disabled nil)
+(electric-pair-mode)
+(projectile-mode t)
+(auto-dim-other-buffers-mode 1)
+
 (add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
-(electric-pair-mode)
-(projectile-mode t)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
-(auto-dim-other-buffers-mode 1)
-;; (counsel-projectile-on)
-
 (eval-after-load 'flycheck
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
@@ -386,27 +390,16 @@
   (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'prog-mode-hook 'set-hook-newline-and-indent)
 
-;;;; garbage:
-;; (defadvice hippie-expand (around hippie-expand-case-fold)
-;;   "Try to do case-sensitive matching (not effective with all functions)."
-;;   (let ((case-fold-search nil))
-;;     ad-do-it))
-;; (ad-activate 'hippie-expand)
-
+;; I dunno if semantic is really worth it, it's kind of shit
 (add-to-list 'semantic-default-submodes
              'global-semantic-idle-local-symbol-highlight-mode)
 (add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (semantic-mode 1)
 (global-semantic-idle-scheduler-mode t)
-;(global-ede-mode t)
-;(ede-enable-generic-projects)
-
-
 
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
-(find-file "~/.org/emacs.org")
 (find-file "~/.emacs.d/init.el")
 
 ;; ugly load
@@ -434,61 +427,18 @@
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/hydra-jumper.el")
 (load "~/.emacs.d/git-custom.el")
-;; (load "~/.emacs.d/irony-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
 (load "~/.emacs.d/eshell-custom.el")
 (load "~/.emacs.d/feebleline.el")
 (load "~/.emacs.d/bindings2.el")
-(setq org-agenda-files (list "~/.org/medfield.org"
-                             "~/.org/work.org"
-                             "~/.org/reac.org"
-                             "~/.org/unjo.org"
-                             "~/.org/home.org"))
 
-(make-variable-buffer-local 'compile-command)
-(make-variable-buffer-local 'company-backends)
-
-;; (defun message-buffer-file-name-or-nothing ()
-;;   "Mode line proxy."
-;;   (if buffer-file-name
-;;       (message "[%s] (%s:%s) %s"
-;;            (format-time-string "%H:%M:%S")
-;;            (string-to-number (format-mode-line "%l"))
-;;            (current-column)
-;;            (buffer-file-name)
-;;            )
-;;     ))
-
-;; (defun mode-line-proxy-fn ()
-;;   "Put a mode-line in the echo area if echo area is empty."
-;;   (unwind-protect
-;;       (progn
-;;         (setq message-log-max nil)
-;;         (if (not (current-message))
-;;                  (message-buffer-file-name-or-nothing)))
-;;     (setq message-log-max 1000)))
-;; (run-with-timer 0 0.1 'mode-line-proxy-fn)
-
-;; ;; (defadvice handle-switch-frame (around switch-frame-message-name)
-;; ;;   "Get the modeline proxy to work with i3 switch focus."
-;; ;;   (message-buffer-file-name-or-nothing)
-;; ;;   ad-do-it
-;; ;;   (message-buffer-file-name-or-nothing))
-;; ;; (ad-activate 'handle-switch-frame)
-;; ;; (add-hook 'focus-in-hook 'message-buffer-file-name-or-nothing)
-;; ;; (add-hook 'buffer-list-update-hook 'message-buffer-file-name-or-nothing)
-;; (defadvice handle-switch-frame (around switch-frame-message-name)
-;;   "Get the modeline proxy to work with i3 switch focus."
-;;   (mode-line-proxy-fn)
-;;   ad-do-it
-;;   (mode-line-proxy-fn))
-;; (ad-activate 'handle-switch-frame)
-;; (add-hook 'focus-in-hook 'mode-line-proxy-fn)
-;; (add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
-
-;; org-mode *Scratch* buffer
-(setq initial-major-mode 'org-mode)
+;; ;;;; todo -- agenda workflow...
+;; (setq org-agenda-files (list "~/.org/medfield.org"
+;;                              "~/.org/work.org"
+;;                              "~/.org/reac.org"
+;;                              "~/.org/unjo.org"
+;;                              "~/.org/home.org"))
 
 (provide '.emacs)
 ;;; .emacs ends here

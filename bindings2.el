@@ -70,18 +70,12 @@
 
 
 ;; beautiful xcape hacks
-(define-key key-translation-map (kbd "<f11>") (kbd "C-c"))               ;; todo
+;; (define-key key-translation-map (kbd "<f11>") (kbd "C-c"))               ;; todo
+(global-set-key                 (kbd "<f11>") 'ace-window)
 (global-set-key                 (kbd "<f10>") 'er/expand-region)
-(global-set-key                 (kbd "<f9>") 'benjamin/jump-char-fwd)
-(global-set-key                 (kbd "<S-f9>") 'benjamin/jump-char-bwd)
-(global-set-key                 (kbd "C-<f9>") 'benjamin/set-mark-command)
-
-;; (global-set-key      (kbd "<f12>") 'ivy-switch-buffer)
-;; (global-set-key      (kbd "<f12>") nil)
-;; (define-key helm-map            (kbd "<f11>") 'helm-keyboard-quit)
-;; (define-key ivy-minibuffer-map  (kbd "<f11>") 'minibuffer-keyboard-quit)
-;; (define-key helm-map (kbd "<f12>") 'helm-keyboard-quit)
-;; (define-key ivy-minibuffer-map (kbd "<f12>") 'minibuffer-keyboard-quit)
+(global-set-key                  (kbd "<f9>") 'benjamin/jump-char-fwd)
+(global-set-key                (kbd "<S-f9>") 'benjamin/jump-char-bwd)
+(global-set-key                (kbd "C-<f9>") 'benjamin/set-mark-command)
 
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")    'blq/brackets)
@@ -185,9 +179,9 @@
 ;; (global-set-key     (kbd "M-o")   'other-window-or-frame)
 (global-set-key     (kbd "M-o")   'ace-window)
 (global-set-key     (kbd "H-o")   'switch-to-buffer-other-window)        ;; todo
-(global-set-key     (kbd "s-o")   'other-window-or-frame)
 (global-set-key   (kbd "C-S-o")   'open-next-line)
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file)
+(global-set-key   (kbd "M-s o")   'projectile-find-other-file-other-window)
 (global-set-key   (kbd "C-x o")   'occur-dwim)
 
 (define-key projectile-mode-map (kbd "C-c p") nil)

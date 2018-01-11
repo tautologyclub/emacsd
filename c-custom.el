@@ -32,6 +32,7 @@
   (enlarge-window 25)
   (hydra-errgo/body))
 
+(define-key c-mode-base-map (kbd "M-q") nil)
 (define-key c-mode-base-map (kbd "M-e") nil)
 (define-key c-mode-base-map (kbd "M-a") nil)
 (define-key c-mode-base-map (kbd "M-j") nil)

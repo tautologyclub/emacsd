@@ -66,6 +66,7 @@
 (define-key projectile-command-map (kbd "t")    #'projectile-get-term)
 (define-key projectile-command-map (kbd "r")    #'counsel-projectile-rg)
 (define-key projectile-command-map (kbd "o")    #'projectile-find-other-file)
+(define-key projectile-command-map (kbd "O")    #'projectile-find-other-file-other-window)
 (define-key projectile-command-map (kbd "p")    #'counsel-projectile)
 (define-key projectile-command-map (kbd "a")    #'counsel-projectile-ag)
 (define-key projectile-command-map (kbd "s")    #'counsel-projectile-switch-project)
