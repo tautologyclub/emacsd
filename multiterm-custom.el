@@ -58,3 +58,4 @@
         yank yank-pop yank-rectangle))))
 
 (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
+(define-key term-raw-map (kbd "C-_") nil)
