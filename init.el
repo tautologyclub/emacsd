@@ -11,7 +11,21 @@
                                  "http://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (package-initialize)
+
+(require 'mu4e)
+(setq mu4e-get-mail-command "offlineimap")
+(setq mu4e-update-interval 120)
+(setq mu4e-sent-folder "/SentItems"
+      mu4e-drafts-folder "/Drafts"
+      mu4e-trash-folder "/DeletedItems"
+      mu4e-refile-folder "/Archive"
+      user-email-addresss "benjamin@lindqvist.xyz"
+      smtpmail-default-smtp-server "smtp.office365.com"
+      smtpmail-smtp-service 587
+      )
+;; Encryption method: STARTTLS
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -134,6 +148,7 @@
  '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
  '(mouse-avoidance-mode (quote banish) nil (avoid))
+ '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
  '(nrepl-message-colors
@@ -145,7 +160,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -324,6 +339,7 @@
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
 (setq mouse-autoselect-window t)
+;; (setq mouse-autoselect-window nil)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
@@ -359,6 +375,14 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (put 'scroll-left 'disabled nil)
+
+
+
+;; (require 'spotify)
+
+;; Settings
+(setq spotify-oauth2-client-secret "<spotify-app-client-secret>")
+(setq spotify-oauth2-client-id "<spotify-app-client-id>")
 
 (recentf-mode)
 (window-divider-mode t)

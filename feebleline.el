@@ -35,26 +35,27 @@
 
 ;;; Code:
 
+(defvar feebleline/default-log-max)
+(setq feebleline/default-log-max message-log-max)
 (defun message-buffer-file-name-or-nothing ()
   "Mode line proxy."
-  (if buffer-file-name
-      (message "[%s] (%s:%s) %s"
-           (format-time-string "%H:%M:%S")
-           (string-to-number (format-mode-line "%l"))
-           (current-column)
-           (buffer-file-name)
-           )))
-
-(defun mode-line-proxy-fn ()
-  "Put a mode-line proxy in the echo area if echo area is empty."
   (unwind-protect
       (progn
         (setq message-log-max nil)
-        (if (not (current-message))
-            (message-buffer-file-name-or-nothing))
-            ;; (message-buffer-file-name-or-nothing)
-        )
-    (setq message-log-max 1000)))
+        (if buffer-file-name
+            (message "[%s] (%s:%s) %s"
+                     (format-time-string "%H:%M:%S")
+                     (string-to-number (format-mode-line "%l"))
+                     (current-column)
+                     (buffer-file-name)
+                     )))
+    (setq message-log-max feebleline/default-log-max)))
+
+(defun mode-line-proxy-fn ()
+  "Put a mode-line proxy in the echo area if echo area is empty."
+  (if (not (current-message))
+      (message-buffer-file-name-or-nothing)))
+
 (run-with-timer 0 0.1 'mode-line-proxy-fn)
 
 (defadvice handle-switch-frame (after switch-frame-message-name)
@@ -63,8 +64,8 @@
   ad-do-it
   (message-buffer-file-name-or-nothing))
 (ad-activate 'handle-switch-frame)
+
 (add-hook 'focus-in-hook 'mode-line-proxy-fn)
-;; (add-hook 'buffer-list-update-hook 'mode-line-proxy-fn)
 
 (provide 'feebleline)
 

@@ -4,7 +4,7 @@
 ;;              hippie-expand
 ;;              flyspell
 ;;
-;;; multi-term: (eshell looks better though)
+;;; multi-term:
 ;;              smart way of getting C-x to the terminal
 ;;              separate key maps for linemode/charmode
 
@@ -204,6 +204,7 @@
 (global-set-key     (kbd "H-a")   'ace-window)
 (global-set-key     (kbd "s-a")   'BIND-ME)                              ;; todo
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
+(global-set-key   (kbd "C-M-a")   'elpy-nav-indent-shift-left)
 (global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
 (global-set-key   (kbd "C-c a")   'org-agenda)
 (global-set-key      (kbd "ρ")    (lambi (insert "/")))

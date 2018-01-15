@@ -89,7 +89,11 @@
 (define-key ivy-switch-buffer-map (kbd "M-k")
   (lambda () (interactive)
     (ivy-set-action 'kill-buffer)
-    (ivy-done)))
+    (ivy-call)
+    (ivy--reset-state ivy-last)
+    (ivy-set-action 'ivy--switch-buffer-action)
+    ))
+
 (define-key ivy-switch-buffer-map (kbd "M-o")
   (lambda () (interactive)
     (ivy-set-action 'ivy--switch-buffer-other-window-action)
