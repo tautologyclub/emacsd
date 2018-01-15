@@ -145,7 +145,7 @@
  '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(max-mini-window-height 10)
  '(mode-line-default-help-echo nil)
- '(mode-line-format nil)
+ ;; '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
  '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
@@ -285,7 +285,7 @@
  '(hl-line ((t (:background "#303a3d"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
- '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
+ ;; '(mode-line ((t (:background "#d3d7cf" :foreground "#2e3436" :height 0.1))))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(org-date ((t (:foreground "dark red" :underline t))))
  '(org-done ((t (:foreground "purple" :weight bold))))
@@ -456,6 +456,10 @@
 (load "~/.emacs.d/eshell-custom.el")
 (load "~/.emacs.d/feebleline.el")
 (load "~/.emacs.d/bindings2.el")
+
+;; (add-hook 'after-init-hook 'feebleline-default-settings)
+;; (feebleline-default-settings)
+(feebleline-mode t)
 
 ;; ;;;; todo -- agenda workflow...
 ;; (setq org-agenda-files (list "~/.org/medfield.org"
