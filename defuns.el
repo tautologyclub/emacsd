@@ -5,6 +5,20 @@
   (windmove-down)
   (multi-term))
 
+(defun murder-buffer-with-window ()
+  "Kill buffer, kill window, don't prompt, just do it. Unless buffer modified."
+  (interactive)
+  (volatile-kill-buffer)
+  (delete-window))
+
+(require 'expand-region)
+(defun benjamin/mark-inside-pairs ()
+  "Go fuck yourself."
+  (interactive)
+  (if (er--point-inside-pairs-p)
+      (er/mark-inside-pairs)
+    (er/mark-outside-pairs)))
+
 (defun clear-text-properties-from-buffer ()
   "Remove all text properties from the buffer."
   (interactive)

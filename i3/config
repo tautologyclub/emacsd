@@ -18,8 +18,10 @@ bindsym $mod+Return exec --no-startup-id ~/.config/split_optimal.sh; exec /usr/b
 bindsym $mod+b exec --no-startup-id ~/.config/split_optimal.sh; exec /usr/bin/google-chrome-stable
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id ~/.config/split_optimal.sh; exec --no-startup-id dmenu_recency
-bindsym $mod+e exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(previous-buffer)'
-bindsym $mod+t exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(progn (switch-to-buffer nil)(multi-term))'
+bindsym $mod+e exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
+bindsym $mod+Shift+e split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
+bindsym $mod+t exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
+bindsym $mod+Shift+t exec split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
 
 # Shift focus and resize
 bindsym $mod+i focus up
@@ -150,7 +152,7 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+# bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # Set shut down, restart and locking features
 bindsym $mod+0 mode "$mode_system"
@@ -351,5 +353,7 @@ bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet
 #bindsym $mod+Ctrl+m exec pavucontrol
+
+exec_always --no-startup-id "/usr/bin/bash /home/benjamin/.emacs.d/HOME/start-emacs-daemon.sh"
 
 ################################################################################################
