@@ -258,8 +258,8 @@
 (global-set-key       (kbd "γ")   (lambi (insert "?")))
 
 (global-set-key     (kbd "C-h")   'backward-char)
-(global-set-key     (kbd "M-h")   'er/mark-defun)                        ;; todo
-(global-set-key     (kbd "H-h")   'hs-toggle-hiding)
+(global-set-key     (kbd "M-h")    help-map)
+(global-set-key     (kbd "H-h")   'hs-toggle-hiding)                     ;; todo
 (global-set-key   (kbd "C-S-h")   'er/mark-paragraph)
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-c h")   'highlight-region)

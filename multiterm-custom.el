@@ -44,6 +44,14 @@
        (lambda () (interactive) (term-send-raw-string "\eb")))
      (define-key term-raw-map (kbd "<C-right>")
        (lambda () (interactive) (term-send-raw-string "\ef")))
+     (define-key term-raw-map (kbd "C-_") nil)
+     (define-key term-raw-map (kbd "C-k") 'previous-line)
+     (define-key term-raw-map (kbd "C-j") 'next-line)
+     (define-key term-raw-map (kbd "C-r") 'term-send-backspace)
+     (define-key term-raw-map (kbd "C-d") 'term-send-del)
+     (define-key term-raw-map (kbd "C-f") 'right-word)
+     (define-key term-raw-map (kbd "C-q") 'left-word)
+     (define-key term-raw-map (kbd "C-p") 'nil)
      ;; Disable killing and yanking in char mode (term-raw-map).
      (mapc
       (lambda (func)
@@ -58,4 +66,6 @@
         yank yank-pop yank-rectangle))))
 
 (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
-(define-key term-raw-map (kbd "C-_") nil)
+
+
+;; hey
