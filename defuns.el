@@ -69,7 +69,6 @@ With arg N insert N newlines."
   (if (region-active-p) ()
     (set-mark-command nil))
   (exchange-point-and-mark)
-  (message-buffer-file-name-or-nothing)
   )
 
 (defadvice kill-region (before slick-cut activate compile)

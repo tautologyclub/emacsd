@@ -14,7 +14,7 @@
                             (delete-selection-mode nil)
                             (set-cursor-color "#FF0000")
                             (hl-line-mode -1)
-                            (message-buffer-file-name-or-nothing))
+                            )
                      :post (progn
                              (delete-selection-mode t)
                              (set-cursor-color "#16A085")
@@ -24,58 +24,43 @@
                      )
   "--- nav -----------------------------------------------------------------------"
 
-  ("a"      xah-beginning-of-line-or-block      "bol")
-  ("u"      undo-tree-undo                      "undo")
-  ("t"      (transpose-chars -1)                "flip char")
-  ("z"      (transpose-words -1)                "flip word")
-  ("y"      yank                                "yank")
-  ("e"      xah-end-of-line-or-block            "eol")
-  ("U"      undo-tree-redo                      "redo")
-  ("T"      (transpose-chars 1)                 "rflip char")
-  ("Z"      (transpose-words 1)                 "rflip word")
-  ("P"      transpose-params                    "flip param")
-  ("o"      smart-open-line-above               "open above")
-  ("s"      swiper                              "swipe")
+  ("C-g"    (lambi (deactivate-mark) (keyboard-quit)) :color blue)
 
-  ("f"      benjamin/jump-char-fwd              "jump fwd")
-  ("g"      avy-goto-char                       "avy-char")
-  ("v"      scroll-down-half)
+  ("q"      left-word)
+  ("w"      right-word)
+  ("e"      xah-end-of-line-or-block)
+  ;; ("r"   nil)  ;; todo
+  ;; ("t"   nil)  ;; todo
+  ("y"      yank                                "yank")
+  ;; ("u"      undo-tree-undo                      "undo")
+  ("i"      benjamin/mark-inside-pairs)
+  ;; ("o"      smart-open-line-above               "open above")
+  ("p"      exchange-point-and-mark             "xch p/m")
+
+  ("Y"   yank-after-cursor)
+
+  ("a"      xah-beginning-of-line-or-block)
+  ("s"      swiper                              "swipe")
+  ("d"      duplicate-current-line-or-region)
+  ("f"      benjamin/jump-char-fwd                          "jump fwd")
+  ("g"      avy-goto-char                                   "avy-char")
   ("h"      backward-char)
   ("j"      next-line)
   ("k"      previous-line)
   ("l"      forward-char)
 
-  ("p"      exchange-point-and-mark             "xch p/m")
-  ("w"      kill-region                         "kill")
+  ("H"      er/mark-paragraph)
+  ("L"      recenter-top-bottom                             "recenter")
 
-  ("d"      duplicate-current-line-or-region    "dupl")
-  ("c"      comment-or-uncomment-region-or-line "comment")  ;; todo
-  ;; ("r"   nil)  ;; todo
-  ;; ("i"   nil)  ;; todo
+  ;; ("z"   nil)
   ;; ("x"   nil)
+  ("c"      comment-or-uncomment-region-or-line             "comment")
+  ("v"      (lambda () (interactive) (forward-line 30))     "scroll down")
+  ("b"      benjamin/jump-char-bwd                          "jump bwd")
   ;; ("n"   left-word)
+  ("m"      (lambda () (interactive) (deactivate-mark))     "new mark")
 
-  ("H"      mark-paragraph)
-  ("L"      recenter-top-bottom                 "recenter")
-  ("C-h"    elpy-nav-indent-shift-left)
-  ("C-j"    elpy-nav-move-line-or-region-down)
-  ("C-k"    elpy-nav-move-line-or-region-up)
-  ("C-l"    elpy-nav-indent-shift-right)
-  ("b"      benjamin/jump-char-bwd             "jump bwd")
-  ("m"      (lambda () (interactive)
-              (keyboard-quit)
-              (hydra-nav/body))                 "new mark")
-  ;; ("."      exchange-point-and-mark)
-  ;; ("]"      exchange-point-and-mark)
-
-  ("q"      (lambda () (interactive)
-              (deactivate-mark)
-              (keyboard-quit))                  "quit" :color blue)
-  ("C-g"    (lambda () (interactive)
-              (deactivate-mark)
-              (keyboard-quit)) :color blue)
-  (","      highlight-region)
-  ("<"      highlight-clear)
+  ("V"      (lambi (forward-line -30))                      "scroll up")
 
   ("="      er/expand-region)
   ("-"      er/contract-region)
@@ -83,37 +68,9 @@
   ("("      (fastnav-search-char-forward 1 ?())  ;; cool
   (")"      (fastnav-search-char-forward 1 ?)))
   ("SPC"    forward-to-char-after-ws)
-  ("C-x a"  simplified-beginning-of-buffer)
-  ("C-x e"  simplified-end-of-buffer)
 
   ("<f9>"   nil))
 
-
-
-
-
-
-
-
-
-
-
-;; interesting
-  ;; ;; c - commands (durrr)
-  ;; ("coa" org-agenda :color blue)
-  ;; ("coh" (find-file "~/.org/home.org") :color blue)
-  ;; ("cow" (find-file "~/.org/work.org") :color blue)
-  ;; ("cot" (find-file "~/.org/tracking.org") :color blue)
-  ;; ("cp"  hydra-counsel-projectile/body :color blue)
-  ;; ("ci"  counsel-imenu)
-  ;; ("cl"  counsel-locate)
-  ;; ("cc"  compile)
-  ;; ("cg"  magit-status :color blue)
-  ;; ("cd"  (lambda () (interactive)
-  ;;          (dired-jump)
-  ;;          (hydra-dired/body)) :color blue)
-  ;; ("C"   comment-or-uncomment-region-or-line)
-  ;; ("Y"   yank-after-cursor)
 
 (provide 'hydra-nav)
 ;; hydra-nav.el ends here
