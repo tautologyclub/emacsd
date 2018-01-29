@@ -19,7 +19,7 @@
 (add-hook 'help-mode-hook 'set-boring-buffer-face)
 (add-hook 'Info-mode-hook 'set-boring-buffer-face)
 (add-hook 'erc-mode-hook  'set-boring-buffer-face)
-(add-hook 'org-mode-hook 'set-boring-buffer-face)
+;; (add-hook 'org-mode-hook 'set-boring-buffer-face)
 ;; (add-hook 'prog-mode-hook 'set-boring-prog-mode-face)
 
 (global-set-key (kbd "H-f") 'describe-face)

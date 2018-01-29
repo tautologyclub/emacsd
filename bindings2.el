@@ -105,7 +105,7 @@
 (global-set-key     (kbd "s-e")      nil)                            ;; reserved
 (global-set-key     (kbd "C-e")     'xah-end-of-line-or-block)
 (global-set-key     (kbd "M-e")     'forward-whitespace)
-(global-set-key     (kbd "H-e")     'switch-to-buffer)
+(global-set-key     (kbd "H-e")     "qe")                   ;; just for qemu lol
 (global-set-key     (kbd "H-E")     'switch-to-buffer-other-window)
 (global-set-key   (kbd "C-S-e")     'end-of-defun)
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
@@ -126,7 +126,7 @@
 (global-set-key       (kbd "s-r")    nil)                            ;; reserved
 (global-set-key       (kbd "C-r")   'backward-delete-char)
 (global-set-key       (kbd "M-r")   'benjamin/backward-kill-word)
-(global-set-key       (kbd "H-r")   'backward-delete-char)               ;; todo
+(global-set-key       (kbd "H-r")   'counsel-projectile-rg)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'rgrep)
 (global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
@@ -363,7 +363,7 @@
 
 (global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
 (global-set-key (kbd "M-s SPC") 'shell-command)
-(global-set-key   (kbd "H-SPC") "q ")
+(global-set-key   (kbd "H-SPC") 'ivy-switch-buffer)
 
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "<H-return>")      'get-term)
