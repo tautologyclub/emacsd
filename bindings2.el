@@ -163,7 +163,7 @@
 (global-set-key       (kbd "υ")   'BIND-ME)
 
 (global-set-key     (kbd "M-u")   (lambi (hydra-undo-tree/undo-tree-undo)(benjamin/notify "Use q-- instead!")))       ;; todo
-(global-set-key     (kbd "C-u")   'universal-argument)
+(global-set-key     (kbd "C-u")   'undo-tree-undo)
 (global-set-key     (kbd "H-u")   "qu")
 (global-set-key     (kbd "s-u")   'BIND-ME)
 (global-set-key   (kbd "C-S-u")   'upcase-word-toggle)
@@ -178,8 +178,8 @@
 (global-set-key     (kbd "H-i")   'benjamin/mark-inside-pairs)            ;; cbi
 (global-set-key     (kbd "s-i")    nil)                              ;; reserved
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
-(global-set-key   (kbd "H-M-i")   'ivy-resume)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
+(global-set-key   (kbd "H-M-i")   'ivy-resume)
 (global-set-key (kbd "M-s M-i")   'ivy-resume)
 (global-set-key   (kbd "M-s i")   'my-increment-number-decimal)
 (global-set-key       (kbd "ϊ")   'BIND-ME)
@@ -200,7 +200,7 @@
 (global-set-key  (kbd "H-<f8>")   (lambi (avy-pop-mark)))
 (global-set-key     (kbd "s-p")   'counsel-yank-pop)
 (global-set-key   (kbd "H-M-p")   'BIND-ME)
-(global-set-key   (kbd "C-S-p")   'async-shell-command)
+(global-set-key   (kbd "C-S-p")   'async-shell-command)                        ;
 (global-set-key   (kbd "C-c p")   'er/mark-paragraph)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
