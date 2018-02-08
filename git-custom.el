@@ -73,7 +73,7 @@ Git (gutter and other stuff):
 (define-key magit-status-mode-map "j" 'magit-section-forward)
 (define-key magit-status-mode-map "k" 'magit-section-backward)
 (define-key magit-status-mode-map "h" 'magit-section-backward)
-(define-key magit-status-mode-map "\C-k" 'magit-discard)
+(define-key magit-status-mode-map "\C-k" nil)
 (define-key magit-status-mode-map "\C-d" 'magit-discard)
 (define-key magit-status-mode-map "d" 'magit-discard)
 (define-key magit-status-mode-map "i" 'magit-section-toggle)

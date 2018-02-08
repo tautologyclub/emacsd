@@ -15,7 +15,7 @@ keycode  24 = Hyper_L Hyper_L Hyper_L
 
 keycode  25 = w W backslash bar
 keycode  26 = e E bar U0395
-keycode  27 = r R bracketleft braceleft
+keycode  27 = r R bracketleft bracketright
 keycode  28 = t T asciitilde U03A4
 keycode  29 = y Y U03C5 U03A5
 keycode  30 = u U U03C8 U03A8

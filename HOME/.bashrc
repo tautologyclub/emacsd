@@ -122,7 +122,6 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ls='ls --color -h --group-directories-first'
 
-# Alias rm as gvfs-trash to avoid rm * nonsense
 alias rm='gio trash'
 alias seetrash='ll ~/.local/share/Trash/files/'
 alias emptytrash='/bin/rm -rf ~/.local/share/Trash/*'
