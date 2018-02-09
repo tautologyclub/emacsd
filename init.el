@@ -5,18 +5,22 @@
   (add-to-list 'package-archives (cons "melpa" url) t))
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" .
-                                 "http://marmalade-repo.org/packages/"))
+                                 "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "~/repos/counsel-projectile")
+(add-to-list 'load-path "~/repos/Fill-Column-Indicator")
 (package-initialize)
 
-(require 'help-fns+)
+;(require 'help-fns+)
 
+(require 'fill-column-indicator)
+(require 'counsel-projectile)
 (require 'mu4e)
 (setq mu4e-get-mail-command "offlineimap")
 (setq mu4e-update-interval 120)
@@ -158,11 +162,9 @@
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
  '(org-log-done (quote time))
- '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -316,7 +318,6 @@
  '(term-color-red ((t (:background "red3" :foreground "indian red"))))
  '(whitespace-line ((t (:foreground "dark magenta")))))
 
-
 (defmacro csetq (variable value)
   "Stolen from abo-abo.  VARIABLE and VALUE blabla."
   `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
@@ -342,12 +343,12 @@
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
+(require 'flycheck)
+(require 'flycheck-irony)
 (require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
 
-(require 'org-trello)
-(setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
@@ -456,7 +457,7 @@
 (load "~/.emacs.d/python-custom.el")
 (load "~/.emacs.d/simple-paren.el")
 (load "~/.emacs.d/ggtags-custom.el")
-(load "~/.emacs.d/fci-custom.el")
+;(load "~/.emacs.d/fci-custom.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")

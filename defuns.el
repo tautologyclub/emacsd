@@ -411,16 +411,6 @@ With argument, do this that many times."
     (insert "{}")
     (backward-char)))
 
-;; smart nav
-(require 'windmove)
-(require 'framemove)
-(defun benjamin/smart-left ()
-  (interactive)
-  (condition-case nil
-      (windmove-left))
-  (error (framemove-left) )
-  )
-
 (require 'hungry-delete)
 (defun benjamin/kill-word (arg)
   "If point is at word, kill characters forward until encountering the end of a word.
