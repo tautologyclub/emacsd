@@ -1,11 +1,12 @@
 (defun delete-window-or-frame (&optional window frame force)
+  "Delete WINDOW, or FRAME if only window.  FORCE feed me to the ducks."
   (interactive)
   (if (= 1 (length (window-list frame)))
       (delete-frame frame force)
     (delete-window window)))
 
 (defun murder-buffer-with-window ()
-  "Kill buffer, kill window, don't prompt, just do it. Unless buffer modified."
+  "Kill buffer, kill window, don't prompt, just do it.  Unless buffer modified."
   (interactive)
   (volatile-kill-buffer)
   (delete-window-or-frame))
@@ -42,7 +43,8 @@ With arg N insert N newlines."
     (indent-according-to-mode)))
 
 (defun open-next-line (arg)
-  "Move to the next line and then opens a line.
+  "Move to the next line and then opens a line.  ARG times or once.
+
     See also `newline-and-indent'."
   (interactive "p")
   (end-of-line)
