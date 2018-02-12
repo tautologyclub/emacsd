@@ -88,7 +88,7 @@
 ")
  '(explicit-shell-file-name "/usr/bin/xterm")
  '(fci-rule-color "#c7c7c7")
- '(fill-column 79)
+ '(fill-column 80)
  '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(flycheck-clang-includes
    (quote
@@ -139,7 +139,7 @@
  '(hlt-max-region-no-warning 30)
  '(irony-additional-clang-options
    (quote
-    ("-I/home/benjamin/workspace/reac/inc" "-std=c90" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D __USE_GNU")))
+    ("-std=c90" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D __USE_GNU")))
  '(ivy-fixed-height-minibuffer t)
  '(ivy-height 24)
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
@@ -164,7 +164,7 @@
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -178,38 +178,6 @@
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
  '(resize-mini-windows t)
- '(safe-local-variable-values
-   (quote
-    ((eval setenv "GTAGSLIBPATH" "~/.gtags")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-nostdinc" "-Wall -Wextra" "-D__GNUC__ -D__EXPORTED_HEADERS__ -D__KERNEL__" "-Dloff_t=long long" "-DCONFIG_ARCH_DMA_ADDR_T_64BIT")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D__GNUC__ -D__EXPORTED_HEADERS__ -D__KERNEL__" "-Dloff_t=long long" "-DCONFIG_ARCH_DMA_ADDR_T_64BIT")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D__GNUC__ -D__EXPORTED_HEADERS__ -D__KERNEL__" "-Dloff_t=long long")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D__GNUC__ -D__EXPORTED_HEADERS__ -D__KERNEL__")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D__GNUC__ -D__EXPORTED_HEADERS__")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-I/home/benjamin/repos/linux-stable/arch/x86/include" "-Wall -Wextra" "-D__GNUC__")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-Wall -Wextra" "-D__GNUC__")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux-stable/include" "-Wall -Wextra")
-     (eval setenv "GTAGSLIBPATH" "~/.gtags-linux")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86/include" "-Wall -Wextra" "-D EVIDENTE_TRACE_FUNCTIONS")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/x86" "-Wall -Wextra" "-D EVIDENTE_TRACE")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/alpha/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
-     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-Wall -Wextra" "-D EVIDENTE_TRACE")
-     (eval setenv "GTAGSLIBPATH" "~/workspace/reac/inc:~/.gtags")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG" "-D UNIT_TEST")
-     (company-clang-arguments . irony-additional-clang-options)
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D DEBUG")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/CUnit" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-Wall -Wextra" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/ior5f100mj.h")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-include /home/benjamin/workspace/reac_git/code/lccp/source/test/stubs/hardware_stub.h")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__" "-D P14_bit __BITS8" "-D P11_bit __BITS8")
-     (irony-additional-clang-options "-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")
-     (irony-additional-clang-options quote
-                                     ("-I/home/benjamin/workspace/reac/inc" "-I/home/benjamin/workspace/reac_git/code/lccp/source" "-I/home/benjamin/workspace/reac_git/code/lccp/source/test/stubs" "-D __saddr=" "-D __ro_placement=" "-D __far=" "-D __no_init=" "-D __no_bit_access=" "-D __IAR_SYSTEMS_ICC__" "-D __ARL78__" "-D __CORE__=__RL78_1__")))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(semantic-idle-scheduler-idle-time 5)
@@ -296,6 +264,7 @@
  '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
+ '(erc-timestamp-face ((t (:foreground "forest green" :weight bold))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
  '(hl-line ((t (:background "#303a3d"))))
@@ -349,7 +318,6 @@
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
 
-
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
 (setq mouse-autoselect-window t)
@@ -381,22 +349,9 @@
 (make-variable-buffer-local 'company-backends)
 (setq initial-major-mode 'org-mode)     ;; for *Scratch*
 
-;; (savehist-mode 1)
-;; (setq savehist-save-minibuffer-history 1)
-;; (setq savehist-additional-variables
-;;       '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
-;;       savehist-file "~/.emacs.d/savehist")
-
 (fset 'yes-or-no-p 'y-or-n-p)
 (put 'scroll-left 'disabled nil)
-
-
-
-;; (require 'spotify)
-
-;; Settings
-(setq spotify-oauth2-client-secret "<spotify-app-client-secret>")
-(setq spotify-oauth2-client-id "<spotify-app-client-id>")
+(setenv "GTAGSLIBPATH" "~/.gtags")
 
 (recentf-mode)
 (window-divider-mode t)
@@ -410,11 +365,12 @@
 (electric-pair-mode)
 (projectile-mode t)
 (auto-dim-other-buffers-mode 1)
-
-(add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'prog-mode-hook #'hs-minor-mode)
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(add-hook 'prog-mode-hook 'helm-gtags-mode)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
@@ -472,13 +428,6 @@
 
 (require 'feebleline)
 (feebleline-mode)
-
-;; ;;;; todo -- agenda workflow...
-;; (setq org-agenda-files (list "~/.org/medfield.org"
-;;                              "~/.org/work.org"
-;;                              "~/.org/reac.org"
-;;                              "~/.org/unjo.org"
-;;                              "~/.org/home.org"))
 
 (require 'counsel-spotify)
 

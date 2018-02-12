@@ -1,15 +1,21 @@
+(defun delete-window-or-frame (&optional window frame force)
+  (interactive)
+  (if (= 1 (length (window-list frame)))
+      (delete-frame frame force)
+    (delete-window window)))
+
+(defun murder-buffer-with-window ()
+  "Kill buffer, kill window, don't prompt, just do it. Unless buffer modified."
+  (interactive)
+  (volatile-kill-buffer)
+  (delete-window-or-frame))
+
 (defun dropdown-multiterm ()
   "Split window, open a terminal below and move focus to it."
   (interactive)
   (split-window-below)
   (windmove-down)
   (multi-term))
-
-(defun murder-buffer-with-window ()
-  "Kill buffer, kill window, don't prompt, just do it. Unless buffer modified."
-  (interactive)
-  (volatile-kill-buffer)
-  (delete-window))
 
 (require 'expand-region)
 (defun benjamin/mark-inside-pairs ()

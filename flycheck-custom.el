@@ -14,3 +14,10 @@
   ("gg" flycheck-first-error                                      "First")
   ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
   ("q"  nil                                                       "Quit"))
+
+(defun benjamin/flycheck-list-errors ()
+  "List errors in a separate window, decrease the size."
+  (interactive)
+  (flycheck-list-errors)
+  (enlarge-window 25)
+  (hydra-errgo/body))
