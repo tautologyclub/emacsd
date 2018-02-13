@@ -169,10 +169,6 @@
                      ;; :post (setq hydra-is-helpful t)
                      )
   "gdb"
-  ;; ("?"      (lambda () (interactive)
-  ;;             (if 'hydra-is-helpful
-  ;;                 (setq hydra-is-helpful nil)
-  ;;               (setq hydra-is-helpful t))))
   ("g"      gdb "gdb")
 
   ("h"      (select-gdb-source-then-do 'left-word) )
@@ -187,8 +183,10 @@
   ("p"      (select-gdb-source-then-do 'gud-print)   "p")
   ("w"      (select-gdb-source-then-do 'gud-watch)   "watch")
 
+  ("f"      (select-gdb-source-then-do 'avy-goto-word-or-subword-1)   "avy-word") ;; todo -- avy-gud-print
   ("m"      (select-gdb-source-then-do 'gud-jump)   "jump")
   ("n"      (select-gdb-comint-then-do 'gud-next)   "next")
+  ("N"      (select-gdb-comint-then-do 'gud-nexti)  "nexti")
   ("c"      (select-gdb-comint-then-do 'gud-cont)   "continue")
   ("o"      (select-gdb-comint-then-do 'gud-finish) "out")
   ("r"      (select-gdb-comint-then-do 'gud-run)    "run")
@@ -199,7 +197,6 @@
   ("d"      (select-gdb-comint-then-do 'gud-down)   "down")
 
   ("C"      compile "compile")
-  ("N"      (select-gdb-comint-then-do 'gud-nexti)  "next instr")
   ("X"      (lambda () (interactive)
               (gud-basic-call "quit")
               (select-window gdb-comint-window)
@@ -207,24 +204,24 @@
               (delete-other-windows)) :color blue
               "exit")
 
-  ("D"     (gdb-display-in-transient 'gdb-disassembly-buffer) "disassembly")
-  ("L"     (gdb-display-in-transient 'gdb-locals-buffer) "locals")
-  ("R"     (gdb-display-in-transient 'gdb-registers-buffer) "regs")
-  ("M"     (gdb-display-in-transient 'gdb-memory-buffer) "memory")
-  ("B"     (gdb-display-in-transient 'gdb-breakpoints-buffer) "breaks")
-  ("I"     (gdb-display-in-transient 'gdb-inferior-io) "io")
-  ("S"     (gdb-display-in-transient 'gdb-stack-buffer) "stack")
-  ("TT"    (gdb-display-in-transient 'gdb-threads-buffer) "threads")
+  ("D"     (gdb-display-in-transient 'gdb-disassembly-buffer)   "disassembly")
+  ("L"     (gdb-display-in-transient 'gdb-locals-buffer)        "locals")
+  ("R"     (gdb-display-in-transient 'gdb-registers-buffer)     "regs")
+  ("M"     (gdb-display-in-transient 'gdb-memory-buffer)        "memory")
+  ("B"     (gdb-display-in-transient 'gdb-breakpoints-buffer)   "breaks")
+  ("I"     (gdb-display-in-transient 'gdb-inferior-io)          "io")
+  ("S"     (gdb-display-in-transient 'gdb-stack-buffer)         "stack")
+  ("TT"    (gdb-display-in-transient 'gdb-threads-buffer)       "threads")
   ("TL"    (gdb-display-in-transient 'gdb-locals-for-threads-buffer))
   ("TS"    (gdb-display-in-transient 'gdb-stack-for-thread-buffer))
   ("TR"    (gdb-display-in-transient 'gdb-registers-for-thread-buffer))
   ("TD"    (gdb-display-in-transient 'gdb-disassembly-for-thread-buffer))
 
-  ("P"      (select-gdb-source-then-do 'previous-buffer) "prev src")
-  ("F"      (select-gdb-source-then-do 'next-buffer) "next src")
-  ("bm"     (gud-basic-call "b main")                       "b. main")
-  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")  "save") ;; todo
-  ("bl"     (gud-basic-call "source .gdb_breaks")            "load") ;; todo
+  ("<"      (select-gdb-source-then-do 'previous-buffer)        "prev src")
+  (">"      (select-gdb-source-then-do 'next-buffer)            "next src")
+  ("bm"     (gud-basic-call "b main")                           "b main")
+  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")     "save") ;; todo
+  ("bl"     (gud-basic-call "source .gdb_breaks")               "load") ;; todo
   ("DEL"    gud-remove  "clear")
 
   ("<up>"       windmove-up)
@@ -238,5 +235,4 @@
   "Ladidiaada GDB-BUFFER-ARG."
   (set-window-dedicated-p gdb-transient-window nil)
   (set-window-buffer gdb-transient-window (gdb-get-buffer-create gdb-buffer-arg))
-  (select-window gdb-comint-window)
-  )
+  (select-window gdb-comint-window))
