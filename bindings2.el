@@ -163,7 +163,7 @@
 (global-set-key       (kbd "υ")   'BIND-ME)
 
 (global-set-key     (kbd "M-u")   (lambi (hydra-undo-tree/undo-tree-undo)(benjamin/notify "Use q-- instead!")))       ;; todo
-(global-set-key     (kbd "C-u")   'undo-tree-undo)
+(global-set-key     (kbd "C-u")   'kill-to-beginning-of-line)
 (global-set-key     (kbd "H-u")   "qu")
 (global-set-key     (kbd "s-u")   'BIND-ME)
 (global-set-key   (kbd "C-S-u")   'upcase-word-toggle)
@@ -247,8 +247,9 @@
 
 (global-set-key     (kbd "C-f")   'right-word)
 (global-set-key     (kbd "M-f")   'benjamin/jump-char-fwd)               ;; todo
-(global-set-key     (kbd "H-f")   'find-file)
+(global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
 (global-set-key     (kbd "H-F")   'find-file-other-window)
+(global-set-key   (kbd "H-M-f")   'find-file)
 (global-set-key     (kbd "s-f")   'find-file)                            ;; todo
 (global-set-key   (kbd "C-S-f")   (lambi (set-mark-if-inactive)(right-word)))
 (global-set-key (kbd "M-s M-f")   'find-file)
@@ -269,7 +270,7 @@
 (global-set-key     (kbd "C-h")   'backward-char)
 (global-set-key     (kbd "M-h")   'hs-toggle-hiding)
 (global-set-key     (kbd "H-h")    help-map)
-(global-set-key   (kbd "C-S-h")   (lambi (set-mark-if-inactive)(backward-char)))
+(global-set-key   (kbd "C-S-h")   'elpy-nav-indent-shift-left)           ;; todo
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-c h")   'highlight-region)
 (global-set-key   (kbd "C-c H")   'highlight-clear)
@@ -282,17 +283,15 @@
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'open-line-below)
 (global-set-key     (kbd "M-j")   'avy-goto-word-or-subword-1)
-(global-set-key   (kbd "C-S-j")   (lambi (set-mark-if-inactive)
-                                         (call-interactively 'next-line)))
+(global-set-key   (kbd "C-S-j")   'move-text-down)
 (global-set-key   (kbd "C-x j")   (lambi (dired-jump) (hydra-dired/body)))
 (global-set-key       (kbd "ι")   'move-text-down)
 
 (global-set-key     (kbd "s-k")    nil)                              ;; reserved
-(global-set-key     (kbd "H-k")   'kill-line)
 (global-set-key     (kbd "C-k")   'previous-line)
+(global-set-key     (kbd "H-k")   'kill-line)
 (global-set-key     (kbd "M-k")   'kill-line-save)
-(global-set-key   (kbd "C-S-k")   (lambi (set-mark-if-inactive)
-                                         (call-interactively 'previous-line)))
+(global-set-key   (kbd "C-S-k")   'move-text-up)
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-c k")    nil)
@@ -303,10 +302,9 @@
 (global-set-key     (kbd "C-l")   'forward-char)
 (global-set-key     (kbd "M-l")   'goto-last-change)
 (global-set-key     (kbd "H-l")   'recenter-top-bottom)
-(global-set-key   (kbd "C-S-l")   (lambi (set-mark-if-inactive)(forward-char)))
+(global-set-key   (kbd "C-S-l")   'elpy-nav-indent-shift-right)          ;; todo
 (global-set-key   (kbd "C-x l")   'counsel-locate)
 (global-set-key     (kbd "s-l")    nil)                              ;; reserved
-(global-set-key       (kbd "ξ")   (lambi (insert "+")))
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
 (global-set-key     (kbd "M-z")   'kill-line-save)
@@ -341,17 +339,16 @@
 (global-set-key     (kbd "H-n")   'mc/mark-next-like-this)
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                        ;; todo
 (global-set-key   (kbd "M-s n")   'hydra-nav/body)
-(global-set-key       (kbd "ν")   'hydra-nav/body)
+(global-set-key       (kbd "ν")   'hydra-nav/body)                       ;; todo
 
 (define-key input-decode-map [?\C-m] [C-m])
-(global-set-key    (kbd "<C-m>")  (lambi
-                                   (call-interactively 'er/expand-region)
-                                   (call-interactively 'er/expand-region)))
+(global-set-key    (kbd "<C-m>")  'mark-line)
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
 (global-set-key     (kbd "H-m")   'hydra-toggle/body)
-(global-set-key   (kbd "C-S-m")   'er/contract-region)
+(global-set-key   (kbd "C-S-m")   'er/contract-region)                   ;; todo
 (global-set-key   (kbd "C-c m")   'er/mark-defun)
+(global-set-key   (kbd "H-M-m")   'mark-line)                            ;; todo
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
 (global-set-key       (kbd "μ")   'BIND-ME)                              ;; todo

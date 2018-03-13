@@ -51,7 +51,7 @@
      (define-key term-raw-map (kbd "C-d") 'term-send-del)
      (define-key term-raw-map (kbd "C-f") 'right-word)
      (define-key term-raw-map (kbd "C-q") 'left-word)
-     (define-key term-raw-map (kbd "C-p") 'nil)
+     (define-key term-raw-map (kbd "C-p") 'projectile-command-map)
      ;; Disable killing and yanking in char mode (term-raw-map).
      (mapc
       (lambda (func)
@@ -65,7 +65,47 @@
         kill-whole-line kill-word subword-backward-kill subword-kill
         yank yank-pop yank-rectangle))))
 
+(define-key term-mode-map (kbd "C-p") 'projectile-command-map)
 (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
 
+(defun term-downdir ()
+  (interactive)
+  (term-send-raw-string "pushd $PWD > /dev/null; cd .."))
+
+(defun term-updir ()
+  (interactive)
+  (term-send-raw-string "popd > /dev/null 2>&1 || cd - > /dev/null"))
+
+(defun term-cd-input ()
+  (interactive)
+  (term-send-raw-string "cd "))
+
+
+(setq term-bind-key-alist nil)
+(setq term-bind-key-alist
+  '(
+    ("C-c C-c"       . term-interrupt-subjob)
+    ("C-c C-e"       . term-send-esc)
+    ("C-d"           . term-send-raw)
+    ("C-p"           . projectile-command-map)
+    ("C-l"           . forward-char)
+    ("C-h"           . backward-char)
+    ("<C-m>"         . term-updir)
+    ("C-n"           . term-downdir)
+    ("C-s"           . isearch-forward)
+    ("C-r"           . term-send-backspace)
+    ("C-m"           . term-send-return)
+    ("C-y"           . term-paste)
+    ("C-q"           . term-send-backward-word)
+    ("C-f"           . term-send-forward-word)
+    ("M-p"           . term-send-up)
+    ("M-n"           . term-send-down)
+    ("<C-backspace>" . term-send-backward-kill-word)
+    ("<C-return>"    . term-cd-input)
+    ("M-r"           . term-send-reverse-search-history)
+    ("M-d"           . term-send-delete-word)
+    ("M-,"           . term-send-raw)
+    ("M-."           . company-complete))
+)
 
 ;; hey

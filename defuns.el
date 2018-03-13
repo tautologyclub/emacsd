@@ -493,3 +493,12 @@ This function is suitable to add to `find-file-hook'."
 
 (add-hook 'find-file-hook 'find-file-root-header-warning)
 (add-hook 'dired-mode-hook 'find-file-root-header-warning)
+
+
+(defun mark-line ()
+  (interactive)
+  (beginning-of-line)
+  (set-mark-if-inactive)
+  (end-of-line)
+  (forward-char)
+  )

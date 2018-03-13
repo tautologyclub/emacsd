@@ -173,6 +173,7 @@ T - tag prefix
   "
 _a_ abbrev-mode:       %`abbrev-mode
 _d_ debug-on-error:    %`debug-on-error
+_e_ feebleline-mode:   %`feebleline-mode
 _f_ auto-fill-mode:    %`auto-fill-function
 _h_ highlight          %`highlight-nonselected-windows
 _t_ truncate-lines:    %`truncate-lines
@@ -187,6 +188,7 @@ _r_ read-only-mode
   ("d" toggle-debug-on-error)
   ("f" auto-fill-mode)
   ("h" (setq highlight-nonselected-windows (not highlight-nonselected-windows)))
+  ("e" feebleline-mode)
   ("t" toggle-truncate-lines)
   ("y" flycheck-mode)
   ("w" whitespace-mode)

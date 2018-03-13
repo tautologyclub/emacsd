@@ -82,7 +82,7 @@
 (define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
 (define-key swiper-map (kbd "M-<tab>") 'swiper-mc)
 
-(setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize  --color never %s .")
+(setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
 
 (add-hook 'wgrep-setup-hook 'save-some-buffers)
 

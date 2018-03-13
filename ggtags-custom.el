@@ -3,7 +3,7 @@
 (add-hook 'c-mode-common-hook
           (lambda ()
             (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
-              (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags:~/workspace/reac/inc/")
+              (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags")
               (helm-gtags-mode 1))))
 
 (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
