@@ -12,7 +12,8 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
 (add-to-list 'load-path "~/.emacs.d/feebleline/")
-
+(add-to-list 'load-path "~/repos/counsel-term/")
+(require 'counsel-term)
 (require 'feebleline)
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (package-initialize)
@@ -33,36 +34,41 @@
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(avy-keys
-   '(97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109))
+   (quote
+    (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
  '(aw-keys
-   '(97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109))
- '(browse-url-browser-function 'browse-url-chrome)
- '(browse-url-chrome-arguments '("--new-window"))
+   (quote
+    (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
+ '(browse-url-browser-function (quote browse-url-chrome))
+ '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
  '(company-auto-complete-chars nil)
  '(company-backends
-   '(company-semantic company-clang company-xcode company-cmake company-capf company-files
+   (quote
+    (company-semantic company-clang company-xcode company-cmake company-capf company-files
                       (company-dabbrev-code company-gtags company-etags company-keywords)
-                      company-oddmuse company-dabbrev))
+                      company-oddmuse company-dabbrev)))
  '(company-idle-delay 0)
  '(company-minimum-prefix-length 3)
  '(company-tooltip-idle-delay 0.5)
  '(company-tooltip-limit 20)
- '(compilation-message-face 'default)
+ '(compilation-message-face (quote default))
  '(counsel-mode t)
- '(custom-enabled-themes '(tango-dark))
+ '(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes
-   '("c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default))
+   (quote
+    ("c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
  '(debug-on-error nil)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
  '(eldoc-idle-delay 1.5)
- '(electric-pair-pairs '((34 . 34) (123 . 125)))
+ '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elfeed-feeds
-   '("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/"))
- '(elpy-rpc-backend "rope")
- '(erc-autojoin-channels-alist '(("#emacs")))
+   (quote
+    ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
+ '(elpy-rpc-backend "rope" t)
+ '(erc-autojoin-channels-alist (quote (("#emacs"))))
  '(erc-nick "g00iekabl00ie")
  '(erc-rename-buffers t)
  '(eshell-banner-message
@@ -70,11 +76,13 @@
 ")
  '(explicit-shell-file-name "/usr/bin/xterm")
  '(fci-rule-color "#c7c7c7")
+ '(feebleline-mode t nil (feebleline))
+ '(feebleline-show-time nil)
  '(fill-column 79)
- '(flycheck-check-syntax-automatically '(save new-line mode-enabled))
+ '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(flycheck-display-errors-delay 0.2)
  '(flycheck-pos-tip-timeout 20)
- '(fringe-mode '(1 . 1) nil (fringe))
+ '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
  '(global-fci-mode nil)
@@ -88,62 +96,69 @@
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
  '(helm-mode nil)
- '(helm-swoop-split-direction 'split-window-vertically)
- '(highlight-changes-colors '("#d33682" "#6c71c4"))
+ '(helm-swoop-split-direction (quote split-window-vertically))
+ '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-symbol-colors
    (--map
     (solarized-color-blend it "#002b36" 0.25)
-    '("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2")))
+    (quote
+     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
  '(highlight-symbol-foreground-color "#93a1a1")
  '(highlight-tail-colors
-   '(("#073642" . 0)
+   (quote
+    (("#073642" . 0)
      ("#546E00" . 20)
      ("#00736F" . 30)
      ("#00629D" . 50)
      ("#7B6000" . 60)
      ("#8B2C02" . 70)
      ("#93115C" . 85)
-     ("#073642" . 100)))
+     ("#073642" . 100))))
  '(hl-bg-colors
-   '("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00"))
+   (quote
+    ("#7B6000" "#8B2C02" "#990A1B" "#93115C" "#3F4D91" "#00629D" "#00736F" "#546E00")))
  '(hl-fg-colors
-   '("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36"))
- '(hl-paren-background-colors '("#2492db" "#95a5a6" nil))
- '(hl-paren-colors '("#ecf0f1" "#ecf0f1" "#c0392b"))
+   (quote
+    ("#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36" "#002b36")))
+ '(hl-paren-background-colors (quote ("#2492db" "#95a5a6" nil)))
+ '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(hl-sexp-background-color "#1c1f26")
  '(hlt-max-region-no-warning 30)
  '(ivy-height 24)
- '(ivy-ignore-buffers '("\\` " "\\*Helm" "\\*Ivy" "TAGS"))
+ '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
  '(ivy-mode t)
  '(jit-lock-stealth-time 1)
- '(keyboard-coding-system 'utf-8-unix)
+ '(keyboard-coding-system (quote utf-8-unix))
  '(line-number-mode nil)
  '(magit-commit-arguments nil)
  '(magit-diff-use-overlays nil)
- '(magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+ '(magit-display-buffer-function (quote magit-display-buffer-fullframe-status-v1))
  '(max-mini-window-height 10)
  '(mode-line-default-help-echo nil)
  '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
- '(mouse-avoidance-mode 'banish nil (avoid))
+ '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
  '(nrepl-message-colors
-   '("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c"))
+   (quote
+    ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
- '(org-log-done 'time)
+ '(org-log-done (quote time))
  '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- '(org-trello-files '("~/.org/mf/trello.org") nil (org-trello))
+ '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
-   '(help-fns+ minibuffer-line el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony))
- '(pdf-view-midnight-colors '("#232333" . "#c7c7c7"))
+   (quote
+    (helm-gtags feebleline package-lint help-fns+ minibuffer-line el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+ '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
  '(powerline-display-hud nil)
  '(projectile-enable-caching nil)
  '(projectile-globally-ignored-modes
-   '("erc-mode" "help-mode" "completion-list-mode" "Buffer-menu-mode" "gnus-.*-mode" "occur-mode" "term-mode"))
+   (quote
+    ("erc-mode" "help-mode" "completion-list-mode" "Buffer-menu-mode" "gnus-.*-mode" "occur-mode" "term-mode")))
  '(projectile-mode-line "PROJECTILE")
  '(python-indent-guess-indent-offset t)
  '(python-indent-guess-indent-offset-verbose nil)
@@ -159,9 +174,10 @@
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
  '(sml/inactive-foreground-color "#34495e")
- '(tab-width 4)
+ '(tab-width 8)
  '(term-bind-key-alist
-   '(("C-c C-c" . term-interrupt-subjob)
+   (quote
+    (("C-c C-c" . term-interrupt-subjob)
      ("C-c C-e" . term-send-esc)
      ("C-S-x" . term-send-raw)
      ("C-d" . term-send-backspace)
@@ -179,18 +195,19 @@
      ("M-r" . term-send-reverse-search-history)
      ("M-d" . term-send-delete-word)
      ("M-," . term-send-raw)
-     ("M-." . comint-dynamic-complete)))
+     ("M-." . comint-dynamic-complete))))
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
- '(term-unbind-key-list '("C-x" "C-z" "C-c" "C-h" "C-y" "<ESC>" "M-o"))
+ '(term-unbind-key-list (quote ("C-x" "C-z" "C-c" "C-h" "C-y" "<ESC>" "M-o")))
  '(tool-bar-mode nil)
- '(tramp-verbose 6 nil (tramp))
+ '(tramp-verbose 6)
  '(transient-mark-mode t)
  '(truncate-partial-width-windows 80)
  '(vc-annotate-background "#d4d4d4")
  '(vc-annotate-background-mode nil)
  '(vc-annotate-color-map
-   '((20 . "#437c7c")
+   (quote
+    ((20 . "#437c7c")
      (40 . "#336c6c")
      (60 . "#205070")
      (80 . "#2f4070")
@@ -207,14 +224,15 @@
      (300 . "#834744")
      (320 . "#732f2c")
      (340 . "#6b400c")
-     (360 . "#23733c")))
+     (360 . "#23733c"))))
  '(vc-annotate-very-old-color "#23733c")
  '(weechat-color-list
-   '(unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83"))
+   (quote
+    (unspecified "#002b36" "#073642" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#839496" "#657b83")))
  '(wgrep-auto-save-buffer t)
  '(windmove-wrap-around nil)
  '(window-divider-default-bottom-width 1)
- '(window-divider-default-places 'bottom-only)
+ '(window-divider-default-places (quote bottom-only))
  '(xterm-color-names
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
@@ -236,6 +254,7 @@
  '(hl-line ((t (:background "#303a3d"))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
+ '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(org-date ((t (:foreground "dark red" :underline t))))
  '(org-done ((t (:foreground "purple" :weight bold))))
@@ -407,9 +426,7 @@
 ;; (load "~/.emacs.d/feebleline.el")
 (load "~/.emacs.d/bindings2.el")
 
-;; (add-hook 'after-init-hook 'feebleline-default-settings)
-(feebleline-default-settings)
-;; (feebleline-mode t)
+(feebleline-mode t)
 
 ;; ;;;; todo -- agenda workflow...
 ;; (setq org-agenda-files (list "~/.org/medfield.org"

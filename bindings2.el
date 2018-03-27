@@ -185,7 +185,7 @@
 (global-set-key       (kbd "ϊ")   'BIND-ME)
 
 (global-set-key     (kbd "C-o")   'smart-open-line-above)
-(global-set-key     (kbd "M-o")   'ace-window)
+(global-set-key     (kbd "M-o")   'other-window)
 (global-set-key     (kbd "H-o")   'other-window-or-frame)
 (global-set-key   (kbd "C-S-o")   'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file)
@@ -369,9 +369,7 @@
 (global-set-key (kbd "C-+")     (lambi (enlarge-window 5)))
 
 
-(global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
-(global-set-key (kbd "M-s SPC") 'shell-command)
-(global-set-key   (kbd "H-SPC") 'switch-to-buffer)
+
 
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "<H-return>")      'get-term)

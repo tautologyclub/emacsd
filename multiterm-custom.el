@@ -45,8 +45,9 @@
      (define-key term-raw-map (kbd "<C-right>")
        (lambda () (interactive) (term-send-raw-string "\ef")))
      (define-key term-raw-map (kbd "C-_") nil)
-     (define-key term-raw-map (kbd "C-k") 'previous-line)
+     (define-key term-raw-map (kbd "C-k") 'term-send-raw)
      (define-key term-raw-map (kbd "C-j") 'next-line)
+     (define-key term-raw-map (kbd "C-j") 'term-send-raw)
      (define-key term-raw-map (kbd "C-r") 'term-send-backspace)
      (define-key term-raw-map (kbd "C-d") 'term-send-del)
      (define-key term-raw-map (kbd "C-f") 'right-word)
@@ -68,31 +69,23 @@
 (define-key term-mode-map (kbd "C-p") 'projectile-command-map)
 (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
 
-(defun term-downdir ()
-  (interactive)
-  (term-send-raw-string "pushd $PWD > /dev/null; cd .."))
-
-(defun term-updir ()
-  (interactive)
-  (term-send-raw-string "popd > /dev/null 2>&1 || cd - > /dev/null"))
-
-(defun term-cd-input ()
-  (interactive)
-  (term-send-raw-string "cd "))
-
+(require 'counsel-term)
 
 (setq term-bind-key-alist nil)
 (setq term-bind-key-alist
   '(
-    ("C-c C-c"       . term-interrupt-subjob)
-    ("C-c C-e"       . term-send-esc)
+    ("("             . (lambda () (interactive) (term-send-raw-string "()")))
+    ("["             . (lambda () (interactive) (term-send-raw-string "[]")))
+    ("{"             . (lambda () (interactive) (term-send-raw-string "{}")))
+    ("C-x t"         . jnm/term-toggle-mode)
     ("C-d"           . term-send-raw)
     ("C-p"           . projectile-command-map)
-    ("C-l"           . forward-char)
+    ("C-l"           . term-send-raw)
     ("C-h"           . backward-char)
     ("<C-m>"         . term-updir)
     ("C-n"           . term-downdir)
-    ("C-s"           . isearch-forward)
+    ("H-t"           . jnm/term-toggle-mode)
+    ("C-s"           . swiper)
     ("C-r"           . term-send-backspace)
     ("C-m"           . term-send-return)
     ("C-y"           . term-paste)
@@ -105,7 +98,17 @@
     ("M-r"           . term-send-reverse-search-history)
     ("M-d"           . term-send-delete-word)
     ("M-,"           . term-send-raw)
-    ("M-."           . company-complete))
+    ("M-."           . company-complete)
+    ("C-c <C-m>"     . (lambda () (interactive) (term-send-raw-string "mkdir -p ")))
+    ("C-c C-s"       . (lambda () (interactive) (term-send-raw-string "sudo ")))
+    ("C-c C-u"       . (lambda () (interactive) (term-send-raw-string "sudo ")))
+    ("C-c C-l"       . (lambda () (interactive) (term-send-raw-string "ll")))
+    ("C-c C-c"       . term-interrupt-subjob)
+    ("C-c C-e"       . term-send-esc)
+    ("M-r"           . counsel-term-history)
+    ("H-c"           . ivy-term-recursive-cd)
+    ("H-f"           . ivy-term-ff)
+    )
 )
 
 ;; hey
