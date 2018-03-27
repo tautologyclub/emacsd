@@ -122,14 +122,8 @@
   (setq gdb-callstack-window (selected-window))
   (split-window-right)
 
-  ;; bpts
-  (windmove-right)
-  (gdb-set-window-buffer (gdb-breakpoints-buffer-name) nil (selected-window))
-  (setq gdb-breakpoints-window (selected-window))
-  (split-window-below)
-
   ;; locals
-  (windmove-down)
+  (windmove-right)
   (gdb-set-window-buffer (gdb-locals-buffer-name) nil (selected-window))
   (setq gdb-locals-window (selected-window))
 
@@ -141,7 +135,6 @@
   ;; (benjamin/gdb-setup-windows1))
   (benjamin/gdb-setup-windows2))
 
-
 (defun benjamin/gud-hook ()
   "Debugger customizations."
   (gud-tooltip-mode)
@@ -149,11 +142,13 @@
 (add-hook 'gud-mode-hook 'benjamin/gud-hook)
 (define-key gud-mode-map (kbd "M-o") 'ace-window)
 
-;----- Sweet gdb-hydra below ---------------------------------------------------
-(defun benjamin/gdb-toggle-disassembly ()
-  (interactive)
+(defadvice gud-find-file (before what-the-fuck activate compile)
+  "When called interactively with no active region, copy a single line instead."
+  (interactive
+   (setq split-height-threshold 0)
+   (setq split-width-threshold 0)))
 
-  )
+;----- Sweet gdb-hydra below ---------------------------------------------------
 
 (defun select-gdb-comint-then-do (arg)
   (interactive)
@@ -167,11 +162,12 @@
   (call-interactively arg)
   )
 
-(defhydra hydra-gdb (:color pink
-                            :hint nil
-                            ;; :pre (setq hydra-is-helpful nil)
-                            ;; :post (setq hydra-is-helpful t)
-                            )
+(require 'gud)
+(defhydra hydra-gdb (:color amaranth
+                     :hint nil
+                     ;; :pre (setq hydra-is-helpful nil)
+                     ;; :post (setq hydra-is-helpful t)
+                     )
   "gdb"
   ("g"      gdb "gdb")
 
@@ -187,19 +183,20 @@
   ("p"      (select-gdb-source-then-do 'gud-print)   "p")
   ("w"      (select-gdb-source-then-do 'gud-watch)   "watch")
 
-  ("m"      (select-gdb-comint-then-do 'gud-jump)   "jump")
+  ("f"      (select-gdb-source-then-do 'avy-goto-word-or-subword-1)   "avy-word") ;; todo -- avy-gud-print
+  ("m"      (select-gdb-source-then-do 'gud-jump)   "jump")
   ("n"      (select-gdb-comint-then-do 'gud-next)   "next")
+  ("N"      (select-gdb-comint-then-do 'gud-nexti)  "nexti")
   ("c"      (select-gdb-comint-then-do 'gud-cont)   "continue")
   ("o"      (select-gdb-comint-then-do 'gud-finish) "out")
   ("r"      (select-gdb-comint-then-do 'gud-run)    "run")
   ("s"      (select-gdb-comint-then-do 'gud-step)   "step")
-  ("u"      (select-gdb-comint-then-do 'gud-up)      "up")
-  ("d"      (select-gdb-comint-then-do 'gud-down)    "down")
+  ("i"      (select-gdb-comint-then-do 'gud-stepi)  "stepi")
+  ("U"      (select-gdb-source-then-do 'gud-until)  "until")
+  ("u"      (select-gdb-comint-then-do 'gud-up)     "up")
+  ("d"      (select-gdb-comint-then-do 'gud-down)   "down")
 
   ("C"      compile "compile")
-  ("U"      (select-gdb-comint-then-do 'gud-until)  "until")
-  ("N"      (select-gdb-comint-then-do 'gud-nexti)  "next instr")
-  ("R"     recompile "recompile")
   ("X"      (lambda () (interactive)
               (gud-basic-call "quit")
               (select-window gdb-comint-window)
@@ -207,29 +204,35 @@
               (delete-other-windows)) :color blue
               "exit")
 
-  ("yd"     (select-gdb-comint-then-do 'gdb-display-disassembly-buffer) "disass.")
-  ("yr"     (select-gdb-comint-then-do 'gdb-display-registers-buffer) "regs")
-  ("ym"     (select-gdb-comint-then-do 'gdb-display-memory-buffer) "mem")
-  ("yt"     (select-gdb-comint-then-do 'gdb-display-threads-buffer) "threads")
-  ("yl"     (select-gdb-comint-then-do 'gdb-display-locals-for-thread-buffer) "thr locs")
-  ("yb"     (select-gdb-comint-then-do 'gdb-display-breakpoints-buffer) "bpts")
-  ("yi"     (select-gdb-comint-then-do 'gdb-display-io-buffer) "io")
-  ("ys"     (select-gdb-comint-then-do 'gdb-display-stack-buffer) "stack")
-  ("yk"     (select-gdb-comint-then-do 'gdb-display-stack-for-thread-buffer) "thr stack")
-  ("yg"     (select-gdb-comint-then-do 'gdb-display-registers-for-thread-buffer) "thr regs")
-  ("yy"     (select-gdb-comint-then-do 'gdb-display-disassembly-for-thread-buffer) "thr dis")
+  ("D"     (gdb-display-in-transient 'gdb-disassembly-buffer)   "disassembly")
+  ("L"     (gdb-display-in-transient 'gdb-locals-buffer)        "locals")
+  ("R"     (gdb-display-in-transient 'gdb-registers-buffer)     "regs")
+  ("M"     (gdb-display-in-transient 'gdb-memory-buffer)        "memory")
+  ("B"     (gdb-display-in-transient 'gdb-breakpoints-buffer)   "breaks")
+  ("I"     (gdb-display-in-transient 'gdb-inferior-io)          "io")
+  ("S"     (gdb-display-in-transient 'gdb-stack-buffer)         "stack")
+  ("TT"    (gdb-display-in-transient 'gdb-threads-buffer)       "threads")
+  ("TL"    (gdb-display-in-transient 'gdb-locals-for-threads-buffer))
+  ("TS"    (gdb-display-in-transient 'gdb-stack-for-thread-buffer))
+  ("TR"    (gdb-display-in-transient 'gdb-registers-for-thread-buffer))
+  ("TD"    (gdb-display-in-transient 'gdb-disassembly-for-thread-buffer))
 
-  ("P"      previous-buffer "prev-buffer")
-  ("iv"     (gud-basic-call "info variables"))
-  ("ir"     (gud-basic-call "info registers"))
-  ("bm"     (gud-basic-call "b main")                       "b. main")
-  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")  "save")
-  ("bl"     (gud-basic-call "source .gdb_breaks")            "load")
-  ("DEL"     gud-remove  "clear")
+  ("<"      (select-gdb-source-then-do 'previous-buffer)        "prev src")
+  (">"      (select-gdb-source-then-do 'next-buffer)            "next src")
+  ("bm"     (gud-basic-call "b main")                           "b main")
+  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")     "save") ;; todo
+  ("bl"     (gud-basic-call "source .gdb_breaks")               "load") ;; todo
+  ("DEL"    gud-remove  "clear")
 
-  ("<up>"    windmove-up)
-  ("<down>"    windmove-down)
-  ("<left>"    windmove-left)
+  ("<up>"       windmove-up)
+  ("<down>"     windmove-down)
+  ("<left>"     windmove-left)
   ("<right>"    windmove-right)
 
   ("q"      nil))
+
+(defun gdb-display-in-transient (gdb-buffer-arg)
+  "Ladidiaada GDB-BUFFER-ARG."
+  (set-window-dedicated-p gdb-transient-window nil)
+  (set-window-buffer gdb-transient-window (gdb-get-buffer-create gdb-buffer-arg))
+  (select-window gdb-comint-window))

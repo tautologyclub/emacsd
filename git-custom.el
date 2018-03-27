@@ -25,7 +25,7 @@
 Git (gutter and other stuff):
   _j_: next hunk        _s_tage hunk     _f_ind-file     _q_uit
   _k_: previous hunk    _r_evert hunk    _b_lame         _Q_uit hard
-  _h_: first hunk       vc-_e_diff       _S_tage buffer
+  _h_: first hunk    vc-_e_diff          _S_tage buffer  _t_ime-machine
   _l_: last hunk  setStart_R_evision  _p_opup hunk  _cg_rep   _cl_og
 "
   ("f" magit-find-file :color blue)
@@ -57,8 +57,6 @@ Git (gutter and other stuff):
        :color blue))
 
 
-
-
 ;; --- magit ------------------------------------------------------------
 (require 'magit)
 (eval-after-load 'magit-blame
@@ -73,7 +71,7 @@ Git (gutter and other stuff):
 (define-key magit-status-mode-map "j" 'magit-section-forward)
 (define-key magit-status-mode-map "k" 'magit-section-backward)
 (define-key magit-status-mode-map "h" 'magit-section-backward)
-(define-key magit-status-mode-map "\C-k" 'magit-discard)
+(define-key magit-status-mode-map "\C-k" nil)
 (define-key magit-status-mode-map "\C-d" 'magit-discard)
 (define-key magit-status-mode-map "d" 'magit-discard)
 (define-key magit-status-mode-map "i" 'magit-section-toggle)
@@ -88,8 +86,6 @@ Git (gutter and other stuff):
 ;;** Log
 (define-key magit-log-mode-map "j" 'magit-section-forward)
 (define-key magit-log-mode-map "k" 'magit-section-backward)
-(define-key magit-log-mode-map (kbd "M-w") 'ora-magit-copy-item-as-kill)
-(define-key magit-log-mode-map "n" 'ora-magit-copy-item-as-kill)
 (define-key magit-log-mode-map "v" 'ora-magit-visit)
 (define-key magit-log-mode-map "o" 'ora-magit-visit-item-other-window)
 ;;** Commit
@@ -138,119 +134,6 @@ Git (gutter and other stuff):
          (fname (format "%s.el" dirname)))
     (when (file-exists-p fname)
       (find-file fname))))
-
-(defun ora-magit-copy-item-as-kill ()
-  (interactive)
-  (let ((section (magit-current-section)))
-    (if (eq (magit-section-type section) 'message)
-        (let* ((basestr (buffer-substring-no-properties
-                         (magit-section-beginning section)
-                         (magit-section-end section)))
-               (newstr
-                (mapconcat
-                 (lambda (x)
-                   (if (> (length x) 4)
-                       (substring x 4)
-                     x))
-                 (split-string basestr "\n")
-                 "\n")))
-          (kill-new newstr)
-          (message "COMMIT_MSG"))
-      (magit-copy-item-as-kill))))
-
-(defun ora-magit-visit ()
-  (interactive)
-  (magit-section-action visit (info parent-info)
-    ((diff diffstat [file untracked])
-     (magit-visit-file-item info nil))
-    (hunk (magit-visit-file-item parent-info nil
-                                 (magit-hunk-item-target-line it)
-                                 (current-column)))
-    (commit (ora-magit-show-commit info))
-    (stash (magit-diff-stash info))
-    (branch (magit-checkout info))))
-
-(defun ora-magit-show-commit (commit)
-  "Show information about COMMIT."
-  (interactive (list (magit-read-rev-with-default
-                      "Show commit (hash or ref)")))
-  (when (magit-git-failure "cat-file" "commit" commit)
-    (user-error "%s is not a commit" commit))
-  (magit-mode-setup magit-commit-buffer-name
-                    #'switch-to-buffer
-                    #'magit-commit-mode
-                    #'magit-refresh-commit-buffer
-                    commit))
-
-(defun ora-magit-commit-add-log ()
-  (interactive)
-  (let* ((section (magit-current-section))
-         (fun (cond ((region-active-p)
-                     (prog1 (lispy--string-dwim)
-                       (deactivate-mark)))
-                    ((eq (magit-section-type section) 'hunk)
-                     (save-window-excursion
-                       (save-excursion
-                         (magit-visit-item)
-                         (add-log-current-defun))))))
-         (file (magit-section-info
-                (cl-case (magit-section-type section)
-                  (hunk (magit-section-parent section))
-                  (diff section)
-                  (t (user-error "No change at point")))))
-         (locate-buffer (lambda ()
-                          (cl-find-if
-                           (lambda (buf)
-                             (with-current-buffer buf
-                               (derived-mode-p 'git-commit-mode)))
-                           (append (buffer-list (selected-frame))
-                                   (buffer-list)))))
-         (buffer (funcall locate-buffer)))
-    (unless buffer
-      (magit-commit)
-      (while (not (setq buffer (funcall locate-buffer)))
-        (sit-for 0.01)))
-    (pop-to-buffer buffer)
-    (goto-char (point-min))
-    (cond ((not (re-search-forward (format "^\\* %s" (regexp-quote file))
-                                   nil t))
-           ;; No entry for file, create it.
-           (goto-char (point-max))
-           (forward-comment -1000)
-           (if (= (point) 1)
-               (if (> (length file) 40)
-                   (insert (file-name-nondirectory file))
-                 (insert file))
-             (insert (format "\n\n* %s" file)))
-           (when fun
-             (insert (format " (%s)" fun)))
-           (insert ": "))
-          (fun
-           ;; found entry for file, look for fun
-           (let ((limit (or (save-excursion
-                              (and (re-search-forward "^\\* " nil t)
-                                   (match-beginning 0)))
-                            (point-max))))
-             (cond ((re-search-forward
-                     (format "(.*\\<%s\\>.*):" (regexp-quote fun))
-                     limit t)
-                    ;; found it, goto end of current entry
-                    (if (re-search-forward "^(" limit t)
-                        (backward-char 2)
-                      (goto-char limit))
-                    (forward-comment -1000))
-                   (t
-                    ;; not found, insert new entry
-                    (goto-char limit)
-                    (forward-comment -1000)
-                    (if (bolp)
-                        (open-line 1)
-                      (newline))
-                    (insert (format "(%s): " fun))))))
-          (t
-           ;; found entry for file, look for beginning  it
-           (when (looking-at ":")
-             (forward-char 2))))))
 
 (defun endless/add-PR-fetch ()
   "If refs/pull is not defined on a GH repo, define it."

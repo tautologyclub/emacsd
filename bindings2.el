@@ -70,7 +70,9 @@
 
 
 ;; beautiful xcape hacks
-(global-set-key                 (kbd "<f11>") 'ace-window)
+;; (global-set-key                 (kbd "<f11>") 'ace-window)
+(global-set-key                 (kbd "<f11>") 'benjamin/helm-buffers-list)
+(define-key helm-map            (kbd "<f11>") 'helm-keyboard-quit)
 (global-set-key                 (kbd "<f10>") 'er/expand-region)
 ;; (global-set-key                  (kbd "<f9>") 'benjamin/set-mark-command)
 (global-set-key                  (kbd "<f9>") 'hydra-nav/body)

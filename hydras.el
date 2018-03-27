@@ -197,3 +197,49 @@ _r_ read-only-mode
   ("o" overwrite-mode)
   ("r" read-only-mode)
   ("q" nil "quit"))
+
+(require 'helm-gtags)
+(defhydra hydra-gtags (:color yellow :columns 5)
+  "gtags"
+
+  ("q" nil                          "quit" :color blue)
+  ("j" helm-gtags-previous-history  "back")
+  ("k" helm-gtags-next-history      "fwd")
+  ("t" helm-gtags-find-tag          "find tag")
+  ("r" helm-gtags-find-rtag         "find ref")
+  ("s" helm-gtags-show-stack        "show stack")
+  ("y" helm-gtags-find-symbol       "find sym")
+  ("d" helm-gtags-dwim              "dwim")
+  ("f" helm-gtags-find-files        "find file")
+  ("e" helm-gtags-resume            "resume")
+  ("g" helm-gtags-find-pattern      "grep")
+  ("p" helm-gtags-pop-stack         "pop")
+  ("c" helm-gtags-create-tags       "create")
+
+  ("R" helm-gtags-find-rtag-other-window)
+  ("T" helm-gtags-find-tag-other-window)
+  ("U" helm-gtags-update-tags       "update")
+  ("A" fa-show                      "fa-show")
+  ("S" helm-gtags-select            "select")
+  ("F" helm-gtags--parsed-file      "parse")
+  ("C" helm-gtags-clear-all-cache   "clear cache")
+  )
+
+(define-key helm-gtags-mode-map (kbd "C-t") 'hydra-gtags/body)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defun SHUTTHEFUCKUP ())

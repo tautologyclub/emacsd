@@ -24,17 +24,18 @@
                      )
   "--- nav -----------------------------------------------------------------------"
 
-  ("C-g"    (lambi (deactivate-mark) (keyboard-quit)) :color blue)
+  ("C-g"    (lambda () (interactive)
+              (deactivate-mark) (hydra-keyboard-quit)) :color blue)
 
   ("q"      left-word)
   ("w"      right-word)
   ("e"      xah-end-of-line-or-block)
-  ;; ("r"   nil)  ;; todo
-  ;; ("t"   nil)  ;; todo
+  ;; ("r"   nil)
+  ;; ("t"   nil)
   ("y"      yank                                "yank")
-  ;; ("u"      undo-tree-undo                      "undo")
-  ("i"      benjamin/mark-inside-pairs)
-  ;; ("o"      smart-open-line-above               "open above")
+  ;; ("u"      nil)
+  ("i"      benjamin/mark-inside-pairs  :color blue)
+  ("o"      er/mark-outside-pairs       :color blue)
   ("p"      exchange-point-and-mark             "xch p/m")
 
   ("Y"   yank-after-cursor)
@@ -42,32 +43,34 @@
   ("a"      xah-beginning-of-line-or-block)
   ("s"      swiper                              "swipe")
   ("d"      duplicate-current-line-or-region)
-  ("f"      benjamin/jump-char-fwd                          "jump fwd")
-  ("g"      avy-goto-char                                   "avy-char")
+  ("f"      benjamin/jump-char-fwd              "jump fwd")
+  ("g"      avy-goto-char                       "avy-char")
   ("h"      backward-char)
   ("j"      next-line)
   ("k"      previous-line)
   ("l"      forward-char)
 
+  ("F"      er/mark-defun)
   ("H"      er/mark-paragraph)
-  ("L"      recenter-top-bottom                             "recenter")
+  ("L"      recenter-top-bottom)
 
   ;; ("z"   nil)
   ;; ("x"   nil)
   ("c"      comment-or-uncomment-region-or-line             "comment")
   ("v"      (lambda () (interactive) (forward-line 30))     "scroll down")
   ("b"      benjamin/jump-char-bwd                          "jump bwd")
-  ;; ("n"   left-word)
+  ;; ("n"   nil)
   ("m"      (lambda () (interactive) (deactivate-mark))     "new mark")
 
-  ("V"      (lambi (forward-line -30))                      "scroll up")
+  ("V"      (lambda () (interactive) (forward-line -30))                      "scroll up")
 
   ("="      er/expand-region)
   ("-"      er/contract-region)
 
-  ("("      (fastnav-search-char-forward 1 ?())  ;; cool
-  (")"      (fastnav-search-char-forward 1 ?)))
-  ("SPC"    forward-to-char-after-ws)
+  ("("      (fastnav-search-char-forward 1 ?( ))  ;; cool
+  (")"      (lambda () (interactive)
+              (fastnav-search-char-forward 1 ?) )(forward-char)))
+  ("SPC"    forward-whitespace)
 
   ("<f9>"   nil))
 

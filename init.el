@@ -5,22 +5,38 @@
   (add-to-list 'package-archives (cons "melpa" url) t))
 (when (< emacs-major-version 24)
   ;; For important compatibility libraries like cl-lib
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-(add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/") t)
+  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade" .
-                                 "http://marmalade-repo.org/packages/"))
+                                 "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
-(add-to-list 'load-path "~/.emacs.d/feebleline/")
 (add-to-list 'load-path "~/repos/counsel-term/")
-(require 'counsel-term)
-(require 'feebleline)
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "~/repos/counsel-projectile")
+(add-to-list 'load-path "~/repos/Fill-Column-Indicator")
 (package-initialize)
 
-(require 'help-fns+)
+(require 'counsel-term)
+(require 'feebleline)
 
-;; Encryption method: STARTTLS
+;; <<<<<<< variant A
+;; >>>>>>> variant B
+;; (require 'fill-column-indicator)
+;; (require 'counsel-projectile)
+;; (require 'mu4e)
+;; (setq mu4e-get-mail-command "offlineimap")
+;; (setq mu4e-update-interval 120)
+;; (setq mu4e-sent-folder "/SentItems"
+;;       mu4e-drafts-folder "/Drafts"
+;;       mu4e-trash-folder "/DeletedItems"
+;;       mu4e-refile-folder "/Archive"
+;;       user-email-addresss "benjamin@lindqvist.xyz"
+;;       smtpmail-default-smtp-server "smtp.office365.com"
+;;       smtpmail-smtp-service 587
+;;       )
+;; ======= end
+;; ;; Encryption method: STARTTLS
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -76,9 +92,7 @@
 ")
  '(explicit-shell-file-name "/usr/bin/xterm")
  '(fci-rule-color "#c7c7c7")
- '(feebleline-mode t nil (feebleline))
- '(feebleline-show-time nil)
- '(fill-column 79)
+ '(fill-column 80)
  '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
  '(flycheck-display-errors-delay 0.2)
  '(flycheck-pos-tip-timeout 20)
@@ -124,7 +138,8 @@
  '(hl-paren-colors (quote ("#ecf0f1" "#ecf0f1" "#c0392b")))
  '(hl-sexp-background-color "#1c1f26")
  '(hlt-max-region-no-warning 30)
- '(ivy-height 24)
+ '(ivy-fixed-height-minibuffer t)
+ '(ivy-height 24) ;; wtf todo fixme
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
  '(ivy-mode t)
  '(jit-lock-stealth-time 1)
@@ -137,7 +152,6 @@
  '(mode-line-default-help-echo nil)
  '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
- '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
@@ -146,11 +160,9 @@
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
  '(org-log-done (quote time))
- '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (helm-gtags feebleline package-lint help-fns+ minibuffer-line el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack org-trello vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -196,6 +208,7 @@
      ("M-d" . term-send-delete-word)
      ("M-," . term-send-raw)
      ("M-." . comint-dynamic-complete))))
+ '(term-buffer-maximum-size 10000)
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
  '(term-unbind-key-list (quote ("C-x" "C-z" "C-c" "C-h" "C-y" "<ESC>" "M-o")))
@@ -249,6 +262,7 @@
  '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
+ '(erc-timestamp-face ((t (:foreground "forest green" :weight bold))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
  '(hl-line ((t (:background "#303a3d"))))
@@ -256,11 +270,11 @@
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
- '(org-date ((t (:foreground "dark red" :underline t))))
+ '(org-date ((t (:foreground "wheat" :underline t))))
  '(org-done ((t (:foreground "purple" :weight bold))))
- '(org-level-1 ((t (:foreground "dark red" :weight bold :height 1.35))))
- '(org-level-2 ((t (:foreground "dark green" :weight bold :height 1.2))))
- '(org-level-3 ((t (:foreground "navy" :weight bold :height 1.0))))
+ '(org-level-1 ((t (:foreground "tomato" :weight bold :height 1.35))))
+ '(org-level-2 ((t (:foreground "forest green" :weight bold :height 1.2))))
+ '(org-level-3 ((t (:foreground "lime green" :weight bold :height 1.0))))
  '(org-level-4 ((t (:foreground "dark magenta"))))
  '(org-level-5 ((t (:foreground "dark slate gray"))))
  '(org-special-keyword ((t (:slant italic :weight semi-bold))))
@@ -271,7 +285,6 @@
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
  '(term-color-red ((t (:background "red3" :foreground "indian red"))))
  '(whitespace-line ((t (:foreground "dark magenta")))))
-
 
 (defmacro csetq (variable value)
   "Stolen from abo-abo.  VARIABLE and VALUE blabla."
@@ -298,12 +311,11 @@
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
+(require 'flycheck)
+(require 'flycheck-irony)
 (require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
-
-(require 'org-trello)
-(setq org-trello-current-prefix-keybinding (kbd "C-c o"))
 
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
@@ -336,22 +348,9 @@
 (make-variable-buffer-local 'company-backends)
 (setq initial-major-mode 'org-mode)     ;; for *Scratch*
 
-;; (savehist-mode 1)
-;; (setq savehist-save-minibuffer-history 1)
-;; (setq savehist-additional-variables
-;;       '(kill-ring search-ring regexp-search-ring compile-history log-edit-comment-ring)
-;;       savehist-file "~/.emacs.d/savehist")
-
 (fset 'yes-or-no-p 'y-or-n-p)
 (put 'scroll-left 'disabled nil)
-
-
-
-;; (require 'spotify)
-
-;; Settings
-(setq spotify-oauth2-client-secret "<spotify-app-client-secret>")
-(setq spotify-oauth2-client-id "<spotify-app-client-id>")
+(setenv "GTAGSLIBPATH" "~/.gtags")
 
 (recentf-mode)
 (window-divider-mode t)
@@ -365,11 +364,12 @@
 (electric-pair-mode)
 (projectile-mode t)
 (auto-dim-other-buffers-mode 1)
-
-(add-hook 'after-init-hook 'global-company-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'prog-mode-hook #'hs-minor-mode)
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(add-hook 'prog-mode-hook 'helm-gtags-mode)
+(add-hook 'prog-mode-hook #'hs-minor-mode)
 (add-hook 'minibuffer-setup-hook
           (lambda ()
             (make-local-variable 'face-remapping-alist)
@@ -411,8 +411,6 @@
 (load "~/.emacs.d/helm-custom.el")
 (load "~/.emacs.d/python-custom.el")
 (load "~/.emacs.d/simple-paren.el")
-(load "~/.emacs.d/ggtags-custom.el")
-(load "~/.emacs.d/fci-custom.el")
 (load "~/.emacs.d/projectile-custom.el")
 (load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
@@ -422,19 +420,10 @@
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
-(load "~/.emacs.d/eshell-custom.el")
-;; (load "~/.emacs.d/feebleline.el")
 (load "~/.emacs.d/bindings2.el")
+(load "~/.emacs.d/private.el")
 
-(feebleline-mode t)
+(feebleline-mode)
 
-;; ;;;; todo -- agenda workflow...
-;; (setq org-agenda-files (list "~/.org/medfield.org"
-;;                              "~/.org/work.org"
-;;                              "~/.org/unjo.org"
-;;                              "~/.org/home.org"))
-
-(provide '.emacs)
-;;; .emacs ends here
-(put 'downcase-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
+(provide 'init)
+;;; init.el ends here

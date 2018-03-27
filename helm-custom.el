@@ -15,15 +15,15 @@
   (unless helm-source-buffers-list
     (setq helm-source-buffers-list
           (helm-make-source "Buffers" 'helm-source-buffers)))
-  (setq helm-split-window-default-side 'right)
-  (helm :sources '(helm-source-buffers-list
-                   helm-source-ido-virtual-buffers
-                   helm-source-buffer-not-found)
-        :buffer "*helm buffers*"
-        :keymap helm-buffer-map
-        :input "\!\\* "
-        :truncate-lines helm-buffers-truncate-lines)
-  (setq helm-split-window-default-side 'below))
+  (let ((helm-split-window-default-side 'right))
+    (helm :sources '(helm-source-buffers-list
+                     helm-source-ido-virtual-buffers
+                     helm-source-buffer-not-found)
+          :buffer "*helm buffers*"
+          :keymap helm-buffer-map
+          :input "\!\\* "
+          :truncate-lines helm-buffers-truncate-lines))
+  )
 
 (require 'helm-projectile)
 (defun benjamin/helm-projectile ()
