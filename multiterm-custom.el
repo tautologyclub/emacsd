@@ -117,7 +117,6 @@
     )
 )
 
-
 ;; some shell scripting hax
 (defun dropdown-launch-me ()
   "Run current buffer-file in a dropdown term."

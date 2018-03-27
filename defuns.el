@@ -441,7 +441,6 @@ Position the cursor at it's beginning, according to the current mode."
 (defun kill-to-beginning-of-indentation-or-line ()
   "Kill to beginning of indentation, or line if already at beginning of indentation."
   (interactive)
-  (if (eq (beginning-of-line) ))
   (kill-region (save-excursion (back-to-indentation-or-beginning) (point))
                (point)))
 

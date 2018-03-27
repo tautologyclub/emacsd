@@ -51,7 +51,7 @@
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(avy-keys
    (quote
-    (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
+    (97 115 101 100 102 103 114 111 112 106 107 105 113 119)))
  '(aw-keys
    (quote
     (97 115 101 100 102 103 114 116 111 112 106 107 108 105 113 119 110 109)))
@@ -156,6 +156,7 @@
  '(mode-line-default-help-echo nil)
  '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
+ '(mouse-avoidance-mode (quote banish) nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
@@ -353,19 +354,16 @@
 (set-default 'sentence-end-double-space nil)
 (set-default 'fill-column 80)
 
-
-(setq highlight-indent-guides-method 'character)
-
-(make-variable-buffer-local 'compile-command)
-(make-variable-buffer-local 'company-backends)
-(setq initial-major-mode 'org-mode)     ;; for *Scratch*
+(make-variable-buffer-local 'compile-command);;todo bad
+(make-variable-buffer-local 'company-backends);;todo bad
+(setq initial-major-mode 'org-mode)                             ;; for *Scratch*
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (put 'scroll-left 'disabled nil)
 (setenv "GTAGSLIBPATH" "~/.gtags")
 
 (auto-compression-mode t)
-(show-paren-mode 1)
+(show-paren-mode -1)                            ;; really annoying, it turns out
 
 (recentf-mode 1)
 (setq recentf-max-saved-items 100)
