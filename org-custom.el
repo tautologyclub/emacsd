@@ -7,5 +7,7 @@
 (define-key org-mode-map (kbd "M-e")    nil)
 (define-key org-mode-map (kbd "C-j")    'next-line)
 (define-key org-mode-map (kbd "C-k")    'previous-line)
+(define-key org-mode-map (kbd "C-o")    (lambi (beginning-of-line) (newline)
+                                               (forward-line -1)))
 
 (provide 'org-custom)

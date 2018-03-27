@@ -15,6 +15,28 @@
 (setq ivy-extra-directories nil)
 (setq counsel-grep-swiper-limit 60000)
 
+;; counsel-bookmark with current buffer file as initial input
+(defun counsel-bookmark-current-buffer-file ()
+  "Forward to `bookmark-jump' or `bookmark-set' if bookmark doesn't exist."
+  (interactive)
+  (require 'bookmark)
+  (ivy-read "Create or jump to bookmark: "
+            (bookmark-all-names)
+            :initial-input buffer-file-name
+            :action (lambda (x)
+                      (cond ((and counsel-bookmark-avoid-dired
+                                  (member x (bookmark-all-names))
+                                  (file-directory-p (bookmark-location x)))
+                             (with-ivy-window
+                               (let ((default-directory (bookmark-location x)))
+                                 (counsel-find-file))))
+                            ((member x (bookmark-all-names))
+                             (with-ivy-window
+                               (bookmark-jump x)))
+                            (t
+                             (bookmark-set x))))
+            :caller 'counsel-bookmark))
+
 
 ;; deleting files. Dangerous, should prob just remove
 (defun reloading (cmd)

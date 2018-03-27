@@ -9,6 +9,8 @@
 (require 'anaconda-mode)
 (require 'semantic)
 
+;; WOW THIS IS SHIT HOW DO I LIVE WITH THIS
+
 (with-eval-after-load "anaconda-mode"
   (define-key anaconda-mode-map (kbd "M-r") nil))
 
@@ -24,7 +26,7 @@
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
 
-    (define-key elpy-mode-map (kbd "C-x C-a C-b C-c") nil)
+(define-key elpy-mode-map (kbd "C-x C-a C-b C-c") nil)
 
 ;; (setq python-shell-interpreter "ipython"
 ;;       python-shell-interpreter-args "-i")

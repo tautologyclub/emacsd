@@ -21,3 +21,14 @@
   (flycheck-list-errors)
   (enlarge-window 25)
   (hydra-errgo/body))
+
+(require 'flycheck)
+(require 'flycheck-irony)
+(require 'flycheck-pos-tip)
+(with-eval-after-load 'flycheck
+  (flycheck-pos-tip-mode))
+(eval-after-load 'flycheck
+  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+
+;; hey

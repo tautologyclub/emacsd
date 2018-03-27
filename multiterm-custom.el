@@ -1,8 +1,17 @@
 (require 'multi-term)
 (setq multi-term-program "/bin/bash")
+(setq term-prompt-regexp "^$\\ ")
+(ansi-color-for-comint-mode-on)
+
+(defun dropdown-multiterm ()
+  "Split window, open a terminal below and move focus to it."
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (multi-term))
 
 (defun jnm/term-toggle-mode ()
-  "Toggles term between line mode and char mode."
+  "Toggle term between line mode and char mode."
   (interactive)
   (if (term-in-line-mode)
       (progn
@@ -19,24 +28,22 @@
               (propertize  warning 'face '(:foreground "white" :background "red3")))
         ))))
 
-(ansi-color-for-comint-mode-on)
 
-;; Function for getting last multi-term buffer if one exists, or create a new one if not.
 (defun last-term-buffer (l)
-  "Return most recently used term buffer."
+"Return most recently used term buffer L."
   (when l
     (if (eq 'term-mode (with-current-buffer (car l) major-mode))
         (car l) (last-term-buffer (cdr l)))))
+
 (defun get-term ()
-  "Switch to the term buffer last used, or create a new one if
-    none exists, or if the current buffer is already a term."
+"Switch to the term buffer last used, or create a new one if none exists, or if the current buffer is already a term."
   (interactive)
   (let ((b (last-term-buffer (buffer-list))))
     (if (or (not b) (eq 'term-mode major-mode))
         (multi-term)
       (switch-to-buffer b))))
 
-;; More fixes for multi-term
+;; More fixes for multi-term ;; todo: do these do anything?
 (eval-after-load "term"
   '(progn
      ;; Fix forward/backward word when (term-in-char-mode).
@@ -95,7 +102,6 @@
     ("M-n"           . term-send-down)
     ("<C-backspace>" . term-send-backward-kill-word)
     ("<C-return>"    . term-cd-input)
-    ("M-r"           . term-send-reverse-search-history)
     ("M-d"           . term-send-delete-word)
     ("M-,"           . term-send-raw)
     ("M-."           . company-complete)
@@ -110,5 +116,47 @@
     ("H-f"           . ivy-term-ff)
     )
 )
+
+
+;; some shell scripting hax
+(defun dropdown-launch-me ()
+  "Run current buffer-file in a dropdown term."
+  (interactive)
+  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
+    (shell-command (concat "chmod a+x " buffer-file-name))
+    (dropdown-multiterm)
+    (term-send-raw-string (concat "./" tmp-filename ""))))
+
+(defun dropdown-source-me ()
+  "Source current buffer-file in a dropdown term."
+  (interactive)
+  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
+    (dropdown-multiterm)
+    (term-send-raw-string (concat ". " tmp-filename ""))))
+
+(defun multiterm-launch-me ()
+  "Run current buffer-file in a dropdown term."
+  (interactive)
+  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
+    (shell-command (concat "chmod a+x " buffer-file-name))
+    (multi-term)
+    (term-send-raw-string (concat "./" tmp-filename ""))))
+
+(defun multiterm-source-me ()
+  "Source current buffer-file in a dropdown term."
+  (interactive)
+  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
+    (multi-term)
+    (term-send-raw-string (concat ". " tmp-filename ""))))
+
+(eval-after-load "sh"
+  (progn
+    (define-key sh-mode-map (kbd "C-c C-c") 'dropdown-launch-me)
+    (define-key sh-mode-map (kbd "C-c C-t") 'multiterm-launch-me)
+    (define-key sh-mode-map (kbd "C-c C-,") 'multiterm-source-me)
+    (define-key sh-mode-map (kbd "C-c C-.") 'dropdown-source-me)
+    ))
+
+
 
 ;; hey

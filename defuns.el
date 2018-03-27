@@ -11,13 +11,6 @@
   (volatile-kill-buffer)
   (delete-window-or-frame))
 
-(defun dropdown-multiterm ()
-  "Split window, open a terminal below and move focus to it."
-  (interactive)
-  (split-window-below)
-  (windmove-down)
-  (multi-term))
-
 (require 'expand-region)
 (defun benjamin/mark-inside-pairs ()
   "Go fuck yourself."
@@ -445,6 +438,13 @@ Position the cursor at it's beginning, according to the current mode."
   (forward-line -1)
   (indent-according-to-mode))
 
+(defun kill-to-beginning-of-indentation-or-line ()
+  "Kill to beginning of indentation, or line if already at beginning of indentation."
+  (interactive)
+  (if (eq (beginning-of-line) ))
+  (kill-region (save-excursion (back-to-indentation-or-beginning) (point))
+               (point)))
+
 (defun increment-number-at-point ()
   (interactive)
   (skip-chars-backward "0-9")
@@ -472,6 +472,20 @@ Position the cursor at it's beginning, according to the current mode."
   (interactive "p*")
   (my-increment-number-decimal (if arg (- arg) -1)))
 
+(defun create-scratch-buffer nil
+  "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
+  (interactive)
+  (let ((n 0)
+        bufname)
+    (while (progn
+             (setq bufname (concat "*scratch"
+                                   (if (= n 0) "" (int-to-string n))
+                                   "*"))
+             (setq n (1+ n))
+             (get-buffer bufname)))
+    (switch-to-buffer (get-buffer-create bufname))
+    (emacs-lisp-mode)
+    ))
 
 (defface find-file-root-header-face
   '((t (:foreground "white" :background "red3")))

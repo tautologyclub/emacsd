@@ -91,9 +91,12 @@
    "--- eshell ---------------------------------------------------------------------
 ")
  '(explicit-shell-file-name "/usr/bin/xterm")
- '(fci-rule-color "#c7c7c7")
+ '(fci-rule-character 124)
+ '(fci-rule-color "dim gray")
+ '(feebleline-mode t nil (feebleline))
+ '(feebleline-show-time nil)
  '(fill-column 80)
- '(flycheck-check-syntax-automatically (quote (save new-line mode-enabled)))
+ '(flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
  '(flycheck-display-errors-delay 0.2)
  '(flycheck-pos-tip-timeout 20)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
@@ -112,6 +115,7 @@
  '(helm-mode nil)
  '(helm-swoop-split-direction (quote split-window-vertically))
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
+ '(highlight-indent-guides-character 58)
  '(highlight-symbol-colors
    (--map
     (solarized-color-blend it "#002b36" 0.25)
@@ -139,7 +143,7 @@
  '(hl-sexp-background-color "#1c1f26")
  '(hlt-max-region-no-warning 30)
  '(ivy-fixed-height-minibuffer t)
- '(ivy-height 24) ;; wtf todo fixme
+ '(ivy-height 24)
  '(ivy-ignore-buffers (quote ("\\` " "\\*Helm" "\\*Ivy" "TAGS")))
  '(ivy-mode t)
  '(jit-lock-stealth-time 1)
@@ -160,9 +164,11 @@
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
  '(org-log-done (quote time))
+ '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
+ '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -250,6 +256,7 @@
    ["#073642" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#eee8d5"])
  '(xterm-color-names-bright
    ["#002b36" "#cb4b16" "#586e75" "#657b83" "#839496" "#6c71c4" "#93a1a1" "#fdf6e3"]))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -270,16 +277,17 @@
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
- '(org-date ((t (:foreground "wheat" :underline t))))
+ '(org-date ((t (:foreground "dark red" :underline t))))
  '(org-done ((t (:foreground "purple" :weight bold))))
- '(org-level-1 ((t (:foreground "tomato" :weight bold :height 1.35))))
- '(org-level-2 ((t (:foreground "forest green" :weight bold :height 1.2))))
- '(org-level-3 ((t (:foreground "lime green" :weight bold :height 1.0))))
+ '(org-level-1 ((t (:foreground "dark red" :weight bold :height 1.35))))
+ '(org-level-2 ((t (:foreground "dark green" :weight bold :height 1.2))))
+ '(org-level-3 ((t (:foreground "navy" :weight bold :height 1.0))))
  '(org-level-4 ((t (:foreground "dark magenta"))))
  '(org-level-5 ((t (:foreground "dark slate gray"))))
  '(org-special-keyword ((t (:slant italic :weight semi-bold))))
  '(org-todo ((t (:foreground "red" :weight bold))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
+ '(show-paren-match ((t (:background "dim gray"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
@@ -311,11 +319,6 @@
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
-(require 'flycheck)
-(require 'flycheck-irony)
-(require 'flycheck-pos-tip)
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
 
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
@@ -327,7 +330,10 @@
 (setq tab-width 4)
 (setq tab-always-indent t)
 (setq scroll-error-top-bottom t)
+
 (setq save-interprogram-paste-before-kill t)
+(setq select-enable-clipboard t)
+(setq x-select-enable-clipboard t)
 (setq kill-buffer-query-functions (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
 (setq inhibit-splash-screen t)
@@ -342,7 +348,13 @@
       kept-new-versions 6
       kept-old-versions 2
       version-control t)       ; use versioned backups
-(setq select-enable-clipboard t)
+(setq delete-by-moving-to-trash t)
+(setq gc-cons-threshold 20000000)
+(set-default 'sentence-end-double-space nil)
+(set-default 'fill-column 80)
+
+
+(setq highlight-indent-guides-method 'character)
 
 (make-variable-buffer-local 'compile-command)
 (make-variable-buffer-local 'company-backends)
@@ -352,7 +364,12 @@
 (put 'scroll-left 'disabled nil)
 (setenv "GTAGSLIBPATH" "~/.gtags")
 
-(recentf-mode)
+(auto-compression-mode t)
+(show-paren-mode 1)
+
+(recentf-mode 1)
+(setq recentf-max-saved-items 100)
+
 (window-divider-mode t)
 (yas-global-mode 1)
 (global-undo-tree-mode 1)
@@ -360,13 +377,20 @@
 (volatile-highlights-mode t)
 (menu-bar-mode -1)
 (toggle-scroll-bar -1)
+
+;; Auto revert
 (global-auto-revert-mode)
+(setq global-auto-revert-non-file-buffers t)
+
 (electric-pair-mode)
 (projectile-mode t)
 (auto-dim-other-buffers-mode 1)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 (add-hook 'after-init-hook 'global-company-mode)
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
 
 (add-hook 'prog-mode-hook 'helm-gtags-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
@@ -375,8 +399,6 @@
             (make-local-variable 'face-remapping-alist)
             (add-to-list 'face-remapping-alist
                          '(default (:background "#3c4447")))))
-(eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 (defun set-hook-newline-and-indent ()
   "Rebind RET."
@@ -420,6 +442,7 @@
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
+(load "~/.emacs.d/mode-mappings.el")
 (load "~/.emacs.d/bindings2.el")
 (load "~/.emacs.d/private.el")
 
