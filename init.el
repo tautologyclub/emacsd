@@ -22,7 +22,7 @@
 
 ;; <<<<<<< variant A
 ;; >>>>>>> variant B
-;; (require 'fill-column-indicator)
+(require 'fill-column-indicator)
 ;; (require 'counsel-projectile)
 ;; (require 'mu4e)
 ;; (setq mu4e-get-mail-command "offlineimap")
@@ -109,6 +109,7 @@
  '(helm-autoresize-max-height 24)
  '(helm-autoresize-min-height 24)
  '(helm-autoresize-mode t)
+ '(helm-buffer-details-flag nil)
  '(helm-descbinds-mode t)
  '(helm-display-buffer-default-width 32)
  '(helm-display-header-line nil)
@@ -156,20 +157,19 @@
  '(mode-line-default-help-echo nil)
  '(mode-line-format nil)
  '(mode-line-in-non-selected-windows nil)
- '(mouse-avoidance-mode (quote banish) nil (avoid))
+ '(mouse-avoidance-mode nil nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
  '(multi-term-scroll-to-bottom-on-output t)
+ '(multi-term-switch-after-close nil)
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
  '(org-log-done (quote time))
- '(org-trello-current-prefix-keybinding "C-c o" nil (org-trello))
- '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (logview eproject highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -183,6 +183,7 @@
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
  '(resize-mini-windows t)
+ '(safe-local-variable-values (quote ((tab-always-indent . t))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(semantic-idle-scheduler-idle-time 5)
@@ -263,7 +264,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 90 :width normal :foundry "PfEd" :family "Inconsolata"))))
+ '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
  '(auto-dim-other-buffers-face ((t (:background "#242b2d" :foreground "#c4c4c4"))))
  '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
  '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
@@ -280,10 +281,10 @@
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(org-date ((t (:foreground "dark red" :underline t))))
  '(org-done ((t (:foreground "purple" :weight bold))))
- '(org-level-1 ((t (:foreground "dark red" :weight bold :height 1.35))))
- '(org-level-2 ((t (:foreground "dark green" :weight bold :height 1.2))))
- '(org-level-3 ((t (:foreground "navy" :weight bold :height 1.0))))
- '(org-level-4 ((t (:foreground "dark magenta"))))
+ '(org-level-1 ((t (:foreground "yellow" :weight bold :height 1.35))))
+ '(org-level-2 ((t (:foreground "lawn green" :weight bold :height 1.2))))
+ '(org-level-3 ((t (:foreground "cyan" :weight bold :height 1.0))))
+ '(org-level-4 ((t (:foreground "magenta"))))
  '(org-level-5 ((t (:foreground "dark slate gray"))))
  '(org-special-keyword ((t (:slant italic :weight semi-bold))))
  '(org-todo ((t (:foreground "red" :weight bold))))
@@ -354,8 +355,6 @@
 (set-default 'sentence-end-double-space nil)
 (set-default 'fill-column 80)
 
-(make-variable-buffer-local 'compile-command);;todo bad
-(make-variable-buffer-local 'company-backends);;todo bad
 (setq initial-major-mode 'org-mode)                             ;; for *Scratch*
 
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -390,6 +389,8 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
+(add-hook 'prog-mode-hook 'fci-mode)
+(add-hook 'org-mode-hook 'fci-mode)
 (add-hook 'prog-mode-hook 'helm-gtags-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 (add-hook 'minibuffer-setup-hook
@@ -441,6 +442,12 @@
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
 (load "~/.emacs.d/mode-mappings.el")
+(load "~/.emacs.d/indicate-cursor.el")
+
+(load "~/.emacs.d/frame-fns.el")
+(load "~/.emacs.d/frame-cmds.el")
+(load "~/.emacs.d/zoom-frm.el")
+
 (load "~/.emacs.d/bindings2.el")
 (load "~/.emacs.d/private.el")
 

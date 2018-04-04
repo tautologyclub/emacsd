@@ -70,14 +70,14 @@
 
 
 ;; beautiful xcape hacks
-;; (global-set-key                 (kbd "<f11>") 'ace-window)
 (global-set-key                 (kbd "<f11>") 'benjamin/helm-buffers-list)
 (define-key helm-map            (kbd "<f11>") 'helm-keyboard-quit)
 (global-set-key                 (kbd "<f10>") 'er/expand-region)
-;; (global-set-key                  (kbd "<f9>") 'benjamin/set-mark-command)
-(global-set-key                  (kbd "<f9>") 'hydra-nav/body)
+(global-set-key (kbd "<f9>") 'benjamin/helm-buffers-list)
+
 (global-set-key                (kbd "<S-f9>") 'benjamin/jump-char-bwd)
 (global-set-key                (kbd "C-<f9>") 'benjamin/set-mark-command)
+(global-set-key               (kbd "M-<f12>") 'benjamin/set-mark-command)
 
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")    'blq/brackets)
@@ -133,7 +133,7 @@
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'rgrep)
 (global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
-(global-set-key     (kbd "C-S-r")   'counsel-projectile-rg)
+(global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
@@ -210,18 +210,18 @@
 
 (global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
 (global-set-key     (kbd "H-s")   'isearch-forward)
+(global-set-key   (kbd "H-M-s")   'org-store-link)
 (global-set-key     (kbd "s-s")   'counsel-git-grep)
 (global-set-key   (kbd "C-x s")   'save-buffer)
 (global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key   (kbd "C-S-s")   'helm-swoop)
 (global-set-key   (kbd "C-M-s")   'save-buffer)
-(global-set-key   (kbd "H-M-s")   'shell-command)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 
 (global-set-key     (kbd "C-d")   'delete-char)
 (global-set-key     (kbd "H-d")   'dropdown-multiterm)
 (global-set-key     (kbd "M-d")   'benjamin/kill-word)
-(global-set-key   (kbd "C-S-d")   'delete-window)
+(global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
 (global-set-key (kbd "M-s M-d")   'delete-window)
 (global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)
 (global-set-key   (kbd "C-c dl")  'benjamin/laptop-mode)
@@ -230,7 +230,7 @@
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
 (global-set-key     (kbd "M-f")   'right-word)
 (global-set-key     (kbd "s-f")   'find-file)                                  ;
-(global-set-key     (kbd "C-f")   'avy-goto-char-2-below)
+(global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key   (kbd "C-S-f")   'avy-goto-char-2-above)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
 (global-set-key   (kbd "H-M-f")   'find-file)
@@ -239,9 +239,7 @@
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 
 (global-set-key     (kbd "M-g")   'goto-line-with-feedback)
-(global-set-key     (kbd "H-g")   'keyboard-quit)
-(define-key
- ivy-minibuffer-map (kbd "H-g")   'minibuffer-keyboard-quit)
+(global-set-key     (kbd "H-g")   'get-term)
 (global-set-key     (kbd "s-g")   'hydra-git-gutter/body)                ;; todo
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)
 (global-set-key (kbd "M-s M-g")   'get-term)

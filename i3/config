@@ -14,13 +14,13 @@ focus_follows_mouse yes
 workspace_auto_back_and_forth yes
 
 # Bindings
-bindsym $mod+Return exec --no-startup-id ~/.config/split_optimal.sh; exec /usr/bin/termite
-bindsym $mod+b exec --no-startup-id ~/.config/split_optimal.sh; exec /usr/bin/google-chrome-stable
+bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/termite
+bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-chrome-stable
 bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id ~/.config/split_optimal.sh; exec --no-startup-id dmenu_recency
-bindsym $mod+e exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
+bindsym $mod+d exec --no-startup-id ~/bin/split_optimal; exec --no-startup-id dmenu_recency
+bindsym $mod+e exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
 bindsym $mod+Shift+e split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
-bindsym $mod+t exec --no-startup-id ~/.config/split_optimal.sh; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
+bindsym $mod+t exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
 bindsym $mod+Shift+t exec split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
 
 # Shift focus and resize
@@ -37,8 +37,8 @@ bindsym $mod+Right resize grow width 1 px or 1 ppt
 # move
 bindsym $mod+Shift+j move left
 bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+odiaeresis move right
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+i move up
 
 bindsym $mod+Shift+Left move left
 bindsym $mod+Shift+Down move down
@@ -53,6 +53,7 @@ bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym Print exec --no-startup-id i3-scrot
 
+bindsym F12 exec --no-startup-id touch ~/f12_pressed  # Silly hack to make f12 not open some random shit in chrome
 
 # Move to scratchpad
 bindsym $mod+Shift+minus move scratchpad
@@ -63,8 +64,8 @@ bindsym $mod+minus scratchpad show
 ## bindsym $mod+h split h;exec notify-send 'tile horizontally'
 ## bindsym $mod+v split v;exec notify-send 'tile vertically'
 ## bindsym $mod+q split toggle
-# bindsym $mod+s layout stacking
-# bindsym $mod+w layout tabbed
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
 
 #navigate workspaces next / previous
 bindsym $mod+Ctrl+Right workspace next
@@ -82,6 +83,7 @@ set $ws5 5
 set $ws6 6
 set $ws7 7
 set $ws8 8
+set $ws9 9
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -92,6 +94,7 @@ bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
+bindsym $mod+9 workspace $ws9
 
 # Move focused container to workspace
 bindsym $mod+Ctrl+1 move container to workspace $ws1
@@ -102,6 +105,7 @@ bindsym $mod+Ctrl+5 move container to workspace $ws5
 bindsym $mod+Ctrl+6 move container to workspace $ws6
 bindsym $mod+Ctrl+7 move container to workspace $ws7
 bindsym $mod+Ctrl+8 move container to workspace $ws8
+bindsym $mod+Ctrl+9 move container to workspace $ws9
 
 # Move to workspace with focused container
 bindsym $mod+Shift+1 move container to workspace $ws1; workspace $ws1
@@ -112,6 +116,7 @@ bindsym $mod+Shift+5 move container to workspace $ws5; workspace $ws5
 bindsym $mod+Shift+6 move container to workspace $ws6; workspace $ws6
 bindsym $mod+Shift+7 move container to workspace $ws7; workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8; workspace $ws8
+bindsym $mod+Shift+9 move container to workspace $ws9; workspace $ws9
 
 # Open specific applications in floating mode
 for_window [title="alsamixer"] floating enable border pixel 1
@@ -202,8 +207,17 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
+bindsym $mod+u mode "kb layout"
+mode "kb layout" {
+     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
+     bindsym s exec setxkbmap se; mode "default"
+
+     bindsym Return mode "default"
+     bindsym q mode "default"
+}
+
 # Lock screen
-bindsym $mod+9 exec --no-startup-id blurlock
+# bindsym $mod+9 exec --no-startup-id blurlock
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
