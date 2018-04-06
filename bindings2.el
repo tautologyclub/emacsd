@@ -79,6 +79,10 @@
 (global-set-key                (kbd "C-<f9>") 'benjamin/set-mark-command)
 (global-set-key               (kbd "M-<f12>") 'benjamin/set-mark-command)
 
+(global-set-key (kbd "M-SPC")   'find-file)
+(global-set-key (kbd "H-SPC")   'find-file)
+(global-set-key (kbd "H-<f9>")  'switch-to-buffer)
+
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")    'blq/brackets)
 
@@ -109,7 +113,8 @@
 (global-set-key     (kbd "s-e")      nil)
 (global-set-key     (kbd "M-e")     'forward-whitespace)
 (global-set-key     (kbd "H-e")     "qe")
-(global-set-key   (kbd "C-S-e")     (lambi (set-mark-if-inactive)
+(global-set-key   (kbd "H-M-e")     'replace-last-sexp)
+(global-set-key   (kbd "C-S-e")     (lambi (set-mark-if-inactive)              ;
                                            (xah-end-of-line-or-block)))
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
 (global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
@@ -303,10 +308,10 @@
 (global-set-key     (kbd "C-v")   (lambi (forward-line 30)))
 (global-set-key   (kbd "C-S-v")   (lambi (forward-line -30)))
 
-(global-set-key     (kbd "C-b")   'counsel-bookmark)
 (global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)
 (global-set-key     (kbd "H-b")   'switch-to-buffer-other-window)
 ;; Note: https://www.emacswiki.org/emacs/BookmarkPlus#toc20
+(global-set-key     (kbd "C-b")   'counsel-bookmark)
 (global-set-key   (kbd "C-S-b")   'counsel-bookmark-current-buffer-file)
 (global-set-key   (kbd "C-c b")   'create-scratch-buffer)
 (global-set-key   (kbd "C-x b")   'browse-url)
@@ -314,11 +319,10 @@
 (global-set-key (kbd "M-s M-b")   'counsel-bookmark)
 (global-set-key       (kbd "」")  'BIND-ME)                              ;; todo
 
-(global-set-key     (kbd "C-n")   'lispy-forward)                        ;; TODO
+(global-set-key     (kbd "C-n")   'benjamin/helm-buffers-list)           ;; TODO
 (global-set-key     (kbd "M-n")   'hydra-errgo/next-error)
 (global-set-key     (kbd "H-n")   'mc/mark-next-like-this)
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                        ;; todo
-(global-set-key   (kbd "M-s n")   'hydra-nav/body)
 (global-set-key       (kbd "ν")   'hydra-nav/body)                       ;; todo
 
 (define-key input-decode-map [?\C-m] [C-m])
@@ -349,21 +353,19 @@
 (global-set-key (kbd "C-_")     (lambi (shrink-window 5)))
 (global-set-key (kbd "C-+")     (lambi (enlarge-window 5)))
 
-(global-set-key (kbd "M-SPC")   'find-file)
-(global-set-key (kbd "H-SPC")   'find-file)
-(global-set-key (kbd "H-<f9>")  'switch-to-buffer)
-
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key (kbd "<H-return>")      'get-term)
 (global-set-key (kbd "<H-backspace>")   'murder-buffer-with-window)
 (global-set-key     (kbd "C-<return>")   'open-line-below)
 
+
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
 
-;; guide-key
-(guide-key-mode 1)
-(setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x"
-                                     "M-s" "μ" "C-p"))
-(setq guide-key/idle-delay 0.66)
-(setq guide-key/recursive-key-sequence-flag t)
+
+;; ;; guide-key
+;; (guide-key-mode 1)
+;; (setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x"
+;;                                      "M-s" "μ" "C-p"))
+;; (setq guide-key/idle-delay 0.66)
+;; (setq guide-key/recursive-key-sequence-flag t)

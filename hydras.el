@@ -1,51 +1,4 @@
 
-(defhydra hydra-text (:color pink :columns 5 :hint nil)
-  "gdb"
-  ("g"      gdb blue"gdb")
-  ("r"      gdb-restore-windows "restore")
-
-  ("h"      backward-char )
-  ("j"      next-line )
-  ("k"      previous-line )
-  ("l"      forward-char )
-
-  ("t"      gud-tbreak )
-  ("SPC"    gud-break   "break")
-  ("l"      gud-remove  "clear")
-  ("p"      gud-print   "print ")
-  ("m"      gud-until   "move")
-  ("n"      gud-next    "next")
-  ("N"      gud-nexti   "next instr")
-  ("c"      gud-cont    "continue")
-  ("o"      gud-finish  "out")
-  ("r"      gud-run     "run")
-  ("s"      gud-step    "step")
-  ("u"      gud-up      "up")
-  ("d"      gud-down    "down")
-  ("w"      gud-watch   "watch")    ;; todo completing read
-
-  ("iv"     (gud-basic-call "info variables")               "info vars")
-  ("ir"     (gud-basic-call "info registers")               "info regs")
-  ("bm"     (gud-basic-call "b main")                       "break main")
-  ("bs"     (gud-basic-call "save breakpoints .gdb_breaks")  "save breaks")
-  ("bl"     (gud-basic-call "source .gdb_breaks")            "load breaks")
-
-  ("C-a"    xah-beginning-of-line-or-block)
-  ("C-e"    xah-end-of-line-or-block)
-
-  ("M-c"    compile "compile")
-  ("M-r"    recompile "recompile")
-
-  ("C-k"    windmove-up)
-  ("C-j"    windmove-down)
-  ("C-h"    windmove-left)
-  ("C-l"    windmove-right)
-
-  ("X"      (lambda () (interactive)
-              (gud-basic-call "quit")
-              (delete-window)) :color blue
-              "exit")
-  ("q"      nil "quit hydra"))
 
 ;; I heart abo-abo
 (require 'hideshow)
@@ -96,18 +49,8 @@
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
                                      unread-command-events)))
 
-;; lol
-(defhydra hydra-weird-chars (:hint nil)
-  "
-"
-  ;; ("q"   (lambda () (interactive) (insert "[]")(backward-char)) :color blue)
-  ("<f8>"   (lambda () (interactive) (insert "ö")) :color blue)
-  ("<f9>"   (lambda () (interactive) (insert "å")) :color blue)
-  ("'"   (lambda () (interactive) (insert "ä")) :color blue)
-  ("ESC" nil "quit" :color blue)
-  )
-
 (defhydra hydra-errgo (:hint nil)
+  ("q" nil              "quit")
   ("h" first-error      "first")
   ("j" next-error       "next")
   ("k" previous-error   "prev")
@@ -165,7 +108,6 @@ T - tag prefix
   ("Z" dired-do-compress)
   ("q" nil)
   ("." nil :color blue))
-
 (define-key dired-mode-map "." 'hydra-dired/body)
 
 
@@ -175,7 +117,7 @@ _a_ abbrev-mode:       %`abbrev-mode
 _d_ debug-on-error:    %`debug-on-error
 _e_ feebleline-mode:   %`feebleline-mode
 _f_ auto-fill-mode:    %`auto-fill-function
-_h_ highlight          %`highlight-nonselected-windows
+_h_ hl-line-mode       %`hl-line-mode
 _t_ truncate-lines:    %`truncate-lines
 _y_ flycheck-mode      %`flycheck-mode
 _w_ whitespace-mode:   %`whitespace-mode
@@ -191,6 +133,7 @@ _r_ read-only-mode
   ("e" feebleline-mode)
   ("t" toggle-truncate-lines)
   ("y" flycheck-mode)
+  ("h" hl-line-mode)
   ("w" whitespace-mode)
   ("l" linum-mode)
   ("i" fci-mode)
@@ -242,4 +185,4 @@ _r_ read-only-mode
 
 
 
-(defun SHUTTHEFUCKUP ())
+;;

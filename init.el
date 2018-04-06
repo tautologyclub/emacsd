@@ -15,6 +15,7 @@
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "~/repos/counsel-projectile")
 (add-to-list 'load-path "~/repos/Fill-Column-Indicator")
+(add-to-list 'load-path "~/repos/feebleline")
 (package-initialize)
 
 (require 'counsel-term)
@@ -183,7 +184,20 @@
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
  '(resize-mini-windows t)
- '(safe-local-variable-values (quote ((tab-always-indent . t))))
+ '(safe-local-variable-values
+   (quote
+    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-i/home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options quote
+                                     (("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")))
+     (irony-additional-clang-options quote
+                                     ("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc"))
+     (irony-additional-clang-options quote
+                                     ("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DMODULE" "-DKBUILD_STR(s)=#s" "-nostdinc"))
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DMODULE" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (tab-always-indent . t))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(semantic-idle-scheduler-idle-time 5)
@@ -272,9 +286,11 @@
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(erc-timestamp-face ((t (:foreground "forest green" :weight bold))))
+ '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face))))
  '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
  '(highlight-indentation-face ((t nil)))
  '(hl-line ((t (:background "#303a3d"))))
+ '(link ((t (:foreground "deep sky blue" :underline t))))
  '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
  '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
  '(mode-line ((t :height unspecified)))
@@ -321,11 +337,16 @@
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
+; todo tmp
+(setq company-backends
+      (quote
+       (company-semantic company-clang company-xcode company-cmake company-capf company-files
+                         (company-dabbrev-code company-gtags company-etags company-keywords)
+                         company-oddmuse company-dabbrev)))
 
 ;; Random vanilla settings
 ;; (setq enable-recursive-minibuffers t)
 (setq mouse-autoselect-window t)
-;; (setq mouse-autoselect-window nil)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
 (setq whitespace-style '(face empty tabs lines-tail trailing))
