@@ -41,7 +41,7 @@
 
 
 (defhydra helm-like-unite (:hint nil
-                           :color pink)
+			   :color pink)
   "
 Nav ^^^^^^^^^        Mark ^^          Other ^^       Quit
 ^^^^^^^^^^------------^^----------------^^----------------------
@@ -81,13 +81,14 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ;; rest
   ("H" helm-help)
   ("v" helm-execute-persistent-action)
-  ("d" helm-persistent-delete-marked)
+  ("d" benjamin/helm-buffer-run-kill-persistent)
   ("f" helm-follow-mode)
   ("<f9>" nil)
   ("s" (progn
          (hydra-keyboard-quit)
          (helm-swoop-edit))
    :exit t))
+
 (helm-descbinds-mode 1)
 
 (defun helm-toggle-header-line ()

@@ -9,5 +9,6 @@
 (define-key org-mode-map (kbd "C-k")    'previous-line)
 (define-key org-mode-map (kbd "C-o")    (lambi (beginning-of-line) (newline)
                                                (forward-line -1)))
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
 
 (provide 'org-custom)

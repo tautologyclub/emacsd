@@ -13,7 +13,7 @@
 (defun benjamin/notify (arg)
   (shell-command (format "notify-send '%s'" arg)))
 
-;; Personal keyboard layout mappings
+;; Personal keyboard layout mappings -- deprecated!
 (defun set-kblayout-swedish ()
   "Set layout to swedish."
   (interactive)

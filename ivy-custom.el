@@ -5,21 +5,26 @@
 (require 'ivy)
 (require 'counsel)
 (require 'projectile)
+(require 'bookmark)
 
-(ivy-mode t)
-(setq ivy-use-virtual-buffers t)
-(setq ivy-count-format "%d/%d - ")
-(setq ivy-wrap t)
-(setq ivy-use-selectable-prompt t)
-(setq magit-completing-read-function 'ivy-completing-read)
-(setq ivy-extra-directories nil)
-(setq counsel-grep-swiper-limit 60000)
+;; (ivy-mode t)
+;; (setq ivy-use-virtual-buffers t)
+;; (setq ivy-count-format "%d/%d - ")
+;; (setq ivy-wrap t)
+;; (setq ivy-use-selectable-prompt t)
+;; (setq magit-completing-read-function 'ivy-completing-read)
+;; (setq ivy-extra-directories nil)
+;; (setq counsel-grep-swiper-limit 60000)
+;; (setq ivy-display-style 'fancy)
+;; (setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
+
+
 
 ;; counsel-bookmark with current buffer file as initial input
+;;;###autoload
 (defun counsel-bookmark-current-buffer-file ()
   "Forward to `bookmark-jump' or `bookmark-set' if bookmark doesn't exist."
   (interactive)
-  (require 'bookmark)
   (ivy-read "Create or jump to bookmark: "
             (bookmark-all-names)
             :initial-input buffer-file-name
@@ -37,7 +42,6 @@
                              (bookmark-set x))))
             :caller 'counsel-bookmark))
 
-
 ;; deleting files. Dangerous, should prob just remove
 (defun reloading (cmd)
   (lambda (x)
@@ -54,8 +58,6 @@
 
 (defun confirm-delete-file (x)
   (dired-delete-file x 'confirm-each-subdirectory))
-
-(setq ivy-display-style 'fancy)
 
 (ivy-add-actions
    'counsel-find-file
@@ -104,8 +106,6 @@
 (define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
 (define-key swiper-map (kbd "M-<tab>") 'swiper-mc)
 
-(setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
-
 (add-hook 'wgrep-setup-hook 'save-some-buffers)
 
 (define-key ivy-switch-buffer-map (kbd "M-k")
@@ -133,3 +133,6 @@
 (setq ivy-ignore-buffers '("\\` "))
 
 (add-hook 'occur-hook 'occur-rename-buffer)
+
+(provide 'ivy-custom)
+;;; ivy-custom ends here

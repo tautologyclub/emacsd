@@ -1,8 +1,6 @@
-(require 'multi-term)
-(setq multi-term-program "/bin/bash")
-(setq term-prompt-regexp "^$\\ ")
-(ansi-color-for-comint-mode-on)
 
+
+;;;###autoload
 (defun dropdown-multiterm ()
   "Split window, open a terminal below and move focus to it."
   (interactive)
@@ -10,6 +8,7 @@
   (windmove-down)
   (multi-term))
 
+;;;###autoload
 (defun jnm/term-toggle-mode ()
   "Toggle term between line mode and char mode."
   (interactive)
@@ -28,13 +27,14 @@
               (propertize  warning 'face '(:foreground "white" :background "red3")))
         ))))
 
-
+;;;###autoload
 (defun last-term-buffer (l)
 "Return most recently used term buffer L."
   (when l
     (if (eq 'term-mode (with-current-buffer (car l) major-mode))
         (car l) (last-term-buffer (cdr l)))))
 
+;;;###autoload
 (defun get-term ()
 "Switch to the term buffer last used, or create a new one if none exists, or if the current buffer is already a term."
   (interactive)
@@ -43,38 +43,38 @@
         (multi-term)
       (switch-to-buffer b))))
 
-;; More fixes for multi-term ;; todo: do these do anything?
-(eval-after-load "term"
-  '(progn
-     ;; Fix forward/backward word when (term-in-char-mode).
-     (define-key term-raw-map (kbd "<C-left>")
-       (lambda () (interactive) (term-send-raw-string "\eb")))
-     (define-key term-raw-map (kbd "<C-right>")
-       (lambda () (interactive) (term-send-raw-string "\ef")))
-     (define-key term-raw-map (kbd "C-_") nil)
-     (define-key term-raw-map (kbd "C-k") 'term-send-raw)
-     (define-key term-raw-map (kbd "C-j") 'next-line)
-     (define-key term-raw-map (kbd "C-j") 'term-send-raw)
-     (define-key term-raw-map (kbd "C-r") 'term-send-backspace)
-     (define-key term-raw-map (kbd "C-d") 'term-send-del)
-     (define-key term-raw-map (kbd "C-f") 'right-word)
-     (define-key term-raw-map (kbd "C-q") 'left-word)
-     (define-key term-raw-map (kbd "C-p") 'projectile-command-map)
-     ;; Disable killing and yanking in char mode (term-raw-map).
-     (mapc
-      (lambda (func)
-        (eval `(define-key term-raw-map [remap ,func]
-                 (lambda () (interactive) (ding)))))
-      '(backward-kill-paragraph
-        backward-kill-sentence backward-kill-sexp backward-kill-word
-        bookmark-kill-line kill-backward-chars kill-backward-up-list
-        kill-forward-chars kill-line kill-paragraph kill-rectangle
-        kill-region kill-sentence kill-sexp kill-visual-line
-        kill-whole-line kill-word subword-backward-kill subword-kill
-        yank yank-pop yank-rectangle))))
+;; ;; More fixes for multi-term ;; todo: do these do anything?
+;; (eval-after-load "term"
+;;   '(progn
+;;      ;; Fix forward/backward word when (term-in-char-mode).
+;;      (define-key term-raw-map (kbd "<C-left>")
+;;        (lambda () (interactive) (term-send-raw-string "\eb")))
+;;      (define-key term-raw-map (kbd "<C-right>")
+;;        (lambda () (interactive) (term-send-raw-string "\ef")))
+;;      (define-key term-raw-map (kbd "C-_") nil)
+;;      (define-key term-raw-map (kbd "C-k") 'term-send-raw)
+;;      (define-key term-raw-map (kbd "C-j") 'next-line)
+;;      (define-key term-raw-map (kbd "C-j") 'term-send-raw)
+;;      (define-key term-raw-map (kbd "C-r") 'term-send-backspace)
+;;      (define-key term-raw-map (kbd "C-d") 'term-send-del)
+;;      (define-key term-raw-map (kbd "C-f") 'right-word)
+;;      (define-key term-raw-map (kbd "C-q") 'left-word)
+;;      (define-key term-raw-map (kbd "C-p") 'projectile-command-map)
+;;      ;; Disable killing and yanking in char mode (term-raw-map).
+;;      (mapc
+;;       (lambda (func)
+;;         (eval `(define-key term-raw-map [remap ,func]
+;;                  (lambda () (interactive) (ding)))))
+;;       '(backward-kill-paragraph
+;;         backward-kill-sentence backward-kill-sexp backward-kill-word
+;;         bookmark-kill-line kill-backward-chars kill-backward-up-list
+;;         kill-forward-chars kill-line kill-paragraph kill-rectangle
+;;         kill-region kill-sentence kill-sexp kill-visual-line
+;;         kill-whole-line kill-word subword-backward-kill subword-kill
+;;         yank yank-pop yank-rectangle))))
 
-(define-key term-mode-map (kbd "C-p") 'projectile-command-map)
-(define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
+;; (define-key term-mode-map (kbd "C-p") 'projectile-command-map)
+;; (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
 
 (require 'counsel-term)
 
@@ -84,6 +84,8 @@
     ("("             . (lambda () (interactive) (term-send-raw-string "()")))
     ("["             . (lambda () (interactive) (term-send-raw-string "[]")))
     ("{"             . (lambda () (interactive) (term-send-raw-string "{}")))
+    ("C-c C-x"       . (lambda () (interactive) (term-send-raw-string "")))
+    ("C-c C-a"       . (lambda () (interactive) (term-send-raw-string "")))
     ("C-x t"         . jnm/term-toggle-mode)
     ("C-d"           . term-send-raw)
     ("C-p"           . projectile-command-map)
@@ -102,10 +104,11 @@
     ("M-n"           . term-send-down)
     ("<C-backspace>" . term-send-backward-kill-word)
     ("<C-return>"    . term-cd-input)
+    ("H-M-k"         . (lambda () (interactive) (volatile-kill-buffer) (previous-buffer)))
     ("M-d"           . term-send-delete-word)
     ("M-,"           . term-send-raw)
-    ("M-."           . company-complete)
-    ("C-c <C-m>"     . (lambda () (interactive) (term-send-raw-string "mkdir -p ")))
+    ;; ("M-."           . company-complete)
+    ("C-c m"	     . (lambda () (interactive) (term-send-raw-string "mkdir -p ")))
     ("C-c C-s"       . (lambda () (interactive) (term-send-raw-string "sudo ")))
     ("C-c C-u"       . (lambda () (interactive) (term-send-raw-string "sudo ")))
     ("C-c C-l"       . (lambda () (interactive) (term-send-raw-string "ll")))
@@ -148,14 +151,14 @@
     (multi-term)
     (term-send-raw-string (concat ". " tmp-filename ""))))
 
-(eval-after-load "sh"
+(add-hook 'sh-mode-hook (lambda () (interactive)
   (progn
-    (define-key sh-mode-map (kbd "C-c C-c") 'dropdown-launch-me)
-    (define-key sh-mode-map (kbd "C-c C-t") 'multiterm-launch-me)
-    (define-key sh-mode-map (kbd "C-c C-,") 'multiterm-source-me)
-    (define-key sh-mode-map (kbd "C-c C-.") 'dropdown-source-me)
-    ))
+    (local-set-key (kbd "C-c C-c") 'dropdown-launch-me)
+    (local-set-key (kbd "C-c C-t") 'multiterm-launch-me)
+    (local-set-key (kbd "C-c C-,") 'multiterm-source-me)
+    (local-set-key (kbd "C-c C-.") 'dropdown-source-me)
+    )))
 
 
-
-;; hey
+(provide 'multiterm-custom)
+;;; multiterm-custom ends here

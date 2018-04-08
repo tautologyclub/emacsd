@@ -33,3 +33,5 @@
   ("t DEL"   helm-gtags-clear-stack     "hg clear")
 
   ("q"   nil "cancel" :color blue))
+
+(message "HI I AM DEPRECATED")

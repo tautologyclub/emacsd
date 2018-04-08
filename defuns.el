@@ -5,6 +5,12 @@
       (delete-frame frame force)
     (delete-window window)))
 
+(defun kill-region-or-line ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-line)))
+
 (defun murder-buffer-with-window ()
   "Kill buffer, kill window, don't prompt, just do it.  Unless buffer modified."
   (interactive)
