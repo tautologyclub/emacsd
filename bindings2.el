@@ -133,7 +133,7 @@
 
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "C-r")   'backward-delete-char)
-(global-set-key       (kbd "M-r")   'benjamin/backward-kill-word)
+(global-set-key       (kbd "M-r")   'backward-kill-word)
 (global-set-key       (kbd "H-r")   'counsel-projectile-rg)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'rgrep)
@@ -225,7 +225,7 @@
 
 (global-set-key     (kbd "C-d")   'delete-char)
 (global-set-key     (kbd "H-d")   'dropdown-multiterm)
-(global-set-key     (kbd "M-d")   'benjamin/kill-word)
+(global-set-key     (kbd "M-d")   'kill-word)
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
 (global-set-key (kbd "M-s M-d")   'delete-window)
 (global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)
