@@ -2,25 +2,29 @@
 
 (defhydra hydra-flycheck
   (:pre (progn (setq hydra-lv t) (flycheck-list-errors)
-               (setq truncate-lines nil))
-   :post (progn (setq hydra-lv nil) (quit-windows-on "*Flycheck errors*"))
+               (setq truncate-lines -1)
+               (when (flycheck-pos-tip-mode)
+                 (call-interactively 'flycheck-pos-tip-mode)))
+        :post (progn (setq hydra-lv nil)
+                     (quit-windows-on "*Flycheck errors*")
+                     (flycheck-pos-tip-mode t))
    :hint nil)
   "Errors"
   ("f"  flycheck-error-list-set-filter                            "Filter")
-  ("n"  flycheck-next-error                                       "Next")
-  ("p"  flycheck-previous-error                                   "Previous")
+  ("j"  next-error                                       "Next")
+  ("k"  previous-error                                   "Previous")
   ("<down>"  flycheck-next-error)
   ("<up>"  flycheck-previous-error)
-  ("gg" flycheck-first-error                                      "First")
-  ("G"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
+  ("h" flycheck-first-error                                      "First")
+  ("l"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
   ("q"  nil                                                       "Quit"))
 
 (defun benjamin/flycheck-list-errors ()
   "List errors in a separate window, decrease the size."
   (interactive)
   (flycheck-list-errors)
-  (enlarge-window 25)
-  (hydra-errgo/body))
+  (hydra-flycheck/body)
+  )
 
 (require 'flycheck)
 (require 'flycheck-irony)
@@ -31,4 +35,7 @@
   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
 
-;; hey
+
+
+
+;;

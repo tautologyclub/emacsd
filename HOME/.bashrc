@@ -153,5 +153,3 @@ if [[ $TERM == *"xterm"* ]]; then
     # echo Renaming "$TERM" to xterm
     export TERM=xterm
 fi
-
-PATH="$PATH:~/bin"

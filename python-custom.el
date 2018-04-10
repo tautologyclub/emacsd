@@ -25,7 +25,8 @@
 
 (elpy-enable)
 (setq elpy-rpc-backend "jedi")
-
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
 (define-key elpy-mode-map (kbd "C-x C-a C-b C-c") nil)
 
 ;; (setq python-shell-interpreter "ipython"

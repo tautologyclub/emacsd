@@ -3,11 +3,23 @@
 (require 'helm-config)
 (require 'helm-ring)
 (require 'helm-swoop)
+(require 'helm-projectile)
 
-(setq helm-mode-line-string " ")
+;;; Code:
+
+(helm-descbinds-mode 1)
+(setq helm-mode-line-string "")
 (defun helm-display-mode-line (source &optional force)
-"Does nothing cuz we roll Luddite."
-)
+  "Does nothing cuz we roll Luddite. Ignore SOURCE and FORCE.")
+
+;; Nicer buffer list face
+(defun helm-buffer-face-mode ()
+  "Helm buffer face."
+  (interactive)
+  (with-helm-buffer
+    (setq line-spacing 0)
+    (buffer-face-set '(:family "Noto Sans" :height 90))))
+(add-hook 'helm-after-initialize-hook 'helm-buffer-face-mode)
 
 (defun benjamin/helm-buffers-list ()
   "Preconfigured `helm' to list buffers."
@@ -15,33 +27,33 @@
   (unless helm-source-buffers-list
     (setq helm-source-buffers-list
           (helm-make-source "Buffers" 'helm-source-buffers)))
-  (let ((helm-split-window-default-side 'right))
-    (helm :sources '(helm-source-buffers-list
-                     helm-source-ido-virtual-buffers
-                     helm-source-buffer-not-found)
-          :buffer "*helm buffers*"
-          :keymap helm-buffer-map
-          :input "\!\\* "
-          :truncate-lines helm-buffers-truncate-lines))
-  )
+  (let ((helm-split-window-default-side 'right)
+        (helm-display-buffer-default-width 38)
+        (helm-display-header-line nil))
+    (helm :sources              '(helm-source-buffers-list)
+          :buffer               "*helm buffers*"
+          :keymap               helm-buffer-map
+          :input                "\!\\* "
+          :truncate-lines       helm-buffers-truncate-lines)))
 
-(require 'helm-projectile)
+;; todo wtf is this
 (defun benjamin/helm-projectile ()
-  "helm buffers filtering away star-buffers as default"
+  "Helm projectile filtering away star-buffers as default."
   (interactive)
   (setq helm-split-window-default-side 'right)
   (let ((helm-ff-transformer-show-only-basename nil))
     (helm :sources helm-projectile-sources-list
           :buffer "*helm projectile*"
           :truncate-lines helm-projectile-truncate-lines
-          :prompt (projectile-prepend-project-name (if (projectile-project-p)
-                                                       "pattern: "
-                                                     "Switch to project: "))))
+          :prompt (projectile-prepend-project-name
+                   (if (projectile-project-p)
+                       "pattern: "
+                     "Switch to project: "))))
   (setq helm-split-window-default-side 'below))
 
 
 (defhydra helm-like-unite (:hint nil
-			   :color pink)
+                           :color pink)
   "
 Nav ^^^^^^^^^        Mark ^^          Other ^^       Quit
 ^^^^^^^^^^------------^^----------------^^----------------------
@@ -65,6 +77,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("J" helm-scroll-other-window)
 
   ;; mark
+  ("SPC" helm-toggle-visible-mark)
   ("m" helm-toggle-visible-mark)
   ("t" helm-toggle-all-marks)
   ("U" helm-unmark-all)
@@ -82,14 +95,13 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("H" helm-help)
   ("v" helm-execute-persistent-action)
   ("d" benjamin/helm-buffer-run-kill-persistent)
+
   ("f" helm-follow-mode)
   ("<f9>" nil)
   ("s" (progn
          (hydra-keyboard-quit)
          (helm-swoop-edit))
    :exit t))
-
-(helm-descbinds-mode 1)
 
 (defun helm-toggle-header-line ()
   (if (= (length helm-sources) 1)
@@ -121,19 +133,39 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
     (helm-execute-persistent-action 'kill-action)))
 (put 'benjamin/helm-buffer-run-kill-persistent 'helm-only t)
 
-(define-key helm-map (kbd "<f9>") 'helm-like-unite/body)
-(define-key helm-map (kbd "C-o") 'helm-buffer-switch-other-frame)
-(define-key helm-map (kbd "C-h b") 'helm-descbinds)
-(define-key helm-map (kbd "M-d") 'benjamin/helm-buffer-run-kill-persistent)
-(define-key helm-map (kbd "C-j") 'helm-next-line)
-(define-key helm-map (kbd "C-k") 'helm-previous-line)
-(define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
-(define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
 
-(define-key helm-map (kbd "C-p") 'helm-previous-line)
-(define-key helm-map (kbd "C-n") 'helm-previous-line)
+(defun helm-backspace ()
+  "Forward to `backward-delete-char'.
+On error (read-only), quit without selecting."
+  (interactive)
+  (condition-case nil
+      (backward-delete-char 1)
+    (error
+     (helm-keyboard-quit))))
 
-;; (define-key map (kbd "C-n")        'helm-next-line)
-;;     (define-key map (kbd "C-p")        'helm-previous-line)
-;;     (define-key map (kbd "C-j")        'helm-execute-persistent-action)
-;;     (define-key map (kbd "C-k")        'helm-delete-minibuffer-contents)
+(define-key helm-map (kbd "<f9>")       'helm-like-unite/body)
+(define-key helm-map (kbd "C-h b")      'helm-descbinds)
+(define-key helm-map (kbd "M-d")        'benjamin/helm-buffer-run-kill-persistent)
+
+(define-key helm-map (kbd "C-r")        'helm-backspace)
+(define-key helm-map (kbd "C-j")        'helm-next-line)
+(define-key helm-map (kbd "C-k")        'helm-previous-line)
+(define-key helm-map (kbd "C-S-j")      'helm-follow-action-forward)
+(define-key helm-map (kbd "C-S-k")      'helm-follow-action-backward)
+
+;; TODO:
+;; helm-buffer-run-ediff
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

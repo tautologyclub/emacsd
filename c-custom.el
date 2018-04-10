@@ -54,7 +54,7 @@
   (company-mode)
   (semantic-mode -1)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
-  (setq company-backends
+  (set (make-local-variable 'company-backends)
         '((
            company-c-headers
            company-irony

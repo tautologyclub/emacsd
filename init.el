@@ -61,7 +61,7 @@
   :after        ivy swiper)
 (use-package	feebleline
   :ensure       t
-  :load-path    "~/.emacs.d/feebleline"
+  :load-path    "~/repos/feebleline"
   :custom       (feebleline-show-time nil)
   :config       (feebleline-mode 1))
 (use-package	counsel-projectile
@@ -151,7 +151,7 @@
 (put 'scroll-left 'disabled nil)
 
 ; looks
-(window-divider-mode		t)
+(window-divider-mode	     t)
 (menu-bar-mode              -1)
 (toggle-scroll-bar          -1)
 (set-language-environment   "UTF-8")
@@ -164,6 +164,7 @@
 (delete-selection-mode)
 (setq shift-select-mode         nil
       volatile-highlights-mode  t)
+(setq initial-major-mode 'org-mode)                             ;; for *Scratch*
 
 ;; text formatting
 (setq whitespace-style          '(face empty tabs lines-tail trailing)
@@ -184,15 +185,15 @@
        (delq 'process-kill-buffer-query-function
              kill-buffer-query-functions))
 
-(setq backup-directory-alist    '(("." . "~/.saves"))
- auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
- backup-by-copying              t
- delete-old-versions            t
- kept-new-versions              20
- kept-old-versions              20
- create-lockfiles               nil
- delete-by-moving-to-trash      t
- version-control                t)
+(setq backup-directory-alist         '(("." . "~/.saves"))
+      auto-save-file-name-transforms `((".*" ,temporary-file-directory t))
+      backup-by-copying              t
+      delete-old-versions            t
+      kept-new-versions              20
+      kept-old-versions              20
+      create-lockfiles               nil
+      delete-by-moving-to-trash      t
+      version-control                t)
 
 (global-auto-revert-mode)
 (setq global-auto-revert-non-file-buffers t)
@@ -253,8 +254,16 @@
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
 (load "~/.emacs.d/mode-mappings.el")
+(load "~/.emacs.d/indicate-cursor.el")
+
+(load "~/.emacs.d/frame-fns.el")
+(load "~/.emacs.d/frame-cmds.el")
+(load "~/.emacs.d/zoom-frm.el")
+
 (load "~/.emacs.d/bindings2.el")
 (load "~/.emacs.d/private.el")
+(load "~/repos/ample-theme/ample-light-theme.el")
+(find-file "~/repos/ample-theme/ample-light-theme.el")
 
 ;; hack for a shit mode:        (todo obv)
 (eval-after-load 'pdf-view

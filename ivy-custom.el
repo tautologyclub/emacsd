@@ -116,7 +116,7 @@
     (ivy-set-action 'ivy--switch-buffer-action)
     ))
 
-(define-key ivy-switch-buffer-map (kbd "M-o")
+(define-key ivy-switch-buffer-map (kbd "C-<return>")
   (lambda () (interactive)
     (ivy-set-action 'ivy--switch-buffer-other-window-action)
     (ivy-call)))
