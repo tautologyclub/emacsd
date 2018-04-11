@@ -11,7 +11,8 @@
   )
 
 (defun benjamin/notify (arg)
-  (shell-command (format "notify-send '%s'" arg)))
+  "Notify user of ARG using shell cmd notify-send."
+  (shell-command (format "notify-send -t 1000 '%s'" arg)))
 
 ;; Personal keyboard layout mappings
 (defun set-kblayout-swedish ()

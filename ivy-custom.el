@@ -15,6 +15,9 @@
 (setq ivy-extra-directories nil)
 (setq counsel-grep-swiper-limit 60000)
 
+(require 'avy)
+(setq avy-case-fold-search nil)
+
 ;; counsel-bookmark with current buffer file as initial input
 (defun counsel-bookmark-current-buffer-file ()
   "Forward to `bookmark-jump' or `bookmark-set' if bookmark doesn't exist."
@@ -133,3 +136,18 @@
 (setq ivy-ignore-buffers '("\\` "))
 
 (add-hook 'occur-hook 'occur-rename-buffer)
+
+(add-to-list 'ivy-ignore-buffers
+             "\\*Flycheck")
+(add-to-list 'ivy-ignore-buffers
+             "\\*CEDET")
+(add-to-list 'ivy-ignore-buffers
+             "\\*BACK")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Help\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Messages\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Compile-Log\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*helm")

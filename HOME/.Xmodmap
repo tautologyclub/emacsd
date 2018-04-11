@@ -25,7 +25,7 @@ keycode  33 = p P U03C0 U03A0
 
 ! Map [ to Alt and ] to Hyper
 keycode  34 = Alt_R Alt_R Alt_R
-keycode  35 = Hyper_L Hyper_L Hyper_L
+keycode  35 = BackSpace
 
 keycode  38 = a A slash U03b1
 keycode  39 = s S underscore U03B4
@@ -33,14 +33,14 @@ keycode  40 = d D colon U03B6
 keycode  41 = f F parenleft parenright
 keycode  42 = g G question U0393
 keycode  43 = h H braceleft braceright
-keycode  44 = j J U03B9 U03AA
-keycode  45 = k K U03BA U039A
+keycode  44 = j J quotedbl U04123
+keycode  45 = k K apostrophe U039
 keycode  46 = l L plus U039B
 
 ! Map ; to Alt_Gr
 keycode  47 = Mode_switch Mode_switch Mode_switch
 
-keycode  48 = apostrophe quotedbl
+keycode  48 = apostrophe quotedbl U04444
 keycode  49 = grave asciitilde 0 asciitilde
 keycode  52 = z Z U03CF U0396
 keycode  53 = x X U03C7 U03A7
@@ -51,7 +51,7 @@ keycode  57 = n N U03BD U039D
 keycode  58 = m M U03BC U039C
 
 ! Have to find a new place for these since they don't really exist any more
-keycode 254 = q Q quotedbl U033F
+keycode 254 = q Q U013F U03EF
 keycode 255 = semicolon colon
 
 ! Enable Hyper modifier, disabled by default for some reason.

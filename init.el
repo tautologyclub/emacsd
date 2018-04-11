@@ -16,8 +16,11 @@
 (add-to-list 'load-path "~/repos/counsel-projectile")
 (add-to-list 'load-path "~/repos/Fill-Column-Indicator")
 (add-to-list 'load-path "~/repos/feebleline")
+(add-to-list 'load-path "~/.emacs.d/ample-theme")
+(load-file "~/.emacs.d/ample-theme/ample-light-theme.el")
 (package-initialize)
 
+(use-package ample-light-theme)
 (require 'counsel-term)
 (require 'feebleline)
 
@@ -47,7 +50,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "dark orange" "#cc79a7" "#56b4e9" "white"])
+   ["#757575" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#68A5E9" "gray43"])
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(avy-keys
@@ -71,15 +74,15 @@
  '(company-tooltip-limit 20)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
- '(custom-enabled-themes (quote (tango-dark)))
+ '(custom-enabled-themes (quote (ample-light)))
  '(custom-safe-themes
    (quote
-    ("c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
- '(debug-on-error nil)
+    ("c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "5691b95e3cb9d4b7a6e8e22f3fc6a5ef2677c4a6be130c5c356955aa27ec9f97" "c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
+ '(debug-on-error t)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
- '(eldoc-idle-delay 1.5)
+ '(eldoc-idle-delay 0.75)
  '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elfeed-feeds
    (quote
@@ -170,10 +173,12 @@
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (eproject logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (switch-buffer-functions company-quickhelp c-eldoc eproject logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
+ '(pos-tip-border-width 0)
  '(pos-tip-foreground-color "#93a1a1")
+ '(pos-tip-internal-border-width 1)
  '(powerline-display-hud nil)
  '(projectile-enable-caching nil)
  '(projectile-globally-ignored-modes
@@ -186,7 +191,12 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-D__cpu_to_le32(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/uapi/linux/byteorder/little_endian.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-i/home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
@@ -278,8 +288,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#2e3436" :foreground "#eeeeec" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 105 :width normal :foundry "PfEd" :family "Inconsolata"))))
- '(auto-dim-other-buffers-face ((t (:background "#242b2d" :foreground "#c4c4c4"))))
+ '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
  '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
  '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
  '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
@@ -287,29 +296,27 @@
  '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(erc-timestamp-face ((t (:foreground "forest green" :weight bold))))
  '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face))))
- '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
- '(highlight-indentation-face ((t nil)))
- '(hl-line ((t (:background "#303a3d"))))
+ '(git-gutter+-added ((t (:background "#d7d8da" :foreground "#00aa00"))))
+ '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
+ '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
+ '(highlight-indentation-face ((t (:foreground nil :background "#ABA991"))))
+ '(hl-line ((t (:background "#b7b29a"))))
  '(link ((t (:foreground "deep sky blue" :underline t))))
- '(linum ((t (:inherit (shadow default) :background "light gray" :foreground "red"))))
- '(minibuffer-prompt ((t (:foreground "dark orange" :weight normal))))
+ '(linum ((t (:background nil :foreground "dark red"))))
+ '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))
  '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
- '(org-date ((t (:foreground "dark red" :underline t))))
- '(org-done ((t (:foreground "purple" :weight bold))))
- '(org-level-1 ((t (:foreground "yellow" :weight bold :height 1.35))))
- '(org-level-2 ((t (:foreground "lawn green" :weight bold :height 1.2))))
- '(org-level-3 ((t (:foreground "cyan" :weight bold :height 1.0))))
- '(org-level-4 ((t (:foreground "magenta"))))
  '(org-level-5 ((t (:foreground "goldenrod"))))
  '(org-special-keyword ((t (:slant italic :weight semi-bold))))
  '(org-todo ((t (:foreground "red" :weight bold))))
+ '(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
  '(show-paren-match ((t (:background "dim gray"))))
  '(term ((t nil)))
  '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
  '(term-color-green ((t (:background "green3" :foreground "lime green"))))
  '(term-color-red ((t (:background "red3" :foreground "indian red"))))
+ '(tooltip ((t (:foreground "red" :background "#ad9dca"))))
  '(whitespace-line ((t (:foreground "dark magenta")))))
 
 (defmacro csetq (variable value)
@@ -340,12 +347,13 @@
 ; todo tmp
 (setq company-backends
       (quote
-       (company-semantic company-clang company-xcode company-cmake company-capf company-files
-                         (company-dabbrev-code company-gtags company-etags company-keywords)
-                         company-oddmuse company-dabbrev)))
+       (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+              (company-dabbrev-code company-gtags company-etags company-keywords)
+              company-oddmuse company-dabbrev)
+       ))
 
 ;; Random vanilla settings
-;; (setq enable-recursive-minibuffers t)
+(setq enable-recursive-minibuffers nil)
 (setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
@@ -414,11 +422,13 @@
 (add-hook 'org-mode-hook 'fci-mode)
 (add-hook 'prog-mode-hook 'helm-gtags-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
-(add-hook 'minibuffer-setup-hook
-          (lambda ()
-            (make-local-variable 'face-remapping-alist)
-            (add-to-list 'face-remapping-alist
-                         '(default (:background "#3c4447")))))
+
+;;;; --- this added to theme instead --- ;;;;
+;; (add-hook 'minibuffer-setup-hook
+;;           (lambda ()
+;;             (make-local-variable 'face-remapping-alist)
+;;             (add-to-list 'face-remapping-alist
+;;                          '(default (:background "#3c4447")))))
 
 (defun set-hook-newline-and-indent ()
   "Rebind RET."
@@ -473,6 +483,18 @@
 (load "~/.emacs.d/private.el")
 
 (feebleline-mode)
+(ample-light-theme)
+
+(condition-case nil
+    (kill-buffer "*scratch*")
+  (message "good job, you've already killed scratch"))
+
+;; eldoc as pos-tip instead of echo area
+(defun my-eldoc-display-message (format-string &rest args)
+  "Display eldoc message near point."
+  (when format-string
+    (pos-tip-show (apply 'format format-string args))))
+(setq eldoc-message-function #'my-eldoc-display-message)
 
 (provide 'init)
 ;;; init.el ends here

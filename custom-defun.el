@@ -105,7 +105,8 @@
   "Complete if point is at end of a word, otherwise indent line."
   (interactive)
   (if (looking-back "[a-zA-z0-9]")
-      (completion-at-point)
+      (company-complete)
+      ;; (completion-at-point)
     (indent-for-tab-command)
     ))
 
@@ -145,9 +146,11 @@ Version 2017-05-13"
   (unwind-protect
       (progn
         (nlinum-mode 1)
+        (git-gutter+-mode -1)
         (setq goto/line (read-number "Goto line: "))
         (goto-char (point-min))
         (forward-line (1- goto/line)))
+    (git-gutter+-mode 1)
     (nlinum-mode -1)))
 
 (defun duplicate-current-line-or-region (arg)

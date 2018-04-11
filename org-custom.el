@@ -10,4 +10,6 @@
 (define-key org-mode-map (kbd "C-o")    (lambi (beginning-of-line) (newline)
                                                (forward-line -1)))
 
+(setq org-hide-leading-stars t)
+
 (provide 'org-custom)
