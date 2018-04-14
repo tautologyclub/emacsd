@@ -54,17 +54,18 @@
   (company-mode)
   (semantic-mode -1)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
-  (set (make-local-variable 'company-backends)
-        '((
-           company-c-headers
-           company-irony
-           ;; company-semantic
-           ;; company-files
-           company-cmake
-           ;; company-keywords
-           ;; company-gtags
-           ;; company-capf
-           ))))
+  (when (boundp 'company-backends)
+    (set (make-local-variable 'company-backends)
+          '((
+             company-c-headers
+             company-irony
+             ;; company-semantic
+             ;; company-files
+             company-cmake
+             ;; company-keywords
+             ;; company-gtags
+             ;; company-capf
+             )))))
 (add-hook 'c-mode-hook 'benjamin/c-hook)
 (add-hook 'c++-mode-hook 'benjamin/c-hook)
 

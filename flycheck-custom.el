@@ -1,4 +1,10 @@
+                                        ;
+
 (require 'flycheck)
+(require 'flycheck-irony)
+(require 'flycheck-pos-tip)
+
+;;; Code:
 
 (defhydra hydra-flycheck
   (:pre (progn (setq hydra-lv t) (flycheck-list-errors)
@@ -26,9 +32,6 @@
   (hydra-flycheck/body)
   )
 
-(require 'flycheck)
-(require 'flycheck-irony)
-(require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
 (eval-after-load 'flycheck

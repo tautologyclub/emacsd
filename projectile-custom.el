@@ -6,15 +6,13 @@
   "Get dedicated multi-term in project root"
   (interactive)
   (setq projectile--proj-term-name
-        (concat (concat (concat (concat "PROJ-" multi-term-buffer-name) "[")
-          (projectile-project-name)) "]"))
+        (concat "term:" (projectile-project-name)))
   (if (not (eq nil (get-buffer projectile--proj-term-name)))
       (switch-to-buffer projectile--proj-term-name)
     (projectile-with-default-dir (projectile-project-root)
       (multi-term)
       (rename-buffer projectile--proj-term-name))))
 
-;; PROJECTILE: %(projectile-project-root)
 (defhydra hydra-counsel-projectile (:color yellow
                                            :hint nil
                                            )

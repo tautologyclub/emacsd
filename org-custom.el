@@ -11,4 +11,6 @@
                                                (forward-line -1)))
 (add-hook 'org-mode-hook 'turn-on-auto-fill)
 
+(setq org-hide-leading-stars t)
+
 (provide 'org-custom)

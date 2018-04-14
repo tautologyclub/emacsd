@@ -20,6 +20,9 @@
 
 
 
+(require 'avy)
+(setq avy-case-fold-search nil)
+
 ;; counsel-bookmark with current buffer file as initial input
 ;;;###autoload
 (defun counsel-bookmark-current-buffer-file ()
@@ -134,5 +137,19 @@
 
 (add-hook 'occur-hook 'occur-rename-buffer)
 
+(add-to-list 'ivy-ignore-buffers
+             "\\*Flycheck")
+(add-to-list 'ivy-ignore-buffers
+             "\\*CEDET")
+(add-to-list 'ivy-ignore-buffers
+             "\\*BACK")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Help\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Messages\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*Compile-Log\\*")
+(add-to-list 'ivy-ignore-buffers
+             "\\*helm")
 (provide 'ivy-custom)
 ;;; ivy-custom ends here

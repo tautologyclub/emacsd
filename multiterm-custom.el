@@ -70,7 +70,7 @@ Or create a new one if none exists, or if the current buffer is already a term."
     ("C-p"           . projectile-command-map)
     ("C-l"           . forward-char)
     ("C-h"           . backward-char)
-    ("<C-m>"         . term-updir)
+    ("C-S-n"         . term-updir)
     ("C-n"           . term-downdir)
     ("C-s"           . swiper)
     ("C-r"           . term-send-backspace)
@@ -109,14 +109,12 @@ Or create a new one if none exists, or if the current buffer is already a term."
     (shell-command (concat "chmod a+x " buffer-file-name))
     (dropdown-multiterm)
     (term-send-raw-string (concat "./" tmp-filename ""))))
-
 (defun dropdown-source-me ()
   "Source current buffer-file in a dropdown term."
   (interactive)
   (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
     (dropdown-multiterm)
     (term-send-raw-string (concat ". " tmp-filename ""))))
-
 (defun multiterm-launch-me ()
   "Run current buffer-file in a dropdown term."
   (interactive)
@@ -124,7 +122,6 @@ Or create a new one if none exists, or if the current buffer is already a term."
     (shell-command (concat "chmod a+x " buffer-file-name))
     (multi-term)
     (term-send-raw-string (concat "./" tmp-filename ""))))
-
 (defun multiterm-source-me ()
   "Source current buffer-file in a dropdown term."
   (interactive)
@@ -142,10 +139,48 @@ Or create a new one if none exists, or if the current buffer is already a term."
 (add-hook 'sh-mode-hook 'benjamin/sh-hook)
 
 
+;; renaming term buffers cuz I love them
+(setq counsel-term--home-dir (expand-file-name "~"))
+
+(setq benjamin/term-rename-prefix "/bin/bash @ ")
+(defun benjamin/term-renamer ()
+  "Eat poop."
+  (concat benjamin/term-rename-prefix
+          (replace-regexp-in-string
+           counsel-term--home-dir "~"
+           default-directory
+           )))
+
+(require 'switch-buffer-functions)
+(add-hook 'term-mode-hook
+          (lambda () (add-hook
+                      (make-local-variable
+                       'switch-buffer-functions)
+                      (lambda (prev cur)
+                        (rename-buffer (benjamin/term-renamer) t)))))
+
+;; colorize term-mode buffers in counsel
+(defface counsel-buffer-face-term-mode
+  '((t :inherit 'font-lock-keyword-face :italic t :bold nil))
+  "fuck off")
+(custom-set-faces '(counsel-buffer-face-term-mode
+                    ((t :inherit 'font-lock-function-name-face))))
+
+(setq ivy-switch-buffer-faces-alist
+      '((dired-mode . ivy-subdir)
+        (org-mode . org-level-4)))
+(add-to-list 'ivy-switch-buffer-faces-alist
+             '(term-mode . counsel-buffer-face-term-mode))
 
 
-
-
+(defun benjamin/get-term ()
+  "Just kind of a better get-term if you want zany renaming."
+  (interactive)
+  (let ((term-buffer-candidate (benjamin/term-renamer)))
+    (if (get-buffer term-buffer-candidate)
+        (switch-to-buffer term-buffer-candidate)
+      (message (concat "New term-buffer @ " default-directory))
+      (multi-term))))
 
 
 
