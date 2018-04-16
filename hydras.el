@@ -168,7 +168,7 @@ _r_ read-only-mode
   ("C" helm-gtags-clear-all-cache   "clear cache")
   )
 
-(define-key helm-gtags-mode-map (kbd "C-t") 'hydra-gtags/body)
+(define-key helm-gtags-mode-map (kbd "C-t") nil)
 
 
 

@@ -3,6 +3,8 @@
 (setq multi-term-program "/bin/bash")
 (setq term-prompt-regexp "^$\\ ")
 (csetq multi-term-buffer-name "TERM")
+(ansi-color-for-comint-mode-on)
+
 
 
 (defun dropdown-multiterm ()
@@ -10,6 +12,13 @@
   (interactive)
   (split-window-below)
   (windmove-down)
+  (multi-term))
+
+(defun dropdown-multiterm-right ()
+  "Split window, open a terminal below and move focus to it."
+  (interactive)
+  (split-window-right)
+  (windmove-right)
   (multi-term))
 
 (defun jnm/term-toggle-mode ()
@@ -29,8 +38,6 @@
         (setq header-line-format
               (propertize  warning 'face '(:foreground "white" :background "red3")))
         ))))
-
-(ansi-color-for-comint-mode-on)
 
 ;; Function for getting last multi-term buffer if one exists, or create a new one if not.
 (defun last-term-buffer (l)
