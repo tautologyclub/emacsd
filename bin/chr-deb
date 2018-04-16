@@ -1,0 +1,50 @@
+#!/bin/bash
+set -e
+
+CHR_DEB_DIR=$PWD
+CHR_USER=$(whoami)
+
+HMARGS=" --bind=$HOME/work/hm/repos:/home/$CHR_USER/hm"
+HMARGS+=" --bind=$HOME/.ssh:/home/$CHR_USER/.ssh"
+SOME_NICE_ARGS=" --bind=$HOME/.ssh:/home/$CHR_USER/.ssh"  # todo :)
+
+NSPARGS="-b"  # todo: multi-user
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -S|--squeeze)
+            CHR_DEB_DIR=/chr-deb
+            shift ;;
+        -J|--jessie)
+            CHR_DEB_DIR=/home/benjamin/debian/jessie
+            shift ;;
+        --hm)
+            NSPARGS+="$HMARGS"
+            shift # past value
+            ;;
+        --linux)
+            NSPARGS+=" --bind=$HOME/repos/linux:/home/$CHR_USER/linux"
+            shift ;;
+        -bro)
+            NSPARGS+=" --bind-ro=$2"
+            shift
+            shift ;;
+        -b)
+            NSPARGS+=" --bind=$2"
+            shift # past argument
+            shift ;;
+        -d|--default)
+            NSPARGS+=" $SOME_NICE_ARGS"
+            shift ;;
+        *)  NSPARGS+=" $@"
+            echo Appending \" $@\" to nspawn args
+            exit 1 ;;
+    esac
+done
+
+cd $CHR_DEB_DIR
+
+echo "systemd-nspawn $NSPARGS"
+tty > ~/.cache/nspawntty
+
+sudo systemd-nspawn $NSPARGS && rm ~/.cache/nspawntty

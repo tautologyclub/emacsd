@@ -519,3 +519,16 @@ This function is suitable to add to `find-file-hook'."
   (end-of-line)
   (forward-char)
   )
+
+(defun goto-next-line-with-same-indentation ()
+  (interactive)
+  (back-to-indentation)
+  (re-search-forward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]")
+                     nil nil (if (= 0 (current-column)) 2 1))
+  (back-to-indentation))
+
+(defun goto-prev-line-with-same-indentation ()
+  (interactive)
+  (back-to-indentation)
+  (re-search-backward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]"))
+  (back-to-indentation))

@@ -1,0 +1,27 @@
+#!/bin/bash
+
+killall xcape
+source /etc/profile.d/caps_super_switch.sh
+xmodmap /home/benjamin/.Xmodmap
+
+sleep 0.2
+
+xcape -e 'Control_L=F12'
+xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11'
+xcape -e 'Alt_R=F9'
+xcape -e 'Mode_switch=semicolon'                                 # Reclaim ;
+xcape -e 'Hyper_L=q'                                             # Reclaim q
+xcape -e 'Alt_L=F7'
+
+# For swedish xcape:
+# xcape -e 'Mode_switch=odiaeresis'
+# xmodmap -e ""keycode  48 = adiaeresis Adiaeresis adiaeresis Adiaeresis "
+
+
+# Remapping RET to Control. Holy shit this is sweet
+xmodmap -e "remove Control = Control_R"
+xmodmap -e   "keycode 0x69 = Return"
+xmodmap -e   "keycode 0x24 = Control_R"
+xmodmap -e    "add Control = Control_R"
+
+xcape -e "Control_R=Return"

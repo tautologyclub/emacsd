@@ -85,7 +85,7 @@ Or create a new one if none exists, or if the current buffer is already a term."
 (define-key term-mode-map (kbd "H-M-t") 'jnm/term-toggle-mode)
 
 (setq term-bind-key-alist nil)
-(setq term-bind-key-alist
+(custom-set-variables term-bind-key-alist
   '(
     ("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
     ("H-j"           . completion-at-point) ;; doesn't work, todo...
@@ -98,7 +98,7 @@ Or create a new one if none exists, or if the current buffer is already a term."
     ("C-p"           . projectile-command-map)
     ("C-l"           . forward-char)
     ("C-h"           . backward-char)
-    ("C-S-n"         . term-updir)
+    ("C-S-n"         . term-updir)q
     ("C-n"           . term-downdir)
     ("C-s"           . swiper)
     ("C-r"           . term-send-backspace)
