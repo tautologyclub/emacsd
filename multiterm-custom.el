@@ -1,60 +1,15 @@
 
 (require 'multi-term)
+(require 'counsel-term)
 
 (setq multi-term-program "/bin/bash")
 (setq term-prompt-regexp "^$\\ ")
 (csetq multi-term-buffer-name "TERM")
-
-
-(defun dropdown-multiterm ()
-  "Split window, open a terminal below and move focus to it."
-  (interactive)
-  (split-window-below)
-  (windmove-down)
-  (multi-term))
-
-(defun jnm/term-toggle-mode ()
-  "Toggles term between line mode and char mode."
-  (interactive)
-  (if (term-in-line-mode)
-      (progn
-        (term-char-mode)
-        (setq header-line-format nil)
-        )
-    (progn
-      (term-line-mode)
-      (let* ((warning "   *** Line Mode ***   ")
-             (space (+ 6 (- (window-width) (length warning))))
-             (bracket (make-string (/ space 2) ?-))
-             (warning (concat bracket warning bracket)))
-        (setq header-line-format
-              (propertize  warning 'face '(:foreground "white" :background "red3")))
-        ))))
-
 (ansi-color-for-comint-mode-on)
 
-;; Function for getting last multi-term buffer if one exists, or create a new one if not.
-(defun last-term-buffer (l)
-  "Return most recently used term buffer L."
-  (when l
-    (if (eq 'term-mode (with-current-buffer (car l) major-mode))
-        (car l) (last-term-buffer (cdr l)))))
-
-(defun get-term ()
-  "Switch to the term buffer last used.
-
-Or create a new one if none exists, or if the current buffer is already a term."
-  (interactive)
-  (let ((b (last-term-buffer (buffer-list))))
-    (if (or (not b) (eq 'term-mode major-mode))
-        (multi-term)
-      (switch-to-buffer b))))
-
-(require 'counsel-term)
-
 (define-key term-mode-map (kbd "C-p") 'projectile-command-map)
-(define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
-(define-key term-mode-map (kbd "H-M-t") 'jnm/term-toggle-mode)
+(define-key term-mode-map (kbd "C-x t") 'term-toggle-mode-w/warning)
+(define-key term-mode-map (kbd "H-M-t") 'term-toggle-mode-w/warning)
 
 (setq term-bind-key-alist nil)
 (setq term-bind-key-alist
@@ -86,7 +41,7 @@ Or create a new one if none exists, or if the current buffer is already a term."
     ("M-d"           . term-send-delete-word)
     ("M-,"           . term-send-raw)
     ("M-."           . company-complete) ;; doesn't work
-    ("H-M-t"         . jnm/term-toggle-mode)
+    ("H-M-t"         . term-toggle-mode-w/warning)
     ("C-c C-c"       . term-interrupt-subjob)
     ("C-c C-e"       . term-send-esc)
     ("C-c C-z"       . (lambda () (interactive) (term-send-raw-string "")))
@@ -101,34 +56,6 @@ Or create a new one if none exists, or if the current buffer is already a term."
   ;; todo: send-backward-kill-word where?
 )
 
-;; some hax
-(defun dropdown-launch-me ()
-  "Run current buffer-file in a dropdown term."
-  (interactive)
-  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
-    (shell-command (concat "chmod a+x " buffer-file-name))
-    (dropdown-multiterm)
-    (term-send-raw-string (concat "./" tmp-filename ""))))
-(defun dropdown-source-me ()
-  "Source current buffer-file in a dropdown term."
-  (interactive)
-  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
-    (dropdown-multiterm)
-    (term-send-raw-string (concat ". " tmp-filename ""))))
-(defun multiterm-launch-me ()
-  "Run current buffer-file in a dropdown term."
-  (interactive)
-  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
-    (shell-command (concat "chmod a+x " buffer-file-name))
-    (multi-term)
-    (term-send-raw-string (concat "./" tmp-filename ""))))
-(defun multiterm-source-me ()
-  "Source current buffer-file in a dropdown term."
-  (interactive)
-  (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
-    (multi-term)
-    (term-send-raw-string (concat ". " tmp-filename ""))))
-
 (defun benjamin/sh-hook ()
   "My hook for shell mode."
   (local-set-key (kbd "C-c C-c") 'dropdown-launch-me)
@@ -137,70 +64,6 @@ Or create a new one if none exists, or if the current buffer is already a term."
   (local-set-key (kbd "C-c C-.") 'dropdown-source-me)
   )
 (add-hook 'sh-mode-hook 'benjamin/sh-hook)
-
-
-;; renaming term buffers cuz I love them
-(setq counsel-term--home-dir (expand-file-name "~"))
-
-(setq benjamin/term-rename-prefix "/bin/bash @ ")
-(defun benjamin/term-renamer ()
-  "Eat poop."
-  (concat benjamin/term-rename-prefix
-          (replace-regexp-in-string
-           counsel-term--home-dir "~"
-           default-directory
-           )))
-
-(require 'switch-buffer-functions)
-(add-hook 'term-mode-hook
-          (lambda () (add-hook
-                      (make-local-variable
-                       'switch-buffer-functions)
-                      (lambda (prev cur)
-                        (rename-buffer (benjamin/term-renamer) t)))))
-
-;; colorize term-mode buffers in counsel
-(defface counsel-buffer-face-term-mode
-  '((t :inherit 'font-lock-keyword-face :italic t :bold nil))
-  "fuck off")
-(custom-set-faces '(counsel-buffer-face-term-mode
-                    ((t :inherit 'font-lock-function-name-face))))
-
-(setq ivy-switch-buffer-faces-alist
-      '((dired-mode . ivy-subdir)
-        (org-mode . org-level-4)))
-(add-to-list 'ivy-switch-buffer-faces-alist
-             '(term-mode . counsel-buffer-face-term-mode))
-
-
-(defun benjamin/get-term ()
-  "Just kind of a better get-term if you want zany renaming."
-  (interactive)
-  (let ((term-buffer-candidate (benjamin/term-renamer)))
-    (if (get-buffer term-buffer-candidate)
-        (switch-to-buffer term-buffer-candidate)
-      (message (concat "New term-buffer @ " default-directory))
-      (multi-term))))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
