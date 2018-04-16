@@ -103,12 +103,11 @@
            )))
 
 (require 'switch-buffer-functions)
-(add-hook 'term-mode-hook
-          (lambda () (add-hook
-                      (make-local-variable
-                       'switch-buffer-functions)
-                      (lambda (prev cur)
-                        (rename-buffer (benjamin/term-renamer) t)))))
+(add-hook
+ 'term-mode-hook
+ (lambda ()
+   (add-hook (make-local-variable 'switch-buffer-functions)
+	     (lambda (prev cur) (rename-buffer (benjamin/term-renamer) t)))))
 ;-------------------------------------------------------------------------------
 ;; TODO:
 ;;	- make this a minor-mode
@@ -138,3 +137,21 @@
 ;; (setq ivy-switch-buffer-faces-alist
 ;;       '((dired-mode . ivy-subdir)
 ;;         (org-mode . org-level-4)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;

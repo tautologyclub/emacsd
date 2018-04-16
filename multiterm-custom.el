@@ -12,10 +12,9 @@
 (define-key term-mode-map (kbd "H-M-t") 'term-toggle-mode-w/warning)
 
 (setq term-bind-key-alist nil)
-(setq term-bind-key-alist
+(custom-set-variables term-bind-key-alist
   '(
     ("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
-    ("H-j"           . completion-at-point) ;; doesn't work, todo...
     ("H-w"           . counsel-term-ff)
     ("H-c"           . counsel-term-cd)
     ("M-r"           . counsel-term-history)

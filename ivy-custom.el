@@ -7,19 +7,6 @@
 (require 'projectile)
 (require 'bookmark)
 
-;; (ivy-mode t)
-;; (setq ivy-use-virtual-buffers t)
-;; (setq ivy-count-format "%d/%d - ")
-;; (setq ivy-wrap t)
-;; (setq ivy-use-selectable-prompt t)
-;; (setq magit-completing-read-function 'ivy-completing-read)
-;; (setq ivy-extra-directories nil)
-;; (setq counsel-grep-swiper-limit 60000)
-;; (setq ivy-display-style 'fancy)
-;; (setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
-
-
-
 (require 'avy)
 (setq avy-case-fold-search nil)
 
@@ -91,6 +78,10 @@
 (define-key ivy-minibuffer-map      (kbd "C-u")     'ivy-dispatching-done)
 (define-key ivy-minibuffer-map      (kbd "M-r")     'ivy-backward-kill-word)
 
+(define-key ivy-minibuffer-map (kbd "H-t")
+  (lambi (ivy-quit-and-run
+	  (let ((default-directory ivy--directory)) (multi-term)))))
+
 (define-key ivy-minibuffer-map      (kbd "C-x e")   'ivy-end-of-buffer)
 (define-key ivy-switch-buffer-map   (kbd "C-x e")   'ivy-end-of-buffer)
 (define-key ivy-minibuffer-map      (kbd "C-x a")   'ivy-beginning-of-buffer)
@@ -120,7 +111,7 @@
     ))
 
 (define-key ivy-switch-buffer-map (kbd "C-<return>")
-  (lambda () (interactive)
+  (lambi
     (ivy-set-action 'ivy--switch-buffer-other-window-action)
     (ivy-call)))
 
