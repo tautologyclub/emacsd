@@ -36,11 +36,11 @@
 (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gdb/body)
+(define-key c-mode-base-map (kbd "C-i") 'indent-or-complete)
 (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body)
 
 (define-key c-mode-map  [(tab)] 'company-complete)
 (define-key c++-mode-map  [(tab)] 'company-complete)
-
 
 
 (require 'company)
@@ -50,9 +50,10 @@
   (auto-fill-mode)
   (flycheck-mode)
   ;; (helm-gtags-mode)
+  (fci-mode -1) ;; destroys company
   (irony-mode)
   (company-mode)
-  (semantic-mode -1)
+  (semantic-mode +1)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
   (when (boundp 'company-backends)
     (set (make-local-variable 'company-backends)
@@ -63,7 +64,7 @@
              ;; company-files
              company-cmake
              ;; company-keywords
-             ;; company-gtags
+             company-gtags
              ;; company-capf
              )))))
 (add-hook 'c-mode-hook 'benjamin/c-hook)

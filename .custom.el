@@ -18,21 +18,30 @@
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
- '(company-auto-complete-chars (quote (46 62)))
+ '(company-auto-complete-chars (quote (46 62)) nil nil "Customized with use-package company")
  '(company-backends
    (quote
     (company-semantic company-clang company-xcode company-cmake company-capf company-files
 		      (company-dabbrev-code company-gtags company-etags company-keywords)
 		      company-oddmuse company-dabbrev)))
- '(company-idle-delay 0)
- '(company-minimum-prefix-length 3)
- '(company-tooltip-idle-delay 0.5)
- '(company-tooltip-limit 20)
+ '(company-idle-delay 0 nil nil "Customized with use-package company")
+ '(company-minimum-prefix-length 3 nil nil "Customized with use-package company")
+ '(company-semantic-insert-arguments nil)
+ '(company-semantic-metadata-function (quote company-semantic-summary-and-doc))
+ '(company-show-numbers t)
+ '(company-tooltip-align-annotations t)
+ '(company-tooltip-flip-when-above t)
+ '(company-tooltip-idle-delay 0.2 nil nil "Customized with use-package company")
+ '(company-tooltip-limit 10 nil nil "Customized with use-package company")
+ '(company-tooltip-margin 0)
+ '(company-tooltip-maximum-width 60)
+ '(company-tooltip-offset-display (quote lines))
  '(compilation-message-face (quote default))
  '(counsel-grep-swiper-limit 60000)
  '(counsel-mode t)
  '(counsel-rg-base-command
    "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
+ '(counsel-term-ff-initial-input "")
  '(custom-enabled-themes (quote (tango-dark)))
  '(custom-safe-themes
    (quote
@@ -140,7 +149,7 @@
  '(org-trello-files (quote ("~/.org/mf/trello.org")) nil (org-trello))
  '(package-selected-packages
    (quote
-    (switch-buffer-functions feebleline plan9-theme gandalf-theme multiterm electric-pairs highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (switch-buffer-functions feebleline plan9-theme gandalf-theme multiterm electric-pairs highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes ivy-hydra helm-themes golden-ratio helm-swoop auto-dim-other-buffers popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-foreground-color "#93a1a1")
@@ -235,14 +244,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
- '(git-gutter+-added ((t (:foreground "#00a000" :weight bold))))
- '(org-date ((t (:foreground "dark red" :underline t))))
- '(org-level-1 ((t (:foreground "dark red" :weight bold :height 1.35))))
- '(org-level-2 ((t (:foreground "dark green" :weight bold :height 1.2))))
- '(org-level-3 ((t (:foreground "navy" :weight bold :height 1.0))))
- '(org-level-4 ((t (:foreground "dark magenta"))))
- '(org-level-5 ((t (:foreground "dark slate gray"))))
- '(org-special-keyword ((t (:slant italic :weight semi-bold))))
+ '(counsel-buffer-face-term-mode ((t :inherit (quote font-lock-function-name-face))))
+ '(git-gutter+-added ((t (:background "#d7d8da" :foreground "#00aa00"))))
+ '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
+ '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
+ '(hl-line ((t (:background "#b7b29a"))))
+ '(linum ((t (:background nil :foreground "dark red"))))
+ '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))
+ '(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
- '(term ((t nil))))
+ '(term ((t nil)))
+ '(tooltip ((t (:foreground "red" :background "#ad9dca")))))

@@ -59,12 +59,6 @@ Git (gutter and other stuff):
 
 ;; --- magit ------------------------------------------------------------
 (require 'magit)
-(eval-after-load 'magit-blame
-  '(progn
-    (define-key magit-blame-mode-map "n" nil)
-    (define-key magit-blame-mode-map "p" nil)
-    (define-key magit-blame-mode-map "j" 'magit-blame-next-chunk)
-    (define-key magit-blame-mode-map "k" 'magit-blame-previous-chunk)))
 
 ;;* Maps
 ;;** Status

@@ -348,7 +348,6 @@
    ;;`(jabber-title-medium		((t (:foreground nil :background nil :bold t))))
    ;;`(jabber-title-small		((t (:foreground nil :background nil :bold t))))
 
-
    ;; rainbow delim
    `(rainbow-delimiters-depth-1-face ((t (:foreground ,ample/rb0 :background nil))))
    `(rainbow-delimiters-depth-2-face ((t (:foreground ,ample/rb1 :background nil))))
@@ -384,14 +383,11 @@
    `(company-scrollbar-bg               ((t (:foreground nil :background ,ample/fg))))
    `(company-scrollbar-fg               ((t (:foreground nil :background ,ample/dark-gray))))
    `(company-tooltip                    ((t (:foreground "black" :background "#f4d142"))))
-   ;; `(company-tooltip-common             ((t (:foreground "#f4d142" :background "black"))))
    `(company-tooltip-common             ((t (:foreground "black" :background "#f4d142"))))
-   ;; `(company-tooltip-common-selection   ((t (:foreground "black" :background "#ffd142"))))
-   `(company-tooltip-common-selection   ((t (:foreground "#ffd142" :background "black"))))
+   `(company-tooltip-common-selection   ((t (:foreground "dark orange" :background "black" ))))
    `(company-tooltip-mouse              ((t (:foreground nil :background ,ample/light-red-bg))))
    `(company-tooltip-selection          ((t (:foreground "#ffd142" :background "black"))))
    `(company-tooltip-annotation         ((t (:foreground ,ample/red :background ,ample/region-dark))))
-
 
    ;; w3m
    ;;`(w3m-anchor			((t (:foreground "cyan" :background nil))))
@@ -825,7 +821,7 @@
    )
   )
 
-; tmp
+;; tmp
 (custom-set-faces
    '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
    '(hl-line ((t (:background "#b7b29a"))))
@@ -838,7 +834,6 @@
    `(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
    ;; `tooltip' used by company-quickhelp tips
    `(tooltip ((t (:foreground "red" :background "#ad9dca"))))
-
    )
 (provide-theme 'ample-light)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

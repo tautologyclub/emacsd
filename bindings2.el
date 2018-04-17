@@ -107,7 +107,7 @@
 (global-set-key     (kbd "C-w")     'kill-region)
 (global-set-key     (kbd "s-w")     'BIND-ME)                                  ;
 (global-set-key     (kbd "M-w")     'kill-ring-save)
-(global-set-key     (kbd "H-w")     'find-file-other-window)             ;; todo
+(global-set-key     (kbd "H-w")     'lispy-kill)
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)                         ;
 (global-set-key (kbd "C-x M-w")     'copy-current-file-path)
 
@@ -127,6 +127,7 @@
 (global-set-key   (kbd "M-s ee")    'eval-expression)
 (global-set-key   (kbd "C-c e")      nil)
 (global-set-key   (kbd "C-c ef")    'ediff-files)
+(global-set-key   (kbd "C-c ec")    'ediff-this-and-b)
 (global-set-key   (kbd "C-c eb")    'ediff-buffers)
 (global-set-key   (kbd "C-c ed")    'ediff-directories)
 (global-set-key   (kbd "C-c emf")   'ediff-merge-files)
@@ -273,7 +274,7 @@
 
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'backward-char)
-(global-set-key     (kbd "M-j")   'left-word)                                  ;
+(global-set-key     (kbd "M-j")   'lispy-kill)                                  ;
 (global-set-key     (kbd "s-j")    nil)
 (global-set-key   (kbd "C-S-j")   'move-text-down)
 (global-set-key   (kbd "C-x j")   (lambi (dired-jump) (hydra-dired/body)))
@@ -352,7 +353,7 @@
 (global-set-key   (kbd "H-M-m")   'BIND-ME)
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
-(global-set-key       (kbd "μ")   'BIND-ME)
+(global-set-key       (kbd "μ")   'kmacro-call-macro)
 
 (global-set-key (kbd "C-,")     'set-mark-and-deactive)
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)

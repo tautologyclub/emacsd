@@ -7,7 +7,7 @@
 
 ;;; Code:
 
-(helm-descbinds-mode 1)
+;; (helm-descbinds-mode 1)
 (setq helm-mode-line-string "")
 (defun helm-display-mode-line (source &optional force)
   "Does nothing cuz we roll Luddite. Ignore SOURCE and FORCE.")
@@ -144,7 +144,6 @@ On error (read-only), quit without selecting."
      (helm-keyboard-quit))))
 
 (define-key helm-map (kbd "<f9>")       'helm-like-unite/body)
-(define-key helm-map (kbd "C-h b")      'helm-descbinds)
 (define-key helm-map (kbd "M-d")        'benjamin/helm-buffer-run-kill-persistent)
 
 (define-key helm-map (kbd "C-r")        'helm-backspace)

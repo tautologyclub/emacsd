@@ -12,7 +12,7 @@
 (define-key term-mode-map (kbd "H-M-t") 'term-toggle-mode-w/warning)
 
 (setq term-bind-key-alist nil)
-(custom-set-variables term-bind-key-alist
+(setq term-bind-key-alist
   '(
     ("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
     ("H-w"           . counsel-term-ff)

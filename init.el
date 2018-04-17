@@ -8,9 +8,11 @@
   (add-to-list 'package-archives (cons "melpa" url) t))
 (when (< emacs-major-version 24)
   (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
-(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" .
-                                 "https://marmalade-repo.org/packages/"))
+(add-to-list
+ 'package-archives
+ '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
+(add-to-list 'package-archives
+	     '("marmalade" . "https://marmalade-repo.org/packages/"))
 
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/.emacs.d/lisp/helm/")
@@ -23,6 +25,8 @@
 (load-file "~/.emacs.d/ample-theme/ample-light-theme.el")
 (package-initialize)
 
+
+(require 'use-package)
 (use-package ample-light-theme)
 (require 'counsel-term)
 (require 'feebleline)
@@ -107,8 +111,8 @@
                                     company-oddmuse company-dabbrev))
                 (company-idle-delay 0)                    ;; ???
                 (company-minimum-prefix-length 3)
-                (company-tooltip-idle-delay 0.5)          ;; ???
-                (company-tooltip-limit 20)                ;; ???
+                (company-tooltip-idle-delay 0.2)
+                (company-tooltip-limit 10)                ;; ???
   :config       (counsel-mode 1)
                 (add-hook 'after-init-hook 'global-company-mode))
 (use-package	erc
