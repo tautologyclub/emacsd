@@ -23,6 +23,7 @@
   ("<up>"  flycheck-previous-error)
   ("h" flycheck-first-error                                      "First")
   ("l"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
+  ("RET" nil)
   ("q"  nil                                                       "Quit"))
 
 (defun benjamin/flycheck-list-errors ()

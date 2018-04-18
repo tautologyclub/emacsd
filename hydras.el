@@ -5,7 +5,6 @@
 (defhydra hydra-vimish-fold (:color blue
                              :columns 3)
   "folder"
-
   ("h" hs-hide-all "hs-hide all")
   ("s" hs-show-all "hs-show all")
   ("a" vimish-fold-avy "avy")
@@ -21,21 +20,6 @@
   ("j" vimish-fold-next-fold "down" :exit nil)
   ("k" vimish-fold-previous-fold "up" :exit nil)
   ("q" nil "quit"))
-
-;; This is garbage
-(defhydra hydra-undo-tree (:color red
-                                  :hint nil
-                                  )
-  "
-  _C-u_/_j_: undo  _C-n_/_k_: redo _s_: save _l_: load   "
-  ("j"   undo-tree-undo)
-  ("C-u"   undo-tree-undo)
-  ("C-n"   undo-tree-redo)
-  ("k"   undo-tree-redo)
-  ("s"   undo-tree-save-history)
-  ("l"   undo-tree-load-history)
-  ("v"   undo-tree-visualize "visualize" :color blue)
-  ("q"   nil "quit" :color blue))
 
 ;; Perfect hydra-material but we will see
 (defun fake-C-c ()
@@ -110,21 +94,27 @@ T - tag prefix
   ("." nil :color blue))
 (define-key dired-mode-map "." 'hydra-dired/body)
 
-
-(defhydra hydra-toggle (:color pink :hint nil)
+(defvar prev-max-mini-window-height max-mini-window-height)
+(defhydra hydra-toggle (:color red
+                        :hint nil
+                        :pre  (progn
+                                (setq prev-max-mini-window-height max-mini-window-height)
+                                (setq max-mini-window-height 30))
+                        :post (progn
+                                (setq max-mini-window-height prev-max-mini-window-height)))
   "
-_a_ abbrev-mode:       %`abbrev-mode
-_d_ debug-on-error:    %`debug-on-error
-_e_ feebleline-mode:   %`feebleline-mode
-_f_ auto-fill-mode:    %`auto-fill-function
-_h_ hl-line-mode       %`hl-line-mode
-_t_ truncate-lines:    %`truncate-lines
-_y_ flycheck-mode      %`flycheck-mode
-_w_ whitespace-mode:   %`whitespace-mode
-_l_ linum-mode:        %`linum-mode
-_i_ fci:               %`fci-mode
-_o_ overwrite-mode     %`overwrite-mode
-_r_ read-only-mode
+  _a_ abbrev-mode:       %`abbrev-mode
+  _d_ debug-on-error:    %`debug-on-error
+  _e_ feebleline-mode:   %`feebleline-mode
+  _f_ auto-fill-mode:    %`auto-fill-function
+  _h_ hl-line-mode       %`hl-line-mode
+  _t_ truncate-lines:    %`truncate-lines
+  _y_ flycheck-mode      %`flycheck-mode
+  _w_ whitespace-mode:   %`whitespace-mode
+  _l_ linum-mode:        %`linum-mode
+  _i_ fci:               %`fci-mode
+  _o_ overwrite-mode     %`overwrite-mode
+  _R_ read-only-mode     %`buffer-read-only
 "
   ("a" abbrev-mode)
   ("d" toggle-debug-on-error)
@@ -134,11 +124,13 @@ _r_ read-only-mode
   ("t" toggle-truncate-lines)
   ("y" flycheck-mode)
   ("h" hl-line-mode)
+  ("H" helm-gtags-mode)
   ("w" whitespace-mode)
   ("l" linum-mode)
   ("i" fci-mode)
   ("o" overwrite-mode)
-  ("r" read-only-mode)
+  ("R" read-only-mode)
+  ("RET" nil "quit")
   ("q" nil "quit"))
 
 (require 'helm-gtags)

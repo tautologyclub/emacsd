@@ -74,11 +74,12 @@
  '(company-tooltip-limit 20)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
+ '(counsel-term-ff-initial-input "")
  '(custom-enabled-themes (quote (ample-light)))
  '(custom-safe-themes
    (quote
     ("c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "5691b95e3cb9d4b7a6e8e22f3fc6a5ef2677c4a6be130c5c356955aa27ec9f97" "c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
- '(debug-on-error t)
+ '(debug-on-error nil)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
@@ -191,7 +192,15 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (eval setenv "GTAGSLIBPATH" "~/.gtags")
+     (eval setenv "GTAGSLIBPATH" "")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-D__cpu_to_le32(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/uapi/linux/byteorder/little_endian.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
@@ -338,12 +347,31 @@
 (require 'semantic/bovine/gcc)
 (require 'expand-region)
 (require 'whitespace)
-(require 'company)
+
+(use-package	company
+  :ensure       t
+  :custom       (company-auto-complete-chars '(?. ?>))    ;; ???
+                (company-backends
+                 '(company-semantic company-clang company-xcode company-cmake
+                                    company-capf company-files
+                                    (company-dabbrev-code
+                                     company-gtags company-etags
+                                     company-keywords)
+                                    company-oddmuse company-dabbrev))
+                (company-idle-delay 0)                    ;; ???
+                (company-minimum-prefix-length 3)
+                (company-tooltip-idle-delay 0.2)
+                (company-show-numbers t)
+                (company-tooltip-limit 10)
+  :config       (counsel-mode 1)
+                (add-hook 'after-init-hook 'global-company-mode))
+
 (require 'volatile-highlights)
 (require 'wgrep)
 (require 'function-args)
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
+
 
 ; todo tmp
 (setq company-backends

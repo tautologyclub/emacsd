@@ -89,6 +89,10 @@
 (define-key ivy-minibuffer-map      (kbd "C-u")     'ivy-dispatching-done)
 (define-key ivy-minibuffer-map      (kbd "M-r")     'ivy-backward-kill-word)
 
+(define-key ivy-minibuffer-map (kbd "H-t")
+  (lambi (ivy-quit-and-run
+	  (let ((default-directory ivy--directory)) (multi-term)))))
+
 (define-key ivy-minibuffer-map      (kbd "C-x e")   'ivy-end-of-buffer)
 (define-key ivy-switch-buffer-map   (kbd "C-x e")   'ivy-end-of-buffer)
 (define-key ivy-minibuffer-map      (kbd "C-x a")   'ivy-beginning-of-buffer)
@@ -119,16 +123,11 @@
     (ivy-set-action 'ivy--switch-buffer-action)
     ))
 
-(define-key ivy-switch-buffer-map (kbd "M-o")
-  (lambda () (interactive)
-    (ivy-set-action 'ivy--switch-buffer-other-window-action)
-    (ivy-call)))
-
-(defun no-leading-stars () (insert "!\*"))
+(define-key ivy-switch-buffer-map (kbd "M-o") nil)
 (defun ivy-switch-buffer-no-leading-stars ()
   (interactive)
   (minibuffer-with-setup-hook
-      'no-leading-stars
+      (lambda () (insert "!\*"))
     (call-interactively #'ivy-switch-buffer))
 )
 
@@ -137,17 +136,10 @@
 
 (add-hook 'occur-hook 'occur-rename-buffer)
 
-(add-to-list 'ivy-ignore-buffers
-             "\\*Flycheck")
-(add-to-list 'ivy-ignore-buffers
-             "\\*CEDET")
-(add-to-list 'ivy-ignore-buffers
-             "\\*BACK")
-(add-to-list 'ivy-ignore-buffers
-             "\\*Help\\*")
-(add-to-list 'ivy-ignore-buffers
-             "\\*Messages\\*")
-(add-to-list 'ivy-ignore-buffers
-             "\\*Compile-Log\\*")
-(add-to-list 'ivy-ignore-buffers
-             "\\*helm")
+(add-to-list 'ivy-ignore-buffers "\\*Flycheck")
+(add-to-list 'ivy-ignore-buffers "\\*CEDET")
+(add-to-list 'ivy-ignore-buffers "\\*BACK")
+(add-to-list 'ivy-ignore-buffers "\\*Help\\*")
+(add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
+(add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
+(add-to-list 'ivy-ignore-buffers "\\*helm")

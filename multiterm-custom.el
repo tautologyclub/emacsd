@@ -89,10 +89,10 @@ Or create a new one if none exists, or if the current buffer is already a term."
 
 (define-key term-mode-map (kbd "C-p") 'projectile-command-map)
 (define-key term-mode-map (kbd "C-x t") 'jnm/term-toggle-mode)
-(define-key term-mode-map (kbd "H-M-t") 'jnm/term-toggle-mode)
+(define-key term-mode-map (kbd "H-M-t") 'counsel-term-switch)
 
 (setq term-bind-key-alist nil)
-(custom-set-variables term-bind-key-alist
+(setq term-bind-key-alist
   '(
     ("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
     ("H-j"           . completion-at-point) ;; doesn't work, todo...
@@ -105,7 +105,7 @@ Or create a new one if none exists, or if the current buffer is already a term."
     ("C-p"           . projectile-command-map)
     ("C-l"           . forward-char)
     ("C-h"           . backward-char)
-    ("C-S-n"         . term-updir)q
+    ("C-S-n"         . term-updir)
     ("C-n"           . term-downdir)
     ("C-s"           . swiper)
     ("C-r"           . term-send-backspace)
@@ -121,13 +121,12 @@ Or create a new one if none exists, or if the current buffer is already a term."
     ("M-d"           . term-send-delete-word)
     ("M-,"           . term-send-raw)
     ("M-."           . company-complete) ;; doesn't work
-    ("H-M-t"         . jnm/term-toggle-mode)
+    ("H-M-t"         . counsel-term-switch)
     ("C-c C-c"       . term-interrupt-subjob)
     ("C-c C-e"       . term-send-esc)
     ("C-c C-z"       . (lambda () (interactive) (term-send-raw-string "")))
     ("C-c C-x"       . (lambda () (interactive) (term-send-raw-string "")))
     ("C-c C-u"       . (lambda () (interactive) (term-send-raw-string "sudo ")))
-    ("H-M-p"         . (lambda () (interactive) (term-send-raw-string "sudo ")))
     ("H-M-u"         . (lambda () (interactive) (term-send-raw-string "sudo ")))
     ("H-M-l"         . (lambda () (interactive) (term-send-raw-string "")))
     ("H-M-f"         . (lambda () (interactive) (term-send-raw-string " fuck")(sleep-for 0.2) (term-send-raw-string "")))

@@ -155,11 +155,11 @@
 
 (global-set-key     (kbd "s-t")    nil)
 (global-set-key     (kbd "H-t")   'multi-term)                                 ;
-(global-set-key   (kbd "C-S-t")   'multi-term)
 (global-set-key     (kbd "M-t")   (lambi (forward-char 2)(transpose-words -1)))
 (global-set-key     (kbd "M-T")   (lambi (forward-char 1)(transpose-words 1))) ;
-(global-set-key   (kbd "H-M-t")   'get-term)
 (global-set-key   (kbd "C-c t")   'transpose-params)
+(global-set-key   (kbd "C-S-t")   'multi-term)
+(global-set-key   (kbd "H-M-t")   'counsel-term-switch)
 
 (global-set-key     (kbd "C-y")   (lambi (benjamin/notify "Use H-i dude")))
 (global-set-key     (kbd "M-y")   'counsel-yank-pop)
@@ -256,9 +256,10 @@
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 ;-f == (
 
-(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
 (global-set-key     (kbd "H-g")   'benjamin/get-term)
 (global-set-key     (kbd "s-g")   'hydra-git-gutter/body)
+(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
+(global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)
 (global-set-key (kbd "M-s M-g")   'get-term)
 (global-set-key   (kbd "H-M-g")   'magit-status)
