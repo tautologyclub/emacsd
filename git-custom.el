@@ -59,12 +59,8 @@ Git (gutter and other stuff):
 
 ;; --- magit ------------------------------------------------------------
 (require 'magit)
-(eval-after-load 'magit-blame
-  '(progn
-    (define-key magit-blame-mode-map "n" nil)
-    (define-key magit-blame-mode-map "p" nil)
-    (define-key magit-blame-mode-map "j" 'magit-blame-next-chunk)
-    (define-key magit-blame-mode-map "k" 'magit-blame-previous-chunk)))
+
+;; todo -- just no idea here...
 
 ;;* Maps
 ;;** Status
@@ -73,7 +69,7 @@ Git (gutter and other stuff):
 (define-key magit-status-mode-map "h" 'magit-section-backward)
 (define-key magit-status-mode-map "\C-k" nil)
 (define-key magit-status-mode-map "\C-d" 'magit-discard)
-(define-key magit-status-mode-map "d" 'magit-discard)
+;; (define-key magit-status-mode-map "d" 'magit-discard)
 (define-key magit-status-mode-map "i" 'magit-section-toggle)
 (define-key magit-status-mode-map (kbd "M-m") 'lispy-mark-symbol)
 (define-key magit-status-mode-map "C" 'ora-magit-commit-add-log)
@@ -83,11 +79,16 @@ Git (gutter and other stuff):
 (define-key magit-status-mode-map "ox" 'ora-magit-simple-commit)
 (define-key magit-status-mode-map "od" 'ora-magit-difftool)
 
+;;** File-section
+(define-key magit-file-section-map "\C-j" 'magit-section-forward)
+(define-key magit-file-section-map "\M-j" 'magit-diff-visit-file)
+
 ;;** Log
 (define-key magit-log-mode-map "j" 'magit-section-forward)
 (define-key magit-log-mode-map "k" 'magit-section-backward)
 (define-key magit-log-mode-map "v" 'ora-magit-visit)
 (define-key magit-log-mode-map "o" 'ora-magit-visit-item-other-window)
+
 ;;** Commit
 (define-key magit-commit-section-map "i" 'magit-section-toggle)
 (define-key magit-commit-section-map "j" 'magit-section-forward)

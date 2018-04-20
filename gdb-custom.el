@@ -144,9 +144,8 @@
 
 (defadvice gud-find-file (before what-the-fuck activate compile)
   "When called interactively with no active region, copy a single line instead."
-  (interactive
    (setq split-height-threshold 0)
-   (setq split-width-threshold 0)))
+   (setq split-width-threshold 0))
 
 ;----- Sweet gdb-hydra below ---------------------------------------------------
 

@@ -62,3 +62,11 @@ pid_alive()
     # Usage:  pid_alive $pidlist || errcho "uh-oh"
     kill -s 0 "$@"
 }
+
+function ediff() {
+    if [ -z "$2" ]
+    then
+        echo "USAGE: ediff <FILE 1> <FILE 2>"
+    else
+        emacsclient -nw --eval "(ediff-files \"$1\" \"$2\")"
+    fi

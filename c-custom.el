@@ -5,7 +5,8 @@
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
              "/usr/lib/clang/5.0.0/include/stddef.h")
 
-(setq c-default-style "linux" c-basic-offset 4)
+(setq c-default-style "linux"
+      c-basic-offset 8)
 (require 'semantic)
 (require 'company)
 (require 'cc-mode)
@@ -36,6 +37,7 @@
 (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
 
 (define-key c-mode-base-map (kbd "M-c") 'hydra-gdb/body)
+(define-key c-mode-base-map (kbd "C-i") 'indent-or-complete)
 (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body)
 
 (define-key c-mode-map  [(tab)] 'company-complete)
@@ -50,6 +52,7 @@
   (auto-fill-mode)
   (flycheck-mode)
   ;; (helm-gtags-mode)
+  (fci-mode -1) ;; destroys company)
   (irony-mode)
   (company-mode)
   (semantic-mode -1)

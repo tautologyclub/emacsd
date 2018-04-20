@@ -114,6 +114,7 @@ T - tag prefix
   _l_ linum-mode:        %`linum-mode
   _i_ fci:               %`fci-mode
   _o_ overwrite-mode     %`overwrite-mode
+  _r_ recursive-minibuf  %`enable-recursive-minibuffers
   _R_ read-only-mode     %`buffer-read-only
 "
   ("a" abbrev-mode)
@@ -129,6 +130,7 @@ T - tag prefix
   ("l" linum-mode)
   ("i" fci-mode)
   ("o" overwrite-mode)
+  ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
   ("R" read-only-mode)
   ("RET" nil "quit")
   ("q" nil "quit"))

@@ -18,7 +18,7 @@
   (interactive)
   (with-helm-buffer
     (setq line-spacing 0)
-    (buffer-face-set '(:family "Noto Sans" :height 90))))
+    (buffer-face-set '(:family "Noto Sans" :height 0.85))))
 (add-hook 'helm-after-initialize-hook 'helm-buffer-face-mode)
 
 (defun benjamin/helm-buffers-list ()
@@ -144,10 +144,11 @@ On error (read-only), quit without selecting."
      (helm-keyboard-quit))))
 
 (define-key helm-map (kbd "<f9>")       'helm-like-unite/body)
-(define-key helm-map (kbd "C-h b")      'helm-descbinds)
+;; (define-key helm-map (kbd "H-h b")      'helm-descbinds)
 (define-key helm-map (kbd "M-d")        'benjamin/helm-buffer-run-kill-persistent)
 
-(define-key helm-map (kbd "C-r")        'helm-backspace)
+(define-key helm-map (kbd "<f9>")        'helm-backspace) ; fixme
+;; (define-key helm-map (kbd "C-r")        'helm-backspace)
 (define-key helm-map (kbd "C-j")        'helm-next-line)
 (define-key helm-map (kbd "C-k")        'helm-previous-line)
 (define-key helm-map (kbd "C-S-j")      'helm-follow-action-forward)

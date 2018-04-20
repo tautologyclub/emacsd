@@ -62,7 +62,7 @@
  '(browse-url-browser-function (quote browse-url-chrome))
  '(browse-url-chrome-arguments (quote ("--new-window")))
  '(column-number-mode nil)
- '(company-auto-complete-chars nil)
+ '(company-auto-complete-chars (quote (46 62)))
  '(company-backends
    (quote
     (company-semantic company-clang company-xcode company-cmake company-capf company-files
@@ -70,11 +70,13 @@
                       company-oddmuse company-dabbrev)))
  '(company-idle-delay 0)
  '(company-minimum-prefix-length 3)
- '(company-tooltip-idle-delay 0.5)
- '(company-tooltip-limit 20)
+ '(company-show-numbers t)
+ '(company-tooltip-idle-delay 0.2)
+ '(company-tooltip-limit 10)
  '(compilation-message-face (quote default))
  '(counsel-mode t)
  '(counsel-term-ff-initial-input "")
+ '(counsel-term-history-initial-input "")
  '(custom-enabled-themes (quote (ample-light)))
  '(custom-safe-themes
    (quote
@@ -99,6 +101,7 @@
  '(fci-rule-character 124)
  '(fci-rule-color "dim gray")
  '(feebleline-mode t nil (feebleline))
+ '(feebleline-show-git-branch t)
  '(feebleline-show-time nil)
  '(fill-column 80)
  '(flycheck-check-syntax-automatically (quote (save idle-change mode-enabled)))
@@ -192,7 +195,9 @@
  '(resize-mini-windows t)
  '(safe-local-variable-values
    (quote
-    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+    ((c-style)
+     (c-basic-offset 8)
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
      (eval setenv "GTAGSLIBPATH" "~/.gtags")
      (eval setenv "GTAGSLIBPATH" "")
      (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
@@ -230,25 +235,64 @@
  '(tab-width 8)
  '(term-bind-key-alist
    (quote
-    (("C-c C-c" . term-interrupt-subjob)
-     ("C-c C-e" . term-send-esc)
-     ("C-S-x" . term-send-raw)
-     ("C-d" . term-send-backspace)
-     ("C-f" . term-send-del)
-     ("C-p" . previous-line)
-     ("C-n" . next-line)
+    (("C-g" lambda nil
+      (interactive)
+      (term-send-raw-string ""))
+     ("H-w" . counsel-term-ff)
+     ("H-c" . counsel-term-cd)
+     ("M-r" . counsel-term-history)
+     ("H-f" . avy-goto-word-or-subword-1)
+     ("H-k" lambda nil
+      (interactive)
+      (term-send-raw-string ""))
+     ("C-d" . term-send-raw)
+     ("C-p" . projectile-command-map)
+     ("C-l" . forward-char)
+     ("C-h" . backward-char)
+     ("C-S-n" . term-updir)
+     ("C-n" . term-downdir)
      ("C-s" . swiper)
-     ("C-x t" . jnm/term-toggle-mode)
-     ("C-r" . isearch-backward)
+     ("C-r" . term-send-backspace)
+     ("<f9>" . term-send-backspace)
      ("C-m" . term-send-return)
      ("C-y" . term-paste)
+     ("C-q" . backward-word)
+     ("M-q" . term-send-backward-word)
      ("M-f" . term-send-forward-word)
-     ("M-b" . term-send-backward-word)
+     ("M-p" . term-send-up)
+     ("M-n" . term-send-down)
      ("<C-backspace>" . term-send-backward-kill-word)
-     ("M-r" . term-send-reverse-search-history)
+     ("<C-return>" . term-cd-input)
      ("M-d" . term-send-delete-word)
      ("M-," . term-send-raw)
-     ("M-." . comint-dynamic-complete))))
+     ("M-." . company-complete)
+     ("H-M-t" . term-toggle-mode-w/warning)
+     ("C-c C-c" . term-interrupt-subjob)
+     ("C-c C-e" . term-send-esc)
+     ("C-c C-z" lambda nil
+      (interactive)
+      (term-send-raw-string ""))
+     ("C-c C-x" lambda nil
+      (interactive)
+      (term-send-raw-string ""))
+     ("C-c C-u" lambda nil
+      (interactive)
+      (term-send-raw-string "sudo "))
+     ("H-M-p" lambda nil
+      (interactive)
+      (term-send-raw-string "sudo "))
+     ("H-M-u" lambda nil
+      (interactive)
+      (term-send-raw-string "sudo "))
+     ("H-M-l" lambda nil
+      (interactive)
+      (term-send-raw-string ""))
+     ("H-M-f" lambda nil
+      (interactive)
+      (term-send-raw-string " fuck")
+      (sleep-for 0.2)
+      (term-send-raw-string ""))
+     ("C-x t" . jnm/term-toggle-mode))))
  '(term-buffer-maximum-size 10000)
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
@@ -298,36 +342,25 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
- '(avy-lead-face ((t (:background "light salmon" :foreground "black" :weight normal))))
- '(avy-lead-face-0 ((t (:inherit avy-lead-face :background "light coral" :foreground "black"))))
- '(avy-lead-face-1 ((t (:inherit avy-lead-face :background "tomato" :foreground "black"))))
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
- '(button ((t (:foreground "dark red" :underline t :weight normal))))
  '(counsel-buffer-face-term-mode ((t :inherit (quote font-lock-function-name-face))))
- '(erc-timestamp-face ((t (:foreground "forest green" :weight bold))))
+ '(feebleline-bufname-face ((t (:foreground "#000000" :bold nil :medium nil))))
  '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face))))
+ '(feebleline-linum-face ((t (:inherit default))))
+ '(feebleline-previous-buffer-face ((t (:foreground "#3e3e3e"))))
  '(git-gutter+-added ((t (:background "#d7d8da" :foreground "#00aa00"))))
  '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
  '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
- '(highlight-indentation-face ((t (:foreground nil :background "#ABA991"))))
  '(hl-line ((t (:background "#b7b29a"))))
  '(link ((t (:foreground "deep sky blue" :underline t))))
  '(linum ((t (:background nil :foreground "dark red"))))
  '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))
  '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
- '(org-level-5 ((t (:foreground "goldenrod"))))
- '(org-special-keyword ((t (:slant italic :weight semi-bold))))
- '(org-todo ((t (:foreground "red" :weight bold))))
  '(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
  '(semantic-highlight-func-current-tag-face ((t (:background "Gray90"))))
- '(show-paren-match ((t (:background "dim gray"))))
  '(term ((t nil)))
- '(term-color-blue ((t (:background "blue2" :foreground "steel blue"))))
- '(term-color-green ((t (:background "green3" :foreground "lime green"))))
- '(term-color-red ((t (:background "red3" :foreground "indian red"))))
- '(tooltip ((t (:foreground "red" :background "#ad9dca"))))
- '(whitespace-line ((t (:foreground "dark magenta")))))
+ '(tooltip ((t (:foreground "red" :background "#ad9dca")))))
 
 (defmacro csetq (variable value)
   "Stolen from abo-abo.  VARIABLE and VALUE blabla."
@@ -382,7 +415,8 @@
        ))
 
 ;; Random vanilla settings
-(setq enable-recursive-minibuffers nil)
+(setq enable-recursive-minibuffers t)
+;; (setq enable-recursive-minibuffers nil)
 (setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
@@ -447,7 +481,8 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
-(add-hook 'prog-mode-hook 'fci-mode)
+;; fci-mode kind of ruins everything
+;; (add-hook 'prog-mode-hook 'fci-mode)
 (add-hook 'org-mode-hook 'fci-mode)
 (add-hook 'prog-mode-hook 'helm-gtags-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
@@ -480,6 +515,7 @@
 (load "~/.emacs.d/custom-defun.el")
 (load "~/.emacs.d/blq-display.el")
 (load "~/.emacs.d/multiterm-custom.el")
+(load "~/.emacs.d/term-addons.el")
 (load "~/.emacs.d/hydras.el")
 (load "~/.emacs.d/org-custom.el")
 (load "~/.emacs.d/hydra-nav.el")
@@ -514,9 +550,7 @@
 (feebleline-mode)
 (ample-light-theme)
 
-(condition-case nil
-    (kill-buffer "*scratch*")
-  (message "good job, you've already killed scratch"))
+(condition-case nil (kill-buffer "*scratch*") (error nil))
 
 ;; eldoc as pos-tip instead of echo area
 (defun my-eldoc-display-message (format-string &rest args)

@@ -1,3 +1,26 @@
+(defun crux-eval-and-replace ()
+  "Replace the preceding sexp with its value."
+  (interactive)
+  (let ((value (eval (elisp--preceding-sexp))))
+    (backward-kill-sexp)
+    (insert (format "%S" value))))
+
+(defun ediff-current-buffer (buffer-A buffer-B &optional startup-hooks job-name)
+  "Run Ediff on a pair of buffers, BUFFER-A and BUFFER-B."
+  (interactive
+   (let (bf)
+     (list (setq bf (current-buffer))
+	   (read-buffer "Buffer B to compare: "
+			(progn
+			  ;; realign buffers so that two visible bufs will be
+			  ;; at the top
+			  (save-window-excursion (other-window 1))
+			  (ediff-other-buffer bf))
+			t))))
+  (or job-name (setq job-name 'ediff-buffers))
+  (ediff-buffers-internal buffer-A buffer-B nil startup-hooks job-name))
+
+
 (defun delete-window-or-frame (&optional window frame force)
   "Delete WINDOW, or FRAME if only window.  FORCE feed me to the ducks."
   (interactive)
@@ -10,6 +33,12 @@
   (interactive)
   (volatile-kill-buffer)
   (delete-window-or-frame))
+
+(defun kill-region-or-line ()
+  (interactive)
+  (if (region-active-p)
+      (kill-region (region-beginning) (region-end))
+    (kill-line)))
 
 (require 'expand-region)
 (defun benjamin/mark-inside-pairs ()

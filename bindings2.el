@@ -109,10 +109,10 @@
 (global-set-key    (kbd "C-c q")    'query-replace-regexp)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
 
-(global-set-key     (kbd "C-w")     'kill-region)
+(global-set-key     (kbd "C-w")     'kill-region-or-line)
+(global-set-key     (kbd "H-w")     'kill-region)             ;; note -- adviced
 (global-set-key     (kbd "s-w")     'BIND-ME)                                  ;
 (global-set-key     (kbd "M-w")     'kill-ring-save)
-(global-set-key     (kbd "H-w")     'find-file)
 (global-set-key   (kbd "M-H-w")     'find-file-other-window)
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)                         ;
 (global-set-key (kbd "C-x M-w")     'copy-current-file-path)
@@ -134,6 +134,7 @@
 (global-set-key   (kbd "C-c e")      nil)
 (global-set-key   (kbd "C-c ef")    'ediff-files)
 (global-set-key   (kbd "C-c eb")    'ediff-buffers)
+(global-set-key   (kbd "C-c ec")    'ediff-current-buffer)
 (global-set-key   (kbd "C-c ed")    'ediff-directories)
 (global-set-key   (kbd "C-c emf")   'ediff-merge-files)
 (global-set-key   (kbd "C-c emb")   'ediff-merge-buffers)
@@ -249,9 +250,8 @@
 (global-set-key     (kbd "s-f")   'find-file)
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
-(global-set-key   (kbd "C-c f")   'find-file-at-point)
 (global-set-key   (kbd "C-S-f")   'find-file)                                  ;
-(global-set-key   (kbd "H-M-f")   'find-file)
+(global-set-key   (kbd "H-M-f")   'find-file-at-point)
 (global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 ;-f == (
@@ -288,7 +288,7 @@
 ;-j == "
 
 (global-set-key     (kbd "C-k")   'previous-line)
-(global-set-key     (kbd "H-k")   'kill-line)
+(global-set-key     (kbd "H-k")   (lambi (benjamin/notify "come on d00d")))
 (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key     (kbd "s-k")    nil)
 (global-set-key   (kbd "C-S-k")   'move-text-up)
@@ -308,8 +308,9 @@
 (global-set-key     (kbd "s-l")    nil)                              ;; reserved
 ;-l == +
 
-(global-set-key      (kbd "C-;")  'benjamin/helm-buffers-list)
-(global-set-key      (kbd "C-'")  'find-file)
+; these all are garb
+(global-set-key      (kbd "C-;")  'benjamin/helm-buffers-list)                 ;
+(global-set-key      (kbd "C-'")  'find-file)                                  ;
 (global-set-key      (kbd "C-:")  'find-file)
 (global-set-key      (kbd "M-'")  'BIND-ME)
 (global-set-key      (kbd "H-;")  'benjamin/helm-buffers-list)                 ;
@@ -327,7 +328,7 @@
 (global-set-key     (kbd "s-c")   'kmacro-call-macro)
 (global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)
 (global-set-key (kbd "M-s M-c")   'compile)
-(global-set-key       (kbd "σ")   'comment-or-uncomment-region-or-line)      ;-c
+(global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))      ;-c
 
 (global-set-key     (kbd "M-v")   'hydra-vimish-fold/body)                     ;
 (global-set-key     (kbd "H-v")   (lambi (forward-line -30)))
