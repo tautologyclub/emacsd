@@ -1,3 +1,39 @@
+
+(defun kill-thing-at-point (thing)
+  (let ((bounds (bounds-of-thing-at-point thing)))
+    bounds (kill-region (car bounds) (cdr bounds))))
+
+(defun kill-word-at-point ()
+  (interactive)
+  (kill-thing-at-point 'word))
+
+(defun kill-symbol-at-point ()
+  (interactive)
+  (kill-thing-at-point 'symbol))
+
+(defun kill-sexp-at-point ()
+  (interactive)
+  (kill-thing-at-point 'sexp))
+
+(defun kill-list-at-point ()
+  (interactive)
+  (kill-thing-at-point 'list))
+
+(defun kill-string-at-point ()
+  (interactive)
+  (kill-thing-at-point 'string))
+
+(defun kill-inner ()
+  (interactive)
+  (if (er--point-inside-string-p)
+      (save-excursion (er/mark-inside-quotes)
+                      (call-interactively 'kill-region))
+  (let ((bounds (bounds-of-thing-at-point 'list))) bounds
+       (let ((beg (car bounds)))
+         (kill-region (+ 1 beg) (- (cdr bounds) 1))
+         (if (equal (point) beg)
+             (forward-char 1))))))
+
 (defun crux-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)

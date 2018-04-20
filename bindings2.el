@@ -101,13 +101,14 @@
 (global-set-key     (kbd "H-0")     'delete-other-windows)
 (global-set-key     (kbd "H-3")     'BIND-ME)
 
-(global-set-key      (kbd "C-q")    'left-word)
+(global-set-key      (kbd "C-q")    nil)
 (global-set-key      (kbd "s-q")    'quoted-insert)
 (global-set-key      (kbd "M-q")    'left-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key    (kbd "C-c q")    'query-replace-regexp)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
+(global-set-key   (kbd "C-c C-c")   'kill-inner)
 
 (global-set-key     (kbd "C-w")     'kill-region-or-line)
 (global-set-key     (kbd "H-w")     'kill-region)             ;; note -- adviced
@@ -142,9 +143,10 @@
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "C-r")   (lambi (benjamin/notify "Use [ dude")))
 (global-set-key       (kbd "M-r")   'backward-kill-word)
-(global-set-key       (kbd "H-r")   'backward-delete-char-untabify)
+(global-set-key       (kbd "C-r")   'kill-symbol-at-point)                     ;
+(global-set-key       (kbd "H-r")   'kill-word-at-point)
 (global-set-key       (kbd "H-R")   'counsel-rg)
-(global-set-key     (kbd "H-M-r")   'counsel-projectile-rg)
+(global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)                       ;
 (global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
