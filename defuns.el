@@ -1,3 +1,16 @@
+
+(defun kill-thing-at-point (thing)
+  (let ((bounds (bounds-of-thing-at-point thing)))
+    bounds (kill-region (car bounds) (cdr bounds))))
+
+(defun kill-word-at-point ()
+  (interactive)
+  (kill-thing-at-point 'word))
+
+(defun kill-symbol-at-point ()
+  (interactive)
+  (kill-thing-at-point 'symbol))
+
 (defun crux-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)

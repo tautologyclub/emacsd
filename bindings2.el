@@ -140,9 +140,9 @@
 (global-set-key   (kbd "C-c emb")   'ediff-merge-buffers)
 
 (global-set-key       (kbd "s-r")    nil)
-(global-set-key       (kbd "C-r")   (lambi (benjamin/notify "Use [ dude")))
 (global-set-key       (kbd "M-r")   'backward-kill-word)
-(global-set-key       (kbd "H-r")   'backward-delete-char-untabify)
+(global-set-key       (kbd "C-r")   'kill-word-at-point)
+(global-set-key       (kbd "H-r")   'kill-symbol-at-point)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'counsel-projectile-rg)
 (global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
