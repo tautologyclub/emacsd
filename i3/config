@@ -213,7 +213,8 @@ mode "resize" {
 bindsym $mod+u mode "kb layout"
 mode "kb layout" {
      bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
-     bindsym s exec /home/benjamin/bin/xcape-restart-swedish; mode "default"
+     # bindsym s exec /home/benjamin/bin/xcape-restart-swedish; mode "default"
+     bindsym s exec setxkbmap -layout se; mode "default"
 
      bindsym Return mode "default"
      bindsym q mode "default"

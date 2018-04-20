@@ -7,7 +7,7 @@
 
 ;;; Code:
 
-(helm-descbinds-mode 1)
+
 (setq helm-mode-line-string "")
 (defun helm-display-mode-line (source &optional force)
   "Does nothing cuz we roll Luddite. Ignore SOURCE and FORCE.")
