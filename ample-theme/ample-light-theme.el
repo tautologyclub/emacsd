@@ -112,26 +112,10 @@
    `(font-lock-variable-name-face     ((t (:foreground "#330066" :italic nil :bold t))))
    `(font-lock-doc-face		      ((t (:foreground ,ample/dark-tan))))
 
-   ;; '(auto-dim-other-buffers-face ((t (:background "#a8a58a" :foreground "#222222"))))
-   '(hl-line-face ((t (:background "a8a58a"))))
-
    ;; mode line & powerline
    `(powerline-active1	((t (:foreground ,ample/darkest-gray))))
    `(mode-line-inactive ((t (:background ,ample/region-dark :foreground ,ample/bg))))
    `(mode-line		((t (:background ,ample/region :foreground ,ample/fg))))
-
-   ;; '(feebleline-bufname-face
-   ;;   ((t (:foreground "#005500" :family "Inconsolata" :height 105 :bold nil))))
-   '(feebleline-bufname-face
-     ((t (:inherit font-lock-function-name-face))))
-   '(feebleline-dir-face
-     ((t (:foreground "firebrick4" :family "Inconsolata" :height 105))))
-   '(feebleline-previous-buffer-face
-     ((t (:foreground "#3e3e3e" :family "Inconsolata" :height 105))))
-   '(feebleline-linum-face
-     ((t (:family "Inconsolata" :height 105))))
-   '(feebleline-asterisk-face
-     ((t (:inherit font-lock-warning-face))))
 
    `(linum ((t (:background nil :foreground "dark red"))))
 
@@ -160,8 +144,6 @@
    `(avy-lead-face-1  ((t (:foreground "white" :background ,ample/fg))))
 
    `(vertical-border ((t (:background ,ample/darker-gray :foreground ,ample/darkest-gray))))
-
-   `(hl-line ((t (:background ,ample/region-light))))
 
    `(highlight-indentation-face ((t (:background ,ample/darkest-gray))))
 
@@ -655,7 +637,9 @@
      ((t (:inherit 'default))))
    '(feebleline-previous-buffer-face
      ((t (:foreground "#3e3e3e"))))
-   '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face))))
+   '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face
+                              :foreground "saddle brown"
+                              :bold nil))))
    '(feebleline-git-branch-face ((t (:foreground "dark olive green" :slant italic :weight thin))))
    '(feebleline-linum-face ((t (:inherit default))))
    '(feebleline-asterisk-face ((t (:inherit default :family "Noto Sans" :foreground "red" :height 0.8))))

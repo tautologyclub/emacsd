@@ -1,3 +1,9 @@
+(require 'semantic)
+(require 'company)
+(require 'cc-mode)
+(require 'helm-gtags)
+(require 'gud)
+(require 'flycheck)
 
 (require 'semantic/bovine/c)
 (semanticdb-enable-gnu-global-databases 'c-mode)
@@ -5,14 +11,10 @@
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
              "/usr/lib/clang/5.0.0/include/stddef.h")
 
-(setq c-default-style "linux"
-      c-basic-offset 8)
-(require 'semantic)
-(require 'company)
-(require 'cc-mode)
-(require 'helm-gtags)
-(require 'gud)
-(require 'flycheck)
+(use-package    cc-mode
+  :custom       (c-default-style        "linux")
+                (c-basic-offset         8)
+  )
 
 (defun c-occur-overview ()
   "Display an occur buffer with declarations/definitions/etc.  Also, resize somewhat."
@@ -52,7 +54,7 @@
   (auto-fill-mode)
   (flycheck-mode)
   ;; (helm-gtags-mode)
-  (fci-mode -1) ;; destroys company)
+  (fci-mode -1) ;; destroys company
   (irony-mode)
   (company-mode)
   (semantic-mode -1)
@@ -71,7 +73,3 @@
              )))))
 (add-hook 'c-mode-hook 'benjamin/c-hook)
 (add-hook 'c++-mode-hook 'benjamin/c-hook)
-
-
-(setq helm-gtags-auto-update t)             ;; feel this one out.
-(setq helm-gtags-use-input-at-cursor t)

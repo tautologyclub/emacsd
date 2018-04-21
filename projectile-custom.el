@@ -1,9 +1,9 @@
 (require 'projectile)
 (require 'ivy)
-(setq projectile-completion-system 'ivy)
 
+;;;###autoload
 (defun projectile-get-term ()
-  "Get dedicated multi-term in project root"
+  "Get multi-term in project root."
   (interactive)
   (setq projectile--proj-term-name
         (concat "term:" (projectile-project-name)))

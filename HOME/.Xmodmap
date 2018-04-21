@@ -23,9 +23,9 @@ keycode  31 = i I U03CA U03CA
 keycode  32 = o O BackSpace U039F
 keycode  33 = p P U03C0 U03A0
 
-! Map [ to Alt and ] to Hyper
+! Map [ to Alt
 keycode  34 = Alt_R Alt_R Alt_R
-keycode  35 = BackSpace
+keycode  35 = Delete BackSpace
 
 keycode  38 = a A slash U03b1
 keycode  39 = s S semicolon U03B4

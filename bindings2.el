@@ -1,90 +1,27 @@
-;; *** todo:
-;;              wdired
-;;              ace-window
-;;              hippie-expand
-;;              flyspell
-;;
-;;; multi-term:
-;;              smart way of getting C-x to the terminal
-;;              separate key maps for linemode/charmode
+;;; package --- Summary: lolo
+;;; Commentary:
+;;; lolol
+;;; Code:
+;;; lolol
 
-
-(defun BIND-ME ())
-
-(require 'helm)
-(require 'ivy)
-(require 'undo-tree)
-(require 'projectile)
-(require 'git-gutter+)
-(require 'guide-key)
-
-;; Unbind EVERYTHING. Almost.
-(global-unset-key (kbd "M-r"))
-(global-unset-key (kbd "M-c"))
-(global-unset-key (kbd "M-s"))
-(global-unset-key (kbd "M-k"))
-(global-unset-key (kbd "M-p"))
-(global-unset-key (kbd "C-x C-x"))
-(global-unset-key (kbd "C-x m"))
-(global-unset-key (kbd "C-x <backspace>"))
-(global-unset-key (kbd "C-x DEL"))
-(global-unset-key (kbd "C-S-q"))
-(global-unset-key (kbd "C-z"))
-(global-unset-key (kbd "C-S-<return>"))
-(global-unset-key (kbd "C-x r"))
-(global-unset-key (kbd "C-x C-c"))
-(global-unset-key (kbd "s-g"))
-(global-unset-key (kbd "C-x C-v"))
-(global-unset-key (kbd "C-x C-z"))
-(global-unset-key (kbd "C-x C-d"))
-(global-unset-key (kbd "C-x +"))
-(global-unset-key (kbd "C-x C-n"))
-(global-unset-key (kbd "C-x C-o"))
-(global-unset-key (kbd "C-x C-p"))
-(global-unset-key (kbd "C-x #"))
-(global-unset-key (kbd "C-x ("))
-(global-unset-key (kbd "C-x )"))
-(global-unset-key (kbd "C-x $"))
-(global-unset-key (kbd "C-x 4"))
-(global-unset-key (kbd "C-x 5"))
-(global-unset-key (kbd "C-x 6"))
-(global-unset-key (kbd "C-x 8"))
-(global-unset-key (kbd "C-x C-e"))
-(global-unset-key (kbd "C-x C-t"))
-(global-unset-key (kbd "C-x ["))
-(global-unset-key (kbd "C-x ]"))
-(global-unset-key (kbd "C-x ="))
-(global-unset-key (kbd "C-x {"))
-(global-unset-key (kbd "C-x }"))
-(global-unset-key (kbd "C-x ;"))
-(global-unset-key (kbd "C-x ESC"))
-(global-unset-key (kbd "C-<f10>"))
-(global-unset-key (kbd "C-_"))
-
-
-(eval-after-load "undo-tree-mode"
-  (define-key undo-tree-map (kbd "C-x r") nil))
-(eval-after-load "undo-tree-mode"
-  (define-key undo-tree-map (kbd "C-_") nil))
-(define-key prog-mode-map (kbd "TAB") 'indent-or-complete)
-
-
-;; Both C-x and C-c are pretty annoyingly placed, and both C-t and C-q are
-;; pretty useless by default:
-(define-key key-translation-map (kbd "C-t") (kbd "C-x"))
-(define-key key-translation-map (kbd "C-q") (kbd "C-c"))
-
+(require 'helm)(require 'projectile)
+(global-set-key (kbd "TAB") 'indent-or-complete)
 
 ;; beautiful xcape hacks
 (global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)
-(global-set-key     (kbd "<S-f9>") 'benjamin/jump-char-bwd)
+(global-set-key     (kbd "<S-f9>") 'delete-char)
 (global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)
 (global-set-key     (kbd "H-<f9>") 'switch-to-buffer)
 (global-set-key      (kbd "<f10>") 'er/expand-region)
-(global-set-key      (kbd "<f11>") 'benjamin/helm-buffers-list)
-(define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
-(global-set-key    (kbd "M-<f12>") 'benjamin/set-mark-command)
 
+;; todo
+(global-set-key      (kbd "<f11>") 'dabbrev-expand)
+(global-set-key      (kbd "<f11>") 'universal-argument)
+(global-set-key      (kbd "<f11>") 'delete-char)
+(define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
+(global-set-key    (kbd "C-<f11>") 'BIND-ME)                                   ;
+
+(global-set-key (kbd "M-<f12>") 'delete-char)
 (global-set-key (kbd "M-SPC")   'find-file)
 (global-set-key (kbd "H-SPC")   'find-file)
 (global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
@@ -101,31 +38,32 @@
 (global-set-key     (kbd "H-0")     'delete-other-windows)
 (global-set-key     (kbd "H-3")     'BIND-ME)
 
-(global-set-key      (kbd "C-q")    'left-word)
 (global-set-key      (kbd "s-q")    'quoted-insert)
 (global-set-key      (kbd "M-q")    'left-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
-(global-set-key    (kbd "C-c q")    'query-replace-regexp)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
+; - Replicate C-c at better location -------------------------------------------
+(define-key key-translation-map (kbd "C-q") (kbd "C-c"))
+(global-set-key  (kbd "C-c C-c")    'compile)
 
 (global-set-key     (kbd "C-w")     'kill-region-or-line)
-(global-set-key     (kbd "H-w")     'kill-region)             ;; note -- adviced
+(global-set-key     (kbd "H-w")     'kill-region)                      ; adviced
 (global-set-key     (kbd "s-w")     'BIND-ME)                                  ;
 (global-set-key     (kbd "M-w")     'kill-ring-save)
 (global-set-key   (kbd "M-H-w")     'find-file-other-window)
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)                         ;
 (global-set-key (kbd "C-x M-w")     'copy-current-file-path)
 
-(global-set-key     (kbd "C-e")     'xah-end-of-line-or-block)
+(global-set-key     (kbd "C-e")     'end-of-line-or-block)
 (global-set-key     (kbd "s-e")      nil)
 (global-set-key     (kbd "M-e")     'forward-whitespace)
 (global-set-key     (kbd "H-e")     "qe")
-(global-set-key   (kbd "H-M-e")     'replace-last-sexp)
 (global-set-key   (kbd "C-S-e")     'end-of-defun)
+(global-set-key   (kbd "H-M-e")     'replace-last-sexp)
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
 (global-set-key (kbd "C-c C-e")     'simplified-end-of-buffer)
-(global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
+(global-set-key   (kbd "C-x e")     (lambi (benjamin/notify "Use C-c C-e")))
 (global-set-key   (kbd "M-s e")      nil)
 (global-set-key   (kbd "M-s eb")    'eval-buffer)
 (global-set-key   (kbd "M-s er")    'eval-region)
@@ -144,9 +82,9 @@
 (global-set-key       (kbd "C-r")   'kill-word-at-point)
 (global-set-key       (kbd "H-r")   'kill-symbol-at-point)
 (global-set-key       (kbd "H-R")   'counsel-rg)
-(global-set-key     (kbd "H-M-r")   'counsel-projectile-rg)
-(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
+(global-set-key     (kbd "H-M-r")   'kill-inner)                               ;
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
+(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)                    ;
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
@@ -161,12 +99,15 @@
 (global-set-key   (kbd "C-c t")   'transpose-params)
 (global-set-key   (kbd "C-S-t")   'multi-term)
 (global-set-key   (kbd "H-M-t")   'counsel-term-switch)
+; - Replicate C-x at better location -------------------------------------------
+(define-key key-translation-map (kbd "C-t") (kbd "C-x"))
+(global-set-key (kbd "C-x C-x")   'multi-term)
 
 (global-set-key     (kbd "C-y")   (lambi (benjamin/notify "Use H-i dude")))
 (global-set-key     (kbd "M-y")   'counsel-yank-pop)
 (global-set-key     (kbd "H-y")   'yank-after-cursor)                          ;
 (global-set-key     (kbd "s-y")   'BIND-ME)                                    ;
-(global-set-key   (kbd "C-S-y")   (lambi (yank) (exchange-point-and-mark)))
+(global-set-key   (kbd "C-S-y")   (lambi (yank) (exchange-point-and-mark)))    ;
 (global-set-key   (kbd "H-M-y")   'bury-buffer)
 (global-set-key       (kbd "υ")   'BIND-ME)
 
@@ -188,7 +129,7 @@
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
-(global-set-key   (kbd "H-M-i")   'ivy-resume)
+(global-set-key (kbd "C-c C-i")   'ivy-resume)
 (global-set-key       (kbd "ϊ")   (lambi (insert "*")))                      ;-i
 
 (global-set-key     (kbd "C-o")   'smart-open-line-above)
@@ -198,7 +139,8 @@
 (global-set-key   (kbd "H-M-o")   'projectile-find-other-file)
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file-other-window)
 (global-set-key   (kbd "C-x o")   'occur-dwim)
-;-o == <backspace>
+(global-set-key (kbd "C-x C-o")   'occur-dwim)
+;-o == <backspace>                                                             ;
 
 (define-key projectile-mode-map (kbd "C-c p") nil)
 (global-set-key     (kbd "C-p")   'projectile-command-map)
@@ -214,29 +156,28 @@
 (global-set-key   (kbd "C-c Pe")  'profiler-reset)
 (global-set-key   (kbd "C-x p")   'BIND-ME)
 
-(global-set-key     (kbd "C-a")   'xah-beginning-of-line-or-block)
+(global-set-key     (kbd "C-a")   'beginning-of-line-or-block)
 (global-set-key     (kbd "M-a")   (lambi (forward-whitespace -1)))
 (global-set-key     (kbd "H-a")   'ace-window)                                 ;
 (global-set-key     (kbd "s-a")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
 (global-set-key   (kbd "C-M-a")   'elpy-nav-indent-shift-left)
-(global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
+(global-set-key   (kbd "C-x a")   (lambi (benjamin/notify "Use C-c C-a")))
 (global-set-key (kbd "C-c C-a")   'simplified-beginning-of-buffer)
 (global-set-key   (kbd "C-c a")   'org-agenda)
 ;-a == /
 
 (global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
-(global-set-key     (kbd "H-s")   'isearch-forward)
-(global-set-key   (kbd "H-M-s")   'org-store-link)
-(global-set-key     (kbd "s-s")   'counsel-git-grep)
-(global-set-key   (kbd "C-x s")   'save-buffer)
-(global-set-key   (kbd "C-S-s")   'swiper-all)
-(global-set-key   (kbd "C-S-s")   'helm-swoop)
+(global-set-key     (kbd "H-s")   'isearch-forward)                            ;
+(global-set-key     (kbd "s-s")   'counsel-git-grep)                           ;
+(global-set-key (kbd "C-c C-s")   'org-store-link)
+(global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
+(global-set-key   (kbd "C-S-s")   'swiper-pre-insert-symbol)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 ;-s == _
 
 (global-set-key     (kbd "C-d")   'delete-char)
-(global-set-key     (kbd "H-d")   (lambi (benjamin/notify "Use H-RET")))
+(global-set-key     (kbd "H-d")   'duplicate-current-line-or-region)
 (global-set-key     (kbd "M-d")   'kill-word)
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
 (global-set-key (kbd "M-s M-d")   'delete-window)
@@ -261,8 +202,8 @@
 (global-set-key     (kbd "M-g")   'goto-line-with-feedback)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)
-(global-set-key (kbd "M-s M-g")   'get-term)
-(global-set-key   (kbd "H-M-g")   'magit-status)
+(global-set-key (kbd "M-s M-g")   'benjamin/get-term)
+(global-set-key   (kbd "H-M-g")   'magit-status)                               ;
 (global-set-key   (kbd "C-x g")   'magit-status)
 (global-set-key   (kbd "C-c g")   'helm-google)
 (global-set-key   (kbd "M-s g")   'hydra-git-gutter/body)
@@ -288,7 +229,7 @@
 ;-j == "
 
 (global-set-key     (kbd "C-k")   'previous-line)
-(global-set-key     (kbd "H-k")   (lambi (benjamin/notify "come on d00d")))
+(global-set-key     (kbd "H-k")   'kill-inner)
 (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key     (kbd "s-k")    nil)
 (global-set-key   (kbd "C-S-k")   'move-text-up)

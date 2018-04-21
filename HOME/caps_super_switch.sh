@@ -4,4 +4,3 @@
 # holding down both shifts, also switch caps and super keys
 setxkbmap -option caps:super
 setxkbmap -layout us,se
-setxkbmap -option 'grp:shifts_toggle'
