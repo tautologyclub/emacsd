@@ -33,7 +33,7 @@
 (global-set-key (kbd "C-<return>")      'open-line-below)
 
 (global-set-key        (kbd "(")    'ora-parens)
-(global-set-key        (kbd "[")    'blq/brackets)
+(global-set-key        (kbd "[]")   'ora-brackets)
 
 (global-set-key     (kbd "H-0")     'delete-other-windows)
 (global-set-key     (kbd "H-3")     'BIND-ME)
@@ -305,7 +305,6 @@
 
 (global-set-key (kbd "H-,")     'goto-prev-line-with-same-indentation)
 (global-set-key (kbd "H-.")     'goto-next-line-with-same-indentation)
-
 (global-set-key (kbd "C-,")     'set-mark-and-deactive)
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
 (global-set-key (kbd "C->")     'hs-toggle-hiding)
@@ -329,10 +328,4 @@
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
 
-
-;; ;; guide-key
-;; (guide-key-mode 1)
-;; (setq guide-key/guide-key-sequence '("s-p" "M-c" "s-g" "C-t" "C-c" "C-x"
-;;                                      "M-s" "μ" "C-p"))
-;; (setq guide-key/idle-delay 0.66)
-;; (setq guide-key/recursive-key-sequence-flag t)
+;

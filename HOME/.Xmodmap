@@ -28,7 +28,7 @@ keycode  34 = Alt_R Alt_R Alt_R
 keycode  35 = Delete BackSpace
 
 keycode  38 = a A slash U03b1
-keycode  39 = s S semicolon U03B4
+keycode  39 = s S underscore U03B4
 keycode  40 = d D colon U03B6
 keycode  41 = f F parenleft parenright
 keycode  42 = g G question U0393

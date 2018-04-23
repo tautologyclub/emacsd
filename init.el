@@ -4,11 +4,9 @@
        (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
   (add-to-list 'package-archives (cons "melpa" url) t))
 (when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "https://elpa.gnu.org/packages/")))
+  (add-to-list 'package-archives '("gnu"        . "https://elpa.gnu.org/packages/")))
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade" .
-                                 "https://marmalade-repo.org/packages/"))
-
+(add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
 (add-to-list 'load-path "~/repos/feebleline")
@@ -31,13 +29,8 @@
 (csetq custom-file "~/.emacs.d/customizations.el")
 (load-file custom-file)
 
-(use-package    kill-at-point
-  :after        (expand-region)
-  :ensure       nil
-  :load-path    "~/.emacs.d/lisp")
-
+(use-package    kill-at-point)
 (use-package    counsel-term
-  :ensure       nil
   :custom       (counsel-term-ff-initial-input          "")
                 (counsel-term-history-initial-input     "")
   :load-path    "~/repos/counsel-term")
@@ -64,7 +57,7 @@
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map
                       ("C-x r" . nil)
-                      ("C-_" . nil)))
+                      ("C-_"   . nil)))
 
 (use-package    multi-term
   :bind
@@ -115,15 +108,12 @@
      ("C-x t" . term-toggle-mode-w/warning))
   :ensure       t
   :custom       (multi-term-program     "/bin/bash")
-                (multi-term-switch-after-close nil)
                 (term-prompt-regexp     "^$\\ ")
-                (term-buffer-maximum-size16384))
+                (multi-term-switch-after-close nil)
+                (term-buffer-maximum-size 16384))
 
 (use-package    hideshow
   :config       (add-hook 'prog-mode-hook 'hs-minor-mode))
-
-(use-package    vimish-fold
-  :ensure       t)
 
 (use-package    fill-column-indicator
   :ensure       nil
@@ -142,9 +132,6 @@
                    "Buffer-menu-mode" "gnus-.*-mode" "occur-mode")))
                 (projectile-mode-line "")
   :config       (projectile-mode 1))
-
-(use-package    counsel-projectile
-  :ensure       t)
 
 (use-package    helm
   :ensure       t
@@ -180,9 +167,6 @@
   :config       (ivy-mode 1)
   )
 
-(use-package    counsel-bookmark
-  :ensure       t)
-
 (use-package    avy
   :ensure       t
   :custom       (avy-case-fold-search nil)
@@ -200,9 +184,6 @@
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
                          "--color never %s .")))
-
-(use-package    expand-region
-  :ensure       t)
 
 (use-package	company
   :ensure       t
@@ -232,18 +213,12 @@
   :config       (auto-dim-other-buffers-mode 1))
 
 (use-package    volatile-highlights
+  :ensure       t
   :config       (volatile-highlights-mode 1))
 
 (use-package    wgrep
   :ensure       t
-  :config       (add-hook 'wgrep-setup-hook 'save-some-buffers)
-  )
-
-(use-package    function-args   ;; meh
-  :ensure       nil)
-
-(use-package    yasnippet
-  :ensure       t)
+  :config       (add-hook 'wgrep-setup-hook 'save-some-buffers))
 
 (use-package    recentf
   :custom       (recentf-max-saved-items 100)
@@ -290,6 +265,17 @@
                       ("M-e" . nil)
                       ("C-j" . next-line)
                       ("C-k" . previous-line)))
+
+(use-package    vimish-fold             :ensure t)
+(use-package    counsel-projectile      :ensure t)
+(use-package    expand-region           :ensure t)
+(use-package    switch-buffer-functions :ensure t)
+(use-package    multiple-cursors        :ensure t)
+(use-package    hungry-delete           :ensure t)
+(use-package    iedit                   :ensure t)
+(use-package    move-text               :ensure t)
+(use-package    yasnippet               :ensure t)
+(use-package    function-args           :ensure nil)
 
 
 ;;-- Random general stuff ----------------------------------------------------;;
@@ -357,13 +343,6 @@
 (add-to-list 'auto-mode-alist '("\\.conf$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$" . sh-mode))
 
-;;;; --- this added to theme instead --- ;;;;
-;; (add-hook 'minibuffer-setup-hook
-;;           (lambda ()
-;;             (make-local-variable 'face-remapping-alist)
-;;             (add-to-list 'face-remapping-alist
-;;                          '(default (:background "#3c4447")))))
-
 (defun set-hook-newline-and-indent ()
   "Rebind RET."
   (local-set-key (kbd "RET") 'newline-and-indent))
@@ -392,9 +371,7 @@
 (load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/gdb-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
-(load "~/.emacs.d/hydra-jumper.el")
 (load "~/.emacs.d/git-custom.el")
-(load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/indicate-cursor.el")
 
 ;; This ensures bindings gets loaded last
