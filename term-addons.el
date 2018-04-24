@@ -91,9 +91,10 @@
 ;; Renaming term buffers
 ;-------------------------------------------------------------------------------
 (defvar counsel-term--home-dir (expand-file-name "~"))
-(defvar benjamin/term-rename-prefix "[t] ")
-(setq benjamin/term-rename-prefix "-t: ")
-
+(defvar benjamin/term-rename-prefix "[")
+(defvar benjamin/term-rename-suffix "]")
+(setq benjamin/term-rename-prefix "")
+(setq benjamin/term-rename-suffix "")
 
 ;;;###autoload
 (defun benjamin/term-renamer ()
@@ -102,7 +103,9 @@
           (replace-regexp-in-string
            counsel-term--home-dir "~"
            default-directory
-           )))
+           )
+          benjamin/term-rename-suffix
+))
 
 (require 'switch-buffer-functions)
 (add-hook

@@ -101,14 +101,14 @@
 (global-set-key     (kbd "H-0")     'delete-other-windows)
 (global-set-key     (kbd "H-3")     'BIND-ME)
 
-(global-set-key      (kbd "C-q")    nil)
+(global-set-key      (kbd "C-q")     nil)
 (global-set-key      (kbd "s-q")    'quoted-insert)
 (global-set-key      (kbd "M-q")    'left-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key    (kbd "C-c q")    'query-replace-regexp)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
-(global-set-key   (kbd "C-c C-c")   'kill-inner)
+(global-set-key   (kbd "C-c C-c")   'compile)
 
 (global-set-key     (kbd "C-w")     'kill-region-or-line)
 (global-set-key     (kbd "H-w")     'kill-region)             ;; note -- adviced
@@ -141,9 +141,8 @@
 (global-set-key   (kbd "C-c emb")   'ediff-merge-buffers)
 
 (global-set-key       (kbd "s-r")    nil)
-(global-set-key       (kbd "C-r")   (lambi (benjamin/notify "Use [ dude")))
 (global-set-key       (kbd "M-r")   'backward-kill-word)
-(global-set-key       (kbd "C-r")   'kill-symbol-at-point)                     ;
+(global-set-key       (kbd "C-r")   'kill-symbol-at-point)
 (global-set-key       (kbd "H-r")   'kill-word-at-point)
 (global-set-key       (kbd "H-R")   'counsel-rg)
 (global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)                       ;
@@ -232,8 +231,8 @@
 (global-set-key   (kbd "H-M-s")   'org-store-link)
 (global-set-key     (kbd "s-s")   'counsel-git-grep)
 (global-set-key   (kbd "C-x s")   'save-buffer)
-(global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key   (kbd "C-S-s")   'helm-swoop)
+(global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 ;-s == _
 
@@ -290,7 +289,7 @@
 ;-j == "
 
 (global-set-key     (kbd "C-k")   'previous-line)
-(global-set-key     (kbd "H-k")   (lambi (benjamin/notify "come on d00d")))
+(global-set-key     (kbd "H-k")   'kill-inner)
 (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key     (kbd "s-k")    nil)
 (global-set-key   (kbd "C-S-k")   'move-text-up)

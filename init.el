@@ -84,7 +84,7 @@
  '(debug-on-error nil)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
  '(delete-by-moving-to-trash t)
- '(echo-keystrokes 0.01)
+ '(echo-keystrokes 1)
  '(eldoc-idle-delay 0.75)
  '(electric-pair-pairs (quote ((34 . 34) (123 . 125))))
  '(elfeed-feeds
@@ -193,38 +193,9 @@
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
  '(resize-mini-windows t)
- '(safe-local-variable-values
-   (quote
-    ((c-style)
-     (c-basic-offset 8)
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (eval setenv "GTAGSLIBPATH" "~/.gtags")
-     (eval setenv "GTAGSLIBPATH" "")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-D__cpu_to_le32(x) x" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/uapi/linux/byteorder/little_endian.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include /home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-i/home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (irony-additional-clang-options quote
-                                     (("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")))
-     (irony-additional-clang-options quote
-                                     ("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc"))
-     (irony-additional-clang-options quote
-                                     ("-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DMODULE" "-DKBUILD_STR(s)=#s" "-nostdinc"))
-     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-DDEBUG" "-DMODULE" "-DKBUILD_STR(s)=#s" "-nostdinc")
-     (tab-always-indent . t))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
- '(semantic-idle-scheduler-idle-time 5)
+ '(semantic-idle-scheduler-idle-time 1)
  '(semantic-mode t)
  '(shell-file-name "/bin/bash")
  '(shift-select-mode nil)
@@ -397,22 +368,29 @@
                 (company-show-numbers t)
                 (company-tooltip-limit 10)
   :config       (counsel-mode 1)
-                (add-hook 'after-init-hook 'global-company-mode))
+                (add-hook 'after-init-hook 'global-company-mode)
+                (defun ora-company-number () (interactive)
+                   (let* ((k (this-command-keys))
+                          (re (concat "^" company-prefix k)))
+                     (if (cl-find-if (lambda (s) (string-match re s))
+                                     company-candidates)
+                         (self-insert-command 1)
+                       (company-complete-number (if (equal k "0") 10
+                                                  (string-to-number k))))))
+                (let ((map company-active-map))
+                  (mapc (lambda (x)
+                          (define-key map (format "%d" x) 'ora-company-number))
+                        (number-sequence 0 9))
+                  (define-key map " " (lambda () (interactive)
+                                        (company-abort)
+                                        (self-insert-command 1)))
+                  (define-key map (kbd "<return>") nil)))
 
 (require 'volatile-highlights)
 (require 'wgrep)
 (require 'function-args)
 (require 'yasnippet)
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
-
-
-; todo tmp
-(setq company-backends
-      (quote
-       (company-bbdb company-nxml company-css company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-              (company-dabbrev-code company-gtags company-etags company-keywords)
-              company-oddmuse company-dabbrev)
-       ))
 
 ;; Random vanilla settings
 (setq enable-recursive-minibuffers t)
@@ -451,7 +429,6 @@
 
 (fset 'yes-or-no-p 'y-or-n-p)
 (put 'scroll-left 'disabled nil)
-(setenv "GTAGSLIBPATH" "~/.gtags")
 
 (auto-compression-mode t)
 (show-paren-mode -1)                            ;; really annoying, it turns out
@@ -484,7 +461,7 @@
 ;; fci-mode kind of ruins everything
 ;; (add-hook 'prog-mode-hook 'fci-mode)
 (add-hook 'org-mode-hook 'fci-mode)
-(add-hook 'prog-mode-hook 'helm-gtags-mode)
+(add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'prog-mode-hook #'hs-minor-mode)
 
 ;;;; --- this added to theme instead --- ;;;;
@@ -548,15 +525,6 @@
 
 (feebleline-mode)
 (ample-light-theme)
-
-(condition-case nil (kill-buffer "*scratch*") (error nil))
-
-;; eldoc as pos-tip instead of echo area
-(defun my-eldoc-display-message (format-string &rest args)
-  "Display eldoc message near point."
-  (when format-string
-    (pos-tip-show (apply 'format format-string args))))
-(setq eldoc-message-function #'my-eldoc-display-message)
 
 (provide 'init)
 ;;; init.el ends here

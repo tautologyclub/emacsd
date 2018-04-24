@@ -112,9 +112,6 @@
    `(font-lock-variable-name-face     ((t (:foreground "#330066" :italic nil :bold t))))
    `(font-lock-doc-face		      ((t (:foreground ,ample/dark-tan))))
 
-   ;; '(auto-dim-other-buffers-face ((t (:background "#a8a58a" :foreground "#222222"))))
-   '(hl-line-face ((t (:background "a8a58a"))))
-
    ;; mode line & powerline
    `(powerline-active1	((t (:foreground ,ample/darkest-gray))))
    `(mode-line-inactive ((t (:background ,ample/region-dark :foreground ,ample/bg))))
@@ -161,7 +158,7 @@
 
    `(vertical-border ((t (:background ,ample/darker-gray :foreground ,ample/darkest-gray))))
 
-   `(hl-line ((t (:background ,ample/region-light))))
+   `(hl-line ((t (:background "#d8d4af"))))
 
    `(highlight-indentation-face ((t (:background ,ample/darkest-gray))))
 
@@ -847,7 +844,9 @@
   )
 
 ;; ; tmp
-;; (custom-set-faces
+(custom-set-faces
+ `(hl-line ((t (:background "#d8d4af"))))
+ )
 ;;    ;; '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
 ;;    '(hl-line ((t (:background "#b7b29a"))))
 ;;    '(git-gutter+-added ((t (:background         "#d7d8da" :foreground "#00aa00"))))

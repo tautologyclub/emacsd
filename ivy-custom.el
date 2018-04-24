@@ -73,6 +73,22 @@
      ("b" counsel-find-file-cd-bookmark-action "cd bookmark")))
 
 
+(defun ivy-previous-line-and-call-and-recenter (&optional arg)
+  "Move cursor vertically down ARG candidates.
+Call the permanent action if possible."
+  (interactive "p")
+  (ivy-previous-line arg)
+  (ivy--exhibit)
+  (ivy-call-and-recenter))
+
+(defun ivy-next-line-and-call-and-recenter (&optional arg)
+  "Move cursor vertically down ARG candidates.
+Call the permanent action if possible."
+  (interactive "p")
+  (ivy-next-line arg)
+  (ivy--exhibit)
+  (ivy-call-and-recenter))
+
 ;; bindings
 (define-key ivy-minibuffer-map      (kbd "M-o")     nil)
 (define-key ivy-minibuffer-map      (kbd "S-SPC")   nil)
@@ -81,10 +97,10 @@
 (define-key ivy-switch-buffer-map   (kbd "C-j")     'ivy-next-line)
 (define-key ivy-minibuffer-map      (kbd "C-k")     'ivy-previous-line)
 (define-key ivy-switch-buffer-map   (kbd "C-k")     'ivy-previous-line)
+(define-key ivy-minibuffer-map      (kbd "C-S-j")   'ivy-next-line-and-call-and-recenter)
 (define-key ivy-minibuffer-map      (kbd "C-S-j")   'ivy-next-line-and-call)
-(define-key ivy-switch-buffer-map   (kbd "C-S-j")   'ivy-next-line-and-call)
+(define-key ivy-minibuffer-map      (kbd "C-S-k")   'ivy-previous-line-and-call-and-recenter)
 (define-key ivy-minibuffer-map      (kbd "C-S-k")   'ivy-previous-line-and-call)
-(define-key ivy-switch-buffer-map   (kbd "C-S-k")   'ivy-previous-line-and-call)
 (define-key ivy-minibuffer-map      (kbd "C-s")     'ivy-next-history-element)
 (define-key ivy-minibuffer-map      (kbd "C-u")     'ivy-dispatching-done)
 (define-key ivy-minibuffer-map      (kbd "M-r")     'ivy-backward-kill-word)
@@ -111,6 +127,7 @@
 (define-key counsel-find-file-map (kbd "C-r") 'counsel-up-directory)
 (define-key swiper-map (kbd "M-<tab>") 'swiper-mc)
 
+;; (setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s . 2> /dev/null")
 (setq counsel-rg-base-command "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
 
 (add-hook 'wgrep-setup-hook 'save-some-buffers)
