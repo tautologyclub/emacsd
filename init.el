@@ -533,7 +533,6 @@
 (load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/gdb-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
-(load "~/.emacs.d/hydra-jumper.el")
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/editing-defuns.el")
 (load "~/.emacs.d/compile-custom.el")
