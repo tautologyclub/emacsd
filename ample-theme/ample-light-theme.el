@@ -51,7 +51,7 @@
        (ample/blue "#4170B3")
        (ample/light-blue "#528FD1")
        (ample/light-blue-bg "#BBB9B1")
-       (ample/lighter-blue "#68A5E9")
+       (ample/lighter-blue "#8eadd1")
        (ample/orange "#FF8512")
        (ample/tan "#5D5C01")
        (ample/dark-tan "#7D7C21")
@@ -118,12 +118,9 @@
    `(mode-line		((t (:background ,ample/region :foreground ,ample/fg))))
 
    `(linum ((t (:background nil :foreground "dark red"))))
-
    '(ivy-virtual ((t (:family "Noto Sans" :italic t :foreground "#777777"))))
-
    `(popup-tip-face ((t (:background ,ample/region-dark :foreground ,ample/dark-tan))))
-
-   `(header-line ((t (:background ,ample/fg :foreground ,ample/bg))))
+   `(header-line ((t (:background "#b2b09b" :foreground ,ample/bg))))
 
    `(button  ((t (:foreground ,ample/lighter-blue :background nil :underline t))))
 
@@ -480,7 +477,7 @@
    `(org-code ((t (:foreground nil :background nil))))
    `(org-column ((t (:foreground nil :background nil))))
    `(org-column-title ((t (:foreground nil :background nil))))
-   `(org-date ((t (:foreground nil :background nil))))
+   `(org-date ((t (:foreground nil :background nil :bold t))))
    `(org-date-selected ((t (:foreground nil :background nil))))
    `(org-default ((t (:foreground nil :background nil))))
    `(org-document-info ((t (:foreground nil :background nil))))
@@ -517,7 +514,7 @@
    `(org-scheduled-previously ((t (:foreground nil :background nil))))
    `(org-scheduled-today ((t (:foreground nil :background nil))))
    `(org-sexp-date ((t (:foreground nil :background nil))))
-   `(org-special-keyword ((t (:foreground nil :background nil))))
+   `(org-special-keyword ((t (:foreground nil :background nil :bold t))))
    `(org-table ((t (:foreground nil :background nil))))
    `(org-tag ((t (:foreground nil :background nil))))
    `(org-target ((t (:foreground nil :background nil))))
@@ -631,18 +628,16 @@
    `(whitespace-tab			((t (:foreground ,ample/gray :background "grey75"))))
    `(whitespace-trailing		((t (:foreground ,ample/rb3 :background ,ample/bg :bold t))))
 
-   '(feebleline-bufname-face
-     ((t (:foreground "#000000" :bold nil :medium nil))))
-   '(feebleline-linum-face
-     ((t (:inherit 'default))))
-   '(feebleline-previous-buffer-face
-     ((t (:foreground "#3e3e3e"))))
+   '(feebleline-bufname-face ((t (:foreground "#000000" :bold nil :medium nil))))
+   '(feebleline-linum-face ((t (:inherit 'default))))
+   '(feebleline-previous-buffer-face ((t (:foreground "#3e3e3e"))))
    '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face
                               :foreground "saddle brown"
                               :bold nil))))
-   '(feebleline-git-branch-face ((t (:foreground "dark olive green" :slant italic :weight thin))))
+   '(feebleline-git-branch-face ((t (:foreground "dark olive green"))))
    '(feebleline-linum-face ((t (:inherit default))))
    '(feebleline-asterisk-face ((t (:inherit default :family "Noto Sans" :foreground "red" :height 0.8))))
+
 
    ;;magit
    ;; `(magit-section-highlight			((t (:foreground "#004400" :background nil))))
@@ -801,58 +796,30 @@
                (file-name-as-directory (file-name-directory load-file-name))))
 
 
-;; (remove-hook 'c-mode-hook 'my-c-mode-hook)
-(defun theme-c-mode-hook ()
-  "Syntax highlight some crap."
-  (font-lock-add-keywords nil
-    '(("\\_<\\([A-Z0-9][a-zA-Z0-9_]*\\)\\_>\\\:" (0 '((:background "#ddddaa" :italic t)))))))
-(add-hook 'c-mode-hook #'theme-c-mode-hook)
-
 ;;;###autoload
 (defun ample-light-theme()
   "Apply the ample-light-theme."
   (interactive)
   (load-theme 'ample-light t)
-  (setq minibuffer-setup-hook nil)
+  ;; (setq minibuffer-setup-hook nil)
   (add-hook 'minibuffer-setup-hook
 	    (lambda () (make-local-variable 'face-remapping-alist)
 	      (add-to-list
 	       'face-remapping-alist '(default (:background "#d5e0a6")))))
-  (add-hook 'c-mode-hook 'theme-c-mode-hook)
-  ;; (custom-set-faces
-  ;;  ;; '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "#444444"))))
-  ;;  '(hl-line ((t (:background "#d5e0a6"))))
-  ;;  '(git-gutter+-added ((t (:background "#88ff88" :foreground "#008800"))))
-  ;;  '(git-gutter+-deleted ((t (:background "#dd0000" :foreground "#dd0000"))))
-  ;;  '(git-gutter+-modified ((t (:background "#dd00dd" :foreground "#dd00dd"))))
-   ;; (require 'org)
-
-  ;;  )
+  (font-lock-add-keywords
+   'org-mode
+   '(("^Note\\\:" (0 '((:background "yellow3" :foreground "black" :weight bold))))))
+  (font-lock-add-keywords
+   'c-mode '(("\\_<\\([a-zA-Z0-9_]*\\)\\_>\\\:"
+              (1 '((:background "#ddddaa" :italic t))))))
+  (font-lock-add-keywords
+   'prog-mode '(("\\<\\(FIXME\\):"
+                 1 'font-lock-warning-face prepend)))
   )
 
-;; ; tmp
-;; (custom-set-faces
-;;    ;; '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
-;;    '(hl-line ((t (:background "#b7b29a"))))
-;;    '(git-gutter+-added ((t (:background         "#d7d8da" :foreground "#00aa00"))))
-;;    '(git-gutter+-deleted ((t (:background       "#d7d8da" :foreground "#aa0000"))))
-;;    '(git-gutter+-modified((t (:background       "#d7d8da" :foreground "#ff44ff"))))
-;;    `(linum ((t (:background nil :foreground     "dark red"))))
-;;    '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))
-;;    ;; `popup-tip-face' used by flycheck tips
-;;    `(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
-;;    ;; `tooltip' used by company-quickhelp tips
-;;    `(tooltip ((t (:foreground "red" :background "#ad9dca"))))
-;;    )
 (defface org-failed-face '((t :inherit default))
   "The org-todo-keyword FAIL keyword face."
   :group 'org)
-;; (custom-set-variables org-todo-keywords '(("TODO" "DONE" "FAIL")))
-;; (custom-set-variables 'org-todo-keyword-faces
-;;       '(("TODO" . org-todo)
-;;         ("DONE" . org-done)
-;;         ("FAIL" . org-failed-face)
-;;         ))
 
 
 (provide-theme 'ample-light)

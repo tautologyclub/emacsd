@@ -17,6 +17,8 @@
     (progn (package-refresh-contents) (package-install 'use-package)))
 ;; -- end of formalities -------------------------------------------------------
 
+(setq custom-file "~/.emacs.d/customizations.el")
+(load-file custom-file)
 
 (defmacro csetq (variable value)
   "Macro stolen from abo-abo, custom set VARIABLE to VALUE etc."
@@ -26,23 +28,19 @@
   "B lazy yo."
   `(lambda () (interactive),@b))
 
-(csetq custom-file "~/.emacs.d/customizations.el")
-(load-file custom-file)
-
-(use-package    kill-at-point)
 (use-package    counsel-term
   :custom       (counsel-term-ff-initial-input          "")
                 (counsel-term-history-initial-input     "")
   :load-path    "~/repos/counsel-term")
 
-(use-package    term-addons
-  :after        (multi-term)
-  :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
-
+(use-package    kill-at-point)
+(use-package    ivy-addons
+  :load-path    "~/.emacs.d/lisp")
 (use-package    some-defuns)
 (use-package    some-hydras)
-(use-package    zoom-frm)
-(use-package    pdf-custom)
+(use-package    term-addons
+  :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
+; ------------------------------------------------------------------------------
 
 (use-package    gdscript-mode
   :ensure       nil
@@ -112,6 +110,13 @@
                 (multi-term-switch-after-close nil)
                 (term-buffer-maximum-size 16384))
 
+(use-package    ace-jump-buffer
+  :ensure       t) ;; meh
+
+(use-package    ace-window
+  :disabled
+  :ensure       t)
+
 (use-package    hideshow
   :config       (add-hook 'prog-mode-hook 'hs-minor-mode))
 
@@ -146,6 +151,9 @@
                 (feebleline-show-previous-buffer        nil)
   :config       (feebleline-mode 1))
 
+(use-package ivy-rich   :ensure t)
+
+
 (use-package    ivy
   :ensure       t
   :custom       (ivy-use-virtual-buffers        t)
@@ -165,7 +173,8 @@
                 (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*helm")
   :config       (ivy-mode 1)
-  )
+                (ivy-set-display-transformer
+                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)  )
 
 (use-package    avy
   :ensure       t
@@ -179,11 +188,12 @@
 
 (use-package    counsel
   :ensure       t
+  :config       (define-key counsel-mode-map (kbd "H-f") nil)
   :custom       (counsel-grep-swiper-limit      120000)
                 (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
-                         "--color never %s .")))
+                         "--color never %s . 2>/dev/null")))
 
 (use-package	company
   :ensure       t
@@ -218,6 +228,7 @@
 
 (use-package    wgrep
   :ensure       t
+  :custom       (wgrep-auto-save-buffer t)
   :config       (add-hook 'wgrep-setup-hook 'save-some-buffers))
 
 (use-package    recentf
@@ -247,7 +258,9 @@
 
 (use-package    dts-mode
   :ensure       nil
-  :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode)))
+  :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode))
+                (add-hook 'dts-mode-hook 'subword-mode)
+                (add-hook 'dts-mode-hook 'helm-gtags-mode))
 
 (use-package    linum
   :ensure       nil
@@ -266,8 +279,10 @@
                       ("C-j" . next-line)
                       ("C-k" . previous-line)))
 
-(use-package    vimish-fold             :ensure t)
 (use-package    counsel-projectile      :ensure t)
+(use-package    stickyfunc-enhance      :ensure t)
+(use-package    hydra                   :ensure t)
+(use-package    vimish-fold             :ensure t)
 (use-package    expand-region           :ensure t)
 (use-package    switch-buffer-functions :ensure t)
 (use-package    multiple-cursors        :ensure t)
@@ -275,7 +290,12 @@
 (use-package    iedit                   :ensure t)
 (use-package    move-text               :ensure t)
 (use-package    yasnippet               :ensure t)
+(use-package    git-timemachine         :ensure t)
+(use-package    git-gutter+             :ensure t)
+(use-package    goto-last-change        :ensure t)
 (use-package    function-args           :ensure nil)
+(use-package    zoom-frm)
+(use-package    pdf-custom)
 
 
 ;;-- Random general stuff ----------------------------------------------------;;
@@ -339,7 +359,7 @@
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 
-(add-to-list 'auto-mode-alist '("defconfig$" . sh-mode))
+(add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$" . sh-mode))
 
@@ -373,9 +393,11 @@
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/indicate-cursor.el")
+(load "~/.emacs.d/lisp/ivy_buffer_extend.el") ; tmp, see ivy-rich package
 
 ;; This ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
+
 
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 

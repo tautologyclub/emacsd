@@ -23,6 +23,7 @@
 
 (global-set-key (kbd "M-<f12>") 'delete-char)
 (global-set-key (kbd "M-SPC")   'find-file)
+(global-set-key (kbd "M-RET")   'delete-char)
 (global-set-key (kbd "H-SPC")   'find-file)
 (global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
 
@@ -33,7 +34,7 @@
 (global-set-key (kbd "C-<return>")      'open-line-below)
 
 (global-set-key        (kbd "(")    'ora-parens)
-(global-set-key        (kbd "[]")   'ora-brackets)
+(global-set-key        (kbd "[")   'ora-brackets)
 
 (global-set-key     (kbd "H-0")     'delete-other-windows)
 (global-set-key     (kbd "H-3")     'BIND-ME)
@@ -43,7 +44,6 @@
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
-; - Replicate C-c at better location -------------------------------------------
 (define-key key-translation-map (kbd "C-q") (kbd "C-c"))
 (global-set-key  (kbd "C-c C-c")    'compile)
 
@@ -62,8 +62,8 @@
 (global-set-key   (kbd "C-S-e")     'end-of-defun)
 (global-set-key   (kbd "H-M-e")     'replace-last-sexp)
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
-(global-set-key (kbd "C-c C-e")     'simplified-end-of-buffer)
-(global-set-key   (kbd "C-x e")     (lambi (benjamin/notify "Use C-c C-e")))
+;; (global-set-key (kbd "C-c C-e")     )
+(global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
 (global-set-key   (kbd "M-s e")      nil)
 (global-set-key   (kbd "M-s eb")    'eval-buffer)
 (global-set-key   (kbd "M-s er")    'eval-region)
@@ -79,29 +79,29 @@
 
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "M-r")   'backward-kill-word)
-(global-set-key       (kbd "C-r")   'kill-word-at-point)
-(global-set-key       (kbd "H-r")   'kill-symbol-at-point)
+(global-set-key       (kbd "C-r")   'kill-symbol-at-point)
+(global-set-key       (kbd "H-r")   'kill-word-at-point)
 (global-set-key       (kbd "H-R")   'counsel-rg)
-(global-set-key     (kbd "H-M-r")   'kill-inner)                               ;
+(global-set-key     (kbd "H-M-r")   'isearch-backward)                         ;
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
-(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)                    ;
+(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
 (global-set-key     (kbd "M-s r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'counsel-rg)
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
 (global-set-key (kbd "C-x C-S-r")   'rename-current-buffer-file)
 (global-set-key   (kbd "C-x M-r")   'rename-buffer)
 (global-set-key     (kbd "C-c ra")  'clear-text-properties-from-buffer)
+(define-key isearch-mode-map (kbd "H-r") 'isearch-repeat-backward)
 
+(global-set-key     (kbd "C-t")    ctl-x-map)
 (global-set-key     (kbd "s-t")    nil)
 (global-set-key     (kbd "H-t")   'multi-term)                                 ;
 (global-set-key     (kbd "M-t")   (lambi (forward-char 2)(transpose-words -1)))
 (global-set-key     (kbd "M-T")   (lambi (forward-char 1)(transpose-words 1))) ;
+(global-set-key   (kbd "C-S-t")   'multi-term)                                 ;
 (global-set-key   (kbd "C-c t")   'transpose-params)
-(global-set-key   (kbd "C-S-t")   'multi-term)
 (global-set-key   (kbd "H-M-t")   'counsel-term-switch)
-; - Replicate C-x at better location -------------------------------------------
-(define-key key-translation-map (kbd "C-t") (kbd "C-x"))
-(global-set-key (kbd "C-x C-x")   'multi-term)
+(global-set-key (kbd "C-x C-t")   'multi-term)
 
 (global-set-key     (kbd "C-y")   (lambi (benjamin/notify "Use H-i dude")))
 (global-set-key     (kbd "M-y")   'counsel-yank-pop)
@@ -162,18 +162,19 @@
 (global-set-key     (kbd "s-a")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
 (global-set-key   (kbd "C-M-a")   'elpy-nav-indent-shift-left)
-(global-set-key   (kbd "C-x a")   (lambi (benjamin/notify "Use C-c C-a")))
-(global-set-key (kbd "C-c C-a")   'simplified-beginning-of-buffer)
+;; (global-set-key (kbd "C-c C-a")   (lambi (benjamin/notify "Use C-c C-a")))
+(global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
 (global-set-key   (kbd "C-c a")   'org-agenda)
 ;-a == /
 
+(global-set-key     (kbd "s-s")    nil)
 (global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
 (global-set-key     (kbd "H-s")   'isearch-forward)                            ;
-(global-set-key     (kbd "s-s")   'counsel-git-grep)                           ;
+(global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key (kbd "C-c C-s")   'org-store-link)
 (global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
-(global-set-key   (kbd "C-S-s")   'swiper-pre-insert-symbol)
 (global-set-key (kbd "M-s M-s")   'save-buffer)
+(define-key isearch-mode-map (kbd "H-s") 'isearch-repeat-forward)
 ;-s == _
 
 (global-set-key     (kbd "C-d")   'delete-char)
@@ -200,11 +201,12 @@
 (global-set-key     (kbd "H-g")   'benjamin/get-term)
 (global-set-key     (kbd "s-g")   'hydra-git-gutter/body)
 (global-set-key     (kbd "M-g")   'goto-line-with-feedback)
-(global-set-key   (kbd "C-M-g")   'avy-goto-line)
+(global-set-key   (kbd "H-M-g")   'avy-goto-line)
+(global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)
-(global-set-key (kbd "M-s M-g")   'benjamin/get-term)
-(global-set-key   (kbd "H-M-g")   'magit-status)                               ;
-(global-set-key   (kbd "C-x g")   'magit-status)
+(global-set-key (kbd "M-s M-g")   'magit-status)
+(global-set-key   (kbd "M-s g")   'magit-status)
+(global-set-key   (kbd "C-x g")   'magit-status)                               ;
 (global-set-key   (kbd "C-c g")   'helm-google)
 (global-set-key   (kbd "M-s g")   'hydra-git-gutter/body)
 ;-g == ?
@@ -327,5 +329,6 @@
 
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
+
 
 ;

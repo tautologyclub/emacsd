@@ -50,10 +50,11 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["#757575" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#68A5E9" "gray43"])
+   ["#757575" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#8eadd1" "gray43"])
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(auto-revert-verbose nil)
+ '(avy-case-fold-search nil)
  '(avy-keys
    (quote
     (97 115 100 102 103 106 107 108 119 101 114 105 111 112 109)))
@@ -80,7 +81,7 @@
  '(counsel-grep-swiper-limit 120000)
  '(counsel-mode t)
  '(counsel-rg-base-command
-   "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s .")
+   "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s . 2>/dev/null")
  '(counsel-term-ff-initial-input "")
  '(counsel-term-history-initial-input "")
  '(custom-enabled-themes (quote (ample-light)))
@@ -106,6 +107,8 @@
  '(explicit-shell-file-name "/usr/bin/termite")
  '(fci-rule-character 124)
  '(fci-rule-color "#545454")
+ '(fci-rule-display 80 t)
+ '(fci-rule-width 1)
  '(feebleline-mode t nil (feebleline))
  '(feebleline-show-dir t t)
  '(feebleline-show-git-branch t)
@@ -188,16 +191,18 @@
  '(mouse-avoidance-mode nil nil (avoid))
  '(mu4e-maildir "/home/benjamin/.mail")
  '(multi-term-buffer-name "TERM")
+ '(multi-term-program "/bin/bash" t)
  '(multi-term-scroll-to-bottom-on-output t)
  '(multi-term-switch-after-close nil t)
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
+ '(org-hide-leading-stars t t)
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-border-width 0)
@@ -215,6 +220,17 @@
  '(python-pylint-command "pylint+ 2")
  '(recentf-max-saved-items 100)
  '(resize-mini-windows t)
+ '(safe-local-variable-values
+   (quote
+    ((irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/include/uapi" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/include/uapi" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (c-indent-level . 8)
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/u-boot-toradex/include" "-I/home/benjamin/work/hm/repos/u-boot-toradex/arch/arm/include" "-include /home/benjamin/work/hm/repos/u-boot-toradex/arch/arc/include/asm/types.h" "-D__KERNEL__" "-D__GNUC__" "-DDEBUG" "-DKBUILD_STR(s)=#s" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/arch/arm/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-include/home/benjamin/repos/linux/arch/arm/include/asm/types.h" "-include/home/benjamin/repos/linux/include/linux/byteorder/generic.h" "-include/home/benjamin/repos/linux/include/linux/wait.h" "-include/home/benjamin/repos/linux/include/linux/mutex.h" "-include/home/benjamin/repos/linux/include/linux/timer.h" "-include/home/benjamin/repos/linux/include/linux/mii.h" "-include/home/benjamin/repos/linux/include/linux/usb.h" "-include/home/benjamin/repos/linux/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-I/home/benjamin/repos/linux/include/generated" "-I/home/benjamin/repos/linux/arch/arm/include" "-I/home/benjamin/repos/linux/arch/arm/include/generated" "-I/home/benjamin/repos/linux/arch/arm/include/generated/uapi" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-include/home/benjamin/repos/linux/arch/arm/include/asm/types.h" "-include/home/benjamin/repos/linux/include/linux/byteorder/generic.h" "-include/home/benjamin/repos/linux/include/linux/wait.h" "-include/home/benjamin/repos/linux/include/linux/mutex.h" "-include/home/benjamin/repos/linux/include/linux/timer.h" "-include/home/benjamin/repos/linux/include/linux/mii.h" "-include/home/benjamin/repos/linux/include/linux/usb.h" "-include/home/benjamin/repos/linux/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")
+     (c-basic-offset 8)
+     (irony-additional-clang-options "-I/home/benjamin/work/hm/repos/linux-toradex/include" "-I/home/benjamin/work/hm/repos/linux-toradex/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated" "-I/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/generated/uapi" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/kconfig.h" "-include/home/benjamin/work/hm/repos/linux-toradex/arch/arm/include/asm/types.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/byteorder/generic.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/wait.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mutex.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/timer.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/mii.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/usb.h" "-include/home/benjamin/work/hm/repos/linux-toradex/include/linux/netdevice.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc"))))
  '(save-interprogram-paste-before-kill t)
  '(scroll-bar-mode nil)
  '(semantic-idle-scheduler-idle-time 5)
@@ -287,9 +303,10 @@
       (sleep-for 0.2)
       (term-send-raw-string ""))
      ("C-x t" . jnm/term-toggle-mode))))
- '(term-buffer-maximum-size 10000)
+ '(term-buffer-maximum-size 16384)
  '(term-default-bg-color "#002b36")
  '(term-default-fg-color "#839496")
+ '(term-prompt-regexp "^$\\ " t)
  '(term-unbind-key-list (quote ("C-x" "C-z" "C-c" "C-h" "C-y" "<ESC>" "M-o")))
  '(tool-bar-mode nil)
  '(tramp-verbose 6)
@@ -347,6 +364,7 @@
  '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
  '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
  '(hl-line ((t (:background "#b7b29a"))))
+ '(ivy-switch-buffer-dir-face ((t (:inherit (quote feebleline-dir-face)))))
  '(link ((t (:foreground "deep sky blue" :underline t))))
  '(linum ((t (:background nil :foreground "dark red"))))
  '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))

@@ -1,25 +1,6 @@
 (require 'expand-region)
 
 ;;;###autoload
-(defun open-line-below ()
-  (interactive)
-  (end-of-line)
-  (newline)
-  (indent-for-tab-command))
-
-;;;###autoload
-(defun unfill-paragraph ()
-  "Take a multi-line paragraph and make it into a single line of text."
-  (interactive)
-  (let ((fill-column (point-max)))
-    (fill-paragraph nil)))
-
-;;;###autoload
-(defun benjamin/notify (arg)
-  "Notify user of ARG using shell cmd notify-send."
-  (shell-command (format "notify-send -t 1000 '%s'" arg)))
-
-;;;###autoload
 (defun crux-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
@@ -50,13 +31,6 @@
   (if (= 1 (length (window-list frame)))
       (delete-frame frame force)
     (delete-window window)))
-
-;;;###autoload
-(defun volatile-kill-buffer ()
-   "Kill current buffer unconditionally."
-   (interactive)
-   (let ((buffer-modified-p nil))
-     (kill-buffer (current-buffer))))
 
 ;;;###autoload
 (defun murder-buffer-with-window ()
@@ -107,14 +81,12 @@ With arg N insert N newlines."
 
 ;;;###autoload
 (defun open-next-line (arg)
-      "Move to the next line and then opens a line.
+  "Move to the next line and then opens a line.  ARG times or once.
+
     See also `newline-and-indent'."
-      (interactive "p")
-      (end-of-line)
-      (open-line arg)
-      (next-line 1)
-      (when newline-and-indent
-        (indent-according-to-mode)))
+  (interactive "p")
+  (end-of-line)
+  (newline-and-indent))
 
 ;;;###autoload
 (defun copy-keep-highlight (beg end)
@@ -572,12 +544,6 @@ This function is suitable to add to `find-file-hook'."
             (propertize  warning 'face 'find-file-root-header-face)))))
 
 ;;;###autoload
-(defun set-mark-if-inactive ()
-  (interactive)
-  (if (not (region-active-p))
-      (set-mark-command nil)))
-
-;;;###autoload
 (defun mark-line ()
   (interactive)
   (beginning-of-line)
@@ -600,139 +566,5 @@ This function is suitable to add to `find-file-hook'."
   (back-to-indentation)
   (re-search-backward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]"))
   (back-to-indentation))
-
-;;;###autoload
-(defun simplified-end-of-buffer ()
-  "Move point to the beginning of the buffer;
-     leave mark at previous position."
-  (interactive)
-  (push-mark)
-  (goto-char (point-max)))
-
-;;;###autoload
-(defun simplified-beginning-of-buffer ()
-  "Move point to the beginning of the buffer;
-     leave mark at previous position."
-  (interactive)
-  (push-mark)
-  (goto-char (point-min)))
-
-;;;###autoload
-(defun indent-or-complete ()
-  "Complete if point is at end of a word, otherwise indent line."
-  (interactive)
-  (if (looking-back "[a-zA-z0-9]")
-      (company-complete)
-      ;; (completion-at-point)
-    (indent-for-tab-command)
-    ))
-
-;;;###autoload
-(defun beginning-of-line-or-block ()
-  "Move cursor to beginning of line or previous paragraph."
-  (interactive)
-  (let (($p (point)))
-    (if (equal (point) (line-beginning-position))
-        (if (backward-paragraph)
-            (progn
-              (skip-chars-backward "\n\t ")
-              (forward-char ))
-          (goto-char (point-min)))
-      (progn
-        (back-to-indentation)
-        (when (eq $p (point))
-          (beginning-of-line))))))
-
-;;;###autoload
-(defun end-of-line-or-block ()
-  "Move cursor to end of line or next paragraph."
-  (interactive)
-  (if (or (equal (point) (line-end-position))
-          (equal last-command this-command ))
-      (forward-paragraph)
-    (end-of-line)))
-
-;;;###autoload
-(defun goto-line-with-feedback ()
-  "Show line numbers temporarily, while prompting for the line number input."
-  (interactive)
-  (defvar goto/line 0)
-  (unwind-protect
-      (progn
-        (nlinum-mode 1)
-        (git-gutter+-mode -1)
-        (setq goto/line (read-number "Goto line: "))
-        (goto-char (point-min))
-        (forward-line (1- goto/line)))
-    (git-gutter+-mode 1)
-    (nlinum-mode -1)))
-
-;;;###autoload
-(defun duplicate-current-line-or-region (arg)
-  "Duplicates the current line or region ARG times.
-If there's no region, the current line will be duplicated. However, if
-there's a region, all lines that region covers will be duplicated."
-  (interactive "p")
-  (let (beg end (origin (point)))
-    (if (and mark-active (> (point) (mark)))
-        (exchange-point-and-mark))
-    (setq beg (line-beginning-position))
-    (if mark-active
-        (exchange-point-and-mark))
-    (setq end (line-end-position))
-    (let ((region (buffer-substring-no-properties beg end)))
-      (dotimes (i arg)
-        (goto-char end)
-        (newline)
-        (insert region)
-        (kill-ring-save beg end)
-        (setq end (point)))
-      (goto-char (+ origin (* (length region) arg) arg)))))
-
-;;;###autoload
-(defun i3-make-frame ()
-  "Create new frame tiled the way we want with i3-msg."
-  (interactive)
-  (shell-command "split_optimal")
-  (make-frame-command))
-
-;;;###autoload
-(defun sudo-find-file (file-name)
-  "Like find file, but opens the file as root."
-  (interactive "FSudo Find File: ")
-  (let ((tramp-file-name (concat "/sudo::" (expand-file-name file-name))))
-    (find-file tramp-file-name)))
-
-;;;###autoload
-(defun revert-all-file-buffers ()
-  (interactive)
-  (dolist (buf (buffer-list))
-    (let ((filename (buffer-file-name buf)))
-      ;; Revert only buffers containing files, which are not modified;
-      ;; do not try to revert non-file buffers like *Messages*.
-      (when (and filename
-                 (not (buffer-modified-p buf)))
-        (if (file-readable-p filename)
-            ;; If the file exists and is readable, revert the buffer.
-            (with-current-buffer buf
-              (revert-buffer :ignore-auto :noconfirm :preserve-modes))
-          ;; Otherwise, kill the buffer.
-          (let (kill-buffer-query-functions) ; No query done when killing buffer
-            (kill-buffer buf)
-            (message "Killed non-existing/unreadable file buffer: %s" filename))))))
-  (message "Finished reverting buffers containing unmodified files."))
-
-;;;###autoload
-(defun set-mark-and-deactive ()
-  (interactive
-  (push-mark)
-  (deactive-mark) ;; huh?
-  ))
-
-;;;###autoload
-(defun exchange-point-and-mark-and-deactive ()
-  (interactive)
-  (exchange-point-and-mark)
-  (keyboard-quit))
 
 (provide 'some-defuns)

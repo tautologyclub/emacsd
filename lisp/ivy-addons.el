@@ -1,4 +1,5 @@
-(require 'counsel-bookmark)
+(require 'counsel)
+(require 'bookmark)
 
 ;;;###autoload
 (defun counsel-bookmark-current-buffer-file ()
@@ -35,4 +36,5 @@
   (minibuffer-with-setup-hook (lambda () (insert ivy--default))
     (call-interactively #'swiper)))
 
-;
+(provide 'ivy-addons)
+;;; ivy-addons.el ends here

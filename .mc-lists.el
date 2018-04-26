@@ -4,6 +4,7 @@
 (setq mc/cmds-to-run-for-all
       '(
         avy-goto-char-in-line
+        beginning-of-line-or-block
         benjamin/kill-word
         benjamin/set-mark-command
         c-electric-delete-forward
@@ -11,8 +12,11 @@
         elpy-nav-indent-shift-right
         forward-whitespace
         hungry-delete-forward
+        kill-inner
         kill-region
         kill-region-or-line
+        kill-symbol-at-point
+        kill-to-beginning-of-indentation-or-line
         lispy-braces
         lispy-brackets
         lispy-delete

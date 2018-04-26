@@ -1,0 +1,16 @@
+GTAGS
+GRTAGS
+GPATH
+\#*
+*~
+/projectile-bookmarks.eld
+/projectile.cache
+/network-security.data
+/smex-items
+/tramp
+/bookmarks
+/recentf
+/semanticdb
+/private.el
+/tmp/
+/irony/
