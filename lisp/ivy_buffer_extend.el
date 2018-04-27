@@ -273,15 +273,34 @@ or strings.
   )
 
 (defface ivy-switch-buffer-dir-face '((t :inherit 'font-lock-comment-face))
-  "Feebleline timestamp face."
+  "Blah face."
   :group 'ivy)
 
-(custom-set-faces '(ivy-switch-buffer-dir-face ((t (:inherit 'feebleline-dir-face)))))
+(defface ivy-switch-buffer-virtual-face '((t :inherit 'font-lock-comment-face :height 0.9))
+  "Blah face."
+  :group 'ivy)
+
+(defface ivy-virtual-buffer-dir-face '((t :inherit 'font-lock-comment-face
+                                          :italic t
+                                          :family "Noto Sans"
+                                          :height 0.9))
+  "Blah face."
+  :group 'ivy)
+
+(custom-set-faces
+  '(ivy-switch-buffer-dir-face ((t (:inherit 'feebleline-dir-face
+                                                     ;; :italic t
+                                                     :family "Noto Sans"
+                                                     :height 0.9))))
+  '(ivy-virtual-buffer-dir-face ((t (:inherit 'feebleline-dir-face
+                                                     ;; :italic t
+                                                     :family "Noto Sans"
+                                                     :height 0.9)))))
 
 (defvar ivy-buffer-format-faces
   (list
    '(buffer-name . (font-lock-builtin-face . feebleline-dir-face))
-   '(dir . (ivy-switch-buffer-dir-face . nil))
+   '(dir . (ivy-switch-buffer-dir-face . ivy-virtual-buffer-dir-face))
    '(process . (font-lock-variable-name-face . nil))
    '(mode . (font-lock-type-face . nil))
    )
@@ -291,20 +310,18 @@ or strings.
 (setq ivy-buffer-format-faces
   (list
    '(buffer-name . (default . font-lock-comment-face))
-   '(dir . (ivy-switch-buffer-dir-face . feebleline-git-branch-face))
+   '(dir . (ivy-switch-buffer-dir-face . ivy-virtual-buffer-dir-face))
    '(process . (font-lock-variable-name-face . nil))
    '(mode . (font-lock-type-face . nil))
 ))
 
 (defvar ivy-buffer-max-dir-display-length 100
   "Truncate the display length of a directory to this value.")
-
 (defvar ivy-buffer-max-buffer-display-length 40
   "Truncate the display length of buffers to this value.")
-
 (setq ivy-buffer-max-dir-display-length 100)
+(setq ivy-buffer-max-buffer-display-length 50)
 
-(setq ivy-buffer-max-buffer-display-length 40)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Code for formatting entries in minibuffer
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

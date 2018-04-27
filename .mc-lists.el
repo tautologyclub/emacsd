@@ -108,5 +108,6 @@
         hydra-toggle/body
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
+        ivy-alt-done
         lispy-cursor-down
         ))

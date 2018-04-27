@@ -1,4 +1,5 @@
 (require 'expand-region)
+(require 'fancy-narrow)
 
 ;;;###autoload
 (defun open-line-below ()
@@ -501,10 +502,15 @@ Position the cursor at it's beginning, according to the current mode."
 
 ;;;###autoload
 (defun kill-to-beginning-of-indentation-or-line ()
-  "Kill to beginning of indentation, or line if already at beginning of indentation."
+  "Kill to beginning of indentation, or line if already at indentation.
+
+If already at beginning of line, do the same for previous line."
   (interactive)
-  (kill-region (save-excursion (back-to-indentation-or-beginning) (point))
-               (point)))
+  (if (bolp) (backward-delete-char 1)
+    (kill-region
+     (save-excursion
+       (back-to-indentation-or-beginning) (point))
+     (point))))
 
 ;;;###autoload
 (defun increment-number-at-point ()

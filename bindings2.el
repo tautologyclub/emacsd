@@ -3,6 +3,17 @@
 ;;; lolol
 ;;; Code:
 ;;; lolol
+;;; ------------------------
+;;; narrow-to-*
+;;; crux-kill-line-backwards
+;;; crux-indent-defun
+;;; crux-duplicate-and-comment-current-line-or-region
+;;; crux-eval-and-replace
+;;; crux-insert-date
+;;; crux-with-region-or-line
+;;; visual-regex
+;;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
+
 
 (require 'helm)(require 'projectile)
 (global-set-key (kbd "TAB") 'indent-or-complete)
@@ -19,7 +30,7 @@
 (global-set-key      (kbd "<f11>") 'universal-argument)
 (global-set-key      (kbd "<f11>") 'delete-char)
 (define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
-(global-set-key    (kbd "C-<f11>") 'BIND-ME)                                   ;
+(global-set-key    (kbd "C-<f11>") 'switch-to-buffer)
 
 (global-set-key (kbd "M-<f12>") 'delete-char)
 (global-set-key (kbd "M-SPC")   'find-file)
@@ -172,13 +183,15 @@
 (global-set-key     (kbd "H-s")   'isearch-forward)                            ;
 (global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key (kbd "C-c C-s")   'org-store-link)
+(global-set-key   (kbd "C-c sd")  (lambi (let ((helm-full-frame t))
+                                           (helm-systemd))))
 (global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 (define-key isearch-mode-map (kbd "H-s") 'isearch-repeat-forward)
 ;-s == _
 
 (global-set-key     (kbd "C-d")   'delete-char)
-(global-set-key     (kbd "H-d")   'duplicate-current-line-or-region)
+(global-set-key     (kbd "H-d")   'duplicate-current-line-or-region)           ;
 (global-set-key     (kbd "M-d")   'kill-word)
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
 (global-set-key (kbd "M-s M-d")   'delete-window)
@@ -191,8 +204,9 @@
 (global-set-key     (kbd "M-f")   'right-word)
 (global-set-key     (kbd "s-f")   'find-file)
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
+(global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
-(global-set-key   (kbd "C-S-f")   'find-file)                                  ;
+(global-set-key   (kbd "C-s-f")   'find-file)
 (global-set-key   (kbd "H-M-f")   'find-file-at-point)
 (global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
@@ -244,9 +258,10 @@
 ;-k == '
 
 (global-set-key     (kbd "C-l")   'forward-char)
-(global-set-key     (kbd "M-l")   'goto-last-change)
 (global-set-key     (kbd "H-l")   'recenter-top-bottom)
-(global-set-key   (kbd "C-S-l")   'elpy-nav-indent-shift-right)          ;; todo
+(global-set-key     (kbd "M-l")   'goto-last-change)
+(global-set-key   (kbd "H-M-l")   'goto-last-change-reverse)
+(global-set-key   (kbd "C-S-l")   'elpy-nav-indent-shift-right)
 (global-set-key   (kbd "C-x l")   'counsel-locate)
 (global-set-key     (kbd "s-l")    nil)                              ;; reserved
 ;-l == +
@@ -270,6 +285,7 @@
 (global-set-key     (kbd "H-c")   'compile)
 (global-set-key     (kbd "s-c")   'kmacro-call-macro)
 (global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)
+(global-set-key     (kbd "C-c")   'helm-chrome-bookmarks)
 (global-set-key (kbd "M-s M-c")   'compile)
 (global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))      ;-c
 
@@ -291,6 +307,7 @@
 
 (global-set-key     (kbd "C-n")   'benjamin/helm-buffers-list)
 (global-set-key     (kbd "M-n")   'hydra-errgo/next-error)
+(global-set-key   (kbd "H-M-n")   'BIND-ME)                                    ;
 (global-set-key     (kbd "H-n")   'goto-next-line-with-same-indentation)       ;
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                        ;; todo
 (global-set-key       (kbd "ν")   (lambi (insert "&")))

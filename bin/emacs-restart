@@ -1,0 +1,17 @@
+#!/bin/sh
+notification=""
+
+killall emacs && notification+="emacs killed, re" || {
+    notification+="emacs not running, "
+}
+
+notification+="starting emacs... "
+notify-send "$notification"
+notification=""
+
+daemon_out=$(emacs --daemon) && notification+="emacs daemon started" || {
+    notification+="emacs daemon failed!"
+}
+
+notify-send "$notification"
+notify-send "$daemon_out"

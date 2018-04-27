@@ -10,8 +10,8 @@
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
 (add-to-list 'load-path "~/repos/feebleline")
-(add-to-list 'load-path "~/.emacs.d/ample-light-theme")
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(load-file "~/.emacs.d/ample-theme/ample-light-theme.el")
 (package-initialize)
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
@@ -120,6 +120,18 @@
 (use-package    hideshow
   :config       (add-hook 'prog-mode-hook 'hs-minor-mode))
 
+(use-package    fancy-narrow
+  ;; unusable with jit-lock-stealth-fontify it seems
+  :disabled     t
+  :config       (defun fancy-narrow-dwim ()
+                  (interactive)
+                  (if fancy-narrow--beginning
+                      (fancy-widen)
+                    (unless (region-active-p)
+                      (mark-paragraph -1))
+                    (call-interactively 'fancy-narrow-to-region)))
+  :ensure       t)
+
 (use-package    fill-column-indicator
   :ensure       nil
   :custom       (fci-rule-display 80)
@@ -151,8 +163,13 @@
                 (feebleline-show-previous-buffer        nil)
   :config       (feebleline-mode 1))
 
-(use-package ivy-rich   :ensure t)
+(use-package    ivy-rich
+  :disabled     t
+  :ensure       t)
 
+(use-package    bookmark
+  :defer        t
+  :config       (setq bookmark-save-flag 1))
 
 (use-package    ivy
   :ensure       t
@@ -173,6 +190,7 @@
                 (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*helm")
   :config       (ivy-mode 1)
+                (setq ivy-virtual-abbreviate 'name)
                 (ivy-set-display-transformer
                  'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)  )
 
@@ -292,14 +310,23 @@
 (use-package    yasnippet               :ensure t)
 (use-package    git-timemachine         :ensure t)
 (use-package    git-gutter+             :ensure t)
-(use-package    goto-last-change        :ensure t)
+(use-package    goto-last-change
+  :disabled     t
+  :ensure       t)
+(use-package    goto-chg                :ensure t)
 (use-package    function-args           :ensure nil)
 (use-package    zoom-frm)
 (use-package    pdf-custom)
-
+(use-package    lispy                   :ensure t)
+(use-package    helm-systemd
+  :ensure       t
+  :custom       (helm-systemd-list-all t)
+                (helm-systemd-list-not-loaded t))
+(use-package    helm-chrome             :ensure t)
+(use-package    helm-google             :ensure t)
 
 ;;-- Random general stuff ----------------------------------------------------;;
-(setq enable-recursive-minibuffers nil)
+(csetq enable-recursive-minibuffers nil)
 (setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
 
@@ -363,10 +390,11 @@
 (add-to-list 'auto-mode-alist '("\\.conf$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$" . sh-mode))
 
-(defun set-hook-newline-and-indent ()
+(defun prog-mode-setup ()
   "Rebind RET."
+  (set (make-local-variable 'comment-auto-fill-only-comments) t)
   (local-set-key (kbd "RET") 'newline-and-indent))
-(add-hook 'prog-mode-hook 'set-hook-newline-and-indent)
+(add-hook 'prog-mode-hook 'prog-mode-setup)
 
 ;; I dunno if semantic is really worth it, it's kind of shit
 (add-to-list 'semantic-default-submodes
@@ -375,7 +403,6 @@
 (add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
 (semantic-mode 1)
 (global-semantic-idle-scheduler-mode t)
-
 
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
@@ -394,6 +421,7 @@
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/indicate-cursor.el")
 (load "~/.emacs.d/lisp/ivy_buffer_extend.el") ; tmp, see ivy-rich package
+(load "~/.emacs.d/bindings2.el")
 
 ;; This ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
