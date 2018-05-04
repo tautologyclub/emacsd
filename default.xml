@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-    <remote fetch="https://github.com/tautologyclub/feebleline" name="feebleline"/>
+    <remote fetch="https://github.com/tautologyclub" name="tautologyclub"/>
 
   <default sync-j="8"/>
   <project name="feebleline.git"
            path="lisp/feebleline"
-           remote="feebleline"
+           remote="tautologyclub"
            revision="development"/>
 </manifest>
