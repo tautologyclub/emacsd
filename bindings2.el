@@ -15,7 +15,8 @@
 ;;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
 
 
-(require 'helm)(require 'projectile)
+(require 'helm)
+(require 'projectile)
 (global-set-key (kbd "TAB") 'indent-or-complete)
 
 ;; beautiful xcape hacks
@@ -56,10 +57,9 @@
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key        (kbd "Ŀ")    'BIND-ME)
 (define-key key-translation-map (kbd "C-q") (kbd "C-c"))
-(global-set-key  (kbd "C-c C-c")    'compile)
 
 (global-set-key     (kbd "C-w")     'kill-region-or-line)
-(global-set-key     (kbd "H-w")     'kill-region)                      ; adviced
+(global-set-key     (kbd "H-w")     'kill-region)
 (global-set-key     (kbd "s-w")     'BIND-ME)                                  ;
 (global-set-key     (kbd "M-w")     'kill-ring-save)
 (global-set-key   (kbd "M-H-w")     'find-file-other-window)
@@ -73,7 +73,6 @@
 (global-set-key   (kbd "C-S-e")     'end-of-defun)
 (global-set-key   (kbd "H-M-e")     'replace-last-sexp)
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
-;; (global-set-key (kbd "C-c C-e")     )
 (global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
 (global-set-key   (kbd "M-s e")      nil)
 (global-set-key   (kbd "M-s eb")    'eval-buffer)
@@ -140,7 +139,7 @@
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
-(global-set-key (kbd "C-c C-i")   'ivy-resume)
+(global-set-key   (kbd "C-c i")   'ivy-resume)
 (global-set-key       (kbd "ϊ")   (lambi (insert "*")))                      ;-i
 
 (global-set-key     (kbd "C-o")   'smart-open-line-above)
@@ -173,7 +172,6 @@
 (global-set-key     (kbd "s-a")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
 (global-set-key   (kbd "C-M-a")   'elpy-nav-indent-shift-left)
-;; (global-set-key (kbd "C-c C-a")   (lambi (benjamin/notify "Use C-c C-a")))
 (global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
 (global-set-key   (kbd "C-c a")   'org-agenda)
 ;-a == /
@@ -182,7 +180,7 @@
 (global-set-key     (kbd "C-s")   'counsel-grep-or-swiper)
 (global-set-key     (kbd "H-s")   'isearch-forward)                            ;
 (global-set-key   (kbd "C-S-s")   'swiper-all)
-(global-set-key (kbd "C-c C-s")   'org-store-link)
+(global-set-key   (kbd "M-s s")   'org-store-link)
 (global-set-key   (kbd "C-c sd")  (lambi (let ((helm-full-frame t))
                                            (helm-systemd))))
 (global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
@@ -232,8 +230,8 @@
 (global-set-key   (kbd "H-h u")   'counsel-unicode-char)
 (global-set-key   (kbd "H-h b")   'counsel-descbinds)
 (global-set-key   (kbd "C-x h")    help-map)
-(global-set-key   (kbd "C-c h")   'highlight-region)
-(global-set-key   (kbd "C-c H")   'highlight-clear)
+(global-set-key   (kbd "C-c h")   (lambi (hlt-highlight) (deactivate-mark)))
+(global-set-key   (kbd "C-c H")   'hlt-unhighlight-region)
 ;-h == {
 
 (global-set-key     (kbd "C-j")   'next-line)
@@ -251,10 +249,6 @@
 (global-set-key   (kbd "C-S-k")   'move-text-up)
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)
-(global-set-key   (kbd "C-c k")    nil)
-(global-set-key   (kbd "C-c ks")  'set-kblayout-swedish)
-(global-set-key   (kbd "C-c kb")  'set-kblayout-benjamin)
-(global-set-key        (kbd "κ")  'right-word)
 ;-k == '
 
 (global-set-key     (kbd "C-l")   'forward-char)
@@ -285,7 +279,7 @@
 (global-set-key     (kbd "H-c")   'compile)
 (global-set-key     (kbd "s-c")   'kmacro-call-macro)
 (global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)
-(global-set-key     (kbd "C-c")   'helm-chrome-bookmarks)
+(global-set-key   (kbd "C-c cb")   'helm-chrome-bookmarks)
 (global-set-key (kbd "M-s M-c")   'compile)
 (global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))      ;-c
 

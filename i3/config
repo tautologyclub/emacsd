@@ -150,6 +150,7 @@ for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 
+for_window [class="^.*"] border pixel 2
 # switch to workspace with urgent window automatically
 for_window [urgent=latest] focus
 
@@ -210,10 +211,23 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
+# todo: not needed
 bindsym $mod+u mode "kb layout"
 mode "kb layout" {
      bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym s exec /home/benjamin/bin/xcape-restart-swedish; mode "default"
+
+     bindsym Return mode "default"
+     bindsym q mode "default"
+}
+
+bindsym $mod+o mode "shortcuts"
+mode "shortcuts" {
+     bindsym e exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
+     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
+     bindsym o exec /home/benjamin/bin/xcape-restart; mode "default"
+     bindsym s exec /home/benjamin/bin/xcape-restart-swedish; mode "default"
+     bindsym b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-chrome-stable; mode "default"
 
      bindsym Return mode "default"
      bindsym q mode "default"
@@ -224,7 +238,9 @@ mode "kb layout" {
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id feh --bg-scale /home/benjamin/Pictures/samsung_stripes.jpg
+
+# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id pamac-tray
@@ -245,7 +261,7 @@ bar {
 
 	bindsym button4 nop
 	bindsym button5 nop
-	font xft:Noto Sans 10.5
+	font xft:Noto Sans 6
 	strip_workspace_numbers yes
 
 	colors {
@@ -285,82 +301,16 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000 #0c0c0c
 client.background       #2B2C2B
 # client.background       #ff0000
 
-#############################
-### settings for i3-gaps: ###
-#############################
-
-# # Set inner/outer gaps
-# gaps inner 2
-# gaps outer 2
-
-# # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
-# # gaps inner|outer current|all set|plus|minus <px>
-# # gaps inner all set 10
-# # gaps outer all plus 5
-
-# # Smart gaps (gaps used if only more than one container on the workspace)
-# smart_gaps on
-
-# # Smart borders (draw borders around container only if it is not the only container on this workspace)
-# # on|no_gaps (on=always activate and no_gaps=only activate if the gap size to the edge of the screen is 0)
-# smart_borders on
-
-# # Press $mod+Shift+g to enter the gap mode. Choose o or i for modifying outer/inner gaps. Press one of + / - (in-/decrement for current workspace) or 0 (remove gaps for current workspace). If you also press Shift with these keys, the change will be global for all workspaces.
-# set $mode_gaps Gaps: (o) outer, (i) inner
-# set $mode_gaps_outer Outer Gaps: +|-|0 (local), Shift + +|-|0 (global)
-# set $mode_gaps_inner Inner Gaps: +|-|0 (local), Shift + +|-|0 (global)
-# bindsym $mod+Shift+g mode "$mode_gaps"
-
-# mode "$mode_gaps" {
-#         bindsym o      mode "$mode_gaps_outer"
-#         bindsym i      mode "$mode_gaps_inner"
-#         bindsym Return mode "default"
-#         bindsym Escape mode "default"
-# }
-# mode "$mode_gaps_inner" {
-#         bindsym plus  gaps inner current plus 5
-#         bindsym minus gaps inner current minus 5
-#         bindsym 0     gaps inner current set 0
-
-#         bindsym Shift+plus  gaps inner all plus 5
-#         bindsym Shift+minus gaps inner all minus 5
-#         bindsym Shift+0     gaps inner all set 0
-
-#         bindsym Return mode "default"
-#         bindsym Escape mode "default"
-# }
-# mode "$mode_gaps_outer" {
-#         bindsym plus  gaps outer current plus 5
-#         bindsym minus gaps outer current minus 5
-#         bindsym 0     gaps outer current set 0
-
-#         bindsym Shift+plus  gaps outer all plus 5
-#         bindsym Shift+minus gaps outer all minus 5
-#         bindsym Shift+0     gaps outer all set 0
-
-#         bindsym Return mode "default"
-#         bindsym Escape mode "default"
-# }
-
-# Volume mode
-mode "volume" {
-     bindsym Right exec amixer -q set Master 2dB+ unmute
-     bindsym Left  exec amixer -q set Master 2dB- unmute
-     bindsym m     exec amixer -q -D pulse set Master toggle
-
-     bindsym Return        mode "default"
-     bindsym Escape        mode "default"
-     bindsym $mod+Shift+v  mode "default"
-}
-bindsym $mod+Shift+v mode "volume"
-bindsym XF86AudioRaiseVolume exec amixer -q set Master 2dB+ unmute
-bindsym XF86AudioLowerVolume exec amixer -q set Master 2dB- unmute
-bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
-
 # Brightness mode
 mode "brightness" {
      bindsym Right exec xbacklight -inc 20
      bindsym Left exec xbacklight -dec 20
+
+     bindsym Up exec xbacklight -inc 20
+     bindsym Down exec xbacklight -dec 20
+
+     bindsym k exec xbacklight -inc 20; exec /home/benjamin/bin/getbrightness
+     bindsym j exec xbacklight -dec 20; exec /home/benjamin/bin/getbrightness
 
      bindsym Return        mode "default"
      bindsym Escape        mode "default"
@@ -372,9 +322,28 @@ bindsym $mod+Shift+b mode "brightness"
 ## sound-section - DO NOT EDIT if you wish to automatically upgrade Alsa -> Pulseaudio later! ##
 ################################################################################################
 
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
-bindsym $mod+Shift+a exec terminal -e 'alsamixer'
+# exec --no-startup-id volumeicon
+# bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+# bindsym $mod+Shift+a exec terminal -e 'alsamixer'
+mode "volume" {
+     bindsym m     exec amixer -q -D pulse set Master toggle
+
+     bindsym Right exec amixer -q set Master 2dB+ unmute
+     bindsym Left  exec amixer -q set Master 2dB- unmute
+     bindsym Up    exec amixer -q set Master 2dB+ unmute
+     bindsym Down  exec amixer -q set Master 2dB- unmute
+
+     bindsym k exec amixer -q set Master 6dB+ unmute; exec /home/benjamin/bin/getvol
+     bindsym j exec amixer -q set Master 6dB- unmute; exec /home/benjamin/bin/getvol
+
+     bindsym Shift+k exec amixer -q set Master 2dB+ unmute; exec /home/benjamin/bin/getvol
+     bindsym Shift+j exec amixer -q set Master 2dB- unmute; exec /home/benjamin/bin/getvol
+
+     bindsym Return        mode "default"
+     bindsym Escape        mode "default"
+     bindsym $mod+Shift+v  mode "default"
+}
+bindsym $mod+Shift+v mode "volume"
 
 #exec --no-startup-id pulseaudio
 #exec --no-startup-id pa-applet

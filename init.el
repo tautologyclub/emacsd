@@ -28,34 +28,38 @@
   "B lazy yo."
   `(lambda () (interactive),@b))
 
+
+; -- my own stuff (mostly) -----------------------------------------------------
+(use-package    kill-at-point)
+(use-package    ivy-addons)
+(use-package    some-defuns)
+(use-package    some-hydras)
+(use-package    pdf-custom)
+(use-package    zoom-frm)
+
+(use-package    term-addons
+  :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
+
 (use-package    counsel-term
   :custom       (counsel-term-ff-initial-input          "")
                 (counsel-term-history-initial-input     "")
   :load-path    "~/repos/counsel-term")
 
-(use-package    kill-at-point)
-(use-package    ivy-addons
-  :load-path    "~/.emacs.d/lisp")
-(use-package    some-defuns)
-(use-package    some-hydras)
-(use-package    term-addons
-  :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
-; ------------------------------------------------------------------------------
-
-(use-package    gdscript-mode
-  :ensure       nil
-  :load-path    "~/repos/gdscript-mode")
-
-(use-package    ample-light-theme               ;; forked
+(use-package    ample-light-theme  ;; forked
   :ensure       nil
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
 
+
+; -- others stuff --------------------------------------------------------------
+(use-package    gdscript-mode
+  :ensure       nil
+  :load-path    "~/repos/gdscript-mode")
+
 (use-package    undo-tree
   :config       (global-undo-tree-mode 1)
-  :bind         (:map undo-tree-map
-                      ("C-x r" . nil)
-                      ("C-_"   . nil)))
+  :bind         (:map undo-tree-map ("C-x r" . nil)
+                                    ("C-_"   . nil)))
 
 (use-package    multi-term
   :bind
@@ -192,7 +196,7 @@
   :config       (ivy-mode 1)
                 (setq ivy-virtual-abbreviate 'name)
                 (ivy-set-display-transformer
-                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)  )
+                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
 
 (use-package    avy
   :ensure       t
@@ -230,6 +234,9 @@
                 (company-tooltip-limit 10)
   :config       (counsel-mode 1)
                 (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package    edit-server
+  :config       (edit-server-start))
 
 (use-package    autorevert
   :custom       (auto-revert-verbose nil)
@@ -280,13 +287,21 @@
                 (add-hook 'dts-mode-hook 'subword-mode)
                 (add-hook 'dts-mode-hook 'helm-gtags-mode))
 
+(use-package    bitbake
+  :ensure       t
+  :config       (add-to-list 'auto-mode-alist '("\\.bb$" . bitbake-mode))
+                (add-to-list 'auto-mode-alist '("\\.bbappend$" . bitbake-mode))
+                (add-hook 'bitbake-mode-hook 'subword-mode)
+                (add-hook 'bitbake-mode-hook 'helm-gtags-mode))
+
 (use-package    linum
   :ensure       nil
   :custom       (global-linum-mode nil))
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
-  :config       (define-key org-mode-map (kbd "C-o")
+  :config       (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+                (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
   :bind         (:map org-mode-map
@@ -296,6 +311,35 @@
                       ("M-e" . nil)
                       ("C-j" . next-line)
                       ("C-k" . previous-line)))
+
+(use-package    git-gutter+
+  :ensure       t
+  :config       (global-git-gutter+-mode)
+                (fringe-mode 0))
+
+(use-package    goto-last-change
+  :disabled     t  ;; deprecated for goto-chg
+  :ensure       t)
+
+(use-package    goto-chg
+  :ensure       t)
+
+(use-package    helm-systemd
+  :ensure       t
+  :custom       (helm-systemd-list-all t)
+                (helm-systemd-list-not-loaded t))
+(setq python-mode-hook nil)
+(use-package    elpy
+  :ensure       t
+  :config       (remove-hook 'elpy-modules 'elpy-module-flymake)
+                (add-to-list 'elpy-modules 'flycheck-mode)
+                (add-hook 'python-mode-hook
+                          (lambi (setq flycheck-checker 'python-flake8))))
+
+(use-package    jedi
+  :ensure       t
+  :init         (add-hook 'python-mode-hook 'jedi:setup)
+                (add-hook 'python-mode-hook 'jedi:ac-setup))
 
 (use-package    counsel-projectile      :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -309,23 +353,15 @@
 (use-package    move-text               :ensure t)
 (use-package    yasnippet               :ensure t)
 (use-package    git-timemachine         :ensure t)
-(use-package    git-gutter+             :ensure t)
-(use-package    goto-last-change
-  :disabled     t
-  :ensure       t)
 (use-package    goto-chg                :ensure t)
 (use-package    function-args           :ensure nil)
-(use-package    zoom-frm)
-(use-package    pdf-custom)
 (use-package    lispy                   :ensure t)
-(use-package    helm-systemd
-  :ensure       t
-  :custom       (helm-systemd-list-all t)
-                (helm-systemd-list-not-loaded t))
 (use-package    helm-chrome             :ensure t)
 (use-package    helm-google             :ensure t)
+(use-package    highlight               :ensure t)
 
-;;-- Random general stuff ----------------------------------------------------;;
+
+;;-- Random general stuff ------------------------------------------------------
 (csetq enable-recursive-minibuffers nil)
 (setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
@@ -341,10 +377,11 @@
 (setq save-interprogram-paste-before-kill t)
 (setq select-enable-clipboard t)
 (setq kill-buffer-query-functions
-      (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+      (delq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
 (setq-default indent-tabs-mode nil)
 (setq inhibit-splash-screen t)
-(setq initial-major-mode 'org-mode)                             ;; for *Scratch*
+(setq initial-major-mode 'org-mode)
 
 (setq echo-keystrokes 0.1)
 
@@ -362,7 +399,7 @@
 (set-default 'fill-column 80)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-(setenv "GTAGSLIBPATH" "~/.gtags")
+(setenv "GTAGSLIBPATH" "~/.gtags")  ;; todo
 
 (auto-compression-mode t)
 (ansi-color-for-comint-mode-on)
@@ -426,6 +463,9 @@
 ;; This ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
 
+
+(custom-set-faces
+ '(highlight-indentation-face ((t (:inherit 'default)))))
 
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 

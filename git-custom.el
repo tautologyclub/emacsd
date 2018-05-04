@@ -15,9 +15,6 @@
   (kill-new (format "%s" (git-branch-string)))
   )
 
-
-(global-git-gutter+-mode)
-
 (defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
                             :color
                             :hint nil)

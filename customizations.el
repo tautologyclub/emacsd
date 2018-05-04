@@ -138,6 +138,8 @@
  '(helm-mode nil)
  '(helm-mode-line-string "" t)
  '(helm-swoop-split-direction (quote split-window-vertically))
+ '(helm-systemd-list-all t t)
+ '(helm-systemd-list-not-loaded t t)
  '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
  '(highlight-indent-guides-character 58)
  '(highlight-symbol-colors
@@ -199,11 +201,11 @@
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
  '(org-agenda-files nil)
- '(org-hide-leading-stars t)
+ '(org-hide-leading-stars t t)
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (edit-server highlight bitbake markdown-mode+ helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get pdf-tools org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-border-width 0)
@@ -219,6 +221,7 @@
  '(python-indent-guess-indent-offset t)
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
+ '(python-skeleton-autoinsert t)
  '(recentf-max-saved-items 100)
  '(resize-mini-windows t)
  '(safe-local-variable-values
@@ -364,6 +367,7 @@
  '(git-gutter+-added ((t (:background "#d7d8da" :foreground "#00aa00"))))
  '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
  '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
+ '(highlight-indentation-face ((t (:background "#cbc9b1"))))
  '(hl-line ((t (:background "#b7b29a"))))
  '(ivy-switch-buffer-dir-face ((t (:inherit (quote feebleline-dir-face)))))
  '(ivy-switch-buffer-virtual-face ((t (:family "Noto Sans"))))
