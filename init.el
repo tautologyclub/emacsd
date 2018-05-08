@@ -63,8 +63,7 @@
 
 (use-package    multi-term
   :bind
-  (:map
-    term-raw-map
+  (:map term-raw-map
      ("C-g" . (lambda () (interactive) (term-send-raw-string "")))
      ("H-w" . counsel-term-ff)
      ("H-c" . counsel-term-cd)
@@ -78,6 +77,7 @@
      ("C-n" . term-downdir)
      ("C-S-n" . term-updir)
      ("C-s" . swiper)
+     ("C-t" . nil)
      ("C-r" . term-send-backspace)
      ("<f9>". term-send-backspace) ; == [
      ("C-m" . term-send-return)
@@ -99,23 +99,19 @@
      ("C-c C-e" . term-send-esc)
      ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-c C-u" . (lambda () (interactive) (term-send-raw-string "sudo ")))
+     ("C-x C-u" . (lambda () (interactive)
+                    (term-send-raw-string "sudo ")))
      ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("<C-backspace>" . term-send-backward-kill-word)
-     ("<C-return>" . term-cd-input)
-     )
-  (:map
-   term-mode-map
-     ("C-p"   . nil)
-     ("C-x t" . term-toggle-mode-w/warning))
+     ("<C-return>" . term-cd-input))
+  (:map term-mode-map
+        ("C-p"   . nil)
+        ("C-x t" . term-toggle-mode-w/warning))
   :ensure       t
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
                 (multi-term-switch-after-close nil)
                 (term-buffer-maximum-size 16384))
-
-(use-package    ace-jump-buffer
-  :ensure       t) ;; meh
 
 (use-package    ace-window
   :disabled
@@ -235,6 +231,7 @@
   :config       (counsel-mode 1)
                 (add-hook 'after-init-hook 'global-company-mode))
 
+;; edit Chrome boxes w/emacs
 (use-package    edit-server
   :config       (edit-server-start))
 
@@ -272,14 +269,38 @@
   :custom       (helm-gtags-auto-update         t)
                 (helm-gtags-use-input-at-cursor t)
   :config       (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+                (setenv "GTAGSLIBPATH" "~/.gtags") ;; todo bad
   :hook         (prog-mode-hook . helm-gtags-mode))
 
 (use-package    flycheck
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.2)
-                (flycheck-pos-tip-timeout 20)
   :config       (add-hook 'after-init-hook 'global-flycheck-mode))
+
+(use-package    flycheck-pos-tip
+  :ensure       t
+  :after        (flycheck)
+  :custom       (flycheck-pos-tip-timeout 20)
+  :config       (with-eval-after-load 'flycheck
+                  (flycheck-pos-tip-mode)))
+
+(use-package    irony
+  :ensure       t
+  ;; not sure why this is here:
+  :config       (defun my-irony-mode-hook ()
+                  (define-key irony-mode-map [remap completion-at-point]
+                    'irony-completion-at-point-async)
+                  (define-key irony-mode-map [remap complete-symbol]
+                    'irony-completion-at-point-async)
+                  (irony-cdb-autosetup-compile-options))
+                (add-hook 'irony-mode-hook 'my-irony-mode-hook))
+
+(use-package    flycheck-irony
+  :ensure       t
+  :after        (flycheck irony)
+  :config       (eval-after-load 'flycheck
+                  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 
 (use-package    dts-mode
   :ensure       nil
@@ -300,7 +321,8 @@
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
-  :config       (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+  :config       (add-hook 'org-mode-hook        'turn-on-auto-fill)
+                (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
@@ -328,11 +350,32 @@
   :ensure       t
   :custom       (helm-systemd-list-all t)
                 (helm-systemd-list-not-loaded t))
-(setq python-mode-hook nil)
+
+(use-package    anaconda
+  :ensure       t
+  :config       (add-hook 'python-mode-hook 'anaconda-mode)
+                (with-eval-after-load "anaconda-mode"
+                  (define-key anaconda-mode-map (kbd "M-r") nil)))
+
+(use-package    helm-pydoc
+  :disabled     t   ;; bugs out outside venv
+  :ensure       t
+  :config       (with-eval-after-load "python-mode"
+                  (define-key python-mode-map (kbd "C-c d") 'helm-pydoc)))
+
 (use-package    elpy
   :ensure       t
+  :custom       (elpy-rpc-backend "rope" t)
+                (python-indent-guess-indent-offset t)
+                (python-shell-interpreter "ipython")
+                (python-shell-interpreter-args "-i --simple-prompt")
+                (python-indent-guess-indent-offset-verbose nil)
+                (python-skeleton-autoinsert t)
   :config       (remove-hook 'elpy-modules 'elpy-module-flymake)
                 (add-to-list 'elpy-modules 'flycheck-mode)
+                (semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
+                (semantic-add-system-include "/usr/lib/python2.7" 'python-mode)
+                (elpy-enable)
                 (add-hook 'python-mode-hook
                           (lambi (setq flycheck-checker 'python-flake8))))
 
@@ -341,6 +384,24 @@
   :init         (add-hook 'python-mode-hook 'jedi:setup)
                 (add-hook 'python-mode-hook 'jedi:ac-setup))
 
+(use-package    frame
+  :config       (window-divider-mode t)
+  :custom       (window-divider-default-bottom-width 1)
+                (window-divider-default-places 'bottom-only))
+
+(use-package    yasnippet
+  :ensure       t
+  :config       (yas-global-mode 1))
+
+(use-package    semantic
+  :config       (semantic-mode 1)
+                (global-semantic-idle-scheduler-mode t)
+                (add-to-list 'semantic-default-submodes
+                             'global-semantic-idle-scheduler-mode)
+                (add-to-list 'semantic-default-submodes
+                             'global-semanticdb-minor-mode))
+
+(use-package    py-autopep8             :ensure t)
 (use-package    counsel-projectile      :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
 (use-package    hydra                   :ensure t)
@@ -351,8 +412,8 @@
 (use-package    hungry-delete           :ensure t)
 (use-package    iedit                   :ensure t)
 (use-package    move-text               :ensure t)
-(use-package    yasnippet               :ensure t)
 (use-package    git-timemachine         :ensure t)
+(use-package    ace-jump-buffer         :ensure t)      ;; meh
 (use-package    goto-chg                :ensure t)
 (use-package    function-args           :ensure nil)
 (use-package    lispy                   :ensure t)
@@ -362,66 +423,54 @@
 
 
 ;;-- Random general stuff ------------------------------------------------------
+(menu-bar-mode      -1)
+(toggle-scroll-bar  -1)
+
 (csetq enable-recursive-minibuffers nil)
-(setq mouse-autoselect-window t)
-(setq shift-select-mode nil)
+(csetq tab-width 4)
+(csetq tab-always-indent t)
+(csetq indent-tabs-mode nil)
 
-(setq scroll-margin 2)
-(setq scroll-preserve-screen-position nil)
-(setq scroll-error-top-bottom t)
-(put 'scroll-left 'disabled nil)
+(setq mouse-autoselect-window           t
+      shift-select-mode                 nil
+      echo-keystrokes                   0.1
+      scroll-margin                     2
+      scroll-preserve-screen-position   nil
+      scroll-error-top-bottom           t
+      fill-column                       80
+      sentence-end-double-space         nil
+      inhibit-splash-screen             t
+      initial-major-mode                'org-mode
+      gc-cons-threshold                 20000000)
 
-(setq tab-width 4)
-(setq tab-always-indent t)
+(setq backup-by-copying                 t
+      delete-old-versions               t
+      kept-new-versions                 10
+      kept-old-versions                 5
+      delete-by-moving-to-trash         t
+      version-control                   t
+      auto-save-file-name-transforms    `((".*" ,temporary-file-directory t))
+      backup-directory-alist            '(("."  . "~/.saves")))
 
-(setq save-interprogram-paste-before-kill t)
-(setq select-enable-clipboard t)
+(setq save-interprogram-paste-before-kill   t
+      select-enable-clipboard               t)
+
 (setq kill-buffer-query-functions
-      (delq 'process-kill-buffer-query-function
-            kill-buffer-query-functions))
-(setq-default indent-tabs-mode nil)
-(setq inhibit-splash-screen t)
-(setq initial-major-mode 'org-mode)
+      (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+(fset 'yes-or-no-p  'y-or-n-p)
 
-(setq echo-keystrokes 0.1)
-
-(setq backup-by-copying         t
-      backup-directory-alist    '(("." . "~/.saves"))
-      delete-old-versions       t
-      kept-new-versions         10
-      kept-old-versions         5
-      delete-by-moving-to-trash t
-      version-control           t)
-(setq auto-save-file-name-transforms `((".*" ,temporary-file-directory t)))
-
-(setq gc-cons-threshold 20000000)
-(set-default 'sentence-end-double-space nil)
-(set-default 'fill-column 80)
-
-(fset 'yes-or-no-p 'y-or-n-p)
-(setenv "GTAGSLIBPATH" "~/.gtags")  ;; todo
-
+(delete-selection-mode 1)
+(electric-pair-mode 1)
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
 (auto-compression-mode t)
 (ansi-color-for-comint-mode-on)
 
-(window-divider-mode t)
-(csetq window-divider-default-bottom-width 1)
-(csetq window-divider-default-places (quote bottom-only))
-
-(yas-global-mode 1)
-(delete-selection-mode t)
-(menu-bar-mode -1)
-(toggle-scroll-bar -1)
-
-(electric-pair-mode)
+(put 'scroll-left 'disabled nil)
 
 (add-hook 'before-save-hook     'delete-trailing-whitespace)
 (add-hook 'find-file-hook       'find-file-root-header-warning)
-(add-hook 'org-mode-hook        'turn-on-auto-fill)
 (add-hook 'occur-hook           'occur-rename-buffer)
-
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$" . conf-mode))
@@ -433,14 +482,6 @@
   (local-set-key (kbd "RET") 'newline-and-indent))
 (add-hook 'prog-mode-hook 'prog-mode-setup)
 
-;; I dunno if semantic is really worth it, it's kind of shit
-(add-to-list 'semantic-default-submodes
-             'global-semantic-idle-local-symbol-highlight-mode)
-(add-to-list 'semantic-default-submodes 'global-semantic-idle-scheduler-mode)
-(add-to-list 'semantic-default-submodes 'global-semanticdb-minor-mode)
-(semantic-mode 1)
-(global-semantic-idle-scheduler-mode t)
-
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
 (find-file "~/.emacs.d/init.el")
@@ -449,9 +490,7 @@
 (load "~/.emacs.d/ivy-custom.el")
 (load "~/.emacs.d/face-by-mode.el")
 (load "~/.emacs.d/helm-custom.el")
-(load "~/.emacs.d/python-custom.el")
 (load "~/.emacs.d/projectile-custom.el")
-(load "~/.emacs.d/flycheck-custom.el")
 (load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/gdb-custom.el")
 (load "~/.emacs.d/ora-ediff.el")
@@ -460,12 +499,10 @@
 (load "~/.emacs.d/lisp/ivy_buffer_extend.el") ; tmp, see ivy-rich package
 (load "~/.emacs.d/bindings2.el")
 
-;; This ensures bindings gets loaded last
+;; This hack ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
 
-
-(custom-set-faces
- '(highlight-indentation-face ((t (:inherit 'default)))))
+(custom-set-faces '(highlight-indentation-face ((t (:inherit 'default)))))
 
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 

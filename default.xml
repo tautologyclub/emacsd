@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
-    <remote fetch="https://github.com/tautologyclub" name="tautologyclub"/>
+  <remote name="tautologyclub"
+          fetch="https://github.com/tautologyclub"/>
 
   <default sync-j="8"/>
   <project name="feebleline.git"

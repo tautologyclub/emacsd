@@ -89,7 +89,7 @@
    `ample-light ;; you must use the same theme name here...
    `(default ((t (:foreground ,"black"
                   :background ,ample/bg
-                  :height 90
+                  :height 105
                   :family "Inconsolata"
                   ))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))
@@ -122,7 +122,7 @@
    `(popup-tip-face ((t (:background ,ample/region-dark :foreground ,ample/dark-tan))))
    `(header-line ((t (:background "#b2b09b" :foreground ,ample/bg))))
 
-   `(button  ((t (:foreground ,ample/lighter-blue :background nil :underline t))))
+   `(button  ((t (:foreground "saddle brown" :background nil :underline t))))
 
    ;; search
    `(isearch		((t (:background ,ample/blue :foreground ,ample/bg))))
@@ -497,7 +497,7 @@
    `(org-level-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.25))))
    `(org-level-2 ((t (:foreground "#006620" :bold t :background nil :height 1.10))))
    `(org-level-3 ((t (:foreground "#990066" :bold t :background nil))))
-   `(org-level-4 ((t (:foreground "#007777" :bold t :background nil))))
+   `(org-level-4 ((t (:foreground "saddle brown" :bold t :background nil))))
    `(org-level-5 ((t (:foreground nil :background nil))))
    `(org-level-6 ((t (:foreground nil :background nil))))
    `(org-level-7 ((t (:foreground nil :background nil))))

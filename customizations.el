@@ -245,7 +245,7 @@
  '(sml/active-foreground-color "#ecf0f1")
  '(sml/inactive-background-color "#dfe4ea")
  '(sml/inactive-foreground-color "#34495e")
- '(tab-width 8)
+ '(tab-width 4)
  '(term-bind-key-alist
    (quote
     (("C-g" lambda nil

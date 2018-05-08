@@ -21,9 +21,10 @@
   "
 Git (gutter and other stuff):
   _j_: next hunk        _s_tage hunk     _f_ind-file     _q_uit
-  _k_: previous hunk    _r_evert hunk    _b_lame         _Q_uit hard
-  _h_: first hunk    vc-_e_diff          _S_tage buffer  _t_ime-machine
-  _l_: last hunk  setStart_R_evision  _p_opup hunk  _cg_rep   _cl_og
+  _k_: previous hunk    _r_evert hunk    _b_lame
+  _h_: first hunk       _e_: ediff       _S_tage buffer  _t_ime-machine
+  _l_: last hunk        _p_opup hunk    _cg_rep   _cl_og
+  ^^                    _H_: region-history
 "
   ("f" magit-find-file :color blue)
   ("b" magit-blame :color blue)
@@ -41,18 +42,12 @@ Git (gutter and other stuff):
   ("d" magit-diff)
   ("s" git-gutter+-stage-hunks)
   ("S" git-gutter+-stage-whole-buffer :color blue)
+  ("H" vc-region-history :color blue)
   ("r" git-gutter+-revert-hunks)
   ("p" git-gutter+-popup-hunk)
   ("SPC" git-gutter+-show-hunk-inline-at-point)
-  ("R" git-gutter+-set-start-revision)
   ("q" nil :color blue)
-  ("Q" (progn (git-gutter+-mode -1)
-              ;; git-gutter+-fringe doesn't seem to
-              ;; clear the markup right away
-              (sit-for 0.1)
-              (git-gutter+-clear))
-       :color blue))
-
+)
 
 ;; --- magit ------------------------------------------------------------
 (require 'magit)
