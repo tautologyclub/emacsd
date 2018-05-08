@@ -9,8 +9,8 @@
 ;; General-purpose formatting functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defun ivy--cands-get-details (format_spec cand_info_fns entries)
-  "Extract symbols from FORMAT_SPEC, and evaluate the
-corresponding function found in CAND_INFO_FNS for all ENTRIES.
+  "Extract symbols from FORMAT_SPEC, and evaluate the corresponding function found in CAND_INFO_FNS for all ENTRIES.
+
 For example:
 (setq my_format_spec '(make-upper-case
 		       \" string doesn't count as key \"
@@ -243,8 +243,8 @@ or strings.
 
 (setq ivy-buffer-format
   '(
-    process " " "<col>"
     buffer-name   "<col>"
+    ;; process " " "<col>"
     dir
     )
   )

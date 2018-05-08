@@ -393,8 +393,8 @@
 ;; (fa-config-default) ;; stop stealing my bindings ;; todo obv
 
 ;; Random vanilla settings
-(setq enable-recursive-minibuffers t)
-;; (setq enable-recursive-minibuffers nil)
+;; (setq enable-recursive-minibuffers t)
+(csetq enable-recursive-minibuffers nil)
 (setq mouse-autoselect-window t)
 (setq shift-select-mode nil)
 (setq scroll-margin 2)
