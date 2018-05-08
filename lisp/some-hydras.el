@@ -1,7 +1,33 @@
-
-
-;; I heart abo-abo
 (require 'hideshow)
+(require 'vimish-fold)
+
+(defhydra hydra-flycheck
+  (:pre (progn (setq hydra-lv t) (flycheck-list-errors)
+               (setq truncate-lines -1)
+               (when (flycheck-pos-tip-mode)
+                 (call-interactively 'flycheck-pos-tip-mode)))
+        :post (progn (setq hydra-lv nil)
+                     (quit-windows-on "*Flycheck errors*")
+                     (flycheck-pos-tip-mode t))
+   :hint nil)
+  "Errors"
+  ("f"  flycheck-error-list-set-filter                            "Filter")
+  ("j"  next-error                                       "Next")
+  ("k"  previous-error                                   "Previous")
+  ("<down>"  flycheck-next-error)
+  ("<up>"  flycheck-previous-error)
+  ("h" flycheck-first-error                                      "First")
+  ("l"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
+  ("RET" nil)
+  ("q"  nil                                                       "Quit"))
+
+(defun benjamin/flycheck-list-errors ()
+  "List errors in a separate window, decrease the size."
+  (interactive)
+  (flycheck-list-errors)
+  (hydra-flycheck/body))
+
+
 (defhydra hydra-vimish-fold (:color blue
                              :columns 3)
   "folder"
@@ -103,21 +129,25 @@ T - tag prefix
                         :post (progn
                                 (setq max-mini-window-height prev-max-mini-window-height)))
   "
-  _a_ abbrev-mode:       %`abbrev-mode
-  _d_ debug-on-error:    %`debug-on-error
-  _e_ feebleline-mode:   %`feebleline-mode
-  _f_ auto-fill-mode:    %`auto-fill-function
-  _h_ hl-line-mode       %`hl-line-mode
-  _t_ truncate-lines:    %`truncate-lines
-  _y_ flycheck-mode      %`flycheck-mode
-  _w_ whitespace-mode:   %`whitespace-mode
-  _l_ linum-mode:        %`linum-mode
-  _i_ fci:               %`fci-mode
-  _o_ overwrite-mode     %`overwrite-mode
-  _r_ recursive-minibuf  %`enable-recursive-minibuffers
-  _R_ read-only-mode     %`buffer-read-only
+  _a_ abbrev:           %`abbrev-mode
+  _s_ semantic:         %`semantic-mode
+  _T_    stickyfunc:    %`semantic-stickyfunc-mode
+  _e_ feebleline:       %`feebleline-mode
+  _f_ auto-fill:        %`auto-fill-function
+  _h_ hl-line:          %`hl-line-mode
+  _d_ debug-on-error:   %`debug-on-error
+  _t_ truncate-lines:   %`truncate-lines
+  _y_ flycheck:         %`flycheck-mode
+  _w_ whitespace:       %`whitespace-mode
+  _l_ linum:            %`linum-mode
+  _i_ fci:              %`fci-mode
+  _o_ overwrite:        %`overwrite-mode
+  _r_ rec-minibuf       %`enable-recursive-minibuffers
+  _R_ read-only         %`buffer-read-only
 "
   ("a" abbrev-mode)
+  ("s" semantic-mode)
+  ("T" semantic-stickyfunc-mode)
   ("d" toggle-debug-on-error)
   ("f" auto-fill-mode)
   ("h" (setq highlight-nonselected-windows (not highlight-nonselected-windows)))
@@ -164,19 +194,5 @@ T - tag prefix
 
 (define-key helm-gtags-mode-map (kbd "C-t") nil)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;;
+(provide 'some-hydras)
+;;; some-hydras.el ends here

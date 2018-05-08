@@ -9,6 +9,20 @@
         benjamin/jump-char-fwd
         benjamin/kill-word
         c-electric-delete-forward
+        avy-goto-char-in-line
+        beginning-of-line-or-block
+        benjamin/kill-word
+        benjamin/set-mark-command
+        c-electric-delete-forward
+        elpy-nav-indent-shift-left
+        elpy-nav-indent-shift-right
+        forward-whitespace
+        hungry-delete-forward
+        kill-inner
+        kill-region
+        kill-region-or-line
+        kill-symbol-at-point
+        kill-to-beginning-of-indentation-or-line
         lispy-braces
         lispy-brackets
         lispy-delete
@@ -88,6 +102,7 @@
         special-lispy-x
         special-pop-tag-mark
         tab-to-tab-stop
+        xah-beginning-of-line-or-block
         xah-end-of-line-or-block
         ))
 
@@ -99,4 +114,12 @@
         ivy-alt-done
         lispy-cursor-down
         org-cycle
+        counsel-grep-or-swiper
+        eval-buffer
+        handle-switch-frame
+        hydra-toggle/body
+        hydra-toggle/overwrite-mode
+        iedit-switch-to-mc-mode
+        ivy-alt-done
+        lispy-cursor-down
         ))

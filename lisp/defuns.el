@@ -1,39 +1,6 @@
+(require 'expand-region)
 
-(defun kill-thing-at-point (thing)
-  (let ((bounds (bounds-of-thing-at-point thing)))
-    bounds (kill-region (car bounds) (cdr bounds))))
-
-(defun kill-word-at-point ()
-  (interactive)
-  (kill-thing-at-point 'word))
-
-(defun kill-symbol-at-point ()
-  (interactive)
-  (kill-thing-at-point 'symbol))
-
-(defun kill-sexp-at-point ()
-  (interactive)
-  (kill-thing-at-point 'sexp))
-
-(defun kill-list-at-point ()
-  (interactive)
-  (kill-thing-at-point 'list))
-
-(defun kill-string-at-point ()
-  (interactive)
-  (kill-thing-at-point 'string))
-
-(defun kill-inner ()
-  (interactive)
-  (if (er--point-inside-string-p)
-      (save-excursion (er/mark-inside-quotes)
-                      (call-interactively 'kill-region))
-  (let ((bounds (bounds-of-thing-at-point 'list))) bounds
-       (let ((beg (car bounds)))
-         (kill-region (+ 1 beg) (- (cdr bounds) 1))
-         (if (equal (point) beg)
-             (forward-char 1))))))
-
+;;;###autoload
 (defun crux-eval-and-replace ()
   "Replace the preceding sexp with its value."
   (interactive)
@@ -41,6 +8,7 @@
     (backward-kill-sexp)
     (insert (format "%S" value))))
 
+;;;###autoload
 (defun ediff-current-buffer (buffer-A buffer-B &optional startup-hooks job-name)
   "Run Ediff on a pair of buffers, BUFFER-A and BUFFER-B."
   (interactive
@@ -56,7 +24,7 @@
   (or job-name (setq job-name 'ediff-buffers))
   (ediff-buffers-internal buffer-A buffer-B nil startup-hooks job-name))
 
-
+;;;###autoload
 (defun delete-window-or-frame (&optional window frame force)
   "Delete WINDOW, or FRAME if only window.  FORCE feed me to the ducks."
   (interactive)
@@ -64,19 +32,21 @@
       (delete-frame frame force)
     (delete-window window)))
 
+;;;###autoload
 (defun murder-buffer-with-window ()
   "Kill buffer, kill window, don't prompt, just do it.  Unless buffer modified."
   (interactive)
   (volatile-kill-buffer)
   (delete-window-or-frame))
 
+;;;###autoload
 (defun kill-region-or-line ()
   (interactive)
   (if (region-active-p)
       (kill-region (region-beginning) (region-end))
     (kill-line)))
 
-(require 'expand-region)
+;;;###autoload
 (defun benjamin/mark-inside-pairs ()
   "Go fuck yourself."
   (interactive)
@@ -84,12 +54,14 @@
       (er/mark-inside-pairs)
     (er/mark-outside-pairs)))
 
+;;;###autoload
 (defun replace-last-sexp ()
   (interactive)
   (let ((value (eval (preceding-sexp))))
     (kill-sexp -1)
     (insert (format "%S" value))))
 
+;;;###autoload
 (defun clear-text-properties-from-buffer ()
   "Remove all text properties from the buffer."
   (interactive)
@@ -97,6 +69,7 @@
     (set-text-properties (point-min) (point-max) nil))
   )
 
+;;;###autoload
 (defun open-line-indent (n)
   "Insert a new line and leave point before it.
 
@@ -106,6 +79,7 @@ With arg N insert N newlines."
     (newline n)
     (indent-according-to-mode)))
 
+;;;###autoload
 (defun open-next-line (arg)
   "Move to the next line and then opens a line.  ARG times or once.
 
@@ -114,11 +88,13 @@ With arg N insert N newlines."
   (end-of-line)
   (newline-and-indent))
 
+;;;###autoload
 (defun copy-keep-highlight (beg end)
   (interactive "r")
   (prog1 (kill-ring-save beg end)
     (setq deactivate-mark nil)))
 
+;;;###autoload
 (defun benjamin/pop-to-mark-command ()
   "Pop mark ring, unless empty, pop global mark ring if so."
   (interactive)
@@ -129,6 +105,7 @@ With arg N insert N newlines."
     (goto-char (mark t))
     (pop-mark)))
 
+;;;###autoload
 (defun benjamin/find-file-other-frame ()
   "Open file in new frame, but do it optimally."
   (interactive)
@@ -136,6 +113,7 @@ With arg N insert N newlines."
   (call-interactively 'find-file-other-frame)
   )
 
+;;;###autoload
 (defun benjamin/set-mark-command ()
   (interactive)
   (if (region-active-p) ()
@@ -143,6 +121,7 @@ With arg N insert N newlines."
   (exchange-point-and-mark)
   )
 
+;;;###autoload
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
@@ -150,6 +129,7 @@ With arg N insert N newlines."
      (list (line-beginning-position)
            (line-beginning-position 2)))))
 
+;;;###autoload
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
@@ -159,11 +139,13 @@ With arg N insert N newlines."
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)))
 
+;;;###autoload
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
                                                       activate)
   "Don't deactivate mark when commenting."
       (setq deactivate-mark nil))
 
+;;;###autoload
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive
@@ -172,11 +154,13 @@ With arg N insert N newlines."
      (message "Copied line")
      (list (line-beginning-position) (line-beginning-position 2)))))
 
+;;;###autoload
 (defun back-to-indentation-or-beginning ()
   (interactive)
   (if (= (point) (progn (back-to-indentation) (point)))
       (beginning-of-line)))
 
+;;;###autoload
 (defun backward-kill-char-or-word ()
   "Not kill entire word if newline or backspace."
   (interactive)
@@ -188,6 +172,7 @@ With arg N insert N newlines."
    (t
     (backward-delete-char 1))))
 
+;;;###autoload
 (defun upcase-word-toggle ()
   (interactive)
   (let ((bounds (bounds-of-thing-at-point 'symbol))
@@ -215,6 +200,7 @@ With arg N insert N newlines."
                       'upcase-region)
                     beg end)))))
 
+;;;###autoload
 (defun kill-line-save (&optional arg)
   "Copy to the kill ring from point to the end of the current line.
     With a prefix argument, copy that many lines from point. Negative
@@ -229,6 +215,7 @@ With arg N insert N newlines."
             (point))))
   (message "Kill-saved line"))
 
+;;;###autoload
 (defun yank-after-cursor ()
   (interactive)
   (let ((current-prefix-arg '(4))) ;; emulate C-u
@@ -236,6 +223,7 @@ With arg N insert N newlines."
     )
   )
 
+;;;###autoload
 (defun rename-current-buffer-file ()
   "Renames current buffer and file it is visiting."
   (interactive)
@@ -253,17 +241,20 @@ With arg N insert N newlines."
           (message "File '%s' successfully renamed to '%s'"
                    name (file-name-nondirectory new-name)))))))
 
+;;;###autoload
 (defun kill-to-beginning-of-line ()
   (interactive)
   (kill-line 0)
   (indent-according-to-mode))
 
+;;;###autoload
 (defun sudo-edit (&optional arg)
   (interactive "p")
   (if (or arg (not buffer-file-name))
       (find-file (concat "/sudo:root@localhost:" (ido-read-file-name "File: ")))
     (find-alternate-file (concat "/sudo:root@localhost:" buffer-file-name))))
 
+;;;###autoload
 (defun copy-current-file-path ()
   "Add current file path to kill ring. Limits the filename to project root if possible."
   (interactive)
@@ -272,14 +263,16 @@ With arg N insert N newlines."
                   (s-chop-prefix (eproject-root) filename)
                 filename))))
 
+;;;###autoload
 (defun sudo-edit-current ()
   (interactive)
       (find-file (concat "/sudo:root@localhost:" buffer-file-name)))
 
+;;;###autoload
 (defun char-upcasep (letter)
   (eq letter (upcase letter)))
 
-;; todo!!
+;;;###autoload
 (defun capitalize-word-toggle ()
   (interactive)
   (let ((start
@@ -300,19 +293,17 @@ With arg N insert N newlines."
 (defun window-half-height ()
   (max 1 (/ (1- (window-height (selected-window))) 2)))
 
+;;;###autoload
 (defun scroll-up-half ()
   (interactive)
      (scroll-up (window-half-height)))
 
+;;;###autoload
 (defun scroll-down-half ()
   (interactive)
   (scroll-down (window-half-height)))
 
-(defun terminal-with-focus-below () (interactive)
-       (split-window-below)
-       (windmove-down)
-       (multi-term))
-
+;;;###autoload
 (defun kill-region-or-backward-word ()
   "Kill selected region if region is active. Otherwise kill a backward word."
   (interactive)
@@ -320,12 +311,14 @@ With arg N insert N newlines."
 	  (kill-region (region-beginning) (region-end))
 	(backward-kill-word 1)))
 
+;;;###autoload
 (defun push-mark-no-activate ()
   "Pushes `point' to `mark-ring' and does not activate the region
    Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
   (interactive)
   (push-mark (point) t nil)
   (message "Pushed mark to ring"))
+
 
 (defvar benjamin/last-char-jumped-to nil)
 (defun benjamin/jump-char-fwd (arg)
@@ -351,6 +344,7 @@ With arg N insert N newlines."
     )
   )
 
+;;;###autoload
 (defun zap-up-to-char (arg char)
   "Kill up to, but not including ARGth occurrence of CHAR.
 Case is ignored if `case-fold-search' is non-nil in the current buffer.
@@ -366,6 +360,7 @@ Ignores CHAR at point."
 		     (backward-char direction))
 		   (point)))))
 
+;;;###autoload
 (defun forward-to-word (arg)
   "Move forward until encountering the beginning of a word.
 With argument, do this that many times."
@@ -375,6 +370,7 @@ With argument, do this that many times."
       (goto-char
        (if (> arg 0) (point-max) (point-min)))))
 
+;;;###autoload
 (defun forward-word-or-eol ()
   (interactive)
   (if (looking-at "\\W+\n")
@@ -382,6 +378,7 @@ With argument, do this that many times."
         (goto-char (match-beginning 0)))
     (forward-word)))
 
+;;;###autoload
 (defun occur-dwim ()
   "Call `occur' with a sane default."
   (interactive)
@@ -395,45 +392,6 @@ With argument, do this that many times."
         regexp-history)
   (call-interactively 'occur))
 
-;;;###autoload
-(defun blq/brackets ()
-  (interactive)
-  (cond ((eq major-mode 'term-mode)
-         (term-send-raw-string "[]")
-         (term-send-raw-string ""))
-        ((region-active-p)
-         (lispy--surround-region "[" "]"))
-        (
-         (self-insert-command 1)
-         (insert "]")
-         (backward-char))))
-
-(defun blq/parens ()
-  (interactive)
-  (cond ((eq major-mode 'term-mode)
-         (term-send-raw-string "()")
-         (term-send-raw-string ""))
-        ((region-active-p)
-         (let ((beg (region-beginning))
-               (end (region-end)))
-           (goto-char end)
-           (insert ")")
-           (goto-char beg)
-           (insert "(")
-           (deactivate-mark)))
-        ((looking-back "\\\\")
-         (insert "(\\)")
-         (backward-char 2))
-        (t
-         (if (or (looking-back "\\(if\\)\\|\\(for\\)\\|\\(switch\\)\\|\\(while\\)")
-                 (eq major-mode 'sml-mode))
-             (unless (looking-back " \\|\\[\\|(")
-               (insert " ")))
-         (self-insert-command 1)
-         (insert "")
-         (backward-char))))
-
-;----- source: oremacs ---------------------------------------------------------
 
 ;;;###autoload
 (defun ora-parens ()
@@ -484,6 +442,8 @@ With argument, do this that many times."
     (backward-char)))
 
 (require 'hungry-delete)
+
+;;;###autoload
 (defun benjamin/kill-word (arg)
   "If point is at word, kill characters forward until encountering the end of a word.
 If point not at word, kill until a non-blank char is found.
@@ -493,6 +453,7 @@ With argument ARG, do this that many times."
       (kill-word arg)
     (hungry-delete-forward arg)))
 
+;;;###autoload
 (defun benjamin/backward-kill-word (arg)
   "Like kill-word but backwards.  Do it ARG many times blabla."
   (interactive "p")
@@ -500,6 +461,7 @@ With argument ARG, do this that many times."
       (backward-kill-word arg)
     (hungry-delete-backward arg)))
 
+;;;###autoload
 (defun smart-open-line-above ()
   "Insert an empty line above the current line.
 Position the cursor at it's beginning, according to the current mode."
@@ -509,12 +471,14 @@ Position the cursor at it's beginning, according to the current mode."
   (forward-line -1)
   (indent-according-to-mode))
 
+;;;###autoload
 (defun kill-to-beginning-of-indentation-or-line ()
   "Kill to beginning of indentation, or line if already at beginning of indentation."
   (interactive)
   (kill-region (save-excursion (back-to-indentation-or-beginning) (point))
                (point)))
 
+;;;###autoload
 (defun increment-number-at-point ()
   (interactive)
   (skip-chars-backward "0-9")
@@ -522,6 +486,7 @@ Position the cursor at it's beginning, according to the current mode."
       (error "No number at point"))
   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
 
+;;;###autoload
 (defun my-increment-number-decimal (&optional arg)
   "Increment the number forward from point by 'arg'."
   (interactive "p*")
@@ -538,10 +503,12 @@ Position the cursor at it's beginning, according to the current mode."
           (replace-match (format (concat "%0" (int-to-string field-width) "d")
                                  answer)))))))
 
+;;;###autoload
 (defun my-decrement-number-decimal (&optional arg)
   (interactive "p*")
   (my-increment-number-decimal (if arg (- arg) -1)))
 
+;;;###autoload
 (defun create-scratch-buffer nil
   "create a new scratch buffer to work in. (could be *scratch* - *scratchX*)"
   (interactive)
@@ -557,9 +524,12 @@ Position the cursor at it's beginning, according to the current mode."
     (emacs-lisp-mode)
     ))
 
+;;;###autoload
 (defface find-file-root-header-face
   '((t (:foreground "white" :background "red3")))
   "*Face use to display header-lines for files opened as root.")
+
+;;;###autoload
 (defun find-file-root-header-warning ()
   "*Display a warning in header line of the current buffer.
 This function is suitable to add to `find-file-hook'."
@@ -573,10 +543,7 @@ This function is suitable to add to `find-file-hook'."
       (setq header-line-format
             (propertize  warning 'face 'find-file-root-header-face)))))
 
-(add-hook 'find-file-hook 'find-file-root-header-warning)
-(add-hook 'dired-mode-hook 'find-file-root-header-warning)
-
-
+;;;###autoload
 (defun mark-line ()
   (interactive)
   (beginning-of-line)
@@ -585,6 +552,7 @@ This function is suitable to add to `find-file-hook'."
   (forward-char)
   )
 
+;;;###autoload
 (defun goto-next-line-with-same-indentation ()
   (interactive)
   (back-to-indentation)
@@ -592,8 +560,11 @@ This function is suitable to add to `find-file-hook'."
                      nil nil (if (= 0 (current-column)) 2 1))
   (back-to-indentation))
 
+;;;###autoload
 (defun goto-prev-line-with-same-indentation ()
   (interactive)
   (back-to-indentation)
   (re-search-backward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]"))
   (back-to-indentation))
+
+(provide 'some-defuns)

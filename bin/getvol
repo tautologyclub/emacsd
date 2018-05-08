@@ -1,0 +1,3 @@
+#!/bin/sh -e
+msg="vol = $(amixer sget Master | grep -o [0-9]*\%)"
+notify-send -t 600 "$msg"

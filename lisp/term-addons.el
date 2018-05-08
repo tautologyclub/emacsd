@@ -40,16 +40,21 @@
 ;-------------------------------------------------------------------------------
 
 
-;; dropdown terminal
-;-------------------------------------------------------------------------------
 ;;;###autoload
 (defun dropdown-multiterm ()
-  "Split window, open a terminal below and move focus to it."
+  "Split window below, open a terminal and move focus to it."
   (interactive)
   (split-window-below)
   (windmove-down)
   (multi-term))
-;-------------------------------------------------------------------------------
+
+;;;###autoload
+(defun dropdown-multiterm-right ()
+  "Split windowright, open a terminal and move focus to it."
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (multi-term))
 
 
 ;; shell scripting convenience
@@ -84,6 +89,16 @@
   (let ((tmp-filename (format "%s" (file-name-nondirectory buffer-file-name))))
     (multi-term)
     (term-send-raw-string (concat ". " tmp-filename ""))))
+
+;;;###autoload
+(defun benjamin/sh-hook ()
+  "My hook for shell mode."
+  (local-set-key (kbd "C-c C-c") 'dropdown-launch-me)
+  (local-set-key (kbd "C-c C-.") 'dropdown-source-me)
+  (local-set-key (kbd "C-c C-t") 'multiterm-launch-me)
+  (local-set-key (kbd "C-c C-,") 'multiterm-source-me)
+  )
+
 ;-------------------------------------------------------------------------------
 ;; TODO - script/terminal association
 
@@ -91,10 +106,8 @@
 ;; Renaming term buffers
 ;-------------------------------------------------------------------------------
 (defvar counsel-term--home-dir (expand-file-name "~"))
-(defvar benjamin/term-rename-prefix "[")
 (defvar benjamin/term-rename-suffix "]")
-(setq benjamin/term-rename-prefix "")
-(setq benjamin/term-rename-suffix "")
+(defvar benjamin/term-rename-prefix "")
 
 ;;;###autoload
 (defun benjamin/term-renamer ()
@@ -118,17 +131,17 @@
 ;;	- make this a minor-mode
 ;;	- counsel-switch-term
 
+
 ;; colorize term-mode buffers in counsel
 ;-------------------------------------------------------------------------------
 (defface counsel-buffer-face-term-mode
-  '((t :inherit 'font-lock-keyword-face :italic t :bold nil))
-  "fuck off")
-(custom-set-faces '(counsel-buffer-face-term-mode
-                    ((t :inherit 'font-lock-function-name-face))))
+  '((t :inherit 'font-lock-keyword-face :bold t))
+  "Face for term-buffers under counsel buffer switch.")
 
 (add-to-list 'ivy-switch-buffer-faces-alist
              '(term-mode . counsel-buffer-face-term-mode))
 
+;;;###autoload
 (defun benjamin/get-term ()
   "Just kind of a better get-term if you want zany renaming."
   (interactive)
@@ -137,26 +150,6 @@
         (switch-to-buffer term-buffer-candidate)
       (message (concat "New term-buffer @ " default-directory))
       (multi-term))))
-;-------------------------------------------------------------------------------
 
-;; (setq ivy-switch-buffer-faces-alist
-;;       '((dired-mode . ivy-subdir)
-;;         (org-mode . org-level-4)))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-;
+(provide 'term-addons)
+;;; term-addons.el ends here

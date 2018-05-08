@@ -7,19 +7,19 @@
 
 ;;; Code:
 
-
-(setq helm-mode-line-string "")
 (defun helm-display-mode-line (source &optional force)
-  "Does nothing cuz we roll Luddite. Ignore SOURCE and FORCE.")
+  "Does nothing cuz we roll Luddite. Ignore SOURCE and FORCE."
+  "")
 
-;; Nicer buffer list face
+;; Slimmer buffer list face (awful)
 (defun helm-buffer-face-mode ()
   "Helm buffer face."
   (interactive)
   (with-helm-buffer
     (setq line-spacing 0)
     (buffer-face-set '(:family "Noto Sans" :height 0.85))))
-(add-hook 'helm-after-initialize-hook 'helm-buffer-face-mode)
+;; (add-hook 'helm-after-initialize-hook 'helm-buffer-face-mode)
+;; (remove-hook 'helm-after-initialize-hook 'helm-buffer-face-mode)
 
 (defun benjamin/helm-buffers-list ()
   "Preconfigured `helm' to list buffers."

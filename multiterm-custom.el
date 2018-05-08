@@ -1,20 +1,16 @@
+;
 
 (require 'multi-term)
 (require 'counsel-term)
 
-(setq multi-term-program "/bin/bash")
-(setq term-prompt-regexp "^$\\ ")
-(csetq multi-term-buffer-name "TERM")
-(ansi-color-for-comint-mode-on)
-
 (define-key term-mode-map (kbd "C-p") 'projectile-command-map)
 (define-key term-mode-map (kbd "C-x t") 'term-toggle-mode-w/warning)
-(define-key term-mode-map (kbd "H-M-t") 'term-toggle-mode-w/warning)
 
 (custom-set-variables
  '(term-bind-key-alist
    (quote
-    (("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
+    (
+     ("C-g"           . (lambda () (interactive) (term-send-raw-string "")))
      ("H-w"           . counsel-term-ff)
      ("H-c"           . counsel-term-cd)
      ("M-r"           . counsel-term-history)
@@ -31,6 +27,7 @@
      ("<f9>"          . term-send-backspace) ; == [
      ("C-m"           . term-send-return)
      ("C-y"           . term-paste)
+     ("H-i"           . term-paste)
      ("C-q"           . backward-word)
      ("M-q"           . term-send-backward-word)
      ("M-f"           . term-send-forward-word)
@@ -51,22 +48,8 @@
      ("H-M-u"         . (lambda () (interactive) (term-send-raw-string "sudo ")))
      ("H-M-l"         . (lambda () (interactive) (term-send-raw-string "")))
      ("H-M-f"         . (lambda () (interactive) (term-send-raw-string " fuck")(sleep-for 0.2) (term-send-raw-string "")))
-     ("C-x t"         . jnm/term-toggle-mode)
+     ("C-x t"         . term-toggle-mode-w/warning)
      ))))
-
-
-(defun benjamin/sh-hook ()
-  "My hook for shell mode."
-  (local-set-key (kbd "C-c C-c") 'dropdown-launch-me)
-  (local-set-key (kbd "C-c C-t") 'multiterm-launch-me)
-  (local-set-key (kbd "C-c C-,") 'multiterm-source-me)
-  (local-set-key (kbd "C-c C-.") 'dropdown-source-me)
-  )
-(add-hook 'sh-mode-hook 'benjamin/sh-hook)
-
-
-
-
 
 
 ;; hey

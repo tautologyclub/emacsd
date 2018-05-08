@@ -1,0 +1,6 @@
+#!/bin/sh
+
+sleep 0.1
+brightness=$(cat /sys/class/backlight/intel_backlight/brightness)
+bright_pct=$(bc -l <<< "$brightness / 1061" | cut -c2,3)
+notify-send -t 800 "brightness=$bright_pct%"

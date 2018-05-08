@@ -1,8 +1,8 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
+
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-# FIXME this is not a good check
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -10,16 +10,14 @@ case $- in
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
 HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
+shopt -s histappend             # append to the history file, don't overwrite it
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"            # sync after each command
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# Unlimited history file size
+HISTSIZE=
+HISTFILESIZE=
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -42,9 +40,6 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
-# uncomment for a colored prompt, if the terminal has the capability; turned
-# off by default to not distract the user: the focus in a terminal window
-# should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
@@ -57,8 +52,19 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
-PS1='${debian_chroot:+($debian_chroot)}\[\033[02;35m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
 unset color_prompt force_color_prompt
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/:\1/'
+}
+if [ "$TERM" = "eterm-color" ]; then
+    PS1="\[\033[01;34m\]\w/\[\033[32m\]\[\033[00m\]\[\033[34m\]\$(parse_git_branch)\[\033[00m\]\n$ "
+    # PS1="\[\033[01;35m\]\$PWD\[\033[32m\]\[\033[00m\]\[\033[34m\]\$(parse_git_branch)\[\033[00m\]\n$ "
+else
+    PS1="\[\033[01;34m\]\w/\[\033[32m\]\[\033[00m\]\[\033[35m\]\$(parse_git_branch)\[\033[00m\]\n$ "
+fi
+
+# PS1='${debian_chroot:+($debian_chroot)}\[\033[02;35m\]\u@\h\[\033[00m\]:\[\033[01;33m\]\w\[\033[00m\]\n\$ '
 
 # If this is an xterm set the title to user@host:dir (this is an emacs
 # terminal fix)
@@ -125,15 +131,11 @@ alias ls='ls --color -h --group-directories-first'
 
 alias rm='gio trash'
 alias seetrash='ll ~/.local/share/Trash/files/'
-alias emptytrash='/bin/rm -rf ~/.local/share/Trash/*'
+alias emptytrash='sudo /bin/rm -rf ~/.local/share/Trash/*'
 alias xclip='xclip -selection clipboard'
 
 # This is fkng awesome
 alias sharedir='python2 -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
-
-if [ -n "$TERM_IS_DROPDOWN" ]; then
-    trap 'echo $PWD > ~/.cache/dropdown_location' EXIT
-fi
 
 export ALTERNATE_EDITOR=""
 export EDITOR="emacsclient -t"                  # $EDITOR should open in terminal
@@ -141,10 +143,11 @@ export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-
 
 # setxkbmap -layout us; xmodmap ~/.Xmodmap
 if [ -z "$(pgrep xcape)" ]; then
-    # xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11;Control_L=F12;Alt_R=F9'
+    xcape -e 'Control_L=F12'
     xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11;Alt_R=F9'
     xcape -e 'Mode_switch=semicolon'                                 # Reclaim ;
     xcape -e 'Hyper_L=q'                                             # Reclaim q
+    xcape -e 'Alt_L=F7'
 fi
 
 # having $TERM==xterm-termite messes up remote terminals among other
@@ -153,3 +156,21 @@ if [[ $TERM == *"xterm"* ]]; then
     # echo Renaming "$TERM" to xterm
     export TERM=xterm
 fi
+
+. /usr/share/git/completion/git-completion.bash
+
+complete -cf sudo
+complete -c man which systemctl killall eman wut
+
+# fuck -- kind of a cheesy util tbh
+eval $(thefuck --alias)
+
+export PATH=~/bin:$PATH
+export I_AM_LOCAL=y
+
+# Remove duplicates in bash_history without affecting line number
+cat -n ~/.bash_history | sort -uk2 | sort -nk1 | cut -f2- > ~/.bash_history_tmp
+mv ~/.bash_history_tmp ~/.bash_history
+
+# Remove trailing whitespaces in bash_history
+sed -i 's/[[:space:]]*$//' ~/.bash_history

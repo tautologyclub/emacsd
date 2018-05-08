@@ -1,3 +1,9 @@
+(require 'semantic)
+(require 'company)
+(require 'cc-mode)
+(require 'helm-gtags)
+(require 'gud)
+(require 'flycheck)
 
 (require 'semantic/bovine/c)
 (semanticdb-enable-gnu-global-databases 'c-mode)
@@ -5,14 +11,10 @@
 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
              "/usr/lib/clang/5.0.0/include/stddef.h")
 
-(setq c-default-style "linux"
-      c-basic-offset 8)
-(require 'semantic)
-(require 'company)
-(require 'cc-mode)
-(require 'helm-gtags)
-(require 'gud)
-(require 'flycheck)
+(use-package    cc-mode
+  :custom       (c-default-style        "linux")
+                (c-basic-offset         8)
+  )
 
 (defun c-occur-overview ()
   "Display an occur buffer with declarations/definitions/etc.  Also, resize somewhat."
@@ -49,14 +51,15 @@
 (require 'company)
 (defun benjamin/c-hook ()
   "You know.  My hook and stuff."
-  (subword-mode)
-  (auto-fill-mode)
-  (flycheck-mode)
-  ;; (helm-gtags-mode)
-  (fci-mode -1) ;; destroys company)
-  (irony-mode)
-  (company-mode)
-  (semantic-mode -1)
+  (subword-mode 1)
+  (auto-fill-mode 1)
+  (flycheck-mode 1)
+  (helm-gtags-mode 1)
+  (fci-mode -1) ;; destroys company
+  (irony-mode 1)
+  (company-mode 1)
+  (semantic-mode 1)
+  (semantic-stickyfunc-mode -1)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
   (when (boundp 'company-backends)
     (set (make-local-variable 'company-backends)
@@ -72,7 +75,3 @@
              )))))
 (add-hook 'c-mode-hook 'benjamin/c-hook)
 (add-hook 'c++-mode-hook 'benjamin/c-hook)
-
-
-(setq helm-gtags-auto-update t)             ;; feel this one out.
-(setq helm-gtags-use-input-at-cursor t)
