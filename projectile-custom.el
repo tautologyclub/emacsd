@@ -77,6 +77,14 @@
 (define-key projectile-command-map (kbd "C-s")  #'projectile-run-shell-command-in-root)
 (define-key projectile-command-map (kbd "C-e")  #'projectile-run-eshell)
 
+;;; override
+(defun counsel-projectile-switch-project-action-run-term (project)
+  "Invoke `multi-term' from PROJECT's root."
+  (let ((projectile-switch-project-action
+         (lambda ()
+           (projectile-get-term))))
+    (counsel-projectile-switch-project-by-name project)))
+
 (define-key projectile-command-map (kbd "C-S-s")
   #'projectile-run-async-shell-command-in-root)
 

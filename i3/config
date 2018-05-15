@@ -212,7 +212,8 @@ mode "resize" {
 }
 
 # todo: not needed
-bindsym $mod+u mode "kb layout"
+# bindsym $mod+u mode "kb layout"
+bindsym $mod+u exec notify-send "use mod+o instead"
 mode "kb layout" {
      bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym s exec /home/benjamin/bin/xcape-restart-swedish; mode "default"

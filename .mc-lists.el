@@ -103,6 +103,7 @@
 (setq mc/cmds-to-run-once
       '(
         counsel-grep-or-swiper
+        dropdown-multiterm
         eval-buffer
         handle-switch-frame
         hydra-toggle/body

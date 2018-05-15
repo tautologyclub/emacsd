@@ -4,7 +4,7 @@ killall xcape
 source /etc/profile.d/caps_super_switch.sh
 xmodmap /home/benjamin/.Xmodmap
 
-sleep 0.2
+sleep 0.2  # safeguard prob not needed
 
 xcape -e 'Control_L=F12'
 xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11'

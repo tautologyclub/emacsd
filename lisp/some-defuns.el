@@ -2,6 +2,20 @@
 (require 'fancy-narrow)
 
 ;;;###autoload
+(defun benjamin/previous-buffer ()
+  (interactive)
+  (previous-buffer)
+  (when auto-dim-other-buffers-mode
+    (adob--focus-in-hook)))
+
+;;;###autoload
+(defun benjamin/next-buffer ()
+  (interactive)
+  (next-buffer)
+  (when auto-dim-other-buffers-mode
+    (adob--focus-in-hook)))
+
+;;;###autoload
 (defun open-line-below ()
   (interactive)
   (end-of-line)

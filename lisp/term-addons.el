@@ -107,6 +107,7 @@
 ;-------------------------------------------------------------------------------
 (defvar counsel-term--home-dir (expand-file-name "~"))
 (defvar benjamin/term-rename-prefix "")
+(setq benjamin/term-rename-prefix ": ")
 
 ;;;###autoload
 (defun benjamin/term-renamer ()
