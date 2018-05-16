@@ -36,6 +36,7 @@
 (use-package    some-hydras)
 (use-package    pdf-custom)
 (use-package    zoom-frm)
+(use-package    company-flyspell) ;; raw download
 
 (use-package    term-addons
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
@@ -47,6 +48,7 @@
 
 (use-package    ample-light-theme  ;; forked
   :ensure       nil
+  :after        (feebleline)
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
 
@@ -72,6 +74,8 @@
      ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-d" . term-send-raw)
      ("C-p" . projectile-command-map)
+     ("C-j" . next-line)
+     ("C-k" . previous-line)
      ("C-l" . forward-char)
      ("C-h" . backward-char)
      ("C-j" . next-line)
@@ -101,7 +105,7 @@
      ("C-c C-e" . term-send-esc)
      ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-x C-u" . (lambda () (interactive)
+     ("H-M-u"   . (lambda () (interactive)
                     (term-send-raw-string "sudo ")))
      ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("<C-backspace>" . term-send-backward-kill-word)
@@ -116,7 +120,7 @@
                 (term-buffer-maximum-size 16384))
 
 (use-package    ace-window
-  :disabled
+  :disabled     t
   :ensure       t)
 
 (use-package    hideshow
@@ -150,7 +154,37 @@
                   ("erc-mode" "help-mode" "completion-list-mode"
                    "Buffer-menu-mode" "gnus-.*-mode" "occur-mode")))
                 (projectile-mode-line "")
-  :config       (projectile-mode 1))
+  :config       (add-to-list 'projectile-project-root-files ".repo")
+                (add-to-list 'projectile-project-root-files ".dir-locals.el")
+                (projectile-mode 1))
+
+(use-package    counsel-projectile
+  :ensure       t
+  :custom
+  ;; set the default switch-project-action index to that of run-term (18)
+  ;; todo: just make it a key binding
+    (counsel-projectile-switch-project-action
+     (quote
+      (18
+       ("o" counsel-projectile-switch-project-action "jump to a project buffer or file")
+       ("f" counsel-projectile-switch-project-action-find-file "jump to a project file")
+       ("d" counsel-projectile-switch-project-action-find-dir "jump to a project directory")
+       ("b" counsel-projectile-switch-project-action-switch-to-buffer "jump to a project buffer")
+       ("m" counsel-projectile-switch-project-action-find-file-manually "find file manually from project root")
+       ("S" counsel-projectile-switch-project-action-save-all-buffers "save all project buffers")
+       ("k" counsel-projectile-switch-project-action-kill-buffers "kill all project buffers")
+       ("K" counsel-projectile-switch-project-action-remove-known-project "remove project from known projects")
+       ("c" counsel-projectile-switch-project-action-compile "run project compilation command")
+       ("C" counsel-projectile-switch-project-action-configure "run project configure command")
+       ("E" counsel-projectile-switch-project-action-edit-dir-locals "edit project dir-locals")
+       ("v" counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
+       ("sg" counsel-projectile-switch-project-action-grep "search project with grep")
+       ("ss" counsel-projectile-switch-project-action-ag "search project with ag")
+       ("sr" counsel-projectile-switch-project-action-rg "search project with rg")
+       ("xs" counsel-projectile-switch-project-action-run-shell "invoke shell from project root")
+       ("xe" counsel-projectile-switch-project-action-run-eshell "invoke eshell from project root")
+       ("xt" counsel-projectile-switch-project-action-run-term "invoke term from project root")
+       ("O" counsel-projectile-switch-project-action-org-capture "org-capture into project")))))
 
 (use-package    helm
   :ensure       t
@@ -183,7 +217,7 @@
                 (ivy-extra-directories          nil)
                 (ivy-count-format               "%d/%d - ")
                 (ivy-display-style              'fancy)
-                (ivy-ignore-buffers '("\\` "))
+                (ivy-ignore-buffers             '("\\` "))
                 (add-to-list 'ivy-ignore-buffers "\\*Flycheck")
                 (add-to-list 'ivy-ignore-buffers "\\*CEDET")
                 (add-to-list 'ivy-ignore-buffers "\\*BACK")
@@ -337,9 +371,17 @@
   :ensure       nil
   :custom       (global-linum-mode nil))
 
+(use-package    flyspell
+  :custom       (flyspell-issue-message-flag nil))
+
+(use-package    flyspell-correct-ivy
+  :ensure       t)
+
 (use-package    org
   :custom       (org-hide-leading-stars t)
-  :config       (add-hook 'org-mode-hook        'turn-on-auto-fill)
+                (org-agenda-files '("~/work/agenda.org"))
+  :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
+                (add-hook 'org-mode-hook (lambda () (flyspell-mode +1)))
                 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
@@ -349,8 +391,17 @@
                       ("C-e" . nil)
                       ("M-a" . nil)
                       ("M-e" . nil)
+                      ("σ"   . company-flyspell)
+                      ("C-;" . flyspell-correct-previous-word-generic)
+                      ("M-<f11>" . flyspell-correct-word-before-point)
+                      ("C-S-a" . outline-previous-visible-heading)
+                      ("C-S-e" . outline-next-visible-heading)
                       ("C-j" . next-line)
                       ("C-k" . previous-line)))
+
+(use-package    markdown-mode
+  :config       (add-hook 'markdown-mode-hook 'fci-mode)
+                (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
 (use-package    git-gutter+
   :ensure       t
@@ -369,7 +420,7 @@
   :custom       (helm-systemd-list-all t)
                 (helm-systemd-list-not-loaded t))
 
-(use-package    anaconda
+(use-package    anaconda-mode
   :ensure       t
   :config       (add-hook 'python-mode-hook 'anaconda-mode)
                 (with-eval-after-load "anaconda-mode"
@@ -413,14 +464,32 @@
 
 (use-package    semantic
   :config       (semantic-mode 1)
+                (defun my-inhibit-semantic-p ()
+                  (not (equal major-mode 'org-mode)))
+                (with-eval-after-load 'semantic
+                  (add-to-list 'semantic-inhibit-functions #'my-inhibit-semantic-p))
                 (global-semantic-idle-scheduler-mode t)
                 (add-to-list 'semantic-default-submodes
                              'global-semantic-idle-scheduler-mode)
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode))
 
+(use-package    pdf-tools
+  :ensure       t
+  :config       (with-eval-after-load 'pdf-view
+                  (progn (define-key pdf-view-mode-map
+                           (kbd "M-g g") 'pdf-view-goto-page)
+                         (define-key pdf-view-mode-map
+                           (kbd "k") 'previous-line)
+                         (define-key pdf-view-mode-map
+                           (kbd "j") 'next-line)
+                         (define-key pdf-view-mode-map
+                           (kbd "C-k") 'pdf-view-previous-page)
+                         (define-key pdf-view-mode-map
+                           (kbd "C-j") 'pdf-view-next-page)))
+                  (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
+
 (use-package    py-autopep8             :ensure t)
-(use-package    counsel-projectile      :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
 (use-package    hydra                   :ensure t)
 (use-package    vimish-fold             :ensure t)
@@ -445,9 +514,10 @@
 (toggle-scroll-bar  -1)
 
 (csetq enable-recursive-minibuffers nil)
-(csetq tab-width 4)
+(customize-set-variable 'tab-width 4)
 (csetq tab-always-indent t)
 (csetq indent-tabs-mode nil)
+(csetq auto-hscroll-mode nil)
 
 (setq mouse-autoselect-window           t
       shift-select-mode                 nil
@@ -486,19 +556,18 @@
 
 (put 'scroll-left 'disabled nil)
 
+(add-to-list 'auto-mode-alist '("defconfig$"    . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.conf$"      . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.scr$"       . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.sch$"       . text-mode))
+
 (add-hook 'before-save-hook     'delete-trailing-whitespace)
 (add-hook 'find-file-hook       'find-file-root-header-warning)
 (add-hook 'occur-hook           'occur-rename-buffer)
-
-(add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.conf$" . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.scr$" . sh-mode))
-
-(defun prog-mode-setup ()
-  "Rebind RET."
-  (set (make-local-variable 'comment-auto-fill-only-comments) t)
-  (local-set-key (kbd "RET") 'newline-and-indent))
-(add-hook 'prog-mode-hook 'prog-mode-setup)
+(add-hook 'prog-mode-hook
+          (lambi
+           (set (make-local-variable 'comment-auto-fill-only-comments) t)
+           (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;; Open some defaults
 (find-file "~/.emacs.d/bindings2.el")
@@ -519,7 +588,11 @@
 
 ;; This hack ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
+
+;; elpy forces whitespace-mode for some stupid reason, hacky solution:
 (custom-set-faces '(highlight-indentation-face ((t (:inherit 'default)))))
+
+;; I don't always need a *scratch*
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 
 (provide 'init)

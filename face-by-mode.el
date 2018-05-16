@@ -1,3 +1,13 @@
+;; disabled
+(defun set-term-mode-face ()
+  "Set face for term-mode."
+  (set (make-local-variable 'default) '(:background "gray" :foreground "black"))
+  (set (make-local-variable 'term-default-bg-color) "#000000")
+  ;; (setq font-lock-function-name-face '(:foreground "#d3aa83"))
+  (buffer-face-mode)
+  )
+;; (add-hook 'term-mode-hook  'set-term-mode-face)
+
 (defun set-boring-prog-mode-face ()
   (interactive)
   (setq buffer-face-mode-face '(:background "gray" :foreground "black"))
@@ -19,6 +29,7 @@
 (add-hook 'help-mode-hook 'set-boring-buffer-face)
 (add-hook 'Info-mode-hook 'set-boring-buffer-face)
 (add-hook 'erc-mode-hook  'set-boring-buffer-face)
+
 ;; (add-hook 'org-mode-hook 'set-boring-buffer-face)
 ;; (add-hook 'prog-mode-hook 'set-boring-prog-mode-face)
 

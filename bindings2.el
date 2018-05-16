@@ -45,6 +45,24 @@
 (global-set-key (kbd "<H-backspace>")   'murder-buffer-with-window)
 (global-set-key (kbd "C-<return>")      'open-line-below)
 
+(global-set-key      (kbd "C-;")  'switch-to-buffer)
+(global-set-key      (kbd "C-'")  'find-file)
+(global-set-key      (kbd "C-:")  'find-file)
+
+;; these all are garb
+(global-set-key      (kbd "M-'")  'BIND-ME)
+(global-set-key      (kbd "H-;")  'benjamin/helm-buffers-list)                 ;
+(global-set-key      (kbd "H-'")  'BIND-ME)
+(global-set-key       (kbd "䑄")  'switch-to-buffer)                         ;-'
+
+;; In case I accidentally left swedish keyboard layout on
+(global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
+                                        (call-process "xcape-restart" nil 0 nil)
+                                        (benjamin/set-mark-command)))
+(global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
+                                        (call-process "xcape-restart" nil 0 nil)
+                                        (call-interactively 'switch-to-buffer)))
+
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")   'ora-brackets)
 
@@ -228,16 +246,17 @@
 (global-set-key   (kbd "M-s g")   'magit-status)
 ;-g == ?
 
-(global-set-key     (kbd "C-h")   'backward-char)
 (global-set-key     (kbd "H-h")    help-map)
-(global-set-key     (kbd "M-h")   'hs-toggle-hiding)                           ;
-(global-set-key   (kbd "H-M-h")   'BIND-ME)                                    ;
+(global-set-key     (kbd "C-h")   'backward-char)
+(global-set-key     (kbd "M-h")   'hs-toggle-hiding)
+(global-set-key   (kbd "H-M-h")   'hs-hide-all)
+(global-set-key   (kbd "H-M-H")   'hs-show-all)
 (global-set-key   (kbd "C-S-h")   'er/mark-paragraph)
-(global-set-key   (kbd "H-h u")   'counsel-unicode-char)
-(global-set-key   (kbd "H-h b")   'counsel-descbinds)
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-c h")   (lambi (hlt-highlight) (deactivate-mark)))
 (global-set-key   (kbd "C-c H")   'hlt-unhighlight-region)
+(global-set-key   (kbd "H-h u")   'counsel-unicode-char)
+(global-set-key   (kbd "H-h b")   'counsel-descbinds)
 ;-h == {
 
 (global-set-key     (kbd "s-j")    nil)
@@ -269,15 +288,6 @@
 (global-set-key (kbd "M-s M-l")   'org-store-link)
 ;-l == +
 
-; these all are garbage
-(global-set-key      (kbd "C-;")  'benjamin/helm-buffers-list)                 ;
-(global-set-key      (kbd "C-'")  'find-file)                                  ;
-(global-set-key      (kbd "C-:")  'find-file)
-(global-set-key      (kbd "M-'")  'BIND-ME)
-(global-set-key      (kbd "H-;")  'benjamin/helm-buffers-list)                 ;
-(global-set-key      (kbd "H-'")  'BIND-ME)
-(global-set-key       (kbd "䑄")  'switch-to-buffer)                         ;-'
-
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
 (global-set-key     (kbd "M-z")   'kill-line-save)                             ;
 (global-set-key       (kbd "Ϗ")   'kill-line-save)                           ;-z
@@ -290,13 +300,13 @@
 (global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)
 (global-set-key   (kbd "H-M-c")   'BIND-ME)                                    ;
 (global-set-key (kbd "M-s M-c")   'compile)
-(global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))    ;-c
+(global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))     ;-c
 
 (global-set-key     (kbd "M-v")   'hydra-vimish-fold/body)                     ;
-(global-set-key     (kbd "H-v")   (lambi (forward-line -30)))
-(global-set-key     (kbd "s-v")   'counsel-yank-pop)
-(global-set-key     (kbd "C-v")   (lambi (forward-line 30)))
-(global-set-key   (kbd "C-S-v")   (lambi (forward-line -30)))
+(global-set-key     (kbd "H-v")   (lambi (forward-line -30)))                  ;
+(global-set-key     (kbd "s-v")   'counsel-yank-pop)                           ;
+(global-set-key     (kbd "C-v")   (lambi (forward-line 30)))                   ;
+(global-set-key   (kbd "C-S-v")   (lambi (forward-line -30)))                  ;
 
 (global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)
 (global-set-key     (kbd "H-b")   'switch-to-buffer-other-window)              ;
@@ -310,11 +320,11 @@
 
 (global-set-key     (kbd "C-n")   'benjamin/helm-buffers-list)
 (global-set-key     (kbd "M-n")   'hydra-errgo/next-error)                     ;
-(global-set-key   (kbd "H-M-n")   'BIND-ME)                                    ;
 (global-set-key     (kbd "H-n")   'goto-next-line-with-same-indentation)       ;
 (global-set-key   (kbd "H-M-n")   'hydra-errgo/next-error)                     ;
-(global-set-key   (kbd "C-S-n")   'lispy-forward)                              ;
 (global-set-key       (kbd "ν")   (lambi (insert "&")))
+(global-set-key   (kbd "C-S-n")   'lispy-forward)                        ;; todo
+(global-set-key       (kbd "ν")   "&")
 
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
@@ -324,20 +334,17 @@
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
 (global-set-key   (kbd "H-M-m")   'kmacro-call-macro)
-(global-set-key       (kbd "μ")   (lambi (insert "$")))
+(global-set-key       (kbd "μ")   "$")
 
 (global-set-key (kbd "H-,")     'goto-prev-line-with-same-indentation)
 (global-set-key (kbd "H-.")     'goto-next-line-with-same-indentation)
 (global-set-key (kbd "C-,")     'set-mark-and-deactive)
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
-(global-set-key (kbd "C->")     'hs-toggle-hiding)
+(global-set-key (kbd "C->")     (lambi (forward-line 40)))
+(global-set-key (kbd "C-<")     (lambi (forward-line -40)))
 
-(global-set-key (kbd "C--")     (lambi (previous-buffer)
-                                       (when auto-dim-other-buffers-mode
-                                         (adob--focus-in-hook))))
-(global-set-key (kbd "C-=")     (lambi (next-buffer)
-                                       (when auto-dim-other-buffers-mode
-                                         (adob--focus-in-hook))))
+(global-set-key (kbd "C--")     'benjamin/previous-buffer)
+(global-set-key (kbd "C-=")     'benjamin/next-buffer)
 (global-set-key (kbd "M--")     'zoom-frm-out)
 (global-set-key (kbd "M-=")     'zoom-frm-in)
 (global-set-key (kbd "C-H--")   'my-decrement-number-decimal)

@@ -104,6 +104,8 @@
         tab-to-tab-stop
         xah-beginning-of-line-or-block
         xah-end-of-line-or-block
+        end-of-line-or-block
+        lispy-cursor-down
         ))
 
 (setq mc/cmds-to-run-once
@@ -115,11 +117,11 @@
         lispy-cursor-down
         org-cycle
         counsel-grep-or-swiper
+        dropdown-multiterm
         eval-buffer
         handle-switch-frame
         hydra-toggle/body
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
         ivy-alt-done
-        lispy-cursor-down
         ))
