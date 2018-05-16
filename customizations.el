@@ -50,7 +50,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["#757575" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#8eadd1" "gray43"])
+   ["#000000" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#8eadd1" "gray43"])
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(auto-revert-verbose nil)
@@ -222,12 +222,12 @@
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
- '(org-agenda-files (quote ("~/work/agenda.org")) t)
- '(org-hide-leading-stars t t)
+ '(org-agenda-files (quote ("~/work/agenda.org")))
+ '(org-hide-leading-stars t)
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (anaconda pdf-tools edit-server highlight bitbake markdown-mode+ helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (flyspell-correct-helm flyspell-correct-ivy anaconda pdf-tools edit-server highlight bitbake markdown-mode+ helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-border-width 0)

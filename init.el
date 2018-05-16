@@ -36,6 +36,7 @@
 (use-package    some-hydras)
 (use-package    pdf-custom)
 (use-package    zoom-frm)
+(use-package    company-flyspell) ;; raw download
 
 (use-package    term-addons
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
@@ -352,10 +353,17 @@
   :ensure       nil
   :custom       (global-linum-mode nil))
 
+(use-package    flyspell
+  :custom       (flyspell-issue-message-flag nil))
+
+(use-package    flyspell-correct-ivy
+  :ensure       t)
+
 (use-package    org
   :custom       (org-hide-leading-stars t)
                 (org-agenda-files '("~/work/agenda.org"))
-  :config       (add-hook 'org-mode-hook        'turn-on-auto-fill)
+  :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
+                (add-hook 'org-mode-hook (lambda () (flyspell-mode +1)))
                 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
@@ -365,10 +373,17 @@
                       ("C-e" . nil)
                       ("M-a" . nil)
                       ("M-e" . nil)
+                      ("σ"   . company-flyspell)
+                      ("C-;" . flyspell-correct-previous-word-generic)
+                      ("M-<f11>" . flyspell-correct-word-before-point)
                       ("C-S-a" . outline-previous-visible-heading)
                       ("C-S-e" . outline-next-visible-heading)
                       ("C-j" . next-line)
                       ("C-k" . previous-line)))
+
+(use-package    markdown-mode
+  :config       (add-hook 'markdown-mode-hook 'fci-mode)
+                (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
 (use-package    git-gutter+
   :ensure       t
@@ -441,7 +456,6 @@
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode))
 
-
 (use-package    pdf-tools
   :ensure       t
   :config       (with-eval-after-load 'pdf-view
@@ -454,7 +468,8 @@
                          (define-key pdf-view-mode-map
                            (kbd "C-k") 'pdf-view-previous-page)
                          (define-key pdf-view-mode-map
-                           (kbd "C-j") 'pdf-view-next-page))))
+                           (kbd "C-j") 'pdf-view-next-page)))
+                  (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -484,6 +499,7 @@
 (customize-set-variable 'tab-width 4)
 (csetq tab-always-indent t)
 (csetq indent-tabs-mode nil)
+(csetq auto-hscroll-mode nil)
 
 (setq mouse-autoselect-window           t
       shift-select-mode                 nil
