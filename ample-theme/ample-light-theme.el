@@ -783,6 +783,8 @@
    ;; widget
    `(widget-field  ((t (:foreground ,ample/fg :background ,ample/region-dark))))
 
+   ;; hl-line ; todooooooo
+   '(hl-line                        ((t (:background "#edd8b4"))))
    ) ;; end of custom-theme-set-faces
 
   (custom-theme-set-variables

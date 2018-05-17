@@ -265,6 +265,7 @@
   :config
   (counsel-mode 1)
   (add-hook 'after-init-hook 'global-company-mode)
+  ;; awesome abo-abo hack:
   (let ((map company-active-map))
     (mapc
      (lambda (x)
@@ -301,6 +302,7 @@
   :ensure       t
   :config       (volatile-highlights-mode 1))
 
+;; todo -- I forgot how to use this thing efficiently
 (use-package    wgrep
   :ensure       t
   :custom       (wgrep-auto-save-buffer t)
@@ -311,7 +313,9 @@
   :config       (recentf-mode 1))
 
 (use-package    whitespace
-  :custom       (whitespace-style '(face empty tabs lines-tail trailing)))
+  :custom       (whitespace-style '(face empty tabs lines-tail trailing))
+  :config       (custom-set-faces '(highlight-indentation-face
+                                    ((t (:inherit 'default))))))
 
 (use-package    hl-line
   :ensure       nil
@@ -592,9 +596,6 @@
 
 ;; This hack ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
-
-;; elpy forces whitespace-mode for some stupid reason, hacky solution:
-(custom-set-faces '(highlight-indentation-face ((t (:inherit 'default)))))
 
 ;; I don't always need a *scratch*
 (condition-case nil (kill-buffer "*scratch*") (error nil))

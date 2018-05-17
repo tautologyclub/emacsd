@@ -755,4 +755,29 @@ there's a region, all lines that region covers will be duplicated."
   (exchange-point-and-mark)
   (keyboard-quit))
 
+(require 'highlight)
+;;;###autoload
+(defun benjamin/highlight ()
+  (interactive)
+  (let ((old-point (point)))
+    (unless (region-active-p)
+      ;; use current line instead of whole buffer
+      (let (p1 p2)
+        (setq p1 (line-beginning-position))
+        (setq p2 (line-end-position))
+        (goto-char p1)
+        (push-mark p2)
+        (setq mark-active t)))
+    (hlt-highlight)
+    (deactivate-mark)
+    (goto-char old-point)))
+
+;;;###autoload
+(defun benjamin/unhighlight-region ()
+  (interactive)
+  (if (region-active-p)
+      (hlt-unhighlight-region)
+    (message "No region!")))
+
+
 (provide 'some-defuns)
