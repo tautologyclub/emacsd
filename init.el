@@ -262,8 +262,27 @@
                 (company-tooltip-idle-delay 0.2)
                 (company-show-numbers t)
                 (company-tooltip-limit 10)
-  :config       (counsel-mode 1)
-                (add-hook 'after-init-hook 'global-company-mode))
+  :config
+  (counsel-mode 1)
+  (add-hook 'after-init-hook 'global-company-mode)
+  (let ((map company-active-map))
+    (mapc
+     (lambda (x)
+       (define-key map (format "%d" x) 'ora-company-number))
+     (number-sequence 0 9))
+    (define-key map " " (lambda ()
+                          (interactive)
+                          (company-abort)
+                          (self-insert-command 1)))
+    (define-key map (kbd "<return>") nil))
+  (defun ora-company-number ()
+    (interactive)
+    (let* ((k (this-command-keys))
+           (re (concat "^" company-prefix k)))
+      (if (cl-find-if (lambda (s) (string-match re s))
+                      company-candidates)
+          (self-insert-command 1)
+        (company-complete-number (string-to-number k))))))
 
 ;; edit Chrome boxes w/emacs
 (use-package    edit-server
@@ -354,7 +373,8 @@
   :custom       (global-linum-mode nil))
 
 (use-package    flyspell
-  :custom       (flyspell-issue-message-flag nil))
+  :custom       (flyspell-issue-message-flag nil)
+                (flyspell-issue-welcome-flag nil))
 
 (use-package    flyspell-correct-ivy
   :ensure       t)
@@ -369,17 +389,17 @@
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
   :bind         (:map org-mode-map
-                      ("C-a" . nil)
-                      ("C-e" . nil)
-                      ("M-a" . nil)
-                      ("M-e" . nil)
-                      ("σ"   . company-flyspell)
-                      ("C-;" . flyspell-correct-previous-word-generic)
-                      ("M-<f11>" . flyspell-correct-word-before-point)
-                      ("C-S-a" . outline-previous-visible-heading)
-                      ("C-S-e" . outline-next-visible-heading)
-                      ("C-j" . next-line)
-                      ("C-k" . previous-line)))
+                      ("C-a"        . nil)
+                      ("C-e"        . nil)
+                      ("M-a"        . nil)
+                      ("M-e"        . nil)
+                      ("σ"          . company-flyspell)
+                      ("C-;"        . flyspell-correct-word-before-point)
+                      ("M-<f11>"    . flyspell-correct-word-before-point)
+                      ("C-S-a"      . outline-previous-visible-heading)
+                      ("C-S-e"      . outline-next-visible-heading)
+                      ("C-j"        . next-line)
+                      ("C-k"        . previous-line)))
 
 (use-package    markdown-mode
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
@@ -467,6 +487,8 @@
                            (kbd "j") 'next-line)
                          (define-key pdf-view-mode-map
                            (kbd "C-k") 'pdf-view-previous-page)
+                         (define-key pdf-view-mode-map
+                           (kbd "H-M-m") 'pdf-view-mark-whole-page)
                          (define-key pdf-view-mode-map
                            (kbd "C-j") 'pdf-view-next-page)))
                   (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
