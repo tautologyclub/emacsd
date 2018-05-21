@@ -52,6 +52,15 @@
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
 
+(use-package    feebleline
+  :load-path    "~/repos/feebleline"
+  :ensure       nil
+  :custom       (feebleline-show-git-branch             t)
+                (feebleline-show-dir                    t)
+                (feebleline-show-time                   nil)
+                (feebleline-show-previous-buffer        nil)
+  :config       (feebleline-mode 1))
+
 
 ; -- others stuff --------------------------------------------------------------
 (use-package    gdscript-mode
@@ -190,15 +199,6 @@
   :ensure       t
   :custom       (helm-mode-line-string ""))
 
-(use-package    feebleline
-  :load-path    "~/repos/feebleline"
-  :ensure       nil
-  :custom       (feebleline-show-git-branch             t)
-                (feebleline-show-dir                    t)
-                (feebleline-show-time                   nil)
-                (feebleline-show-previous-buffer        nil)
-  :config       (feebleline-mode 1))
-
 (use-package    ivy-rich
   :disabled     t
   :ensure       t)
@@ -253,24 +253,26 @@
   :ensure       t
   :custom       (company-auto-complete-chars '(?. ?>))    ;; ???
                 (company-backends
-                 '(company-semantic company-clang company-xcode company-cmake
+                 '(company-semantic company-clang company-cmake
                                     company-capf company-files
                                     (company-dabbrev-code
                                      company-gtags company-etags
                                      company-keywords)
                                     company-oddmuse company-dabbrev))
-                (company-idle-delay 0)                    ;; ???
+                (company-idle-delay 0.5)
                 (company-minimum-prefix-length 3)
-                (company-tooltip-idle-delay 0.2)
+                (company-tooltip-idle-delay 1)
                 (company-show-numbers t)
                 (company-tooltip-limit 10)
-  :config
-  (counsel-mode 1)
-  (add-hook 'after-init-hook 'global-company-mode)
+  :config       (counsel-mode 1)
+                (add-hook 'after-init-hook 'global-company-mode)
+                (define-key company-active-map (kbd ";") 'company-complete-selection)
+                (define-key company-active-map (kbd "\"") 'company-select-next)
+                (define-key company-active-map (kbd "'") 'company-select-previous)
+  ;; abo-abo awesome company use-digit hack below
   (let ((map company-active-map))
     (mapc
-     (lambda (x)
-       (define-key map (format "%d" x) 'ora-company-number))
+     (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
      (number-sequence 0 9))
     (define-key map " " (lambda ()
                           (interactive)
@@ -286,8 +288,8 @@
           (self-insert-command 1)
         (company-complete-number (string-to-number k))))))
 
-;; edit Chrome boxes w/emacs
 (use-package    edit-server
+  :ensure       t
   :config       (edit-server-start))
 
 (use-package    autorevert
