@@ -1,5 +1,5 @@
+
 (require 'expand-region)
-(require 'fancy-narrow)
 
 ;;;###autoload
 (defun benjamin/previous-buffer ()

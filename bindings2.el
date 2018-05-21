@@ -160,7 +160,7 @@
 (global-set-key   (kbd "H-M-i")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-x i")   'iedit-mode)
 (global-set-key   (kbd "C-c i")   'ivy-resume)
-(global-set-key       (kbd "ϊ")   (lambi (insert "*")))                      ;-i
+;-i == *
 
 (global-set-key     (kbd "C-o")   'smart-open-line-above)
 (global-set-key     (kbd "M-o")   'other-window)
