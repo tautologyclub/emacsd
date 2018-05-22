@@ -148,7 +148,8 @@
   :ensure       t)
 
 (use-package    fill-column-indicator
-  :ensure       nil
+  ;; really glitchy but sometimes so nice to have
+  :ensure       t
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
@@ -268,7 +269,8 @@
                 (add-hook 'after-init-hook 'global-company-mode)
                 (define-key company-active-map (kbd ";") 'company-complete-selection)
                 (define-key company-active-map (kbd "\"") 'company-select-next)
-                (define-key company-active-map (kbd "'") 'company-select-previous)
+                (define-key company-active-map (kbd "C-n") 'company-select-next)
+                (define-key company-active-map (kbd "C-p") 'company-select-previous)
   ;; abo-abo awesome company use-digit hack below
   (let ((map company-active-map))
     (mapc
@@ -344,7 +346,6 @@
 
 (use-package    irony
   :ensure       t
-  ;; not sure why this is here:
   :config       (defun my-irony-mode-hook ()
                   (define-key irony-mode-map [remap completion-at-point]
                     'irony-completion-at-point-async)
@@ -411,8 +412,8 @@
 
 (use-package    git-gutter+
   :ensure       t
-  :config       (global-git-gutter+-mode)
-                (fringe-mode 0))
+  :config       (global-git-gutter+-mode))
+                ;; (fringe-mode 0))
 
 (use-package    goto-last-change
   :disabled     t  ;; deprecated for goto-chg
@@ -448,11 +449,9 @@
                 (python-skeleton-autoinsert t)
   :config       (remove-hook 'elpy-modules 'elpy-module-flymake)
                 (add-to-list 'elpy-modules 'flycheck-mode)
-                ;; (jedi:install-server) ;; fixme
                 (semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
                 (semantic-add-system-include "/usr/lib/python2.7" 'python-mode)
                 (elpy-enable)
-                (add-hook 'elpy-mode-hook (lambi (auto-complete-mode -1)))
                 (add-hook 'python-mode-hook
                           (lambi (setq flycheck-checker 'python-flake8))))
 
@@ -502,6 +501,26 @@
                          (define-key pdf-view-mode-map
                            (kbd "C-j") 'pdf-view-next-page)))
                   (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
+
+(use-package    gud
+  :custom       (gud-pdb-command-name "python -m pdb"))
+
+(use-package    realgud
+  :ensure       t
+  :custom       (realgud:pdb-command-name "python -m pdb")
+  :config       (defun realgud:eval-symbol-at-point ()
+                  "The eval-at-point stuff included in realgud are baaad."
+                  (interactive)
+                  (with-syntax-table (make-syntax-table (syntax-table))
+                    (modify-syntax-entry ?. "_")
+                    (let ((bounds (bounds-of-thing-at-point 'symbol)))
+                      (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
+  :bind         (:map realgud:shortkey-mode-map
+                      ("J" . realgud:cmd-jump)
+                      ("K" . realgud:cmd-kill)
+                      ("j" . next-line)
+                      ("p" . realgud:eval-symbol-at-point)
+                      ("k" . previous-line)))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
