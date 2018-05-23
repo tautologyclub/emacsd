@@ -694,7 +694,7 @@
    `(git-gutter:unchanged ((t (:foreground ,ample/dark-tan :background nil))))
 
    `(highlight-indentation-current-column-face ((t (:foreground nil :background ,ample/region-light))))
-   `(highlight-indentation-face                ((t (:foreground nil :background ,ample/region-dark))))
+   `(highlight-indentation-face                ((t (:foreground nil :background nil))))
 
    ;; trailing whitespace
    `(trailing-whitespace ((t (:background "white" :bold t))))

@@ -131,6 +131,7 @@ T - tag prefix
   "
   _a_ abbrev:           %`abbrev-mode
   _s_ semantic:         %`semantic-mode
+  _S_ flyspell:         %`flyspell-mode
   _T_    stickyfunc:    %`semantic-stickyfunc-mode
   _e_ feebleline:       %`feebleline-mode
   _f_ auto-fill:        %`auto-fill-function
@@ -147,6 +148,7 @@ T - tag prefix
 "
   ("a" abbrev-mode)
   ("s" semantic-mode)
+  ("S" flyspell-mode)
   ("T" semantic-stickyfunc-mode)
   ("d" toggle-debug-on-error)
   ("f" auto-fill-mode)
@@ -189,8 +191,7 @@ T - tag prefix
   ("A" fa-show                      "fa-show")
   ("S" helm-gtags-select            "select")
   ("F" helm-gtags--parsed-file      "parse")
-  ("C" helm-gtags-clear-all-cache   "clear cache")
-  )
+  ("C" helm-gtags-clear-all-cache   "clear cache"))
 
 (define-key helm-gtags-mode-map (kbd "C-t") nil)
 

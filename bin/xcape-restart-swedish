@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# FIXME: This script is deprecated, xcape-restart takes --swedish argument
+
 killall xcape
 source /etc/profile.d/caps_super_switch.sh
 xmodmap /home/benjamin/.Xmodmap
@@ -15,7 +17,7 @@ xcape -e 'Alt_L=F7'
 
 xmodmap -e "keycode  48 = adiaeresis Adiaeresis adiaeresis Adiaeresis "
 
-# Remapping RET to Control. Holy shit this is sweet
+# Remapping RET to Control.
 xmodmap -e "remove Control = Control_R"
 xmodmap -e   "keycode 0x69 = Return"
 xmodmap -e   "keycode 0x24 = Control_R"

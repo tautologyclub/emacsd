@@ -8,8 +8,10 @@
         benjamin/kill-word
         benjamin/set-mark-command
         c-electric-delete-forward
+        elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
+        end-of-line-or-block
         forward-whitespace
         hungry-delete-forward
         kill-inner
@@ -19,10 +21,12 @@
         kill-to-beginning-of-indentation-or-line
         lispy-braces
         lispy-brackets
+        lispy-cursor-down
         lispy-delete
         lispy-kill
         lispy-parens
         lispy-quotes
+        ora-brackets
         org-delete-char
         org-self-insert-command
         special-digit-argument
@@ -98,8 +102,6 @@
         tab-to-tab-stop
         xah-beginning-of-line-or-block
         xah-end-of-line-or-block
-        end-of-line-or-block
-        lispy-cursor-down
         ))
 
 (setq mc/cmds-to-run-once

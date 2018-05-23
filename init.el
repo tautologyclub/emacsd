@@ -87,6 +87,7 @@
      ("C-m" . term-send-return)
      ("C-y" . term-paste)
      ("H-i" . term-paste)
+     ("TAB" . term-send-raw)
      ("C-q" . backward-word)
      ("M-q" . term-send-backward-word)
      ("M-f" . term-send-forward-word)
@@ -142,6 +143,9 @@
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
+
+(use-package    gud
+  :custom       (gud-pdb-command-name "python -m pdb"))
 
 (use-package    projectile
   :ensure       t
@@ -265,6 +269,8 @@
   :config
   (counsel-mode 1)
   (add-hook 'after-init-hook 'global-company-mode)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
   ;; awesome abo-abo hack:
   (let ((map company-active-map))
     (mapc
@@ -284,6 +290,12 @@
                       company-candidates)
           (self-insert-command 1)
         (company-complete-number (string-to-number k))))))
+
+(use-package    company-jedi
+  :ensure       t
+  :config       (add-hook 'python-mode-hook
+                          (lambi (add-to-list 'company-backends
+                                              'company-jedi))))
 
 ;; edit Chrome boxes w/emacs
 (use-package    edit-server
@@ -313,9 +325,7 @@
   :config       (recentf-mode 1))
 
 (use-package    whitespace
-  :custom       (whitespace-style '(face empty tabs lines-tail trailing))
-  :config       (custom-set-faces '(highlight-indentation-face
-                                    ((t (:inherit 'default))))))
+  :custom       (whitespace-style '(face empty tabs lines-tail trailing)))
 
 (use-package    hl-line
   :ensure       nil
@@ -332,7 +342,7 @@
 (use-package    flycheck
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
-                (flycheck-display-errors-delay 0.2)
+                (flycheck-display-errors-delay 0.5)
   :config       (add-hook 'after-init-hook 'global-flycheck-mode))
 
 (use-package    flycheck-pos-tip
@@ -377,6 +387,11 @@
   :custom       (global-linum-mode nil))
 
 (use-package    flyspell
+  :bind         (:map flyspell-mode-map
+                      (("C-.")   . nil)
+                       ("σ"       . company-flyspell)
+                       ("C-;"     . flyspell-correct-word-before-point)
+                       ("M-<f11>" . flyspell-correct-word-before-point))
   :custom       (flyspell-issue-message-flag nil)
                 (flyspell-issue-welcome-flag nil))
 
@@ -397,9 +412,6 @@
                       ("C-e"        . nil)
                       ("M-a"        . nil)
                       ("M-e"        . nil)
-                      ("σ"          . company-flyspell)
-                      ("C-;"        . flyspell-correct-word-before-point)
-                      ("M-<f11>"    . flyspell-correct-word-before-point)
                       ("C-S-a"      . outline-previous-visible-heading)
                       ("C-S-e"      . outline-next-visible-heading)
                       ("C-j"        . next-line)
@@ -411,8 +423,7 @@
 
 (use-package    git-gutter+
   :ensure       t
-  :config       (global-git-gutter+-mode)
-                (fringe-mode 0))
+  :config       (global-git-gutter+-mode))
 
 (use-package    goto-last-change
   :disabled     t  ;; deprecated for goto-chg
@@ -440,7 +451,7 @@
 
 (use-package    elpy
   :ensure       t
-  :custom       (elpy-rpc-backend "rope" t)
+  :custom       (elpy-rpc-backend "jedi")
                 (python-indent-guess-indent-offset t)
                 (python-shell-interpreter "ipython")
                 (python-shell-interpreter-args "-i --simple-prompt")
@@ -452,12 +463,17 @@
                 (semantic-add-system-include "/usr/lib/python2.7" 'python-mode)
                 (elpy-enable)
                 (add-hook 'python-mode-hook
-                          (lambi (setq flycheck-checker 'python-flake8))))
+                          (lambi (set (make-local-variable 'flycheck-checker) 'python-flake8))))
 
 (use-package    jedi
+  :disabled     t   ;; apparently company-jedi REPLACES jedi
   :ensure       t
   :init         (add-hook 'python-mode-hook 'jedi:setup)
                 (add-hook 'python-mode-hook 'jedi:ac-setup))
+
+(use-package    pyenv-mode
+  :ensure       t
+  :config       (pyenv-mode))
 
 (use-package    frame
   :config       (window-divider-mode t)
@@ -566,8 +582,9 @@
 
 (add-to-list 'auto-mode-alist '("defconfig$"    . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"      . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.scr$"       . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.sch$"       . text-mode))
+(add-to-list 'auto-mode-alist '("\\.scr$"       . sh-mode))
+(add-to-list 'auto-mode-alist '("\\rc$"         . sh-mode))
 
 (add-hook 'before-save-hook     'delete-trailing-whitespace)
 (add-hook 'find-file-hook       'find-file-root-header-warning)
