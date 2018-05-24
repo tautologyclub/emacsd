@@ -8,6 +8,24 @@
   (when auto-dim-other-buffers-mode
     (adob--focus-in-hook)))
 
+(defvar benjamin/rec-grep-command "grep --color -nHRi -e ")
+(setq benjamin/rec-grep-command "grep --color -nHri --include \\*.\\* ")
+(defvar benjamin/rec-grep-with-case-command "grep --color -nHRi -e ")
+(setq benjamin/rec-grep-with-case-command "grep --color -nHr --include \\*.\\* ")
+
+;;;###autoload
+(defun benjamin/rec-grep ()
+  "Recursively grep, ignore case."
+  (interactive)
+  (grep (read-input "grep: " benjamin/rec-grep-command)))
+
+;;;###autoload
+(defun benjamin/rec-grep-with-case ()
+  "Recursively grep, match case."
+  (interactive)
+  "Recursively grep, ignore case."
+  (grep (read-input "grep: " benjamin/rec-grep-with-case-command)))
+
 ;;;###autoload
 (defun benjamin/next-buffer ()
   (interactive)

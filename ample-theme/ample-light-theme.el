@@ -502,7 +502,7 @@
    `(org-level-6 ((t (:foreground nil :background nil))))
    `(org-level-7 ((t (:foreground nil :background nil))))
    `(org-level-8 ((t (:foreground nil :background nil))))
-   `(org-link ((t (:foreground "saddle brown" :background nil :bold t :underline t))))
+   `(org-link ((t (:foreground "DeepPink1" :background nil :bold t :underline t))))
 
    `(org-list-dt ((t (:foreground nil :background nil))))
    `(org-meta-line ((t (:foreground nil :background nil))))

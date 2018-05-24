@@ -52,6 +52,15 @@
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
 
+(use-package    feebleline
+  :load-path    "~/repos/feebleline"
+  :ensure       nil
+  :custom       (feebleline-show-git-branch             t)
+                (feebleline-show-dir                    t)
+                (feebleline-show-time                   nil)
+                (feebleline-show-previous-buffer        nil)
+  :config       (feebleline-mode 1))
+
 
 ; -- others stuff --------------------------------------------------------------
 (use-package    gdscript-mode
@@ -79,8 +88,11 @@
      ("C-l" . forward-char)
      ("C-h" . backward-char)
      ("C-n" . term-downdir)
+     ("C-S-a" . beginning-of-line)
+     ("C-S-e" . end-of-line)
      ("C-S-n" . term-updir)
      ("C-s" . swiper)
+     ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-t" . nil)
      ("C-r" . term-send-backspace)
      ("<f9>". term-send-backspace) ; == [
@@ -147,6 +159,23 @@
 (use-package    gud
   :custom       (gud-pdb-command-name "python -m pdb"))
 
+(use-package    realgud
+  :ensure       t
+  :custom       (realgud:pdb-command-name "python -m pdb")
+  :config       (defun realgud:eval-symbol-at-point ()
+                  "The eval-at-point stuff included in realgud are baaad."
+                  (interactive)
+                  (with-syntax-table (make-syntax-table (syntax-table))
+                    (modify-syntax-entry ?. "_")
+                    (let ((bounds (bounds-of-thing-at-point 'symbol)))
+                      (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
+  :bind         (:map realgud:shortkey-mode-map
+                      ("J" . realgud:cmd-jump)
+                      ("K" . realgud:cmd-kill)
+                      ("j" . next-line)
+                      ("p" . realgud:eval-symbol-at-point)
+                      ("k" . previous-line)))
+
 (use-package    projectile
   :ensure       t
   :custom       (projectile-completion-system   'ivy)
@@ -191,15 +220,6 @@
 (use-package    helm
   :ensure       t
   :custom       (helm-mode-line-string ""))
-
-(use-package    feebleline
-  :load-path    "~/repos/feebleline"
-  :ensure       nil
-  :custom       (feebleline-show-git-branch             t)
-                (feebleline-show-dir                    t)
-                (feebleline-show-time                   nil)
-                (feebleline-show-previous-buffer        nil)
-  :config       (feebleline-mode 1))
 
 (use-package    ivy-rich
   :disabled     t
@@ -317,8 +337,9 @@
 ;; todo -- I forgot how to use this thing efficiently
 (use-package    wgrep
   :ensure       t
-  :custom       (wgrep-auto-save-buffer t)
-  :config       (add-hook 'wgrep-setup-hook 'save-some-buffers))
+  :custom       (wgrep-auto-save-buffer t))
+; this hook is really annoying
+;; :config       (add-hook 'wgrep-setup-hook 'save-some-buffers))
 
 (use-package    recentf
   :custom       (recentf-max-saved-items 100)
@@ -354,7 +375,6 @@
 
 (use-package    irony
   :ensure       t
-  ;; not sure why this is here:
   :config       (defun my-irony-mode-hook ()
                   (define-key irony-mode-map [remap completion-at-point]
                     'irony-completion-at-point-async)
@@ -458,6 +478,7 @@
                 (python-indent-guess-indent-offset-verbose nil)
                 (python-skeleton-autoinsert t)
   :config       (remove-hook 'elpy-modules 'elpy-module-flymake)
+                (remove-hook 'elpy-modules 'elpy-module-highlight-indentation)
                 (add-to-list 'elpy-modules 'flycheck-mode)
                 (semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
                 (semantic-add-system-include "/usr/lib/python2.7" 'python-mode)

@@ -109,16 +109,17 @@
 (global-set-key       (kbd "M-r")   'backward-kill-word)
 (global-set-key       (kbd "C-r")   'kill-symbol-at-point)
 (global-set-key       (kbd "H-r")   'kill-word-at-point)
-(global-set-key       (kbd "H-R")   'counsel-rg)
-(global-set-key     (kbd "H-M-r")   'isearch-backward)                         ;
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
-(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)
-(global-set-key     (kbd "M-s r")   'counsel-git-grep)
-(global-set-key     (kbd "C-x r")   'counsel-rg)
+(global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)
+(global-set-key   (kbd "M-s   r")   'benjamin/rec-grep)
+(global-set-key   (kbd "M-s   R")   'benjamin/rec-grep-with-case)
+(global-set-key   (kbd "M-s H-r")   'counsel-rg)
+(global-set-key   (kbd "M-s C-r")   'counsel-git-grep)
+(global-set-key     (kbd "C-x r")   'grep)
+(global-set-key     (kbd "C-H-r")   'counsel-projectile-rg)                    ;
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
 (global-set-key (kbd "C-x C-S-r")   'rename-current-buffer-file)
 (global-set-key   (kbd "C-x M-r")   'rename-buffer)
-(global-set-key     (kbd "C-c ra")  'clear-text-properties-from-buffer)
 (define-key isearch-mode-map (kbd "H-r") 'isearch-repeat-backward)
 
 (global-set-key     (kbd "C-t")    ctl-x-map)
@@ -229,16 +230,17 @@
 ;-f == (
 
 (global-set-key     (kbd "H-g")   'benjamin/get-term)
-(global-set-key     (kbd "s-g")   'hydra-git-gutter/body)
+(global-set-key     (kbd "s-g")   'grep)
+(global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
+(global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
 (global-set-key     (kbd "M-g")   'goto-line-with-feedback)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)
 (global-set-key (kbd "M-s M-g")   'magit-status)
-(global-set-key   (kbd "M-s g")   'magit-status)
+(global-set-key (kbd "M-s   g")   'hydra-git-gutter/body)
 (global-set-key   (kbd "C-x g")   'magit-status)                               ;
 (global-set-key   (kbd "C-c g")   'helm-google)
-(global-set-key   (kbd "M-s g")   'hydra-git-gutter/body)
 ;-g == ?
 
 (global-set-key     (kbd "H-h")    help-map)
