@@ -54,6 +54,7 @@
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
+  :after        (esh-ext)
   :ensure       nil
   :custom       (feebleline-show-git-branch             t)
                 (feebleline-show-dir                    t)
@@ -76,41 +77,39 @@
 (use-package    multi-term
   :bind
   (:map term-raw-map
-     ("C-g" . (lambda () (interactive) (term-send-raw-string "")))
-     ("H-w" . counsel-term-ff)
-     ("H-c" . counsel-term-cd)
-     ("M-r" . counsel-term-history)
-     ("H-f" . avy-goto-word-or-subword-1)
-     ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-d" . term-send-raw)
-     ("C-p" . projectile-command-map)
-     ("C-j" . next-line)
-     ("C-k" . previous-line)
-     ("C-l" . forward-char)
-     ("C-h" . backward-char)
-     ("C-j" . next-line)
-     ("C-k" . previous-line)
-     ("C-n" . term-downdir)
-     ("C-S-n" . term-updir)
-     ("C-s" . swiper)
-     ("C-t" . nil)
-     ("C-r" . term-send-backspace)
-     ("<f9>". term-send-backspace) ; == [
-     ("C-m" . term-send-return)
-     ("C-y" . term-paste)
-     ("H-i" . term-paste)
-     ("C-q" . backward-word)
-     ("M-q" . term-send-backward-word)
-     ("M-f" . term-send-forward-word)
-     ("M-p" . term-send-up)
-     ("M-n" . term-send-down)
-     ("M-d" . term-send-delete-word)
-     ("M-," . term-send-raw)
-     ("H-M-f" . (lambda ()
-                  (interactive)
-                  (term-send-raw-string " fuck")
-                  (sleep-for 0.2)(term-send-raw-string "")))
-     ;; ("C-x t" . term-toggle-mode-w/warning)
+     ("C-g"     . (lambda () (interactive) (term-send-raw-string "")))
+     ("H-w"     . counsel-term-ff)
+     ("H-c"     . counsel-term-cd)
+     ("M-r"     . counsel-term-history)
+     ("H-f"     . avy-goto-word-or-subword-1)
+     ("H-k"     . (lambda () (interactive) (term-send-raw-string "")))
+     ("C-d"     . term-send-raw)
+     ("C-p"     . projectile-command-map)
+     ("C-j"     . next-line)
+     ("C-k"     . previous-line)
+     ("C-l"     . forward-char)
+     ("C-h"     . backward-char)
+     ("C-j"     . next-line)
+     ("C-k"     . previous-line)
+     ("C-n"     . term-downdir)
+     ("C-S-n"   . term-updir)
+     ("C-s"     . swiper)
+     ("C-t"     . nil)
+     ("C-r"     . term-send-backspace)
+     ("<f9>"    . term-send-backspace) ; == [
+     ("C-m"     . term-send-return)
+     ("C-y"     . term-paste)
+     ("H-i"     . term-paste)
+     ("C-q"     . backward-word)
+     ("M-q"     . term-send-backward-word)
+     ("M-f"     . term-send-forward-word)
+     ("M-p"     . term-send-up)
+     ("M-n"     . term-send-down)
+     ("M-d"     . term-send-delete-word)
+     ("M-,"     . term-send-raw)
+     ("H-M-f"   . (lambda () (interactive)
+                    (term-send-raw-string " fuck")
+                    (sleep-for 0.2) (term-send-raw-string "")))
      ("C-c C-c" . term-interrupt-subjob)
      ("C-c C-e" . term-send-esc)
      ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
@@ -119,7 +118,7 @@
                     (term-send-raw-string "sudo ")))
      ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("<C-backspace>" . term-send-backward-kill-word)
-     ("<C-return>" . term-cd-input))
+     ("<C-return>"    . term-cd-input))
   (:map term-mode-map
         ("C-p"   . nil)
         ("C-x t" . term-toggle-mode-w/warning))
@@ -167,10 +166,44 @@
                 (projectile-mode-line "")
   :config       (add-to-list 'projectile-project-root-files ".repo")
                 (add-to-list 'projectile-project-root-files ".dir-locals.el")
-                (projectile-mode 1))
+                (defun projectile-get-term ()
+                  "Get multi-term in project root."
+                  (interactive)
+                  (let ((projectile--proj-term-name
+                         (concat "term:" (projectile-project-name))))
+                    (if (not (eq nil (get-buffer projectile--proj-term-name)))
+                        (switch-to-buffer projectile--proj-term-name)
+                      (projectile-with-default-dir (projectile-project-root)
+                        (multi-term)
+                        (rename-buffer projectile--proj-term-name)))))
+                (projectile-mode 1)
+  :bind (:map projectile-command-map
+              ("t"      . projectile-get-term)
+              ("T"      . projectile-test-project)
+              ("u"      . projectile-run-project)
+              ("r"      . counsel-projectile-rg)
+              ("o"      . projectile-find-other-file)
+              ("e"      . projectile-recentf)
+              ("j"      . projectile-find-tag)
+              ("O"      . projectile-find-other-file-other-window)
+              ("p"      . counsel-projectile)
+              ("C-p"    . counsel-projectile)
+              ("s"      . counsel-projectile-switch-project)
+              ("d"      . counsel-projectile-find-dir)
+              ("g"      . counsel-projectile-git-grep)
+              ("q"      . projectile-replace)
+              ("c"      . projectile-compile-project)
+              ("C-f"    . projectile-find-file-in-known-projects)
+              ("A"      . projectile-run-async-shell-command-in-root)))
 
 (use-package    counsel-projectile
   :ensure       t
+  :config
+  (defun counsel-projectile-switch-project-action-run-term (project)
+    "Overridden!"
+    (let ((projectile-switch-project-action
+           (lambda () (projectile-get-term))))
+      (counsel-projectile-switch-project-by-name project)))
   :custom
   ;; set the default switch-project-action index to that of run-term (18)
   ;; todo: just make it a key binding
@@ -199,6 +232,56 @@
 
 (use-package    helm
   :ensure       t
+  :config
+  (defun helm-display-mode-line (source &optional force) "")
+  (defun helm-toggle-header-line ()
+    (if (= (length helm-sources) 1)
+        (set-face-attribute 'helm-source-header nil :height 0.1)
+      (set-face-attribute 'helm-source-header nil :height 1.0)))
+  (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
+  (defun benjamin/helm-buffers-list () (interactive)
+         (unless helm-source-buffers-list
+           (setq helm-source-buffers-list
+                 (helm-make-source "Buffers" 'helm-source-buffers)))
+         (let ((helm-split-window-default-side 'right)
+               (helm-display-buffer-default-width 38)
+               (helm-display-header-line nil))
+           (helm :sources              '(helm-source-buffers-list)
+                 :buffer               "*helm buffers*"
+                 :keymap               helm-buffer-map
+                 :input                "\!\\* "
+                 :truncate-lines       helm-buffers-truncate-lines)))
+  (defun benjamin/helm-buffers-persistent-kill (_buffer)
+    (let ((marked (helm-marked-candidates)))
+      (unwind-protect
+          (cl-loop for b in marked
+                   do
+                   (progn (helm-preselect
+                           (format "^%s"
+                                   (helm-buffers--quote-truncated-buffer b)))
+                          (helm-buffers-persistent-kill-1 b)
+                          (message nil)
+                          (helm--remove-marked-and-update-mode-line b)))
+        (with-helm-buffer
+          (setq helm-marked-candidates nil
+                helm-visible-mark-overlays nil))
+        (helm-force-update (helm-buffers--quote-truncated-buffer
+                            (helm-get-selection))))))
+  (defun benjamin/helm-kill-buffer () (interactive)
+         (with-helm-alive-p
+           (helm-attrset 'kill-action
+                         '(benjamin/helm-buffers-persistent-kill . never-split))
+           (helm-execute-persistent-action 'kill-action)))
+  (defun helm-backspace () (interactive)
+         (condition-case nil (backward-delete-char 1)
+           (error (helm-keyboard-quit))))
+  (put 'benjamin/helm-kill-buffer 'helm-only t)
+  (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
+  (define-key helm-map (kbd "C-j")   'helm-next-line)
+  (define-key helm-map (kbd "C-k")   'helm-previous-line)
+  (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
+  (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
+  (define-key helm-map (kbd "<f9>")  'helm-backspace)
   :custom       (helm-mode-line-string ""))
 
 (use-package    ivy-rich
@@ -227,10 +310,41 @@
                 (add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*helm")
+  :bind         (:map ivy-minibuffer-map
+                      ("M-o"    . nil)
+                      ("S-SPC"  . nil)
+                      ("C-j"    . ivy-next-line)
+                      ("C-k"    . ivy-previous-line)
+                      ("C-S-k"  . ivy-previous-line-and-call)
+                      ("C-S-j"  . ivy-next-line-and-call)
+                      ("C-r"    . ivy-previous-history-element)
+                      ("C-s"    . ivy-next-history-element)
+                      ("H-o"    . ivy-dispatching-done)
+                      ("M-r"    . ivy-backward-kill-word)
+                      ("C-x e"  . ivy-end-of-buffer)
+                      ("C-x a"  . ivy-beginning-of-buffer)
+                      ("C-c o"  . ivy-occur)
+                      ("C-x <return>"    . ivy-restrict-to-matches)
+                      ("C-x <C-return>"  . ivy-toggle-ignore)
+                      ("<return>"        . ivy-alt-done)
+                      ("C-<up>"          . ivy-previous-line-and-call)
+                      ("C-<down>"        . ivy-next-line-and-call))
   :config       (ivy-mode 1)
                 (setq ivy-virtual-abbreviate 'name)
+                (define-key ivy-occur-grep-mode-map
+                  (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
+                (define-key ivy-switch-buffer-map (kbd "M-o") nil)
                 (ivy-set-display-transformer
-                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
+                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+                (define-key ivy-switch-buffer-map (kbd "M-k")
+                  (lambi (ivy-set-action 'kill-buffer)
+                         (ivy-call)
+                         (ivy--reset-state ivy-last)
+                         (ivy-set-action 'ivy--switch-buffer-action)))
+                (define-key ivy-minibuffer-map (kbd "H-t")
+                  (lambi (ivy-quit-and-run
+                           (let ((default-directory ivy--directory))
+                             (multi-term))))))
 
 (use-package    avy
   :ensure       t
@@ -242,10 +356,16 @@
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read))
 
+(use-package    swiper
+  :ensure       t
+  )
+
 (use-package    counsel
   :ensure       t
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
   :custom       (counsel-grep-swiper-limit      120000)
+                (define-key counsel-find-file-map
+                  (kbd "H-r") 'counsel-up-directory)
                 (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
@@ -336,7 +456,9 @@
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.2)
-  :config       (add-hook 'after-init-hook 'global-flycheck-mode))
+  :config       (add-hook 'after-init-hook 'global-flycheck-mode)
+                (define-key flycheck-mode-map
+                  (kbd "C-x f") 'benjamin/flycheck-list-errors))
 
 (use-package    flycheck-pos-tip
   :ensure       t
@@ -486,6 +608,57 @@
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode))
 
+(use-package    cc-mode
+  :after        (semantic)
+  :custom       (c-default-style        "linux")
+                (c-basic-offset         8)
+  :bind         (:map c-mode-base-map
+                      ("M-q"    . nil)
+                      ("M-e"    . nil)
+                      ("M-a"    . nil)
+                      ("M-j"    . nil)
+                      ("C-M-a"  . nil)
+                      ("C-M-e"  . nil)
+                      ("C-M-j"  . nil)
+                      ("C-M-k"  . nil)
+                      ("C-c o"  . c-occur-overview)
+                      ("M-c"    . hydra-gdb/body)       ;; todo
+                      ("C-i"    . indent-or-complete))
+  :config       (semanticdb-enable-gnu-global-databases 'c-mode)
+                (semanticdb-enable-gnu-global-databases 'c++-mode)
+                (add-to-list 'semantic-lex-c-preprocessor-symbol-file
+                             "/usr/lib/clang/5.0.0/include/stddef.h")
+                (defun c-occur-overview () (interactive)
+                       (let ((list-matching-lines-face nil))
+                         (occur "^[a-z].*("))
+                       (enlarge-window 25)
+                       (hydra-errgo/body))
+                (defun benjamin/c-hook ()
+                  (subword-mode 1)
+                  (flycheck-mode 1)
+                  (helm-gtags-mode 1)
+                  (fci-mode -1) ;; destroys company
+                  (irony-mode 1)
+                  (company-mode 1)
+                  (semantic-mode 1)
+                  (semantic-stickyfunc-mode -1)
+                  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
+                  (when (boundp 'company-backends)
+                    (set (make-local-variable 'company-backends)
+                         '((
+                            company-c-headers
+                            company-irony
+                            ;; company-semantic
+                            ;; company-files
+                            company-cmake
+                            ;; company-keywords
+                            ;; company-gtags
+                            ;; company-capf
+                            )))))
+                (add-hook 'c-mode-hook 'benjamin/c-hook)
+                (add-hook 'c++-mode-hook 'benjamin/c-hook)
+)
+
 (use-package    pdf-tools
   :ensure       t
   :config       (with-eval-after-load 'pdf-view
@@ -504,7 +677,8 @@
                   (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
 
 (use-package    gud
-  :custom       (gud-pdb-command-name "python -m pdb"))
+  :custom       (gud-pdb-command-name "python -m pdb")
+  :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
 
 (use-package    realgud
   :ensure       t
@@ -522,6 +696,9 @@
                       ("j" . next-line)
                       ("p" . realgud:eval-dotsymbol-at-point)
                       ("k" . previous-line)))
+
+(use-package    make-mode
+  :config       (add-hook 'makefile-mode-hook 'indent-tabs-mode))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -607,21 +784,15 @@
 (find-file "~/.emacs.d/bindings2.el")
 (find-file "~/.emacs.d/init.el")
 
-;; some temporary hacks
-(load "~/.emacs.d/ivy-custom.el")
-(load "~/.emacs.d/face-by-mode.el")
-(load "~/.emacs.d/helm-custom.el")
-(load "~/.emacs.d/projectile-custom.el")
-(load "~/.emacs.d/c-custom.el")
-(load "~/.emacs.d/gdb-custom.el")
-(load "~/.emacs.d/ora-ediff.el")
-(load "~/.emacs.d/git-custom.el")
-(load "~/.emacs.d/indicate-cursor.el")
-(load "~/.emacs.d/lisp/ivy_buffer_extend.el") ; tmp, see ivy-rich package
-(load "~/.emacs.d/bindings2.el")
+(load "~/.emacs.d/face-by-mode.el")             ;; useless
+(load "~/.emacs.d/gdb-custom.el")               ;; really in need of revision
+(load "~/.emacs.d/git-custom.el")               ;; really in need of revision
+(load "~/.emacs.d/ora-ediff.el")                ;; really in need of revision
+(load "~/.emacs.d/indicate-cursor.el")          ;; useless
 
 ;; This hack ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
+(load "~/.emacs.d/bindings2.el")
 
 ;; I don't always need a *scratch*
 (condition-case nil (kill-buffer "*scratch*") (error nil))

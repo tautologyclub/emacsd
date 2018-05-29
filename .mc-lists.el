@@ -3,19 +3,20 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        avy-goto-char-in-line
         backward-delete-char
+        beginning-of-line-or-block
         benjamin/backward-kill-word
         benjamin/jump-char-bwd
         benjamin/jump-char-fwd
         benjamin/kill-word
-        c-electric-delete-forward
-        avy-goto-char-in-line
-        beginning-of-line-or-block
         benjamin/kill-word
         benjamin/set-mark-command
         c-electric-delete-forward
+        c-electric-delete-forward
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
+        end-of-line-or-block
         forward-whitespace
         hungry-delete-forward
         kill-inner
@@ -25,6 +26,7 @@
         kill-to-beginning-of-indentation-or-line
         lispy-braces
         lispy-brackets
+        lispy-cursor-down
         lispy-delete
         lispy-kill
         lispy-parens
@@ -104,24 +106,22 @@
         tab-to-tab-stop
         xah-beginning-of-line-or-block
         xah-end-of-line-or-block
-        end-of-line-or-block
-        lispy-cursor-down
         ))
 
 (setq mc/cmds-to-run-once
       '(
-        handle-switch-frame
-        helm-M-x
-        iedit-switch-to-mc-mode
-        ivy-alt-done
-        lispy-cursor-down
-        org-cycle
         counsel-grep-or-swiper
         dropdown-multiterm
         eval-buffer
         handle-switch-frame
+        handle-switch-frame
+        helm-M-x
         hydra-toggle/body
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
+        iedit-switch-to-mc-mode
         ivy-alt-done
+        ivy-alt-done
+        lispy-cursor-down
+        org-cycle
         ))
