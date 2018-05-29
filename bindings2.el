@@ -84,6 +84,7 @@
 (global-set-key   (kbd "H-M-w")     'find-file-other-window)                   ;
 (global-set-key   (kbd "C-S-w")     'my-i3-make-frame)                         ;
 (global-set-key (kbd "C-x M-w")     'copy-current-file-path)
+(global-set-key (kbd "M-s M-w")     'rotate-windows)
 
 (global-set-key     (kbd "C-e")     'end-of-line-or-block)
 (global-set-key     (kbd "s-e")      nil)
@@ -166,6 +167,7 @@
 (global-set-key     (kbd "M-o")   'other-window)
 (global-set-key     (kbd "H-o")   'undo-tree-undo)
 (global-set-key   (kbd "C-S-o")   'comment-or-uncomment-region-or-line)
+;; (global-set-key   (kbd "C-M-o")   'new-line-in-between)
 (global-set-key   (kbd "H-M-o")   'projectile-find-other-file)                 ;
 (global-set-key (kbd "M-s M-o")   'projectile-find-other-file-other-window)
 (global-set-key   (kbd "C-x o")   'occur-dwim)
@@ -262,7 +264,7 @@
 (global-set-key     (kbd "s-j")    nil)
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'backward-char)                              ;
-(global-set-key     (kbd "M-j")   'ace-jump-buffer)
+(global-set-key     (kbd "M-j")   'hippie-expand)
 (global-set-key   (kbd "C-S-j")   'move-text-down)
 (global-set-key   (kbd "H-M-j")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-x j")   (lambi (dired-jump) (hydra-dired/body)))

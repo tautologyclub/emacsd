@@ -64,7 +64,8 @@
 
 ; -- others stuff --------------------------------------------------------------
 (use-package    gdscript-mode
-  :ensure       nil
+  :disabled
+  :ensure       t
   :load-path    "~/repos/gdscript-mode")
 
 (use-package    undo-tree
@@ -508,7 +509,7 @@
 (use-package    realgud
   :ensure       t
   :custom       (realgud:pdb-command-name "python -m pdb")
-  :config       (defun realgud:eval-symbol-at-point ()
+  :config       (defun realgud:eval-dotsymbol-at-point ()
                   "The eval-at-point stuff included in realgud are baaad."
                   (interactive)
                   (with-syntax-table (make-syntax-table (syntax-table))
@@ -519,7 +520,7 @@
                       ("J" . realgud:cmd-jump)
                       ("K" . realgud:cmd-kill)
                       ("j" . next-line)
-                      ("p" . realgud:eval-symbol-at-point)
+                      ("p" . realgud:eval-dotsymbol-at-point)
                       ("k" . previous-line)))
 
 (use-package    py-autopep8             :ensure t)
@@ -621,9 +622,6 @@
 
 ;; This hack ensures bindings gets loaded last
 (add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
-
-;; elpy forces whitespace-mode for some stupid reason, hacky solution:
-(custom-set-faces '(highlight-indentation-face ((t (:background nil :inherit 'default)))))
 
 ;; I don't always need a *scratch*
 (condition-case nil (kill-buffer "*scratch*") (error nil))

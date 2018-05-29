@@ -69,13 +69,13 @@
  '(company-auto-complete-chars (quote (46 62)))
  '(company-backends
    (quote
-    (company-semantic company-clang company-xcode company-cmake company-capf company-files
+    (company-semantic company-clang company-cmake company-capf company-files
                       (company-dabbrev-code company-gtags company-etags company-keywords)
                       company-oddmuse company-dabbrev)))
- '(company-idle-delay 0)
+ '(company-idle-delay 0.5)
  '(company-minimum-prefix-length 3)
  '(company-show-numbers t)
- '(company-tooltip-idle-delay 0.2)
+ '(company-tooltip-idle-delay 1)
  '(company-tooltip-limit 10)
  '(compilation-message-face (quote default))
  '(counsel-grep-swiper-limit 120000)
@@ -105,7 +105,7 @@
  '(counsel-rg-base-command
    "rg -i --no-heading --line-number --max-columns 120 --max-count 200 --max-filesize 100M --color never %s . 2>/dev/null")
  '(counsel-term-ff-initial-input "")
- '(counsel-term-history-initial-input "")
+ '(counsel-term-history-initial-input "" t)
  '(custom-enabled-themes (quote (ample-light)))
  '(custom-safe-themes
    (quote
@@ -119,7 +119,7 @@
  '(elfeed-feeds
    (quote
     ("http://cestlaz.github.io/rss.xml" "http://nullprogram.com/feed/" "http://planet.emacsen.org/atom.xml" "https://www.electronicsweekly.com/news/feed/" "https://www.electronicsweekly.com/rss-feeds/" "http://pragmaticemacs.com/feed/")))
- '(elpy-rpc-backend "rope" t)
+ '(elpy-rpc-backend "jedi" t)
  '(erc-autojoin-channels-alist (quote (("#emacs"))))
  '(erc-nick "g00iekabl00ie")
  '(erc-rename-buffers t)
@@ -222,12 +222,12 @@
  '(nrepl-message-colors
    (quote
     ("#336c6c" "#205070" "#0f2050" "#806080" "#401440" "#6c1f1c" "#6b400c" "#23733c")))
- '(org-agenda-files (quote ("~/work/agenda.org")))
- '(org-hide-leading-stars t)
+ '(org-agenda-files (quote ("~/work/agenda.org")) t)
+ '(org-hide-leading-stars t t)
  '(org-log-done (quote time))
  '(package-selected-packages
    (quote
-    (flyspell-correct-helm flyspell-correct-ivy anaconda pdf-tools edit-server highlight bitbake markdown-mode+ helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
+    (gdscript-mode flyspell-correct-helm flyspell-correct-ivy anaconda pdf-tools edit-server highlight bitbake markdown-mode+ helm-chrome helm-systemd goto-chg ivy-rich stickyfunc-enhance counsel-bookmark auto-dim-other-buffers eproject goto-last-change ace-link switch-buffer-functions company-quickhelp c-eldoc logview highlight-indent-guides dts-mode flycheck-popup-tip minibuffer-line counsel-spotify help-fns+ el-get org-pdfview yapfify py-autopep8 move-text epc flycheck-pos-tip git-timemachine helm-pydoc counsel-pydoc python-pylint slack vimish-fold helm-make function-args evil multiple-cursors git-gutter-fringe+ helm-google helm-flycheck framemove company-c-headers flycheck-rtags rtags ace-jump-buffer fastnav dired+ rg smex which-key lispy wgrep smart-hungry-delete counsel-projectile anaconda-mode nlinum auto-compile helm-ag ag helm-projectile avy ace-jump-mode helm-describe-modes helm-descbinds ivy-hydra helm-themes golden-ratio helm-swoop popwin crux imenu-anywhere ssh irony counsel hungry-delete undo-tree expand-region volatile-highlights elfeed company-irony-c-headers flycheck-irony projectile use-package pylint magit jedi helm-gtags helm-flymake helm-etags-plus helm-company gtags google-c-style ggtags frame-cmds flycheck-pycheckers fill-column-indicator elpy drupal-mode counsel-gtags company-jedi company-irony)))
  '(pdf-view-midnight-colors (quote ("#232333" . "#c7c7c7")))
  '(pos-tip-background-color "#073642")
  '(pos-tip-border-width 0)
