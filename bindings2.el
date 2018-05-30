@@ -55,14 +55,6 @@
 (global-set-key      (kbd "H-'")  'BIND-ME)
 (global-set-key       (kbd "䑄")  'switch-to-buffer)                         ;-'
 
-;; In case I accidentally left swedish keyboard layout on
-(global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
-                                        (benjamin/set-mark-command)))
-(global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
-                                        (call-interactively 'switch-to-buffer)))
-
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")   'ora-brackets)
 
@@ -356,9 +348,14 @@
 ;; (global-set-key (kbd "H--")     'undo-tree-undo)
 ;; (global-set-key (kbd "H-=")     'undo-tree-redo)
 
-
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
 
 
-;
+;; In case I accidentally left swedish keyboard layout on
+(global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
+                                        (call-process "xcape-restart" nil 0 nil)
+                                        (benjamin/set-mark-command)))
+(global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
+                                        (call-process "xcape-restart" nil 0 nil)
+                                        (call-interactively 'switch-to-buffer)))

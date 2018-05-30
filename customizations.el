@@ -50,7 +50,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["#000000" "#CD5542" "#4A8F30" "#7D7C21" "#4170B3" "#9B55C3" "#8eadd1" "gray43"])
+   ["#212526" "#ff4b4b" "#b4fa70" "#fce94f" "#729fcf" "#e090d7" "#8cc4ff" "#eeeeec"])
  '(async-bytecomp-allowed-packages nil)
  '(auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
  '(auto-revert-verbose nil)
@@ -112,6 +112,13 @@
     ("c9ddf33b383e74dac7690255dd2c3dfa1961a8e8a1d20e401c6572febef61045" "5691b95e3cb9d4b7a6e8e22f3fc6a5ef2677c4a6be130c5c356955aa27ec9f97" "c445dc2c368dfe68804a1b6d5bf6e3398b050aabd69fd051669fc2a6364bdeca" "94246a88ef81fcd114da447c2396dbe4afc7e66cdc58c438a933d914463ea3b6" "13b815a01a4cc8cf411e8257a0f5e30aa7f4adccc18748cfa82909cbac4fa0c8" "7afea3a70d8faa333f339170d2d7530533e2a9f87f7d68e54cf769c44d8269d2" default)))
  '(debug-on-error nil)
  '(default ((t (:height 105 :width normal :family "Inconsolata"))))
+ '(define-key
+    (quote
+     (keymap
+      (27 keymap
+          (25 . counsel-yank-directory))
+      (C-backspace . counsel-up-directory)
+      (67108991 . counsel-up-directory))) t)
  '(delete-by-moving-to-trash t)
  '(echo-keystrokes 0.01)
  '(eldoc-idle-delay 0.75)
@@ -141,6 +148,8 @@
  '(flycheck-display-errors-delay 0.2)
  '(flycheck-idle-change-delay 0.5)
  '(flycheck-pos-tip-timeout 20)
+ '(flyspell-issue-message-flag nil)
+ '(flyspell-issue-welcome-flag nil)
  '(fringe-mode (quote (1 . 1)) nil (fringe))
  '(gdb-many-windows t)
  '(gdb-show-main t)
@@ -149,6 +158,7 @@
  '(global-flycheck-mode t)
  '(global-linum-mode nil)
  '(global-semantic-stickyfunc-mode t)
+ '(gud-pdb-command-name "python -m pdb")
  '(helm-autoresize-max-height 24)
  '(helm-autoresize-min-height 24)
  '(helm-autoresize-mode t)
@@ -243,7 +253,10 @@
  '(python-indent-guess-indent-offset t)
  '(python-indent-guess-indent-offset-verbose nil)
  '(python-pylint-command "pylint+ 2")
+ '(python-shell-interpreter "ipython")
+ '(python-shell-interpreter-args "-i --simple-prompt")
  '(python-skeleton-autoinsert t)
+ '(realgud:pdb-command-name "python -m pdb" t)
  '(recentf-max-saved-items 100)
  '(resize-mini-windows t)
  '(safe-local-variable-values
@@ -382,10 +395,6 @@
  '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
  '(aw-leading-char-face ((t (:background "gray" :foreground "black" :height 3.0))))
  '(counsel-buffer-face-term-mode ((t :inherit (quote font-lock-function-name-face))))
- '(feebleline-bufname-face ((t (:foreground "#000000" :bold nil :medium nil))))
- '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face))))
- '(feebleline-linum-face ((t (:inherit default))))
- '(feebleline-previous-buffer-face ((t (:foreground "#3e3e3e"))))
  '(git-gutter+-added ((t (:background "#d7d8da" :foreground "#00aa00"))))
  '(git-gutter+-deleted ((t (:background "#d7d8da" :foreground "#aa0000"))))
  '(git-gutter+-modified ((t (:background "#d7d8da" :foreground "#ff44ff"))))
@@ -396,7 +405,6 @@
  '(ivy-virtual-buffer-dir-face ((t (:inherit (quote feebleline-dir-face) :italic t :family "Noto Sans" :height 0.9))))
  '(link ((t (:foreground "deep sky blue" :underline t))))
  '(linum ((t (:background nil :foreground "dark red"))))
- '(minibuffer-prompt ((t (:foreground "#9B55C3" :bold t :background nil))))
  '(mode-line ((t :height unspecified)))
  '(mode-line-inactive ((t (:inherit mode-line :background "#555753" :foreground "#eeeeec" :box (:line-width -1 :style released-button)))))
  '(popup-tip-face ((t (:foreground "yellow" :background "red" :bold nil))))
