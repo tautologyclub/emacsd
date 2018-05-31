@@ -211,12 +211,12 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-bindsym $mod+u exec notify-send "use mod+o instead"
 
+bindsym $mod+u exec notify-send "use mod+o instead"
 bindsym $mod+o mode "shortcuts"
 mode "shortcuts" {
      bindsym e exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
-     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
+#     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym o exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym s exec /home/benjamin/bin/xcape-restart --swedish; mode "default"
      bindsym b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-chrome-stable; mode "default"

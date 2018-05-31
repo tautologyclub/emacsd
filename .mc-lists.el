@@ -4,7 +4,12 @@
 (setq mc/cmds-to-run-for-all
       '(
         avy-goto-char-in-line
+        backward-delete-char
         beginning-of-line-or-block
+        benjamin/backward-kill-word
+        benjamin/jump-char-bwd
+        benjamin/jump-char-fwd
+        benjamin/kill-word
         benjamin/kill-word
         benjamin/set-mark-command
         c-electric-delete-forward
@@ -114,8 +119,11 @@
         dropdown-multiterm
         eval-buffer
         handle-switch-frame
+        handle-switch-frame
+        helm-M-x
         hydra-toggle/body
         hydra-toggle/overwrite-mode
+        iedit-switch-to-mc-mode
         iedit-switch-to-mc-mode
         ivy-alt-done
         lispy-cursor-down

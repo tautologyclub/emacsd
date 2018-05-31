@@ -32,5 +32,3 @@
 
 ;; (add-hook 'org-mode-hook 'set-boring-buffer-face)
 ;; (add-hook 'prog-mode-hook 'set-boring-prog-mode-face)
-
-(global-set-key (kbd "H-f") 'describe-face)

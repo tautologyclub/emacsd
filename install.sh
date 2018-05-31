@@ -15,9 +15,9 @@ for file in "$binfiles"; do
 done
 
 if [ -d ~/.i3 ]; then
-    ln -f "$i3file" ~/.i3//config
+    ln -f "$i3file" ~/.i3/config
 else
-    ln -f "$i3file" ~/.config/i3//config || {
+    ln -f "$i3file" ~/.config/i3/config || {
         echo "wtf no i3"
         exit 1
     }

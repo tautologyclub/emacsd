@@ -142,6 +142,8 @@
 
    `(vertical-border ((t (:background ,ample/darker-gray :foreground ,ample/darkest-gray))))
 
+   `(hl-line ((t (:background "#d8d4af"))))
+
    `(highlight-indentation-face ((t (:background ,ample/darkest-gray))))
 
    ;; mini buff

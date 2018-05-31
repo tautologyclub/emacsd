@@ -47,10 +47,17 @@
   :load-path    "~/repos/counsel-term")
 
 (use-package    ample-light-theme  ;; forked
+  :disabled
   :ensure       nil
   :after        (feebleline)
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
+
+(use-package    tango-dark-fork  ;; forked
+  :ensure       nil
+  :after        (feebleline)
+  :config       (load-theme 'tango-dark-fork)
+  :load-path    "~/.emacs.d/lisp")
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
@@ -64,7 +71,8 @@
 
 ; -- others stuff --------------------------------------------------------------
 (use-package    gdscript-mode
-  :ensure       nil
+  :disabled
+  :ensure       t
   :load-path    "~/repos/gdscript-mode")
 
 (use-package    undo-tree
@@ -122,7 +130,7 @@
      ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("<C-backspace>" . term-send-backward-kill-word)
-     ("<C-return>" . term-cd-input))
+     ("<C-return>"    . term-cd-input))
   (:map term-mode-map
         ("C-p"   . nil)
         ("C-x t" . term-toggle-mode)
@@ -153,31 +161,12 @@
   :ensure       t)
 
 (use-package    fill-column-indicator
-  :ensure       nil
+  ;; really glitchy but sometimes so nice to have
+  :ensure       t
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
-
-(use-package    gud
-  :custom       (gud-pdb-command-name "python -m pdb"))
-
-(use-package    realgud
-  :ensure       t
-  :custom       (realgud:pdb-command-name "python -m pdb")
-  :config       (defun realgud:eval-symbol-at-point ()
-                  "The eval-at-point stuff included in realgud are baaad."
-                  (interactive)
-                  (with-syntax-table (make-syntax-table (syntax-table))
-                    (modify-syntax-entry ?. "_")
-                    (let ((bounds (bounds-of-thing-at-point 'symbol)))
-                      (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
-  :bind         (:map realgud:shortkey-mode-map
-                      ("J" . realgud:cmd-jump)
-                      ("K" . realgud:cmd-kill)
-                      ("j" . next-line)
-                      ("p" . realgud:eval-symbol-at-point)
-                      ("k" . previous-line)))
 
 (use-package    projectile
   :ensure       t
@@ -190,10 +179,44 @@
                 (projectile-mode-line "")
   :config       (add-to-list 'projectile-project-root-files ".repo")
                 (add-to-list 'projectile-project-root-files ".dir-locals.el")
-                (projectile-mode 1))
+                (defun projectile-get-term ()
+                  "Get multi-term in project root."
+                  (interactive)
+                  (let ((projectile--proj-term-name
+                         (concat "term:" (projectile-project-name))))
+                    (if (not (eq nil (get-buffer projectile--proj-term-name)))
+                        (switch-to-buffer projectile--proj-term-name)
+                      (projectile-with-default-dir (projectile-project-root)
+                        (multi-term)
+                        (rename-buffer projectile--proj-term-name)))))
+                (projectile-mode 1)
+  :bind (:map projectile-command-map
+              ("t"      . projectile-get-term)
+              ("T"      . projectile-test-project)
+              ("u"      . projectile-run-project)
+              ("r"      . counsel-projectile-rg)
+              ("o"      . projectile-find-other-file)
+              ("e"      . projectile-recentf)
+              ("j"      . projectile-find-tag)
+              ("O"      . projectile-find-other-file-other-window)
+              ("p"      . counsel-projectile)
+              ("C-p"    . counsel-projectile)
+              ("s"      . counsel-projectile-switch-project)
+              ("d"      . counsel-projectile-find-dir)
+              ("g"      . counsel-projectile-git-grep)
+              ("q"      . projectile-replace)
+              ("c"      . projectile-compile-project)
+              ("C-f"    . projectile-find-file-in-known-projects)
+              ("A"      . projectile-run-async-shell-command-in-root)))
 
 (use-package    counsel-projectile
   :ensure       t
+  :config
+  (defun counsel-projectile-switch-project-action-run-term (project)
+    "Overridden!"
+    (let ((projectile-switch-project-action
+           (lambda () (projectile-get-term))))
+      (counsel-projectile-switch-project-by-name project)))
   :custom
   ;; set the default switch-project-action index to that of run-term (18)
   ;; todo: just make it a key binding
@@ -222,6 +245,56 @@
 
 (use-package    helm
   :ensure       t
+  :config
+  (defun helm-display-mode-line (source &optional force) "")
+  (defun helm-toggle-header-line ()
+    (if (= (length helm-sources) 1)
+        (set-face-attribute 'helm-source-header nil :height 0.1)
+      (set-face-attribute 'helm-source-header nil :height 1.0)))
+  (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
+  (defun benjamin/helm-buffers-list () (interactive)
+         (unless helm-source-buffers-list
+           (setq helm-source-buffers-list
+                 (helm-make-source "Buffers" 'helm-source-buffers)))
+         (let ((helm-split-window-default-side 'right)
+               (helm-display-buffer-default-width 38)
+               (helm-display-header-line nil))
+           (helm :sources              '(helm-source-buffers-list)
+                 :buffer               "*helm buffers*"
+                 :keymap               helm-buffer-map
+                 :input                "\!\\* "
+                 :truncate-lines       helm-buffers-truncate-lines)))
+  (defun benjamin/helm-buffers-persistent-kill (_buffer)
+    (let ((marked (helm-marked-candidates)))
+      (unwind-protect
+          (cl-loop for b in marked
+                   do
+                   (progn (helm-preselect
+                           (format "^%s"
+                                   (helm-buffers--quote-truncated-buffer b)))
+                          (helm-buffers-persistent-kill-1 b)
+                          (message nil)
+                          (helm--remove-marked-and-update-mode-line b)))
+        (with-helm-buffer
+          (setq helm-marked-candidates nil
+                helm-visible-mark-overlays nil))
+        (helm-force-update (helm-buffers--quote-truncated-buffer
+                            (helm-get-selection))))))
+  (defun benjamin/helm-kill-buffer () (interactive)
+         (with-helm-alive-p
+           (helm-attrset 'kill-action
+                         '(benjamin/helm-buffers-persistent-kill . never-split))
+           (helm-execute-persistent-action 'kill-action)))
+  (defun helm-backspace () (interactive)
+         (condition-case nil (backward-delete-char 1)
+           (error (helm-keyboard-quit))))
+  (put 'benjamin/helm-kill-buffer 'helm-only t)
+  (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
+  (define-key helm-map (kbd "C-j")   'helm-next-line)
+  (define-key helm-map (kbd "C-k")   'helm-previous-line)
+  (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
+  (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
+  (define-key helm-map (kbd "<f9>")  'helm-backspace)
   :custom       (helm-mode-line-string ""))
 
 (use-package    ivy-rich
@@ -257,9 +330,41 @@
                 (add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*helm")
+  :bind         (:map ivy-minibuffer-map
+                      ("M-o"    . nil)
+                      ("S-SPC"  . nil)
+                      ("C-j"    . ivy-next-line)
+                      ("C-k"    . ivy-previous-line)
+                      ("C-S-k"  . ivy-previous-line-and-call)
+                      ("C-S-j"  . ivy-next-line-and-call)
+                      ("C-r"    . ivy-previous-history-element)
+                      ("C-s"    . ivy-next-history-element)
+                      ("H-o"    . ivy-dispatching-done)
+                      ("M-r"    . ivy-backward-kill-word)
+                      ("C-x e"  . ivy-end-of-buffer)
+                      ("C-x a"  . ivy-beginning-of-buffer)
+                      ("C-c o"  . ivy-occur)
+                      ("C-x <return>"    . ivy-restrict-to-matches)
+                      ("C-x <C-return>"  . ivy-toggle-ignore)
+                      ("<return>"        . ivy-alt-done)
+                      ("C-<up>"          . ivy-previous-line-and-call)
+                      ("C-<down>"        . ivy-next-line-and-call))
   :config       (ivy-mode 1)
-                (setq ivy-virtual-abbreviate 'full)
-)
+                (setq ivy-virtual-abbreviate 'name)
+                (define-key ivy-occur-grep-mode-map
+                  (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
+                (define-key ivy-switch-buffer-map (kbd "M-o") nil)
+                (ivy-set-display-transformer
+                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+                (define-key ivy-switch-buffer-map (kbd "M-k")
+                  (lambi (ivy-set-action 'kill-buffer)
+                         (ivy-call)
+                         (ivy--reset-state ivy-last)
+                         (ivy-set-action 'ivy--switch-buffer-action)))
+                (define-key ivy-minibuffer-map (kbd "H-t")
+                  (lambi (ivy-quit-and-run
+                           (let ((default-directory ivy--directory))
+                             (multi-term))))))
 
 (use-package    avy
   :ensure       t
@@ -271,10 +376,16 @@
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read))
 
+(use-package    swiper
+  :ensure       t
+  )
+
 (use-package    counsel
   :ensure       t
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
   :custom       (counsel-grep-swiper-limit      120000)
+                (define-key counsel-find-file-map
+                  (kbd "H-r") 'counsel-up-directory)
                 (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
@@ -284,27 +395,27 @@
   :ensure       t
   :custom       (company-auto-complete-chars '(?. ?>))    ;; ???
                 (company-backends
-                 '(company-semantic company-clang company-xcode company-cmake
+                 '(company-semantic company-clang company-cmake
                                     company-capf company-files
                                     (company-dabbrev-code
                                      company-gtags company-etags
                                      company-keywords)
                                     company-oddmuse company-dabbrev))
-                (company-idle-delay 0)                    ;; ???
+                (company-idle-delay 0.5)
                 (company-minimum-prefix-length 3)
-                (company-tooltip-idle-delay 0.2)
+                (company-tooltip-idle-delay 1)
                 (company-show-numbers t)
                 (company-tooltip-limit 10)
-  :config
-  (counsel-mode 1)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  ;; awesome abo-abo hack:
+  :config       (counsel-mode 1)
+                (add-hook 'after-init-hook 'global-company-mode)
+                (define-key company-active-map (kbd ";") 'company-complete-selection)
+                (define-key company-active-map (kbd "\"") 'company-select-next)
+                (define-key company-active-map (kbd "C-n") 'company-select-next)
+                (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  ;; abo-abo awesome company use-digit hack below
   (let ((map company-active-map))
     (mapc
-     (lambda (x)
-       (define-key map (format "%d" x) 'ora-company-number))
+     (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
      (number-sequence 0 9))
     (define-key map " " (lambda ()
                           (interactive)
@@ -329,8 +440,8 @@
                           (lambi (add-to-list 'company-backends
                                               'company-jedi))))
 
-;; edit Chrome boxes w/emacs
 (use-package    edit-server
+  :ensure       t
   :config       (edit-server-start))
 
 (use-package    autorevert
@@ -376,7 +487,9 @@
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.5)
-  :config       (add-hook 'after-init-hook 'global-flycheck-mode))
+  :config       (add-hook 'after-init-hook 'global-flycheck-mode)
+                (define-key flycheck-mode-map
+                  (kbd "C-x f") 'benjamin/flycheck-list-errors))
 
 (use-package    flycheck-pos-tip
   :ensure       t
@@ -545,6 +658,57 @@
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode))
 
+(use-package    cc-mode
+  :after        (semantic)
+  :custom       (c-default-style        "linux")
+                (c-basic-offset         8)
+  :bind         (:map c-mode-base-map
+                      ("M-q"    . nil)
+                      ("M-e"    . nil)
+                      ("M-a"    . nil)
+                      ("M-j"    . nil)
+                      ("C-M-a"  . nil)
+                      ("C-M-e"  . nil)
+                      ("C-M-j"  . nil)
+                      ("C-M-k"  . nil)
+                      ("C-c o"  . c-occur-overview)
+                      ("M-c"    . hydra-gdb/body)       ;; todo
+                      ("C-i"    . indent-or-complete))
+  :config       (semanticdb-enable-gnu-global-databases 'c-mode)
+                (semanticdb-enable-gnu-global-databases 'c++-mode)
+                (add-to-list 'semantic-lex-c-preprocessor-symbol-file
+                             "/usr/lib/clang/5.0.0/include/stddef.h")
+                (defun c-occur-overview () (interactive)
+                       (let ((list-matching-lines-face nil))
+                         (occur "^[a-z].*("))
+                       (enlarge-window 25)
+                       (hydra-errgo/body))
+                (defun benjamin/c-hook ()
+                  (subword-mode 1)
+                  (flycheck-mode 1)
+                  (helm-gtags-mode 1)
+                  (fci-mode -1) ;; destroys company
+                  (irony-mode 1)
+                  (company-mode 1)
+                  (semantic-mode 1)
+                  (semantic-stickyfunc-mode -1)
+                  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
+                  (when (boundp 'company-backends)
+                    (set (make-local-variable 'company-backends)
+                         '((
+                            company-c-headers
+                            company-irony
+                            ;; company-semantic
+                            ;; company-files
+                            company-cmake
+                            ;; company-keywords
+                            ;; company-gtags
+                            ;; company-capf
+                            )))))
+                (add-hook 'c-mode-hook 'benjamin/c-hook)
+                (add-hook 'c++-mode-hook 'benjamin/c-hook)
+)
+
 (use-package    pdf-tools
   :ensure       t
   :config       (with-eval-after-load 'pdf-view
@@ -565,6 +729,30 @@
 (use-package    elec-pair
   :config       (electric-pair-mode 1)
                 (add-to-list 'electric-pair-pairs '(\< . \>)))
+
+(use-package    gud
+  :custom       (gud-pdb-command-name "python -m pdb")
+  :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
+
+(use-package    realgud
+  :ensure       t
+  :custom       (realgud:pdb-command-name "python -m pdb")
+  :config       (defun realgud:eval-dotsymbol-at-point ()
+                  "The eval-at-point stuff included in realgud are baaad."
+                  (interactive)
+                  (with-syntax-table (make-syntax-table (syntax-table))
+                    (modify-syntax-entry ?. "_")
+                    (let ((bounds (bounds-of-thing-at-point 'symbol)))
+                      (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
+  :bind         (:map realgud:shortkey-mode-map
+                      ("J" . realgud:cmd-jump)
+                      ("K" . realgud:cmd-kill)
+                      ("j" . next-line)
+                      ("p" . realgud:eval-dotsymbol-at-point)
+                      ("k" . previous-line)))
+
+(use-package    make-mode
+  :config       (add-hook 'makefile-mode-hook 'indent-tabs-mode))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -652,14 +840,10 @@
 (find-file "~/.emacs.d/init.el")
 
 ;; some temporary hacks
-(load "~/.emacs.d/ivy-custom.el")
 (load "~/.emacs.d/face-by-mode.el")
-(load "~/.emacs.d/helm-custom.el")
-(load "~/.emacs.d/projectile-custom.el")
-(load "~/.emacs.d/c-custom.el")
 (load "~/.emacs.d/gdb-custom.el")
-(load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/git-custom.el")
+(load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/indicate-cursor.el")
 (load "~/.emacs.d/bindings2.el")
 
