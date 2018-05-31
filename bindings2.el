@@ -4,9 +4,6 @@
 ;;; Code:
 ;;; lolol
 ;;; ------------------------
-;;; narrow-to-*
-;;; crux-kill-line-backwards
-;;; crux-indent-defun
 ;;; crux-duplicate-and-comment-current-line-or-region
 ;;; crux-eval-and-replace
 ;;; crux-insert-date
@@ -21,47 +18,51 @@
 
 ;; beautiful xcape hacks
 (global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)
-(global-set-key     (kbd "<S-f9>") 'delete-char)
 (global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)
 (global-set-key     (kbd "H-<f9>") 'switch-to-buffer)
 (global-set-key      (kbd "<f10>") 'er/expand-region)
+(global-set-key    (kbd "C-<f12>") 'switch-to-buffer)
+;------------------------------------------------------------------------------;
 
-;; todo
-(global-set-key      (kbd "<f11>") 'dabbrev-expand)
-(global-set-key      (kbd "<f11>") 'universal-argument)
-(global-set-key      (kbd "<f11>") 'delete-char)
-(define-key helm-map (kbd "<f11>") 'helm-keyboard-quit)
-(global-set-key    (kbd "C-<f11>") 'switch-to-buffer)
-
-(global-set-key (kbd "M-<f12>") 'delete-char)
+;; dubious -- todo
+(global-set-key (kbd "C-<tab>") 'yank)
+(global-set-key (kbd "C-;")     'switch-to-buffer)
+(global-set-key (kbd "C-'")     'find-file)
+(global-set-key (kbd "C-:")     'find-file)
+(global-set-key (kbd "<S-f9>")  'BIND-ME)                                      ;
 (global-set-key (kbd "M-SPC")   'find-file)
-(global-set-key (kbd "M-RET")   'delete-char)
+(global-set-key (kbd "M-<f12>") 'BIND-ME)                                      ;
+(global-set-key (kbd "M-RET")   'BIND-ME)                                      ;
+(global-set-key (kbd "M-'")     'BIND-ME)                                      ;
 (global-set-key (kbd "H-SPC")   'find-file)
-(global-set-key (kbd "M-<tab>") 'mc/mark-next-like-this)
+(global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                   ;
+(global-set-key (kbd "H-'")     'BIND-ME)                                      ;
+(global-set-key (kbd "䑄")      'switch-to-buffer)                           ;-'
+;------------------------------------------------------------------------------;
 
+;; experimental
+(define-key key-translation-map (kbd "C-<f10>") (kbd "TAB"))
+;------------------------------------------------------------------------------;
+
+
+(global-set-key         (kbd "M-<tab>") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
-(global-set-key (kbd "<H-return>")      'dropdown-multiterm)
-(global-set-key (kbd "<H-M-return>")    'dropdown-multiterm-right)
-(global-set-key (kbd "<H-backspace>")   'murder-buffer-with-window)
-(global-set-key (kbd "C-<return>")      'open-line-below)
+(global-set-key      (kbd "<H-return>") 'dropdown-multiterm)
+(global-set-key    (kbd "<H-M-return>") 'dropdown-multiterm-right)
+(global-set-key   (kbd "<H-backspace>") 'murder-buffer-with-window)
+(global-set-key      (kbd "C-<return>") 'open-line-below)
 
-(global-set-key      (kbd "C-;")  'switch-to-buffer)
-(global-set-key      (kbd "C-'")  'find-file)
-(global-set-key      (kbd "C-:")  'find-file)
-
-;; these all are garb
-(global-set-key      (kbd "M-'")  'BIND-ME)
-(global-set-key      (kbd "H-;")  'benjamin/helm-buffers-list)                 ;
-(global-set-key      (kbd "H-'")  'BIND-ME)
-(global-set-key       (kbd "䑄")  'switch-to-buffer)                         ;-'
 
 ;; In case I accidentally left swedish keyboard layout on
-(global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
-                                        (benjamin/set-mark-command)))
-(global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
-                                        (call-interactively 'switch-to-buffer)))
+(global-set-key (kbd "C-å") (lambi
+                             (benjamin/notify "Switching keyboard layout...")
+                             (call-process "xcape-restart" nil 0 nil)
+                             (benjamin/set-mark-command)))
+(global-set-key (kbd "H-å") (lambi
+                             (benjamin/notify "Switching keyboard layout...")
+                             (call-process "xcape-restart" nil 0 nil)
+                             (call-interactively 'switch-to-buffer)))
+;------------------------------------------------------------------------------;
 
 (global-set-key        (kbd "(")    'ora-parens)
 (global-set-key        (kbd "[")   'ora-brackets)
@@ -92,18 +93,8 @@
 (global-set-key   (kbd "H-M-e")     'replace-last-sexp)
 (global-set-key   (kbd "C-M-e")     'elpy-nav-indent-shift-right)
 (global-set-key   (kbd "C-x e")     'simplified-end-of-buffer)
-(global-set-key   (kbd "M-s e")      nil)
-(global-set-key   (kbd "M-s eb")    'eval-buffer)
-(global-set-key   (kbd "M-s er")    'eval-region)
-(global-set-key   (kbd "M-s ed")    'eval-defun)
-(global-set-key   (kbd "M-s ee")    'eval-expression)
-(global-set-key   (kbd "C-c e")      nil)
-(global-set-key   (kbd "C-c ef")    'ediff-files)
-(global-set-key   (kbd "C-c eb")    'ediff-buffers)
-(global-set-key   (kbd "C-c ec")    'ediff-current-buffer)
-(global-set-key   (kbd "C-c ed")    'ediff-directories)
-(global-set-key   (kbd "C-c emf")   'ediff-merge-files)
-(global-set-key   (kbd "C-c emb")   'ediff-merge-buffers)
+(global-set-key   (kbd "M-s e")     'hydra-eval/body)
+(global-set-key   (kbd "C-c e")     'hydra-ediff/body)
 
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "M-r")   'backward-kill-word)
@@ -202,7 +193,7 @@
 (global-set-key   (kbd "M-s s")   'org-store-link)
 (global-set-key   (kbd "C-c sd")  (lambi (let ((helm-full-frame t))
                                            (helm-systemd))))
-(global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
+(global-set-key   (kbd "H-M-s")   'BIND-ME)                                    ;
 (global-set-key (kbd "M-s M-s")   'save-buffer)
 (define-key isearch-mode-map (kbd "H-s") 'isearch-repeat-forward)
 ;-s == _
@@ -212,15 +203,14 @@
 (global-set-key     (kbd "M-d")   'kill-word)
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
 (global-set-key (kbd "M-s M-d")   'delete-window)
-(global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)
-(global-set-key   (kbd "C-c dl")  'benjamin/laptop-mode)
-(global-set-key   (kbd "C-c dd")  'benjamin/desktop-mode)
+(global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)           ;
 ;-d == :
 
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
 (global-set-key     (kbd "M-f")   'right-word)
 (global-set-key     (kbd "s-f")   'find-file)
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
+(global-set-key   (kbd "C-S-f")   'find-file)                                  ;
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
 (global-set-key   (kbd "C-s-f")   'find-file)

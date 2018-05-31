@@ -76,54 +76,57 @@
   :bind
   (:map term-raw-map
      ("C-g" . (lambda () (interactive) (term-send-raw-string "")))
-     ("H-w" . counsel-term-ff)
-     ("H-c" . counsel-term-cd)
-     ("M-r" . counsel-term-history)
-     ("H-f" . avy-goto-word-or-subword-1)
-     ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-d" . term-send-raw)
+     ("C-_" . nil)
      ("C-p" . projectile-command-map)
      ("C-j" . next-line)
      ("C-k" . previous-line)
      ("C-l" . forward-char)
      ("C-h" . backward-char)
      ("C-n" . term-downdir)
-     ("C-S-a" . beginning-of-line)
-     ("C-S-e" . end-of-line)
-     ("C-S-n" . term-updir)
      ("C-s" . swiper)
-     ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-t" . nil)
+     ("C-p" . nil)
      ("C-r" . term-send-backspace)
-     ("<f9>". term-send-backspace) ; == [
      ("C-m" . term-send-return)
+     ;; ("C-q" . backward-word)
+     ("H-w" . counsel-term-ff)
      ("C-y" . term-paste)
      ("H-i" . term-paste)
-     ("TAB" . term-send-raw)
-     ("C-q" . backward-word)
+     ("H-f" . avy-goto-word-or-subword-1)
+     ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
+     ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
+     ("H-c" . counsel-term-cd)
+     ("M-r" . term-send-backward-kill-word)
+     ("M-h" . counsel-term-history)
      ("M-q" . term-send-backward-word)
      ("M-f" . term-send-forward-word)
      ("M-p" . term-send-up)
      ("M-n" . term-send-down)
      ("M-d" . term-send-delete-word)
      ("M-," . term-send-raw)
-     ("H-M-f" . (lambda ()
-                  (interactive)
-                  (term-send-raw-string " fuck")
-                  (sleep-for 0.2)(term-send-raw-string "")))
-     ;; ("C-x t" . term-toggle-mode-w/warning)
+     ("C-S-a" . beginning-of-line)
+     ("C-S-e" . end-of-line)
+     ("C-S-n" . term-updir)
+     ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
+     ("<f9>". term-send-backspace) ; == [
+     ("TAB" . term-send-raw)
+     ("H-M-f" . find-file-at-point)
+     ("H-M-u"   . (lambda () (interactive)
+                    (term-send-raw-string "sudo ")))
+     ("C-x t" . term-toggle-mode)
+     ("C-t t" . term-toggle-mode)
      ("C-c C-c" . term-interrupt-subjob)
      ("C-c C-e" . term-send-esc)
      ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
      ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-     ("H-M-u"   . (lambda () (interactive)
-                    (term-send-raw-string "sudo ")))
      ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
      ("<C-backspace>" . term-send-backward-kill-word)
      ("<C-return>" . term-cd-input))
   (:map term-mode-map
         ("C-p"   . nil)
-        ("C-x t" . term-toggle-mode-w/warning))
+        ("C-x t" . term-toggle-mode)
+        ("C-t t" . term-toggle-mode))
   :ensure       t
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
@@ -222,8 +225,15 @@
   :custom       (helm-mode-line-string ""))
 
 (use-package    ivy-rich
-  :disabled     t
-  :ensure       t)
+  ;; :disabled     t
+  :ensure       t
+  :custom       (ivy-rich-path-style 'abbrev)
+                (ivy-rich-parse-remote-buffer nil)
+                (ivy-rich-switch-buffer-mode-max-length 1)
+                (ivy-rich-switch-buffer-name-max-length 50)
+  :config       (ivy-set-display-transformer
+                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
+  (defun ivy-rich-switch-buffer-major-mode () ""))
 
 (use-package    bookmark
   :defer        t
@@ -248,9 +258,8 @@
                 (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
                 (add-to-list 'ivy-ignore-buffers "\\*helm")
   :config       (ivy-mode 1)
-                (setq ivy-virtual-abbreviate 'name)
-                (ivy-set-display-transformer
-                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer))
+                (setq ivy-virtual-abbreviate 'full)
+)
 
 (use-package    avy
   :ensure       t
@@ -310,6 +319,9 @@
                       company-candidates)
           (self-insert-command 1)
         (company-complete-number (string-to-number k))))))
+
+(use-package    asm-mode
+  :config       (define-key asm-mode-map (kbd "C-j") nil))
 
 (use-package    company-jedi
   :ensure       t
@@ -411,7 +423,15 @@
                       (("C-.")   . nil)
                        ("σ"       . company-flyspell)
                        ("C-;"     . flyspell-correct-word-before-point)
-                       ("M-<f11>" . flyspell-correct-word-before-point))
+                       ("H-M-y"   . flyspell/save-word))
+  :config       (defun flyspell/save-word ()
+                  (interactive)
+                  (let ((current-location (point))
+                        (word (flyspell-get-word)))
+                    (when (consp word)
+                      (flyspell-do-correct 'save nil (car word)
+                                           current-location (cadr word)
+                                           (caddr word) current-location))))
   :custom       (flyspell-issue-message-flag nil)
                 (flyspell-issue-welcome-flag nil))
 
@@ -420,7 +440,14 @@
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
-                (org-agenda-files '("~/work/agenda.org"))
+                (org-agenda-files '("~/work/agenda.org"
+                                    "~/notes/read.org"
+                                    "~/work/elci.org"
+                                    "~/work/gptp.org"
+                                    "~/work/endian/p1807-smartpuck/smartpuck.org"
+                                    "~/work/endian/glhf/glhf.org"
+                                    "~/work/v2v-module/v2v.org"
+                                    ))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
                 (add-hook 'org-mode-hook (lambda () (flyspell-mode +1)))
                 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
@@ -510,7 +537,8 @@
                 (defun my-inhibit-semantic-p ()
                   (not (equal major-mode 'org-mode)))
                 (with-eval-after-load 'semantic
-                  (add-to-list 'semantic-inhibit-functions #'my-inhibit-semantic-p))
+                  (add-to-list 'semantic-inhibit-functions
+                               #'my-inhibit-semantic-p))
                 (global-semantic-idle-scheduler-mode t)
                 (add-to-list 'semantic-default-submodes
                              'global-semantic-idle-scheduler-mode)
@@ -533,6 +561,10 @@
                          (define-key pdf-view-mode-map
                            (kbd "C-j") 'pdf-view-next-page)))
                   (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
+
+(use-package    elec-pair
+  :config       (electric-pair-mode 1)
+                (add-to-list 'electric-pair-pairs '(\< . \>)))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -559,7 +591,7 @@
 (toggle-scroll-bar  -1)
 
 (csetq enable-recursive-minibuffers nil)
-(customize-set-variable 'tab-width 4)
+(setq-default tab-width 4)
 (csetq tab-always-indent t)
 (csetq indent-tabs-mode nil)
 (csetq auto-hscroll-mode nil)
@@ -593,7 +625,6 @@
 (fset 'yes-or-no-p  'y-or-n-p)
 
 (delete-selection-mode 1)
-(electric-pair-mode 1)
 (set-language-environment "UTF-8")
 (set-default-coding-systems 'utf-8)
 (auto-compression-mode t)
@@ -606,6 +637,7 @@
 (add-to-list 'auto-mode-alist '("\\.sch$"       . text-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$"       . sh-mode))
 (add-to-list 'auto-mode-alist '("\\rc$"         . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bash"         . sh-mode))
 
 (add-hook 'before-save-hook     'delete-trailing-whitespace)
 (add-hook 'find-file-hook       'find-file-root-header-warning)
@@ -629,7 +661,6 @@
 (load "~/.emacs.d/ora-ediff.el")
 (load "~/.emacs.d/git-custom.el")
 (load "~/.emacs.d/indicate-cursor.el")
-(load "~/.emacs.d/lisp/ivy_buffer_extend.el") ; tmp, see ivy-rich package
 (load "~/.emacs.d/bindings2.el")
 
 ;; This hack ensures bindings gets loaded last

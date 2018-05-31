@@ -26,7 +26,7 @@ xcape -e 'Shift_L=F10'
 xcape -e 'Shift_R=Tab'
 xcape -e 'Super_L=Tab'                  # todo
 
-if [ $LAYOUT = "swedish" ]; then
+if [[ "$LAYOUT" = "swedish" ]]; then
     xcape -e 'Alt_R=aring'              # reclaim å
     xcape -e 'Mode_switch=Odiaeresis'   # reclaim ö
                                         # reclaim ä:

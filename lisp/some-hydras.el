@@ -1,6 +1,31 @@
 (require 'hideshow)
 (require 'vimish-fold)
 
+
+(defhydra hydra-ediff (:color blue :columns 2)
+  "-- ediff ------------------------------------------------------------------------"
+  ("e"  ediff-current-file      "unsaved")
+  ("f"  ediff-files             "files")
+  ("b"  ediff-buffers           "buffers A and B")
+  ("c"  ediff-current-buffer    "this and buffer B")
+  ("mf" ediff-merge-files       "merge files")
+  ("mb" ediff-merge-buffers     "merge buffers")
+
+  ("q"  nil                     "quit")
+  ("RET" nil                    "quit"))
+
+(defhydra hydra-eval (:color blue :columns 2)
+  "-- eval -
+------------------------------------------------------------------------"
+  ("b" eval-buffer              "buffer")
+  ("r" eval-region              "region")
+  ("d" eval-defun               "defun")
+  ("e" eval-expression          "expression")
+  ("w" crux-eval-and-replace    "eval+replace")
+
+  ("RET" nil                    "quit")
+  ("q" nil                      "quit"))
+
 (defhydra hydra-flycheck
   (:pre (progn (setq hydra-lv t) (flycheck-list-errors)
                (setq truncate-lines -1)
@@ -12,21 +37,21 @@
    :hint nil)
   "Errors"
   ("f"  flycheck-error-list-set-filter                            "Filter")
-  ("j"  next-error                                       "Next")
-  ("k"  previous-error                                   "Previous")
-  ("<down>"  flycheck-next-error)
-  ("<up>"  flycheck-previous-error)
+  ("j"  flycheck-next-error                                       "Next")
+  ("k"  flycheck-previous-error                                   "Previous")
   ("h" flycheck-first-error                                      "First")
   ("l"  (progn (goto-char (point-max)) (flycheck-previous-error)) "Last")
+  ("<down>"  flycheck-next-error)
+  ("<up>"  flycheck-previous-error)
   ("RET" nil)
   ("q"  nil                                                       "Quit"))
 
+;;;###autoload
 (defun benjamin/flycheck-list-errors ()
   "List errors in a separate window, decrease the size."
   (interactive)
   (flycheck-list-errors)
   (hydra-flycheck/body))
-
 
 (defhydra hydra-vimish-fold (:color blue
                              :columns 3)
@@ -47,78 +72,12 @@
   ("k" vimish-fold-previous-fold "up" :exit nil)
   ("q" nil "quit"))
 
-;; Perfect hydra-material but we will see
-(defun fake-C-c ()
-  "Fakes the user typing Ctrl-c."
-  (interactive)
-  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-c"))
-                                     unread-command-events)))
-(defun fake-C-x ()
-  "Fakes the user typing Ctrl-x."
-  (interactive)
-  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
-                                     unread-command-events)))
-
 (defhydra hydra-errgo (:hint nil)
   ("q" nil              "quit")
   ("h" first-error      "first")
   ("j" next-error       "next")
   ("k" previous-error   "prev")
-  ("l" last-error       "last")
-  )
-
-(require 'dired)
-(defhydra hydra-dired (:hint nil :color pink)
-  "
-_+_ mkdir          _v_iew           _m_ark             _(_ details        _i_nsert-subdir    wdired
-_C_opy             _O_ view other   _U_nmark all       _)_ omit-mode      _$_ hide-subdir    C-x C-q : edit
-_D_elete           _o_pen other     _u_nmark           _l_ redisplay      _w_ kill-subdir    C-c C-c : commit
-_R_ename           _M_ chmod        _t_oggle           _g_ revert buf     _e_ ediff          C-c ESC : abort
-_Y_ rel symlink    _G_ chgrp        _E_xtension mark   _s_ort             _=_ pdiff
-_S_ymlink          ^ ^              _F_ind marked      _._ toggle hydra   \\ flyspell
-_r_sync            ^ ^              ^ ^                ^ ^                _?_ summary
-_z_ compress-file  _A_ find regexp
-_Z_ compress       _Q_ repl regexp
-
-T - tag prefix
-"
-  ("\\" dired-do-ispell)
-  ("(" dired-hide-details-mode)
-  (")" dired-omit-mode)
-  ("+" dired-create-directory)
-  ("=" diredp-ediff)         ;; smart diff
-  ("?" dired-summary)
-  ("$" diredp-hide-subdir-nomove)
-  ("A" dired-do-find-regexp)
-  ("C" dired-do-copy)        ;; Copy all marked files
-  ("D" dired-do-delete)
-  ("E" dired-mark-extension)
-  ("e" dired-ediff-files)
-  ("F" dired-do-find-marked-files)
-  ("G" dired-do-chgrp)
-  ("g" revert-buffer)        ;; read all directories again (refresh)
-  ("i" dired-maybe-insert-subdir)
-  ("l" dired-do-redisplay)   ;; relist the marked or singel directory
-  ("M" dired-do-chmod)
-  ("m" dired-mark)
-  ("O" dired-display-file)
-  ("o" dired-find-file-other-window)
-  ("Q" dired-do-find-regexp-and-replace)
-  ("R" dired-do-rename)
-  ("r" dired-do-rsynch)
-  ("S" dired-do-symlink)
-  ("s" dired-sort-toggle-or-edit)
-  ("t" dired-toggle-marks)
-  ("U" dired-unmark-all-marks)
-  ("u" dired-unmark)
-  ("v" dired-view-file)      ;; q to exit, s to search, = gets line #
-  ("w" dired-kill-subdir)
-  ("Y" dired-do-relsymlink)
-  ("z" diredp-compress-this-file)
-  ("Z" dired-do-compress)
-  ("q" nil)
-  ("." nil :color blue))
-(define-key dired-mode-map "." 'hydra-dired/body)
+  ("l" last-error       "last"))
 
 (defvar prev-max-mini-window-height max-mini-window-height)
 (defhydra hydra-toggle (:color red
@@ -166,34 +125,6 @@ T - tag prefix
   ("R" read-only-mode)
   ("RET" nil "quit")
   ("q" nil "quit"))
-
-(require 'helm-gtags)
-(defhydra hydra-gtags (:color yellow :columns 5)
-  "gtags"
-
-  ("q" nil                          "quit" :color blue)
-  ("j" helm-gtags-previous-history  "back")
-  ("k" helm-gtags-next-history      "fwd")
-  ("t" helm-gtags-find-tag          "find tag")
-  ("r" helm-gtags-find-rtag         "find ref")
-  ("s" helm-gtags-show-stack        "show stack")
-  ("y" helm-gtags-find-symbol       "find sym")
-  ("d" helm-gtags-dwim              "dwim")
-  ("f" helm-gtags-find-files        "find file")
-  ("e" helm-gtags-resume            "resume")
-  ("g" helm-gtags-find-pattern      "grep")
-  ("p" helm-gtags-pop-stack         "pop")
-  ("c" helm-gtags-create-tags       "create")
-
-  ("R" helm-gtags-find-rtag-other-window)
-  ("T" helm-gtags-find-tag-other-window)
-  ("U" helm-gtags-update-tags       "update")
-  ("A" fa-show                      "fa-show")
-  ("S" helm-gtags-select            "select")
-  ("F" helm-gtags--parsed-file      "parse")
-  ("C" helm-gtags-clear-all-cache   "clear cache"))
-
-(define-key helm-gtags-mode-map (kbd "C-t") nil)
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here

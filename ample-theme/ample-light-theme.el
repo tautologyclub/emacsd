@@ -344,6 +344,9 @@
    `(rainbow-delimiters-depth-9-face ((t (:foreground ,ample/rb2 :background nil))))
    `(rainbow-delimiters-unmatched-face ((t (:inherit error))))
 
+   '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
+
+
    ;; auto complete
    `(ac-candidate-face			((t (:foreground ,ample/bg :background ,ample/region-dark))))
    `(ac-selection-face			((t (:foreground ,ample/blue :background ,ample/region-dark))))

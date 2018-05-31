@@ -12,7 +12,9 @@
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
         end-of-line-or-block
+        fill-paragraph
         forward-whitespace
+        hungry-delete-backward
         hungry-delete-forward
         kill-inner
         kill-region
@@ -27,7 +29,9 @@
         lispy-parens
         lispy-quotes
         ora-brackets
+        ora-parens
         org-delete-char
+        org-force-self-insert
         org-self-insert-command
         special-digit-argument
         special-lh-knight/body
@@ -114,4 +118,5 @@
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
         ivy-alt-done
+        lispy-cursor-down
         ))

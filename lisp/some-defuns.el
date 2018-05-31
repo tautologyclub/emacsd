@@ -1,6 +1,20 @@
 (require 'expand-region)
 (require 'fancy-narrow)
 
+
+;;;###autoload
+(defun fake-C-c ()
+  "Fakes the user typing Ctrl-c."
+  (interactive)
+  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-c"))
+                                     unread-command-events)))
+;;;###autoload
+(defun fake-C-x ()
+  "Fakes the user typing Ctrl-x."
+  (interactive)
+  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
+                                     unread-command-events)))
+
 ;;;###autoload
 (defun benjamin/previous-buffer ()
   (interactive)
@@ -198,7 +212,8 @@ With arg N insert N newlines."
     (if (region-active-p)
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
+    (comment-or-uncomment-region beg end)
+    (forward-line 1)))
 
 ;;;###autoload
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
