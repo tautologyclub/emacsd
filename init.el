@@ -1,10 +1,9 @@
+;;; init.el --- Summary:
+;;; Code:
+;;; Commentary:
+
 (require 'package)
-(let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
-                    (not (gnutls-available-p))))
-       (url (concat (if no-ssl "http" "https") "://melpa.org/packages/")))
-  (add-to-list 'package-archives (cons "melpa" url) t))
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu"        . "https://elpa.gnu.org/packages/")))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -15,17 +14,10 @@
 (package-initialize)
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
-;; -- end of formalities -------------------------------------------------------
-
-(setq custom-file "~/.emacs.d/customizations.el")
-(load-file custom-file)
-
-(defmacro csetq (variable value)
-  "Macro stolen from abo-abo, custom set VARIABLE to VALUE etc."
-  `(funcall (or (get ',variable 'custom-set) 'set-default) ',variable ,value))
+(setq custom-file (make-temp-file "/tmp/custom.el"))
 
 (defmacro lambi (&rest b)
-  "B lazy yo."
+  "Just a lazy macro, have to mention B in docstring."
   `(lambda () (interactive),@b))
 
 
@@ -47,15 +39,11 @@
   :load-path    "~/repos/counsel-term")
 
 (use-package    ample-light-theme  ;; forked
-  ;; :disabled
-  :ensure       nil
-  :after        (feebleline)
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
-  :ensure       nil
   :custom       (feebleline-show-git-branch             t)
                 (feebleline-show-dir                    t)
                 (feebleline-show-time                   nil)
@@ -64,168 +52,93 @@
 
 
 ; -- others stuff --------------------------------------------------------------
-(use-package    gdscript-mode
-  :disabled
-  :ensure       t
-  :load-path    "~/repos/gdscript-mode")
-
 (use-package    undo-tree
+  :ensure		t
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
 
 (use-package    multi-term
-  :bind
-  (:map term-raw-map
-     ("C-g" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-d" . term-send-raw)
-     ("C-_" . nil)
-     ("C-p" . projectile-command-map)
-     ("C-j" . next-line)
-     ("C-k" . previous-line)
-     ("C-l" . forward-char)
-     ("C-h" . backward-char)
-     ("C-n" . term-downdir)
-     ("C-s" . swiper)
-     ("C-t" . nil)
-     ("C-p" . nil)
-     ("C-r" . term-send-backspace)
-     ("C-m" . term-send-return)
-     ("H-w" . counsel-term-ff)
-     ("C-y" . term-paste)
-     ("H-i" . term-paste)
-     ("H-f" . avy-goto-word-or-subword-1)
-     ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
-     ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
-     ("H-c" . counsel-term-cd)
-     ("M-r" . term-send-backward-kill-word)
-     ("M-h" . counsel-term-history)
-     ("M-q" . term-send-backward-word)
-     ("M-f" . term-send-forward-word)
-     ("M-o" . other-window)
-     ("M-p" . term-send-up)
-     ("M-n" . term-send-down)
-     ("M-d" . term-send-delete-word)
-     ("M-," . term-send-raw)
-     ("C-S-a" . beginning-of-line)
-     ("C-S-e" . end-of-line)
-     ("C-S-n" . term-updir)
-     ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
-     ("<f9>". term-send-backspace) ; == [
-     ("TAB" . term-send-raw)
-     ("H-M-f" . find-file-at-point)
-     ("H-M-u"   . (lambda () (interactive)
-                    (term-send-raw-string "sudo ")))
-     ("C-t t" . term-toggle-mode)
-     ("C-c C-c" . term-interrupt-subjob)
-     ("C-c C-e" . term-send-esc)
-     ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-     ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
-     ("<C-backspace>" . term-send-backward-kill-word)
-     ("<C-return>"    . term-cd-input))
-  (:map term-mode-map
-        ("C-p"   . nil)
-        ("M-o"   . nil)
-        ("C-t t" . term-toggle-mode))
   :ensure       t
+  :bind        (:map term-mode-map
+                     ("C-p"   . nil)
+                     ("M-o"   . nil)
+                     ("C-t t" . term-toggle-mode))
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
-                (multi-term-switch-after-close nil)
                 (term-buffer-maximum-size 16384)
+                (multi-term-switch-after-close nil)
                 (term-char-mode-buffer-read-only nil)
-                (term-char-mode-point-at-process-mark nil))
-
-;; todo: hacky but use-package :bind won't work on term mode for some reason
-(setq term-bind-key-alist nil)
-(setq term-bind-key-alist
-      '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-d" . term-send-raw)
-        ("C-_" . nil)
-        ("C-p" . projectile-command-map)
-        ("C-j" . next-line)
-        ("C-k" . previous-line)
-        ("C-l" . forward-char)
-        ("C-h" . backward-char)
-        ("C-n" . term-downdir)
-        ("C-s" . swiper)
-        ("C-t" . nil)
-        ("C-p" . nil)
-        ("C-r" . term-send-backspace)
-        ("C-m" . term-send-return)
-        ("H-w" . counsel-term-ff)
-        ("C-y" . term-paste)
-        ("H-i" . term-paste)
-        ("H-f" . avy-goto-word-or-subword-1)
-        ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
-        ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ;; electric pairs in term
-        ("["   . (lambda () (interactive) (term-send-raw-string "[]")))
-        ("("   . (lambda () (interactive) (term-send-raw-string "()")))
-        ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
-        ("H-c" . counsel-term-cd)
-        ("M-r" . term-send-backward-kill-word)
-        ("M-h" . counsel-term-history)
-        ("M-q" . term-send-backward-word)
-        ("M-f" . term-send-forward-word)
-        ("M-o" . other-window)
-        ("M-p" . term-send-up)
-        ("M-n" . term-send-down)
-        ("M-d" . term-send-delete-word)
-        ("M-," . term-send-raw)
-        ("C-S-a" . beginning-of-line)
-        ("C-S-e" . end-of-line)
-        ("C-S-n" . term-updir)
-        ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ("<f9>". term-send-backspace) ; == [
-        ("TAB" . term-send-raw)
-        ("H-M-f" . find-file-at-point)
-        ("H-M-u"   . (lambda () (interactive)
-                       (term-send-raw-string "sudo ")))
-        ("C-t t" . term-toggle-mode)
-        ("C-c C-c" . term-interrupt-subjob)
-        ("C-c C-e" . term-send-esc)
-        ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ("<C-backspace>" . term-send-backward-kill-word)
-        ("<C-return>"    . term-cd-input)))
-
-(use-package    ace-window
-  :disabled     t
-  :ensure       t)
-
-(use-package    hideshow
-  :config       (add-hook 'prog-mode-hook 'hs-minor-mode))
-
-(use-package    fancy-narrow
-  ;; unusable with jit-lock-stealth-fontify it seems
-  :disabled     t
-  :config       (defun fancy-narrow-dwim ()
-                  (interactive)
-                  (if fancy-narrow--beginning
-                      (fancy-widen)
-                    (unless (region-active-p)
-                      (mark-paragraph -1))
-                    (call-interactively 'fancy-narrow-to-region)))
-  :ensure       t)
+                (term-char-mode-point-at-process-mark nil)
+  :config       (setq term-bind-key-alist nil)
+                (setq term-bind-key-alist
+                      '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-d" . term-send-raw)
+                        ("C-_" . nil)
+                        ("C-p" . projectile-command-map)
+                        ("C-j" . next-line)
+                        ("C-k" . previous-line)
+                        ("C-l" . forward-char)
+                        ("C-h" . backward-char)
+                        ("C-n" . term-downdir)
+                        ("C-s" . swiper)
+                        ("C-t" . nil)
+                        ("C-p" . nil)
+                        ("C-r" . term-send-backspace)
+                        ("C-m" . term-send-return)
+                        ("H-w" . counsel-term-ff)
+                        ("C-y" . term-paste)
+                        ("H-i" . term-paste)
+                        ("H-f" . avy-goto-word-or-subword-1)
+                        ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ;; electric pairs in term
+                        ("["   . (lambda () (interactive) (term-send-raw-string "[]")))
+                        ("("   . (lambda () (interactive) (term-send-raw-string "()")))
+                        ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
+                        ("H-c" . counsel-term-cd)
+                        ("M-r" . term-send-backward-kill-word)
+                        ("M-h" . counsel-term-history)
+                        ("M-q" . term-send-backward-word)
+                        ("M-f" . term-send-forward-word)
+                        ("M-o" . other-window)
+                        ("M-p" . term-send-up)
+                        ("M-n" . term-send-down)
+                        ("M-d" . term-send-delete-word)
+                        ("M-," . term-send-raw)
+                        ("C-S-a" . beginning-of-line)
+                        ("C-S-e" . end-of-line)
+                        ("C-S-n" . term-updir)
+                        ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("<f9>". term-send-backspace) ; == [
+                        ("TAB" . term-send-raw)
+                        ("H-M-f" . find-file-at-point)
+                        ("H-M-u"   . (lambda () (interactive)
+                                       (term-send-raw-string "sudo ")))
+                        ("C-t t" . term-toggle-mode)
+                        ("C-c C-c" . term-interrupt-subjob)
+                        ("C-c C-e" . term-send-esc)
+                        ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("<C-backspace>" . term-send-backward-kill-word)
+                        ("<C-return>"    . term-cd-input))))
 
 (use-package    fill-column-indicator
-  ;; really glitchy but sometimes so nice to have
   :ensure       t
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
 
+;; todo
 (use-package    projectile
   :ensure       t
   :custom       (projectile-completion-system   'ivy)
-                (projectile-enable-caching t)
+                (projectile-enable-caching       t)
                 (projectile-globally-ignored-modes
-                 (quote
-                  ("erc-mode" "help-mode" "completion-list-mode"
-                   "Buffer-menu-mode" "gnus-.*-mode" "occur-mode")))
+                 '("erc-mode" "help-mode" "completion-list-mode"
+                   "Buffer-menu-mode" "gnus-.*-mode" "occur-mode"))
                 (projectile-mode-line "")
   :config       (add-to-list 'projectile-project-root-files ".repo")
                 (add-to-list 'projectile-project-root-files ".dir-locals.el")
@@ -241,24 +154,25 @@
                         (rename-buffer projectile--proj-term-name)))))
                 (projectile-mode 1)
   :bind (:map projectile-command-map
-              ("t"      . projectile-get-term)
-              ("T"      . projectile-test-project)
-              ("u"      . projectile-run-project)
-              ("r"      . counsel-projectile-rg)
-              ("o"      . projectile-find-other-file)
-              ("e"      . projectile-recentf)
-              ("j"      . projectile-find-tag)
-              ("O"      . projectile-find-other-file-other-window)
-              ("p"      . counsel-projectile)
-              ("C-p"    . counsel-projectile)
-              ("s"      . counsel-projectile-switch-project)
-              ("d"      . counsel-projectile-find-dir)
-              ("g"      . counsel-projectile-git-grep)
-              ("q"      . projectile-replace)
-              ("c"      . projectile-compile-project)
-              ("C-f"    . projectile-find-file-in-known-projects)
-              ("A"      . projectile-run-async-shell-command-in-root)))
+              ("t"   . projectile-get-term)
+              ("T"   . projectile-test-project)
+              ("u"   . projectile-run-project)
+              ("r"   . counsel-projectile-rg)
+              ("o"   . projectile-find-other-file)
+              ("e"   . projectile-recentf)
+              ("j"   . projectile-find-tag)
+              ("O"   . projectile-find-other-file-other-window)
+              ("p"   . counsel-projectile)
+              ("C-p" . counsel-projectile)
+              ("s"   . counsel-projectile-switch-project)
+              ("d"   . counsel-projectile-find-dir)
+              ("g"   . counsel-projectile-git-grep)
+              ("q"   . projectile-replace)
+              ("c"   . projectile-compile-project)
+              ("C-f" . projectile-find-file-in-known-projects)
+              ("A"   . projectile-run-async-shell-command-in-root)))
 
+;; todo
 (use-package    counsel-projectile
   :ensure       t
   :config
@@ -284,7 +198,7 @@
        ("c" counsel-projectile-switch-project-action-compile "run project compilation command")
        ("C" counsel-projectile-switch-project-action-configure "run project configure command")
        ("E" counsel-projectile-switch-project-action-edit-dir-locals "edit project dir-locals")
-       ("v" counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
+       ("Vimish navigation for ediff." counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
        ("sg" counsel-projectile-switch-project-action-grep "search project with grep")
        ("ss" counsel-projectile-switch-project-action-ag "search project with ag")
        ("sr" counsel-projectile-switch-project-action-rg "search project with rg")
@@ -293,6 +207,7 @@
        ("xt" counsel-projectile-switch-project-action-run-term "invoke term from project root")
        ("O" counsel-projectile-switch-project-action-org-capture "org-capture into project")))))
 
+;; todo
 (use-package    helm
   :ensure       t
   :config
@@ -303,11 +218,13 @@
       (set-face-attribute 'helm-source-header nil :height 1.0)))
   (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
   (defun benjamin/helm-buffers-list () (interactive)
+         (unless helm-mode (helm-mode 1))
          (unless helm-source-buffers-list
            (setq helm-source-buffers-list
                  (helm-make-source "Buffers" 'helm-source-buffers)))
          (let ((helm-split-window-default-side 'right)
                (helm-display-buffer-default-width 38)
+               (truncate-lines t)
                (helm-display-header-line nil))
            (helm :sources              '(helm-source-buffers-list)
                  :buffer               "*helm buffers*"
@@ -345,10 +262,10 @@
   (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
   (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
   (define-key helm-map (kbd "<f9>")  'helm-backspace)
-  :custom       (helm-mode-line-string ""))
+  :custom       (helm-mode-line-string "")
+                (helm-buffer-details-flag nil))
 
 (use-package    ivy-rich
-  ;; :disabled     t
   :ensure       t
   :custom       (ivy-rich-path-style 'abbrev)
                 (ivy-rich-parse-remote-buffer nil)
@@ -356,11 +273,7 @@
                 (ivy-rich-switch-buffer-name-max-length 50)
   :config       (ivy-set-display-transformer
                  'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-  (defun ivy-rich-switch-buffer-major-mode () ""))
-
-(use-package    bookmark
-  :defer        t
-  :config       (setq bookmark-save-flag 1))
+				(defun ivy-rich-switch-buffer-major-mode () ""))
 
 (use-package    ivy
   :ensure       t
@@ -424,19 +337,35 @@
 (use-package    magit
   :ensure       t
   :after        (ivy)
-  :custom       (magit-completing-read-function 'ivy-completing-read))
+  :custom       (magit-completing-read-function 'ivy-completing-read)
+                (magit-display-buffer-function
+                 'magit-display-buffer-fullframe-status-v1))
+
+;; todo
+(define-key magit-status-mode-map "j" 'magit-section-forward)
+(define-key magit-status-mode-map "k" 'magit-section-backward)
+(define-key magit-status-mode-map "\C-k" nil)
+(define-key magit-status-mode-map "\C-d" 'magit-discard)
+(define-key magit-log-mode-map "j" 'magit-section-forward)
+(define-key magit-log-mode-map "k" 'magit-section-backward)
+(define-key magit-commit-section-map "j" 'magit-section-forward)
+(define-key magit-commit-section-map "k" 'magit-section-backward)
+(define-key magit-diff-mode-map "j" 'magit-section-forward)
+(define-key magit-diff-mode-map "k" 'magit-section-backward)
+(defun git-commit-fill-column-hook ()
+  (setq fill-column 120))
+(add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
 (use-package    swiper
   :ensure       t
-  )
+  :custom       (counsel-grep-swiper-limit      120000))
 
 (use-package    counsel
   :ensure       t
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
-  :custom       (counsel-grep-swiper-limit      120000)
-                (define-key counsel-find-file-map
+				(define-key counsel-find-file-map
                   (kbd "H-r") 'counsel-up-directory)
-                (counsel-rg-base-command
+  :custom		(counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
                          "--color never %s . 2>/dev/null")))
@@ -487,32 +416,30 @@
 (use-package    company-jedi
   :ensure       t
   :config       (add-hook 'python-mode-hook
-                          (lambi (add-to-list 'company-backends
-                                              'company-jedi))))
+                  (lambi (add-to-list 'company-backends 'company-jedi))))
 
 (use-package    edit-server
   :ensure       t
   :config       (edit-server-start))
 
 (use-package    autorevert
-  :custom       (auto-revert-verbose nil)
-                (global-auto-revert-non-file-buffers t)
+  :custom       (auto-revert-verbose			     nil)
+                (global-auto-revert-non-file-buffers   t)
   :config       (global-auto-revert-mode))
 
 (use-package    auto-dim-other-buffers
   :ensure       t
+  :custom       (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   :config       (auto-dim-other-buffers-mode 1))
 
 (use-package    volatile-highlights
   :ensure       t
   :config       (volatile-highlights-mode 1))
 
-;; todo -- I forgot how to use this thing efficiently
+;; todo -- I forgot how to use this thing effectively
 (use-package    wgrep
   :ensure       t
   :custom       (wgrep-auto-save-buffer t))
-; this hook is really annoying
-;; :config       (add-hook 'wgrep-setup-hook 'save-some-buffers))
 
 (use-package    recentf
   :custom       (recentf-max-saved-items 100)
@@ -534,6 +461,7 @@
   :hook         (prog-mode-hook . helm-gtags-mode))
 
 (use-package    flycheck
+  :ensure		t
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.5)
@@ -545,8 +473,7 @@
   :ensure       t
   :after        (flycheck)
   :custom       (flycheck-pos-tip-timeout 20)
-  :config       (with-eval-after-load 'flycheck
-                  (flycheck-pos-tip-mode)))
+  :config       (with-eval-after-load 'flycheck (flycheck-pos-tip-mode)))
 
 (use-package    irony
   :ensure       t
@@ -565,8 +492,9 @@
                   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 
 (use-package    dts-mode
-  :ensure       nil
+  :ensure       t
   :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode))
+                (add-to-list 'auto-mode-alist '("\\.dtsi$" . dts-mode))
                 (add-hook 'dts-mode-hook 'subword-mode)
                 (add-hook 'dts-mode-hook 'helm-gtags-mode))
 
@@ -597,9 +525,6 @@
                                            (caddr word) current-location))))
   :custom       (flyspell-issue-message-flag nil)
                 (flyspell-issue-welcome-flag nil))
-
-(use-package    flyspell-correct-ivy
-  :ensure       t)
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
@@ -652,16 +577,13 @@
                      "* EVENT %?\n%U\n   %c" :empty-lines 1))))
 
 (use-package    markdown-mode
+  :ensure		t
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
                 (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
 (use-package    git-gutter+
   :ensure       t
   :config       (global-git-gutter+-mode))
-
-(use-package    goto-last-change
-  :disabled     t  ;; deprecated for goto-chg
-  :ensure       t)
 
 (use-package    goto-chg
   :ensure       t)
@@ -677,12 +599,6 @@
                 (with-eval-after-load "anaconda-mode"
                   (define-key anaconda-mode-map (kbd "M-r") nil)))
 
-(use-package    helm-pydoc
-  :disabled     t   ;; bugs out outside venv
-  :ensure       t
-  :config       (with-eval-after-load "python-mode"
-                  (define-key python-mode-map (kbd "C-c d") 'helm-pydoc)))
-
 (use-package    elpy
   :ensure       t
   :custom       (elpy-rpc-backend "jedi")
@@ -694,17 +610,10 @@
   :config       (remove-hook 'elpy-modules 'elpy-module-flymake)
                 (remove-hook 'elpy-modules 'elpy-module-highlight-indentation)
                 (add-to-list 'elpy-modules 'flycheck-mode)
-                (semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
-                (semantic-add-system-include "/usr/lib/python2.7" 'python-mode)
                 (elpy-enable)
                 (add-hook 'python-mode-hook
-                          (lambi (set (make-local-variable 'flycheck-checker) 'python-flake8))))
-
-(use-package    jedi
-  :disabled     t   ;; apparently company-jedi REPLACES jedi
-  :ensure       t
-  :init         (add-hook 'python-mode-hook 'jedi:setup)
-                (add-hook 'python-mode-hook 'jedi:ac-setup))
+                          (lambi (set (make-local-variable 'flycheck-checker)
+                                      'python-flake8))))
 
 (use-package    pyenv-mode
   :ensure       t
@@ -720,6 +629,7 @@
   :config       (yas-global-mode 1))
 
 (use-package    semantic
+  :custom       (semantic-idle-scheduler-idle-time 5)
   :config       (semantic-mode 1)
                 (defun my-inhibit-semantic-p ()
                   (not (equal major-mode 'org-mode)))
@@ -730,36 +640,23 @@
                 (add-to-list 'semantic-default-submodes
                              'global-semantic-idle-scheduler-mode)
                 (add-to-list 'semantic-default-submodes
-                             'global-semanticdb-minor-mode))
+                             'global-semanticdb-minor-mode)
+				(semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
+				(semantic-add-system-include "/usr/lib/python2.7" 'python-mode))
 
-(use-package    company-irony
-  :ensure       t)
+(defun c-occur-overview ()
+  "Grep for definitions/declarations etc, in C."
+  (interactive)
+  (let ((list-matching-lines-face nil))
+    (occur "^[a-z].*("))
+  (enlarge-window 25)
+  (hydra-errgo/body))
 
-(use-package    company-irony-c-headers
-  :ensure       t)
-
-(use-package semantic/bovine/c)
-(add-to-list 'semantic-lex-c-preprocessor-symbol-file
-             "/usr/lib/clang/5.0.0/include/stddef.h")
-
-(defun c-occur-overview () (interactive)
-       (let ((list-matching-lines-face nil))
-         (occur "^[a-z].*("))
-       (enlarge-window 25)
-       (hydra-errgo/body))
-(defun benjamin/c-hook ()
-  "Setup for C bla."
-  (subword-mode 1)
-  (flycheck-mode 1)
-  (helm-gtags-mode 1)
-  (fci-mode -1) ;; destroys company
-  (irony-mode 1)
-  (company-mode 1)
-  (semantic-mode 1)
-  (semantic-stickyfunc-mode -1)
-  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
-(add-hook 'c-mode-hook 'benjamin/c-hook)
-(add-hook 'c++-mode-hook 'benjamin/c-hook)
+(use-package	company-irony              :ensure t)
+(use-package	company-irony-c-headers    :ensure t)
+(use-package    semantic/bovine/c
+  :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
+                             "/usr/lib/clang/5.0.0/include/stddef.h"))
 
 (use-package    cc-mode
   :after        (semantic)
@@ -778,20 +675,26 @@
                       ("M-c"    . hydra-gdb/body)       ;; todo
                       ("C-i"    . indent-or-complete))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)
-                (semanticdb-enable-gnu-global-databases 'c++-mode)
-                  (when (boundp 'company-backends)
-                    (set (make-local-variable 'company-backends)
-                         '((
-                            ;; company-c-headers
-                            company-irony-c-headers
-                            company-irony
-                            ;; company-semantic
-                            ;; company-files
-                            company-cmake
-                            ;; company-keywords
-                            ;; company-gtags
-                            ;; company-capf
-                            )))))
+                (semanticdb-enable-gnu-global-databases 'c++-mode))
+
+(defun benjamin/c-hook ()
+  "Setup for C bla."
+  (subword-mode 1)
+  (flycheck-mode 1)
+  (helm-gtags-mode 1)
+  (fci-mode -1) ;; destroys company
+  (irony-mode 1)
+  (company-mode 1)
+  (semantic-mode 1)
+  (semantic-stickyfunc-mode -1)
+  (set (make-local-variable 'company-backends)
+       '((company-irony-c-headers
+          ;; company-c-headers
+          company-irony
+          company-cmake)))
+  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
+(add-hook 'c-mode-hook 'benjamin/c-hook)
+(add-hook 'c++-mode-hook 'benjamin/c-hook)
 
 (use-package    pdf-tools
   :ensure       t
@@ -810,14 +713,9 @@
                            (kbd "C-j") 'pdf-view-next-page)))
                   (add-to-list 'auto-mode-alist '("\\.pdf$" . pdf-view-mode)))
 
-(use-package    elec-pair
-  :config       (electric-pair-mode 1)
-                (add-to-list 'electric-pair-pairs '(\< . \>)))
-
 (use-package    gud
   :custom       (gud-pdb-command-name "python -m pdb")
   :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
-
 
 (use-package    realgud
   :ensure       t
@@ -836,88 +734,54 @@
                       ("p" . realgud:eval-dotsymbol-at-point)
                       ("k" . previous-line)))
 
-;; (use-package    make-mode
-;;   :config       (remove-hook 'makefile-mode-hook 'indent-tabs-mode))
-
 (use-package    diff-mode
   :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)
                 (define-key diff-mode-map (kbd "M-o") nil))
 
-(use-package    py-autopep8             :ensure t)
-(use-package    stickyfunc-enhance      :ensure t)
-(use-package    hydra                   :ensure t)
-(use-package    vimish-fold             :ensure t)
-(use-package    expand-region           :ensure t)
-(use-package    switch-buffer-functions :ensure t)
-(use-package    multiple-cursors        :ensure t)
-(use-package    hungry-delete           :ensure t)
-(use-package    iedit                   :ensure t)
-(use-package    move-text               :ensure t)
-(use-package    git-timemachine         :ensure t)
-(use-package    ace-jump-buffer         :ensure t)      ;; meh
-(use-package    goto-chg                :ensure t)
-(use-package    function-args           :ensure nil)
-(use-package    lispy                   :ensure t)
-(use-package    helm-chrome             :ensure t)
-(use-package    helm-google             :ensure t)
-(use-package    highlight               :ensure t)
-(use-package    fireplace               :ensure t)
+(use-package	ediff
+  :custom		(ediff-window-setup-function 'ediff-setup-windows-plain)
+				(ediff-split-window-function 'split-window-horizontally)
+				(ediff-diff-options "-w --text"))
+(defun ediff-jk ()
+  "Vimish navigation for ediff."
+  (define-key ediff-mode-map "j" 'ediff-next-difference)
+  (define-key ediff-mode-map "k" 'ediff-previous-difference))
+(add-hook 'ediff-keymap-setup-hook #'ediff-jk)
+
+(use-package    erc
+  :custom       (erc-autojoin-channels-alist '(("#emacs")))
+                (erc-nick "g00iekabl00ie"))
+
+(use-package	face-remap
+  :config		(defun set-boring-buffer-face () (interactive)
+				  (setq buffer-face-mode-face
+						'(:background "gray" :foreground "black"))
+				  (buffer-face-mode))
+				(add-hook 'help-mode-hook 'set-boring-buffer-face)
+				(add-hook 'Info-mode-hook 'set-boring-buffer-face))
+
+(use-package py-autopep8             :ensure t)
+(use-package stickyfunc-enhance      :ensure t)
+(use-package hydra                   :ensure t)
+(use-package vimish-fold             :ensure t)
+(use-package expand-region           :ensure t)
+(use-package switch-buffer-functions :ensure t)
+(use-package multiple-cursors        :ensure t)
+(use-package hungry-delete           :ensure t)
+(use-package iedit                   :ensure t)
+(use-package move-text               :ensure t)
+(use-package git-timemachine         :ensure t)
+(use-package goto-chg                :ensure t)
+(use-package function-args           :ensure t)
+(use-package lispy                   :ensure t)
+(use-package helm-chrome             :ensure t)
+(use-package helm-google             :ensure t)
+(use-package highlight               :ensure t)
+(use-package fireplace               :ensure t)
+(use-package flyspell-correct-ivy    :ensure t)
 
 
-;;-- Random general stuff ------------------------------------------------------
-(menu-bar-mode      -1)
-(tool-bar-mode      -1)
-(toggle-scroll-bar  -1)
-
-(csetq enable-recursive-minibuffers nil)
-(setq-default tab-width 4)
-(csetq tab-always-indent t)
-(csetq indent-tabs-mode nil)
-(csetq auto-hscroll-mode nil)
-
-(setq mouse-autoselect-window           t
-      shift-select-mode                 nil
-      echo-keystrokes                   0.1
-      scroll-margin                     2
-      scroll-preserve-screen-position   nil
-      scroll-error-top-bottom           t
-      fill-column                       80
-      sentence-end-double-space         nil
-      inhibit-splash-screen             t
-      initial-major-mode                'org-mode
-      gc-cons-threshold                 20000000)
-
-(setq backup-by-copying                 t
-      delete-old-versions               t
-      kept-new-versions                 10
-      kept-old-versions                 5
-      delete-by-moving-to-trash         t
-      version-control                   t
-      auto-save-file-name-transforms    `((".*" ,temporary-file-directory t))
-      backup-directory-alist            '(("."  . "~/.saves")))
-
-(setq save-interprogram-paste-before-kill   t
-      select-enable-clipboard               t)
-
-(setq kill-buffer-query-functions
-      (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
-(fset 'yes-or-no-p  'y-or-n-p)
-
-(delete-selection-mode 1)
-(set-language-environment "UTF-8")
-(set-default-coding-systems 'utf-8)
-(auto-compression-mode t)
-(ansi-color-for-comint-mode-on)
-
-(put 'scroll-left 'disabled nil)
-
-(add-to-list 'auto-mode-alist '("defconfig$"    . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.conf$"      . conf-mode))
-(add-to-list 'auto-mode-alist '("\\.sch$"       . text-mode))
-(add-to-list 'auto-mode-alist '("\\.scr$"       . sh-mode))
-(add-to-list 'auto-mode-alist '("\\rc$"         . sh-mode))
-(add-to-list 'auto-mode-alist '("\\.bash"         . sh-mode))
-
+;;-- Some general hooks --------------------------------------------------------
 (add-hook 'before-save-hook     'delete-trailing-whitespace)
 (add-hook 'find-file-hook       'find-file-root-header-warning)
 (add-hook 'occur-hook           'occur-rename-buffer)
@@ -926,23 +790,66 @@
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
            (local-set-key (kbd "RET") 'newline-and-indent)))
 
-;; Open some defaults
-(find-file "~/.emacs.d/bindings2.el")
-(find-file "~/.emacs.d/init.el")
 
-;; some temporary hacks
-(load "~/.emacs.d/face-by-mode.el")
-(load "~/.emacs.d/gdb-custom.el")
-(load "~/.emacs.d/git-custom.el")
-(load "~/.emacs.d/ora-ediff.el")
-(load "~/.emacs.d/indicate-cursor.el")
-(load "~/.emacs.d/bindings2.el")
+;;-- Random general stuff ------------------------------------------------------
+(setq-default fill-column				80)
+(setq-default tab-width					4)
+(setq enable-recursive-minibuffers		nil
+      tab-always-indent					t
+	  indent-tabs-mode					nil
+	  auto-hscroll-mode					nil
+	  mouse-autoselect-window           t
+      shift-select-mode                 nil
+      echo-keystrokes                   0.1
+	  bookmark-save-flag				1
+	  scroll-margin                     2
+      scroll-preserve-screen-position   nil
+      scroll-error-top-bottom           t
+      fill-column                       80
+      sentence-end-double-space         nil
+      inhibit-splash-screen             t
+      initial-major-mode                'org-mode
+      gc-cons-threshold                 20000000
+	  backup-by-copying                 t
+      delete-old-versions               t
+      kept-new-versions                 10
+      kept-old-versions                 5
+      delete-by-moving-to-trash         t
+      version-control                   t
+      auto-save-file-name-transforms    `((".*" ,temporary-file-directory t))
+      backup-directory-alist            '(("."  . "~/.saves"))
+	  save-interprogram-paste-before-kill t
+      select-enable-clipboard           t
+	  browse-url-browser-function		'browse-url-chrome
+	  browse-url-chrome-arguments		"--new-window"
+	  kill-buffer-query-functions
+		(delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
-;; This hack ensures bindings gets loaded last
-(add-hook 'after-init-hook (lambi (load "~/.emacs.d/bindings2.el")))
+(ansi-color-for-comint-mode-on)
+(fset 'yes-or-no-p		    'y-or-n-p)
+(put 'scroll-left			'disabled nil)
+(set-language-environment	"UTF-8")
+(set-default-coding-systems 'utf-8)
+(menu-bar-mode				-1)
+(tool-bar-mode				-1)
+(toggle-scroll-bar			-1)
+(delete-selection-mode		 1)
+(auto-compression-mode		 t)
+(fringe-mode				 0)
 
-;; I don't always need a *scratch*
+(add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.sch$"    . text-mode))
+(add-to-list 'auto-mode-alist '("\\.scr$"    . sh-mode))
+(add-to-list 'auto-mode-alist '("\\rc$"      . sh-mode))
+(add-to-list 'auto-mode-alist '("\\.bash"    . sh-mode))
+
 (condition-case nil (kill-buffer "*scratch*") (error nil))
+
+;; Open some defaults
+(load		"~/.emacs.d/bindings2.el")
+(find-file	"~/.emacs.d/bindings2.el")
+(find-file	"~/.emacs.d/init.el")
 
 (provide 'init)
 ;;; init.el ends here

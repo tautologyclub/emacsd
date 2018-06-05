@@ -1,6 +1,38 @@
 (require 'hideshow)
 (require 'vimish-fold)
 
+(defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
+                            :color
+                            :hint nil)
+  "
+Git (gutter and other stuff):
+  _j_: next hunk        _s_tage hunk     _f_ind-file     _q_uit
+  _k_: previous hunk    _r_evert hunk    _b_lame
+  _h_: first hunk       _e_: ediff       _S_tage buffer  _t_ime-machine
+  _l_: last hunk        _p_opup hunk    _cg_rep   _cl_og
+  ^^                    _H_: region-history
+"
+  ("f" magit-find-file :color blue)
+  ("b" magit-blame :color blue)
+  ("cg" counsel-git-grep :color blue)
+  ("cl" counsel-git-log :color blue)
+  ("j" git-gutter+-next-hunk)
+  ("k" git-gutter+-previous-hunk)
+  ("h" (progn (goto-char (point-min))
+              (git-gutter+-next-hunk 1)))
+  ("l" (progn (goto-char (point-min))
+              (git-gutter+-previous-hunk 1)))
+
+  ("t" git-timemachine :color blue)
+  ("e" vc-ediff :color blue)
+  ("d" magit-diff)
+  ("s" git-gutter+-stage-hunks)
+  ("S" git-gutter+-stage-whole-buffer :color blue)
+  ("H" vc-region-history :color blue)
+  ("r" git-gutter+-revert-hunks)
+  ("p" git-gutter+-popup-hunk)
+  ("SPC" git-gutter+-show-hunk-inline-at-point)
+  ("q" nil :color blue))
 
 (defhydra hydra-ediff (:color blue :columns 2)
   "-- ediff ------------------------------------------------------------------------"
