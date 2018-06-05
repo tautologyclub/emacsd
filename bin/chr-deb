@@ -13,7 +13,7 @@ while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
         -S|--squeeze)
-            CHR_DEB_DIR=/chr-deb
+            CHR_DEB_DIR=/home/benjamin/debian/squeeze
             shift ;;
         -J|--jessie)
             CHR_DEB_DIR=/home/benjamin/debian/jessie
@@ -23,7 +23,7 @@ while [[ $# -gt 0 ]]; do
             shift # past value
             ;;
         --linux)
-            NSPARGS+=" --bind=$HOME/repos/linux:/home/$CHR_USER/linux"
+            NSPARGS+=" --bind=$HOME/repos/linux:/home/$CHR_USER/repos/linux"
             shift ;;
         -bro)
             NSPARGS+=" --bind-ro=$2"

@@ -13,11 +13,13 @@
         benjamin/kill-word
         benjamin/set-mark-command
         c-electric-delete-forward
-        c-electric-delete-forward
+        elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
         end-of-line-or-block
+        fill-paragraph
         forward-whitespace
+        hungry-delete-backward
         hungry-delete-forward
         kill-inner
         kill-region
@@ -31,7 +33,10 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        ora-brackets
+        ora-parens
         org-delete-char
+        org-force-self-insert
         org-self-insert-command
         special-digit-argument
         special-lh-knight/body
@@ -111,6 +116,7 @@
 (setq mc/cmds-to-run-once
       '(
         counsel-grep-or-swiper
+        describe-key
         dropdown-multiterm
         eval-buffer
         handle-switch-frame
@@ -120,8 +126,7 @@
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
         iedit-switch-to-mc-mode
-        ivy-alt-done
+        indent-or-complete
         ivy-alt-done
         lispy-cursor-down
-        org-cycle
         ))

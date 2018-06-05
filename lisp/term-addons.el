@@ -39,6 +39,15 @@
 	       warning 'face '(:foreground "white" :background "red3")))))))
 ;-------------------------------------------------------------------------------
 
+;;;###autoload
+(defun term-toggle-mode ()
+  "Toggle term between line mode and char mode."
+  (interactive)
+  (if (term-in-line-mode)
+      (progn (set-cursor-color original-cursor-color) ;; fixme don't jox with global stuff...
+             (term-char-mode))
+    (progn (set-cursor-color "yellow")
+           (term-line-mode))))
 
 ;;;###autoload
 (defun dropdown-multiterm ()

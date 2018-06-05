@@ -1,0 +1,12 @@
+#!/bin/bash -e
+
+CHR_USER=benjamin
+
+machines=$(machinectl list | grep systemd-nspawn | awk '{print $1}' | xargs)
+num_mach=$(echo $machines|wc -w)
+
+if [ "$num_mach" = "1" ]; then
+    machine="$machines"
+fi
+
+sudo machinectl shell $CHR_USER@$machine /bin/bash

@@ -36,12 +36,44 @@
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
 
+
+;;;###autoload
+(defun fake-C-c ()
+  "Fakes the user typing Ctrl-c."
+  (interactive)
+  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-c"))
+                                     unread-command-events)))
+;;;###autoload
+(defun fake-C-x ()
+  "Fakes the user typing Ctrl-x."
+  (interactive)
+  (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
+                                     unread-command-events)))
+
 ;;;###autoload
 (defun benjamin/previous-buffer ()
   (interactive)
   (previous-buffer)
   (when auto-dim-other-buffers-mode
     (adob--focus-in-hook)))
+
+(defvar benjamin/rec-grep-command "grep --color -nHRi -e ")
+(setq benjamin/rec-grep-command "grep --color -nHri --include \\*.\\* ")
+(defvar benjamin/rec-grep-with-case-command "grep --color -nHRi -e ")
+(setq benjamin/rec-grep-with-case-command "grep --color -nHr --include \\*.\\* ")
+
+;;;###autoload
+(defun benjamin/rec-grep ()
+  "Recursively grep, ignore case."
+  (interactive)
+  (grep (read-input "grep: " benjamin/rec-grep-command)))
+
+;;;###autoload
+(defun benjamin/rec-grep-with-case ()
+  "Recursively grep, match case."
+  (interactive)
+  "Recursively grep, ignore case."
+  (grep (read-input "grep: " benjamin/rec-grep-with-case-command)))
 
 ;;;###autoload
 (defun benjamin/next-buffer ()
@@ -215,7 +247,8 @@ With arg N insert N newlines."
     (if (region-active-p)
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
+    (comment-or-uncomment-region beg end)
+    (forward-line 1)))
 
 ;;;###autoload
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
@@ -789,5 +822,30 @@ there's a region, all lines that region covers will be duplicated."
   (interactive)
   (exchange-point-and-mark)
   (keyboard-quit))
+
+(require 'highlight)
+;;;###autoload
+(defun benjamin/highlight ()
+  (interactive)
+  (let ((old-point (point)))
+    (unless (region-active-p)
+      ;; use current line instead of whole buffer
+      (let (p1 p2)
+        (setq p1 (line-beginning-position))
+        (setq p2 (line-end-position))
+        (goto-char p1)
+        (push-mark p2)
+        (setq mark-active t)))
+    (hlt-highlight)
+    (deactivate-mark)
+    (goto-char old-point)))
+
+;;;###autoload
+(defun benjamin/unhighlight-region ()
+  (interactive)
+  (if (region-active-p)
+      (hlt-unhighlight-region)
+    (message "No region!")))
+
 
 (provide 'some-defuns)

@@ -1,27 +1,42 @@
 #!/bin/bash
 
+if [ "$1" = "--swedish" ]; then
+    LAYOUT=swedish
+    notify-send -t 1000 "Swedish-ish layout"
+else
+    notify-send -t 1000 "US-ish layout"
+fi
+
 killall xcape
 source /etc/profile.d/caps_super_switch.sh
 xmodmap /home/benjamin/.Xmodmap
+# TODO: Move the weirdness from .Xmodmap to here
 
 sleep 0.2  # safeguard prob not needed
 
-xcape -e 'Control_L=F12'
-xcape -e 'Shift_L=F10;Shift_R=Control_L|x;Super_L=F11'
-xcape -e 'Alt_R=F9'
-xcape -e 'Mode_switch=semicolon'                                 # Reclaim ;
-xcape -e 'Hyper_L=q'                                             # Reclaim q
-xcape -e 'Alt_L=F7'
-
-# For swedish xcape:
-# xcape -e 'Mode_switch=odiaeresis'
-# xmodmap -e ""keycode  48 = adiaeresis Adiaeresis adiaeresis Adiaeresis "
-
-
-# Remapping RET to Control. Holy shit this is sweet
+# Remap RET to Control
 xmodmap -e "remove Control = Control_R"
 xmodmap -e   "keycode 0x69 = Return"
 xmodmap -e   "keycode 0x24 = Control_R"
 xmodmap -e    "add Control = Control_R"
 
-xcape -e "Control_R=Return"
+xcape -e "Control_R=Return"             # reclaim RET
+xcape -e 'Control_L=F12'
+xcape -e 'Shift_L=F10'
+xcape -e 'Shift_R=Tab'
+xcape -e 'Super_L=Tab'                  # todo
+
+if [[ "$LAYOUT" = "swedish" ]]; then
+    xcape -e 'Alt_R=aring'              # reclaim å
+    xcape -e 'Mode_switch=Odiaeresis'   # reclaim ö
+                                        # reclaim ä:
+    xmodmap -e "keycode  48 = adiaeresis Adiaeresis adiaeresis Adiaeresis "
+else
+    # Todo: I've settled on [ as BACKSPACE, so just remap Alt_R to that directly
+    # Note: Will take some work inside emacs :/
+    xcape -e 'Alt_R=F9'
+    xcape -e 'Mode_switch=semicolon'    # reclaim ;
+fi
+
+xcape -e 'Hyper_L=q'
+xcape -e 'Alt_L=F7'

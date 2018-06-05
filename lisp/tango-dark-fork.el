@@ -27,6 +27,7 @@
 
 ;;; Code:
 
+;;;###autoload
 (deftheme tango-dark
   "Face colors using the Tango palette (dark background).
 Basic, Font Lock, Isearch, Gnus, Message, Ediff, Flyspell,
@@ -57,7 +58,32 @@ Semantic, and Ansi-Color faces are included.")
 	      (,class
 	       (:foreground ,alum-1 :background "black"))))
    `(cursor ((,class (:background ,butter-1))))
-   ;; Highlighting faces
+   '(auto-dim-other-buffers-face ((t (:inherit 'default :background "#000000" :foreground nil))))
+
+   `(linum ((t (:inherit 'default :foreground "#c0c0c0"))))
+   '(default ((t (:height 105 :width normal :family "Bitstream Vera"))))
+
+   `(org-level-1 ((t (:foreground "#20eeff" :bold t :background nil :height 1.25))))
+   `(org-level-2 ((t (:foreground "#eebbaa" :bold t :background nil :height 1.10))))
+   `(org-level-3 ((t (:foreground "#99ee66" :bold t :background nil))))
+   `(org-level-4 ((t (:foreground "#ee22ff" :bold t :background nil))))
+   `(org-level-5 ((t (:foreground nil :background nil))))
+   `(org-level-6 ((t (:foreground nil :background nil))))
+   `(org-level-7 ((t (:foreground nil :background nil))))
+   `(org-level-8 ((t (:foreground nil :background nil))))
+   `(org-hide ((t (:inherit 'default :foreground nil :background nil))))
+
+
+   '(feebleline-bufname-face ((t (:inherit 'default :foreground nil :bold nil :medium nil))))
+   '(feebleline-linum-face ((t (:inherit 'default))))
+   '(feebleline-previous-buffer-face ((t (:foreground "#3e3e3e"))))
+   '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face
+                              :foreground nil
+                              :bold nil))))
+   '(feebleline-git-branch-face ((t (:foreground "#909090"))))
+   '(feebleline-linum-face ((t (:inherit default))))
+   '(feebleline-asterisk-face ((t (:inherit default :family "Noto Sans" :foreground "salmon" :height 0.8))))
+
    `(fringe ((,class (:background ,alum-7))))
    `(highlight ((,class (:foreground ,alum-6 :background ,butter-2))))
    `(region ((,class (:background ,alum-5))))
@@ -76,6 +102,7 @@ Semantic, and Ansi-Color faces are included.")
    `(compilation-mode-line-run  ((,class (:foreground ,orange-3))))
    `(compilation-mode-line-exit ((,class (:foreground ,cham-3))))
    ;; Escape and prompt faces
+   `(minibuffer-prompt ((,class (:foreground ,cham-0))))
    `(escape-glyph ((,class (:foreground ,butter-3))))
    `(error ((,class (:foreground ,red-0))))
    `(warning ((,class (:foreground ,orange-1))))
@@ -136,24 +163,8 @@ Semantic, and Ansi-Color faces are included.")
    `(ediff-even-diff-B ((,class (:background ,alum-5.5))))
    `(ediff-odd-diff-B ((,class (:background ,alum-5.5))))
    ;; Flyspell faces
-   `(flyspell-duplicate ((,class (:underline ,orange-1))))
-   `(flyspell-incorrect ((,class (:underline ,red-1))))
-
-   ;; Feebleline faces
-   '(default ((t (:height 90 :family "Inconsolata"))))
-   '(feebleline-bufname-face ((t (:foreground nil :inherit 'default :bold nil :medium nil))))
-   '(feebleline-linum-face ((t (:inherit 'default))))
-   '(feebleline-previous-buffer-face ((t (:foreground "#3e3e3e"))))
-   '(feebleline-dir-face ((t (:inherit font-lock-variable-name-face
-                                       :foreground nil
-                                       :bold nil))))
-   '(feebleline-git-branch-face ((t (:foreground "#909090"))))
-   '(feebleline-linum-face ((t (:inherit default))))
-   '(feebleline-asterisk-face ((t (:inherit default :family "Noto Sans" :foreground "red" :height 0.8))))
-
-   `(minibuffer-prompt ((t (:foreground "orange" :bold t :background nil))))
-
-
+   `(flyspell-duplicate ((,class (:underline nil))))
+   `(flyspell-incorrect ((,class (:underline nil))))
    ;; Semantic faces
    `(semantic-decoration-on-includes ((,class (:underline ,alum-4))))
    `(semantic-decoration-on-private-members-face
@@ -166,20 +177,14 @@ Semantic, and Ansi-Color faces are included.")
      ((,class (:background ,alum-5.5))))
    `(semantic-tag-boundary-face ((,class (:overline ,blue-1))))
    `(semantic-unmatched-syntax-face ((,class (:underline ,red-1)))))
+  (setq minibuffer-setup-hook nil)
 
   (custom-theme-set-variables
    'tango-dark
    `(ansi-color-names-vector [,alum-7 ,red-0 ,cham-0 ,butter-1
-                                      ,blue-1 ,plum-1 ,blue-0 ,alum-1]))
-  (setq minibuffer-setup-hook nil)
-  (add-hook 'minibuffer-setup-hook
-	    (lambda () (make-local-variable 'face-remapping-alist)
-	      (add-to-list
-	       'face-remapping-alist '(default (:background "#2e3436")))))
+			      ,blue-1 ,plum-1 ,blue-0 ,alum-1])))
 
-  )
-
-(provide-theme 'tango-dark)
+(provide-theme 'tango-dark-fork)
 
 ;; Local Variables:
 ;; no-byte-compile: t

@@ -346,6 +346,9 @@
    `(rainbow-delimiters-depth-9-face ((t (:foreground ,ample/rb2 :background nil))))
    `(rainbow-delimiters-unmatched-face ((t (:inherit error))))
 
+   '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
+
+
    ;; auto complete
    `(ac-candidate-face			((t (:foreground ,ample/bg :background ,ample/region-dark))))
    `(ac-selection-face			((t (:foreground ,ample/blue :background ,ample/region-dark))))
@@ -504,7 +507,7 @@
    `(org-level-6 ((t (:foreground nil :background nil))))
    `(org-level-7 ((t (:foreground nil :background nil))))
    `(org-level-8 ((t (:foreground nil :background nil))))
-   `(org-link ((t (:foreground "saddle brown" :background nil :bold t :underline t))))
+   `(org-link ((t (:foreground "DeepPink1" :background nil :bold t :underline t))))
 
    `(org-list-dt ((t (:foreground nil :background nil))))
    `(org-meta-line ((t (:foreground nil :background nil))))
@@ -698,7 +701,7 @@
    `(git-gutter:unchanged ((t (:foreground ,ample/dark-tan :background nil))))
 
    `(highlight-indentation-current-column-face ((t (:foreground nil :background ,ample/region-light))))
-   `(highlight-indentation-face                ((t (:foreground nil :background ,ample/region-dark))))
+   `(highlight-indentation-face                ((t (:foreground nil :background nil))))
 
    ;; trailing whitespace
    `(trailing-whitespace ((t (:background "white" :bold t))))
@@ -787,6 +790,8 @@
    ;; widget
    `(widget-field  ((t (:foreground ,ample/fg :background ,ample/region-dark))))
 
+   ;; hl-line ; todooooooo
+   '(hl-line                        ((t (:background "#edd8b4"))))
    ) ;; end of custom-theme-set-faces
 
   (custom-theme-set-variables

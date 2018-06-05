@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# need two or more args
+[[ $# -gt 1 ]] || {
+    echo "USAGE: ediff <FILE 1> <FILE 2>"
+    exit 1
+}
+
+emacsclient --eval "(ediff-files \"$1\" \"$2\")"
