@@ -526,6 +526,8 @@
    `(org-verse ((t (:foreground nil :background nil))))
    `(org-warning ((t (:foreground nil :background nil))))
 
+   '(auto-dim-other-buffers-face ((t (:background "#a39d7f" :foreground "black"))))
+
 
    ;; message-mode
    `(message-cited-text  ((t (:inherit font-lock-comment-face))))

@@ -196,11 +196,11 @@
 (global-set-key     (kbd "H-s")   'isearch-forward)                            ;
 (global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key   (kbd "M-s s")   'org-store-link)
+(global-set-key   (kbd "H-M-s")   (lambi (insert (shell-command-to-string
+                                                  (read-string "cmd: ")))))
+(global-set-key (kbd "M-s M-s")   'save-buffer)
 (global-set-key   (kbd "C-c sd")  (lambi (let ((helm-full-frame t))
                                            (helm-systemd))))
-(global-set-key   (kbd "H-M-s")   (lambi (benjamin/notify "Use C-c C-s")))
-(global-set-key (kbd "M-s M-s")   'save-buffer)
-(define-key isearch-mode-map (kbd "H-s") 'isearch-repeat-forward)
 ;-s == _
 
 (global-set-key     (kbd "C-d")   'delete-char)

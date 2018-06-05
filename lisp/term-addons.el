@@ -109,6 +109,7 @@
 (defvar benjamin/term-rename-suffix "]")
 (defvar benjamin/term-rename-prefix "")
 (setq benjamin/term-rename-prefix ": ")
+(setq benjamin/term-rename-suffix " ")
 
 ;;;###autoload
 (defun benjamin/term-renamer ()

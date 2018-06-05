@@ -626,6 +626,7 @@
                       ("C-i"    . indent-or-complete))
   :config       (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode)
+                (use-package semantic/bovine/c)
                 (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h")
                 (defun c-occur-overview () (interactive)
@@ -722,6 +723,7 @@
 
 ;;-- Random general stuff ------------------------------------------------------
 (menu-bar-mode      -1)
+(tool-bar-mode      -1)
 (toggle-scroll-bar  -1)
 
 (csetq enable-recursive-minibuffers nil)
