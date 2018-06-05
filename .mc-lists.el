@@ -116,6 +116,7 @@
 (setq mc/cmds-to-run-once
       '(
         counsel-grep-or-swiper
+        describe-key
         dropdown-multiterm
         eval-buffer
         handle-switch-frame
@@ -125,6 +126,7 @@
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
         iedit-switch-to-mc-mode
+        indent-or-complete
         ivy-alt-done
         lispy-cursor-down
         ))

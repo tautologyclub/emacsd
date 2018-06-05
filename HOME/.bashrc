@@ -109,8 +109,8 @@ fi
 
 # having $TERM==xterm-termite messes up remote terminals among other
 # things. Easily fixed though:
-if [[ $TERM == *"xterm"* ]]; then
-    export TERM=xterm
+if [[ $TERM == "xterm-termite" ]]; then
+    export TERM=xterm-color
 fi
 
 test -e /usr/share/git/completion/git-completion.bash && \
@@ -118,6 +118,7 @@ test -e /usr/share/git/completion/git-completion.bash && \
 
 complete -cf sudo
 complete -c man which systemctl killall eman wut
+complete -f fdisk
 
 # fuck -- kind of a cheesy util tbh
 eval $(thefuck --alias)

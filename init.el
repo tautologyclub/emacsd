@@ -47,17 +47,11 @@
   :load-path    "~/repos/counsel-term")
 
 (use-package    ample-light-theme  ;; forked
-  :disabled
+  ;; :disabled
   :ensure       nil
   :after        (feebleline)
   :config       (ample-light-theme)
   :load-path    "~/.emacs.d/ample-theme")
-
-(use-package    tango-dark-fork  ;; forked
-  :ensure       nil
-  :after        (feebleline)
-  :config       (load-theme 'tango-dark-fork)
-  :load-path    "~/.emacs.d/lisp")
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
@@ -97,7 +91,6 @@
      ("C-p" . nil)
      ("C-r" . term-send-backspace)
      ("C-m" . term-send-return)
-     ;; ("C-q" . backward-word)
      ("H-w" . counsel-term-ff)
      ("C-y" . term-paste)
      ("H-i" . term-paste)
@@ -109,6 +102,7 @@
      ("M-h" . counsel-term-history)
      ("M-q" . term-send-backward-word)
      ("M-f" . term-send-forward-word)
+     ("M-o" . other-window)
      ("M-p" . term-send-up)
      ("M-n" . term-send-down)
      ("M-d" . term-send-delete-word)
@@ -122,7 +116,6 @@
      ("H-M-f" . find-file-at-point)
      ("H-M-u"   . (lambda () (interactive)
                     (term-send-raw-string "sudo ")))
-     ("C-x t" . term-toggle-mode)
      ("C-t t" . term-toggle-mode)
      ("C-c C-c" . term-interrupt-subjob)
      ("C-c C-e" . term-send-esc)
@@ -133,13 +126,70 @@
      ("<C-return>"    . term-cd-input))
   (:map term-mode-map
         ("C-p"   . nil)
-        ("C-x t" . term-toggle-mode)
+        ("M-o"   . nil)
         ("C-t t" . term-toggle-mode))
   :ensure       t
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
                 (multi-term-switch-after-close nil)
-                (term-buffer-maximum-size 16384))
+                (term-buffer-maximum-size 16384)
+                (term-char-mode-buffer-read-only nil)
+                (term-char-mode-point-at-process-mark nil))
+
+;; todo: hacky but use-package :bind won't work on term mode for some reason
+(setq term-bind-key-alist nil)
+(setq term-bind-key-alist
+      '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
+        ("C-d" . term-send-raw)
+        ("C-_" . nil)
+        ("C-p" . projectile-command-map)
+        ("C-j" . next-line)
+        ("C-k" . previous-line)
+        ("C-l" . forward-char)
+        ("C-h" . backward-char)
+        ("C-n" . term-downdir)
+        ("C-s" . swiper)
+        ("C-t" . nil)
+        ("C-p" . nil)
+        ("C-r" . term-send-backspace)
+        ("C-m" . term-send-return)
+        ("H-w" . counsel-term-ff)
+        ("C-y" . term-paste)
+        ("H-i" . term-paste)
+        ("H-f" . avy-goto-word-or-subword-1)
+        ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
+        ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
+        ;; electric pairs in term
+        ("["   . (lambda () (interactive) (term-send-raw-string "[]")))
+        ("("   . (lambda () (interactive) (term-send-raw-string "()")))
+        ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
+        ("H-c" . counsel-term-cd)
+        ("M-r" . term-send-backward-kill-word)
+        ("M-h" . counsel-term-history)
+        ("M-q" . term-send-backward-word)
+        ("M-f" . term-send-forward-word)
+        ("M-o" . other-window)
+        ("M-p" . term-send-up)
+        ("M-n" . term-send-down)
+        ("M-d" . term-send-delete-word)
+        ("M-," . term-send-raw)
+        ("C-S-a" . beginning-of-line)
+        ("C-S-e" . end-of-line)
+        ("C-S-n" . term-updir)
+        ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
+        ("<f9>". term-send-backspace) ; == [
+        ("TAB" . term-send-raw)
+        ("H-M-f" . find-file-at-point)
+        ("H-M-u"   . (lambda () (interactive)
+                       (term-send-raw-string "sudo ")))
+        ("C-t t" . term-toggle-mode)
+        ("C-c C-c" . term-interrupt-subjob)
+        ("C-c C-e" . term-send-esc)
+        ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
+        ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
+        ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
+        ("<C-backspace>" . term-send-backward-kill-word)
+        ("<C-return>"    . term-cd-input)))
 
 (use-package    ace-window
   :disabled     t
@@ -555,6 +605,8 @@
   :custom       (org-hide-leading-stars t)
                 (org-agenda-files '("~/work/agenda.org"
                                     "~/notes/read.org"
+                                    "~/notes/todo.org"
+                                    "~/notes/emacs.org"
                                     "~/work/elci.org"
                                     "~/work/gptp.org"
                                     "~/work/endian/p1807-smartpuck/smartpuck.org"
@@ -576,6 +628,28 @@
                       ("C-S-e"      . outline-next-visible-heading)
                       ("C-j"        . next-line)
                       ("C-k"        . previous-line)))
+
+(use-package    org-capture
+  :custom       (org-default-notes-file "~/notes/capture.org")
+  :config       (add-to-list 'org-agenda-files "~/notes/capture.org")
+                (setq org-capture-templates
+                  '(("t" "Task" entry (file+headline "" "Tasks")
+		             "* TODO %?\n  %u\n  %a")
+                    ("T" "Task with Clipboard" entry
+                     (file "~/notes/capture.org")
+                     "* TODO %?\n%U\n   %c" :empty-lines 1)
+                    ("n" "Note" entry (file "~/notes/capture.org")
+                     "* NOTE %?\n%U" :empty-lines 1)
+                    ("N" "Note with Clipboard" entry
+                     (file "~/notes/capture.org")
+                     "* NOTE %?\n%U\n   %c" :empty-lines 1)
+                    ("e" "Event" entry
+                     (file+headline "~/notes/capture.org" "Transient")
+                     "* EVENT %?\n%U" :empty-lines 1)
+                    ("E" "Event With Clipboard" entry
+                     (file+headline "~/notes/capture.org/Events.org"
+                                    "Transient")
+                     "* EVENT %?\n%U\n   %c" :empty-lines 1))))
 
 (use-package    markdown-mode
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
@@ -658,6 +732,35 @@
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode))
 
+(use-package    company-irony
+  :ensure       t)
+
+(use-package    company-irony-c-headers
+  :ensure       t)
+
+(use-package semantic/bovine/c)
+(add-to-list 'semantic-lex-c-preprocessor-symbol-file
+             "/usr/lib/clang/5.0.0/include/stddef.h")
+
+(defun c-occur-overview () (interactive)
+       (let ((list-matching-lines-face nil))
+         (occur "^[a-z].*("))
+       (enlarge-window 25)
+       (hydra-errgo/body))
+(defun benjamin/c-hook ()
+  "Setup for C bla."
+  (subword-mode 1)
+  (flycheck-mode 1)
+  (helm-gtags-mode 1)
+  (fci-mode -1) ;; destroys company
+  (irony-mode 1)
+  (company-mode 1)
+  (semantic-mode 1)
+  (semantic-stickyfunc-mode -1)
+  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
+(add-hook 'c-mode-hook 'benjamin/c-hook)
+(add-hook 'c++-mode-hook 'benjamin/c-hook)
+
 (use-package    cc-mode
   :after        (semantic)
   :custom       (c-default-style        "linux")
@@ -674,29 +777,13 @@
                       ("C-c o"  . c-occur-overview)
                       ("M-c"    . hydra-gdb/body)       ;; todo
                       ("C-i"    . indent-or-complete))
-  :config       (semanticdb-enable-gnu-global-databases 'c-mode)
+  :init         (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode)
-                (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-                             "/usr/lib/clang/5.0.0/include/stddef.h")
-                (defun c-occur-overview () (interactive)
-                       (let ((list-matching-lines-face nil))
-                         (occur "^[a-z].*("))
-                       (enlarge-window 25)
-                       (hydra-errgo/body))
-                (defun benjamin/c-hook ()
-                  (subword-mode 1)
-                  (flycheck-mode 1)
-                  (helm-gtags-mode 1)
-                  (fci-mode -1) ;; destroys company
-                  (irony-mode 1)
-                  (company-mode 1)
-                  (semantic-mode 1)
-                  (semantic-stickyfunc-mode -1)
-                  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/")
                   (when (boundp 'company-backends)
                     (set (make-local-variable 'company-backends)
                          '((
-                            company-c-headers
+                            ;; company-c-headers
+                            company-irony-c-headers
                             company-irony
                             ;; company-semantic
                             ;; company-files
@@ -705,9 +792,6 @@
                             ;; company-gtags
                             ;; company-capf
                             )))))
-                (add-hook 'c-mode-hook 'benjamin/c-hook)
-                (add-hook 'c++-mode-hook 'benjamin/c-hook)
-)
 
 (use-package    pdf-tools
   :ensure       t
@@ -734,6 +818,7 @@
   :custom       (gud-pdb-command-name "python -m pdb")
   :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
 
+
 (use-package    realgud
   :ensure       t
   :custom       (realgud:pdb-command-name "python -m pdb")
@@ -751,8 +836,12 @@
                       ("p" . realgud:eval-dotsymbol-at-point)
                       ("k" . previous-line)))
 
-(use-package    make-mode
-  :config       (add-hook 'makefile-mode-hook 'indent-tabs-mode))
+;; (use-package    make-mode
+;;   :config       (remove-hook 'makefile-mode-hook 'indent-tabs-mode))
+
+(use-package    diff-mode
+  :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)
+                (define-key diff-mode-map (kbd "M-o") nil))
 
 (use-package    py-autopep8             :ensure t)
 (use-package    stickyfunc-enhance      :ensure t)
@@ -772,6 +861,7 @@
 (use-package    helm-chrome             :ensure t)
 (use-package    helm-google             :ensure t)
 (use-package    highlight               :ensure t)
+(use-package    fireplace               :ensure t)
 
 
 ;;-- Random general stuff ------------------------------------------------------
