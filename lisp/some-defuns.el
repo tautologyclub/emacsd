@@ -66,14 +66,14 @@
 (defun benjamin/rec-grep ()
   "Recursively grep, ignore case."
   (interactive)
-  (grep (read-input "grep: " benjamin/rec-grep-command)))
+  (grep (read-from-minibuffer "grep: " benjamin/rec-grep-command)))
 
 ;;;###autoload
 (defun benjamin/rec-grep-with-case ()
   "Recursively grep, match case."
   (interactive)
   "Recursively grep, ignore case."
-  (grep (read-input "grep: " benjamin/rec-grep-with-case-command)))
+  (grep (read-from-minibuffer "grep: " benjamin/rec-grep-with-case-command)))
 
 ;;;###autoload
 (defun benjamin/next-buffer ()
@@ -369,10 +369,15 @@ With arg N insert N newlines."
 (defun copy-current-file-path ()
   "Add current file path to kill ring. Limits the filename to project root if possible."
   (interactive)
-  (let ((filename (buffer-file-name)))
-    (kill-new (if eproject-mode
-                  (s-chop-prefix (eproject-root) filename)
-                filename))))
+  (let ((filename (concat (file-name-directory (buffer-file-name)) (buffer-file-name))))
+    (kill-new filename)))
+
+;;;###autoload
+(defun copy-current-dir-path ()
+  "Add current file path to kill ring. Limits the filename to project root if possible."
+  (interactive)
+  (let ((filename (file-name-directory (buffer-file-name))))
+    (kill-new filename)))
 
 ;;;###autoload
 (defun sudo-edit-current ()

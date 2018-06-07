@@ -128,6 +128,9 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("h" first-error      "first")
   ("j" next-error       "next")
   ("k" previous-error   "prev")
+  ("l" last-error       "last")
+  ("n" next-error       "next")
+  ("p" previous-error   "prev")
   ("l" last-error       "last"))
 
 (defvar prev-max-mini-window-height max-mini-window-height)
@@ -147,6 +150,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   _f_ auto-fill:        %`auto-fill-function
   _h_ hl-line:          %`hl-line-mode
   _d_ debug-on-error:   %`debug-on-error
+  _D_ diff-mode:        %`diff-auto-refine-mode
   _t_ truncate-lines:   %`truncate-lines
   _y_ flycheck:         %`flycheck-mode
   _w_ whitespace:       %`whitespace-mode
@@ -161,6 +165,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("S" flyspell-mode)
   ("T" semantic-stickyfunc-mode)
   ("d" toggle-debug-on-error)
+  ("D" diff-mode)
   ("f" auto-fill-mode)
   ("h" (setq highlight-nonselected-windows (not highlight-nonselected-windows)))
   ("e" feebleline-mode)

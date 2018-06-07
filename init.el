@@ -1,3 +1,4 @@
+
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
@@ -147,6 +148,7 @@
         ("C-k" . previous-line)
         ("C-l" . forward-char)
         ("C-h" . backward-char)
+        ("C-b" . nil)
         ("C-n" . term-downdir)
         ("C-s" . swiper)
         ("C-t" . nil)
@@ -350,10 +352,11 @@
 (use-package    ivy-rich
   ;; :disabled     t
   :ensure       t
+  :after        (ivy)
   :custom       (ivy-rich-path-style 'abbrev)
                 (ivy-rich-parse-remote-buffer nil)
                 (ivy-rich-switch-buffer-mode-max-length 1)
-                (ivy-rich-switch-buffer-name-max-length 50)
+                (ivy-rich-switch-buffer-name-max-length 60)
   :config       (ivy-set-display-transformer
                  'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
   (defun ivy-rich-switch-buffer-major-mode () ""))
@@ -404,8 +407,6 @@
                 (define-key ivy-occur-grep-mode-map
                   (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
                 (define-key ivy-switch-buffer-map (kbd "M-o") nil)
-                (ivy-set-display-transformer
-                 'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
                 (define-key ivy-switch-buffer-map (kbd "M-k")
                   (lambi (ivy-set-action 'kill-buffer)
                          (ivy-call)
@@ -427,15 +428,14 @@
   :custom       (magit-completing-read-function 'ivy-completing-read))
 
 (use-package    swiper
-  :ensure       t
-  )
+  :ensure       t)
 
 (use-package    counsel
   :ensure       t
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
-  :custom       (counsel-grep-swiper-limit      120000)
                 (define-key counsel-find-file-map
                   (kbd "H-r") 'counsel-up-directory)
+  :custom       (counsel-grep-swiper-limit      120000)
                 (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
@@ -484,15 +484,23 @@
 (use-package    asm-mode
   :config       (define-key asm-mode-map (kbd "C-j") nil))
 
+(use-package    jedi
+  :disabled     t   ;; apparently company-jedi REPLACES jedi
+  :ensure       t
+  :init         (add-hook 'python-mode-hook 'jedi:setup)
+                (add-hook 'python-mode-hook 'jedi:ac-setup))
+
 (use-package    company-jedi
   :ensure       t
   :config       (add-hook 'python-mode-hook
-                          (lambi (add-to-list 'company-backends
-                                              'company-jedi))))
+                 (lambi (add-to-list 'company-backends 'company-jedi))))
 
 (use-package    edit-server
   :ensure       t
   :config       (edit-server-start))
+
+(use-package    switch-buffer-functions
+  :ensure       t)
 
 (use-package    autorevert
   :custom       (auto-revert-verbose nil)
@@ -603,16 +611,16 @@
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
-                (org-agenda-files '("~/work/agenda.org"
-                                    "~/notes/read.org"
-                                    "~/notes/todo.org"
-                                    "~/notes/emacs.org"
-                                    "~/work/elci.org"
-                                    "~/work/gptp.org"
-                                    "~/work/endian/p1807-smartpuck/smartpuck.org"
-                                    "~/work/endian/glhf/glhf.org"
-                                    "~/work/v2v-module/v2v.org"
-                                    ))
+                (org-agenda-files
+                 '("~/work/agenda.org"
+                   "~/notes/read.org"
+                   "~/notes/todo.org"
+                   "~/notes/emacs.org"
+                   "~/work/elci.org"
+                   "~/work/gptp.org"
+                   "~/work/endian/p1807-smartpuck/smartpuck.org"
+                   "~/work/endian/glhf/glhf.org"
+                   "~/work/v2v-module/v2v.org"))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
                 (add-hook 'org-mode-hook (lambda () (flyspell-mode +1)))
                 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
@@ -659,10 +667,6 @@
   :ensure       t
   :config       (global-git-gutter+-mode))
 
-(use-package    goto-last-change
-  :disabled     t  ;; deprecated for goto-chg
-  :ensure       t)
-
 (use-package    goto-chg
   :ensure       t)
 
@@ -699,12 +703,6 @@
                 (elpy-enable)
                 (add-hook 'python-mode-hook
                           (lambi (set (make-local-variable 'flycheck-checker) 'python-flake8))))
-
-(use-package    jedi
-  :disabled     t   ;; apparently company-jedi REPLACES jedi
-  :ensure       t
-  :init         (add-hook 'python-mode-hook 'jedi:setup)
-                (add-hook 'python-mode-hook 'jedi:ac-setup))
 
 (use-package    pyenv-mode
   :ensure       t
@@ -775,6 +773,7 @@
                       ("C-M-j"  . nil)
                       ("C-M-k"  . nil)
                       ("C-c o"  . c-occur-overview)
+                      ("C-c C-c"  . compile)
                       ("M-c"    . hydra-gdb/body)       ;; todo
                       ("C-i"    . indent-or-complete))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)

@@ -1,4 +1,5 @@
 
+
 ;;; Code:
 
 ;; from wiki, with some modifications
@@ -58,6 +59,14 @@
   (multi-term))
 
 ;;;###autoload
+(defun dropdown-multiterm-prev ()
+  "Split window below, open a terminal and move focus to it."
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (multi-term-prev))
+
+;;;###autoload
 (defun dropdown-multiterm-right ()
   "Split windowright, open a terminal and move focus to it."
   (interactive)
@@ -115,10 +124,10 @@
 ;; Renaming term buffers
 ;-------------------------------------------------------------------------------
 (defvar counsel-term--home-dir (expand-file-name "~"))
-(defvar benjamin/term-rename-suffix "]")
-(defvar benjamin/term-rename-prefix "")
-(setq benjamin/term-rename-prefix ": ")
-(setq benjamin/term-rename-suffix ": ")
+(defvar benjamin/term-rename-suffix " ")
+(defvar benjamin/term-rename-prefix "terminal: ")
+(setq benjamin/term-rename-prefix "term: ")
+(setq benjamin/term-rename-suffix " ")
 
 ;;;###autoload
 (defun benjamin/term-renamer ()
@@ -131,7 +140,8 @@
           benjamin/term-rename-suffix
 ))
 
-(require 'switch-buffer-functions)
+(use-package    switch-buffer-functions
+  :ensure       t)
 (add-hook
  'term-mode-hook
  (lambda ()

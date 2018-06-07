@@ -12,6 +12,7 @@
         benjamin/kill-word
         benjamin/kill-word
         benjamin/set-mark-command
+        benjamin/unhighlight-region
         c-electric-delete-forward
         elpy-nav-backward-indent
         elpy-nav-indent-shift-left
