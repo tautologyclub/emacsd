@@ -58,10 +58,8 @@ bindsym Print exec --no-startup-id i3-scrot
 
 bindsym F12 exec --no-startup-id touch /home/benjamin/f12_pressed  # Silly hack to make f12 not open some random shit in chrome
 
-# Move to scratchpad
-bindsym $mod+Shift+minus move scratchpad
-# Cycle scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+minus move scratchpad
+bindsym $mod+g scratchpad show
 
 # Don't need these with split_optimally.sh
 ## bindsym $mod+h split h;exec notify-send 'tile horizontally'

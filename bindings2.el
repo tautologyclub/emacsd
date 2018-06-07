@@ -276,7 +276,7 @@
                           ;-F      )
 
 (global-set-key     (kbd "H-g")   'benjamin/get-term)                          ;
-(global-set-key     (kbd "s-g")   'grep)
+(global-set-key     (kbd "s-g")    nil)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
 (global-set-key     (kbd "M-g")   'goto-line-with-feedback)

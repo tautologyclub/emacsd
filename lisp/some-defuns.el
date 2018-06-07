@@ -50,13 +50,6 @@
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
                                      unread-command-events)))
 
-;;;###autoload
-(defun benjamin/previous-buffer ()
-  (interactive)
-  (previous-buffer)
-  (when auto-dim-other-buffers-mode
-    (adob--focus-in-hook)))
-
 (defvar benjamin/rec-grep-command "grep --color -nHRi -e ")
 (setq benjamin/rec-grep-command "grep --color -nHri --include \\*.\\* ")
 (defvar benjamin/rec-grep-with-case-command "grep --color -nHRi -e ")
@@ -74,6 +67,13 @@
   (interactive)
   "Recursively grep, ignore case."
   (grep (read-input "grep: " benjamin/rec-grep-with-case-command)))
+
+;;;###autoload
+(defun benjamin/previous-buffer ()
+  (interactive)
+  (previous-buffer)
+  (when auto-dim-other-buffers-mode
+    (adob--focus-in-hook)))
 
 ;;;###autoload
 (defun benjamin/next-buffer ()
@@ -746,14 +746,12 @@ This function is suitable to add to `find-file-hook'."
   (interactive)
   (defvar goto/line 0)
   (unwind-protect
-      (progn
-        (nlinum-mode 1)
+      (let ((display-line-numbers 1))
         (git-gutter+-mode -1)
         (setq goto/line (read-number "Goto line: "))
         (goto-char (point-min))
         (forward-line (1- goto/line)))
-    (git-gutter+-mode 1)
-    (nlinum-mode -1)))
+    (git-gutter+-mode 1)))
 
 ;;;###autoload
 (defun duplicate-current-line-or-region (arg)

@@ -3,7 +3,7 @@
 ;;; Commentary:
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -15,6 +15,7 @@
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
 (setq custom-file (make-temp-file "/tmp/custom.el"))
+
 
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
@@ -34,8 +35,8 @@
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
 
 (use-package    counsel-term
-  :custom       (counsel-term-ff-initial-input          "")
-                (counsel-term-history-initial-input     "")
+  :custom       (counsel-term-ff-initial-input      "")
+                (counsel-term-history-initial-input "")
   :load-path    "~/repos/counsel-term")
 
 (use-package    ample-light-theme  ;; forked
@@ -44,26 +45,26 @@
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
-  :custom       (feebleline-show-git-branch             t)
-                (feebleline-show-dir                    t)
-                (feebleline-show-time                   nil)
-                (feebleline-show-previous-buffer        nil)
+  :custom       (feebleline-show-git-branch      t)
+                (feebleline-show-dir             t)
+                (feebleline-show-time            nil)
+                (feebleline-show-previous-buffer nil)
   :config       (feebleline-mode 1))
 
 
 ; -- others stuff --------------------------------------------------------------
 (use-package    undo-tree
-  :ensure		t
+  :ensure       t
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
 
 (use-package    multi-term
   :ensure       t
-  :bind        (:map term-mode-map
-                     ("C-p"   . nil)
-                     ("M-o"   . nil)
-                     ("C-t t" . term-toggle-mode))
+  :bind         (:map term-mode-map
+                      ("C-p"   . nil)
+                      ("M-o"   . nil)
+                      ("C-t t" . term-toggle-mode))
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
                 (term-buffer-maximum-size 16384)
@@ -198,7 +199,7 @@
        ("c" counsel-projectile-switch-project-action-compile "run project compilation command")
        ("C" counsel-projectile-switch-project-action-configure "run project configure command")
        ("E" counsel-projectile-switch-project-action-edit-dir-locals "edit project dir-locals")
-       ("Vimish navigation for ediff." counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
+       ("v" counsel-projectile-switch-project-action-vc "open project in vc-dir / magit / monky")
        ("sg" counsel-projectile-switch-project-action-grep "search project with grep")
        ("ss" counsel-projectile-switch-project-action-ag "search project with ag")
        ("sr" counsel-projectile-switch-project-action-rg "search project with rg")
@@ -273,7 +274,7 @@
                 (ivy-rich-switch-buffer-name-max-length 50)
   :config       (ivy-set-display-transformer
                  'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
-				(defun ivy-rich-switch-buffer-major-mode () ""))
+                (defun ivy-rich-switch-buffer-major-mode () ""))
 
 (use-package    ivy
   :ensure       t
@@ -342,17 +343,18 @@
                  'magit-display-buffer-fullframe-status-v1))
 
 ;; todo
-(define-key magit-status-mode-map "j" 'magit-section-forward)
-(define-key magit-status-mode-map "k" 'magit-section-backward)
-(define-key magit-status-mode-map "\C-k" nil)
-(define-key magit-status-mode-map "\C-d" 'magit-discard)
-(define-key magit-log-mode-map "j" 'magit-section-forward)
-(define-key magit-log-mode-map "k" 'magit-section-backward)
+(define-key magit-status-mode-map    "j" 'magit-section-forward)
+(define-key magit-status-mode-map    "k" 'magit-section-backward)
+(define-key magit-status-mode-map    "\C-k" nil)
+(define-key magit-status-mode-map    "\C-d" 'magit-discard)
+(define-key magit-log-mode-map       "j" 'magit-section-forward)
+(define-key magit-log-mode-map       "k" 'magit-section-backward)
 (define-key magit-commit-section-map "j" 'magit-section-forward)
 (define-key magit-commit-section-map "k" 'magit-section-backward)
-(define-key magit-diff-mode-map "j" 'magit-section-forward)
-(define-key magit-diff-mode-map "k" 'magit-section-backward)
+(define-key magit-diff-mode-map      "j" 'magit-section-forward)
+(define-key magit-diff-mode-map      "k" 'magit-section-backward)
 (defun git-commit-fill-column-hook ()
+  "I mean a commit message should not be 80 chars."
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
@@ -363,16 +365,16 @@
 (use-package    counsel
   :ensure       t
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
-				(define-key counsel-find-file-map
+                (define-key counsel-find-file-map
                   (kbd "H-r") 'counsel-up-directory)
-  :custom		(counsel-rg-base-command
+  :custom        (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
                          "--color never %s . 2>/dev/null")))
 
-(use-package	company
+(use-package    company
   :ensure       t
-  :custom       (company-auto-complete-chars '(?. ?>))    ;; ???
+  :custom       (company-auto-complete-chars '(?. ?>))
                 (company-backends
                  '(company-semantic company-clang company-cmake
                                     company-capf company-files
@@ -390,25 +392,26 @@
                 (define-key company-active-map (kbd ";") 'company-complete-selection)
                 (define-key company-active-map (kbd "\"") 'company-select-next)
                 (define-key company-active-map (kbd "C-n") 'company-select-next)
-                (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  ;; abo-abo awesome company use-digit hack below
-  (let ((map company-active-map))
-    (mapc
-     (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
-     (number-sequence 0 9))
-    (define-key map " " (lambda ()
-                          (interactive)
-                          (company-abort)
-                          (self-insert-command 1)))
-    (define-key map (kbd "<return>") nil))
-  (defun ora-company-number ()
-    (interactive)
-    (let* ((k (this-command-keys))
-           (re (concat "^" company-prefix k)))
-      (if (cl-find-if (lambda (s) (string-match re s))
-                      company-candidates)
-          (self-insert-command 1)
-        (company-complete-number (string-to-number k))))))
+                (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+;; abo-abo awesome company use-digit hack:
+(let ((map company-active-map))
+  (mapc
+   (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
+   (number-sequence 0 9))
+  (define-key map " " (lambda ()
+                        (interactive)
+                        (company-abort)
+                        (self-insert-command 1)))
+  (define-key map (kbd "<return>") nil))
+(defun ora-company-number ()
+  (interactive)
+  (let* ((k (this-command-keys))
+         (re (concat "^" company-prefix k)))
+    (if (cl-find-if (lambda (s) (string-match re s))
+                    company-candidates)
+        (self-insert-command 1)
+      (company-complete-number (string-to-number k)))))
 
 (use-package    asm-mode
   :config       (define-key asm-mode-map (kbd "C-j") nil))
@@ -423,7 +426,7 @@
   :config       (edit-server-start))
 
 (use-package    autorevert
-  :custom       (auto-revert-verbose			     nil)
+  :custom       (auto-revert-verbose                 nil)
                 (global-auto-revert-non-file-buffers   t)
   :config       (global-auto-revert-mode))
 
@@ -461,7 +464,7 @@
   :hook         (prog-mode-hook . helm-gtags-mode))
 
 (use-package    flycheck
-  :ensure		t
+  :ensure        t
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.5)
@@ -478,6 +481,7 @@
 (use-package    irony
   :ensure       t
   :config       (defun my-irony-mode-hook ()
+                  "Pretty sure this does nothing relevant."
                   (define-key irony-mode-map [remap completion-at-point]
                     'irony-completion-at-point-async)
                   (define-key irony-mode-map [remap complete-symbol]
@@ -504,6 +508,19 @@
                 (add-to-list 'auto-mode-alist '("\\.bbappend$" . bitbake-mode))
                 (add-hook 'bitbake-mode-hook 'subword-mode)
                 (add-hook 'bitbake-mode-hook 'helm-gtags-mode))
+
+(use-package    hippie-expand
+  :ensure       t
+  :custom       (hippie-expand-try-functions-list
+                 '(try-expand-dabbrev
+                   try-expand-dabbrev-all-buffers
+                   try-expand-dabbrev-from-kill
+                   try-complete-file-name-partially
+                   try-complete-file-name
+                   try-expand-all-abbrevs
+                   try-expand-list
+                   try-expand-line
+                   try-complete-lisp-symbol-partially)))
 
 (use-package    linum
   :ensure       nil
@@ -559,7 +576,7 @@
   :config       (add-to-list 'org-agenda-files "~/notes/capture.org")
                 (setq org-capture-templates
                   '(("t" "Task" entry (file+headline "" "Tasks")
-		             "* TODO %?\n  %u\n  %a")
+                     "* TODO %?\n  %u\n  %a")
                     ("T" "Task with Clipboard" entry
                      (file "~/notes/capture.org")
                      "* TODO %?\n%U\n   %c" :empty-lines 1)
@@ -577,7 +594,7 @@
                      "* EVENT %?\n%U\n   %c" :empty-lines 1))))
 
 (use-package    markdown-mode
-  :ensure		t
+  :ensure        t
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
                 (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
@@ -641,8 +658,8 @@
                              'global-semantic-idle-scheduler-mode)
                 (add-to-list 'semantic-default-submodes
                              'global-semanticdb-minor-mode)
-				(semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
-				(semantic-add-system-include "/usr/lib/python2.7" 'python-mode))
+                (semantic-add-system-include "/usr/lib/python3.6" 'python-mode)
+                (semantic-add-system-include "/usr/lib/python2.7" 'python-mode))
 
 (defun c-occur-overview ()
   "Grep for definitions/declarations etc, in C."
@@ -652,8 +669,8 @@
   (enlarge-window 25)
   (hydra-errgo/body))
 
-(use-package	company-irony              :ensure t)
-(use-package	company-irony-c-headers    :ensure t)
+(use-package    company-irony              :ensure t)
+(use-package    company-irony-c-headers    :ensure t)
 (use-package    semantic/bovine/c
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h"))
@@ -663,14 +680,9 @@
   :custom       (c-default-style        "linux")
                 (c-basic-offset         8)
   :bind         (:map c-mode-base-map
-                      ("M-q"    . nil)
-                      ("M-e"    . nil)
-                      ("M-a"    . nil)
-                      ("M-j"    . nil)
-                      ("C-M-a"  . nil)
-                      ("C-M-e"  . nil)
-                      ("C-M-j"  . nil)
-                      ("C-M-k"  . nil)
+                      ("M-q"    . nil) ("M-e"    . nil) ("M-a"    . nil)
+                      ("C-M-a"  . nil) ("C-M-e"  . nil) ("M-j"    . nil)
+                      ("C-M-j"  . nil) ("C-M-k"  . nil)
                       ("C-c o"  . c-occur-overview)
                       ("M-c"    . hydra-gdb/body)       ;; todo
                       ("C-i"    . indent-or-complete))
@@ -738,10 +750,11 @@
   :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)
                 (define-key diff-mode-map (kbd "M-o") nil))
 
-(use-package	ediff
-  :custom		(ediff-window-setup-function 'ediff-setup-windows-plain)
-				(ediff-split-window-function 'split-window-horizontally)
-				(ediff-diff-options "-w --text"))
+(use-package    ediff
+  :custom        (ediff-window-setup-function 'ediff-setup-windows-plain)
+                (ediff-split-window-function 'split-window-horizontally)
+                (ediff-diff-options "-w --text"))
+
 (defun ediff-jk ()
   "Vimish navigation for ediff."
   (define-key ediff-mode-map "j" 'ediff-next-difference)
@@ -752,13 +765,18 @@
   :custom       (erc-autojoin-channels-alist '(("#emacs")))
                 (erc-nick "g00iekabl00ie"))
 
-(use-package	face-remap
-  :config		(defun set-boring-buffer-face () (interactive)
-				  (setq buffer-face-mode-face
-						'(:background "gray" :foreground "black"))
-				  (buffer-face-mode))
-				(add-hook 'help-mode-hook 'set-boring-buffer-face)
-				(add-hook 'Info-mode-hook 'set-boring-buffer-face))
+(use-package    elec-pair
+  :config       (electric-pair-mode 1)
+                (add-to-list 'electric-pair-pairs '(?< . ?>)))
+
+(use-package    face-remap
+  :config        (defun set-boring-buffer-face ()
+                   (interactive)
+                   (setq buffer-face-mode-face
+                         '(:background "gray" :foreground "black"))
+                   (buffer-face-mode))
+                (add-hook 'help-mode-hook 'set-boring-buffer-face)
+                (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -782,9 +800,9 @@
 
 
 ;;-- Some general hooks --------------------------------------------------------
-(add-hook 'before-save-hook     'delete-trailing-whitespace)
-(add-hook 'find-file-hook       'find-file-root-header-warning)
-(add-hook 'occur-hook           'occur-rename-buffer)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'find-file-hook   'find-file-root-header-warning)
+(add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
           (lambi
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
@@ -792,50 +810,53 @@
 
 
 ;;-- Random general stuff ------------------------------------------------------
-(setq-default fill-column				80)
-(setq-default tab-width					4)
-(setq enable-recursive-minibuffers		nil
-      tab-always-indent					t
-	  indent-tabs-mode					nil
-	  auto-hscroll-mode					nil
-	  mouse-autoselect-window           t
-      shift-select-mode                 nil
-      echo-keystrokes                   0.1
-	  bookmark-save-flag				1
-	  scroll-margin                     2
-      scroll-preserve-screen-position   nil
-      scroll-error-top-bottom           t
-      fill-column                       80
-      sentence-end-double-space         nil
-      inhibit-splash-screen             t
-      initial-major-mode                'org-mode
-      gc-cons-threshold                 20000000
-	  backup-by-copying                 t
-      delete-old-versions               t
-      kept-new-versions                 10
-      kept-old-versions                 5
-      delete-by-moving-to-trash         t
-      version-control                   t
-      auto-save-file-name-transforms    `((".*" ,temporary-file-directory t))
-      backup-directory-alist            '(("."  . "~/.saves"))
-	  save-interprogram-paste-before-kill t
-      select-enable-clipboard           t
-	  browse-url-browser-function		'browse-url-chrome
-	  browse-url-chrome-arguments		"--new-window"
-	  kill-buffer-query-functions
-		(delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+(setq-default fill-column                    80
+              indent-tabs-mode               nil
+              tab-width                      4)
+
+(setq enable-recursive-minibuffers           nil
+      tab-always-indent                      t
+      indent-tabs-mode                       nil
+      auto-hscroll-mode                      nil
+      mouse-autoselect-window                t
+      shift-select-mode                      nil
+      echo-keystrokes                        0.1
+      bookmark-save-flag                     1
+      scroll-margin                          2
+      scroll-preserve-screen-position        nil
+      scroll-error-top-bottom                t
+      fill-column                            80
+      sentence-end-double-space              nil
+      inhibit-splash-screen                  t
+      initial-major-mode                     'org-mode
+      gc-cons-threshold                      20000000
+      backup-by-copying                      t
+      delete-old-versions                    t
+      kept-new-versions                      10
+      kept-old-versions                      5
+      delete-by-moving-to-trash              t
+      version-control                        t
+      auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
+      backup-directory-alist                '(("."  . "~/.saves"))
+      save-interprogram-paste-before-kill    t
+      select-enable-clipboard                t
+      browse-url-browser-function            'browse-url-chrome
+      browse-url-chrome-arguments            "--new-window"
+      compilation-scroll-output              'first-error
+      kill-buffer-query-functions
+        (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (ansi-color-for-comint-mode-on)
-(fset 'yes-or-no-p		    'y-or-n-p)
-(put 'scroll-left			'disabled nil)
-(set-language-environment	"UTF-8")
-(set-default-coding-systems 'utf-8)
-(menu-bar-mode				-1)
-(tool-bar-mode				-1)
-(toggle-scroll-bar			-1)
-(delete-selection-mode		 1)
-(auto-compression-mode		 t)
-(fringe-mode				 0)
+(fset 'yes-or-no-p            'y-or-n-p)
+(put 'scroll-left             'disabled nil)
+(set-language-environment     "UTF-8")
+(set-default-coding-systems   'utf-8)
+(menu-bar-mode                -1)
+(tool-bar-mode                -1)
+(scroll-bar-mode              -1)
+(delete-selection-mode         1)
+(auto-compression-mode         t)
+(fringe-mode                   0)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
@@ -847,9 +868,9 @@
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 
 ;; Open some defaults
-(load		"~/.emacs.d/bindings2.el")
-(find-file	"~/.emacs.d/bindings2.el")
-(find-file	"~/.emacs.d/init.el")
+(load        "~/.emacs.d/bindings2.el")
+(find-file    "~/.emacs.d/bindings2.el")
+(find-file    "~/.emacs.d/init.el")
 
 (provide 'init)
 ;;; init.el ends here
