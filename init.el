@@ -24,6 +24,7 @@
 ; -- my own stuff (mostly) -----------------------------------------------------
 (use-package    kill-at-point)
 (use-package    ivy-addons)
+(use-package    helm-addons)
 (use-package    some-defuns)
 (use-package    some-hydras)
 (use-package    pdf-custom)
@@ -212,51 +213,51 @@
 (use-package    helm
   :ensure       t
   :config
-  (defun helm-display-mode-line (source &optional force) "")
-  (defun helm-toggle-header-line ()
-    (if (= (length helm-sources) 1)
-        (set-face-attribute 'helm-source-header nil :height 0.1)
-      (set-face-attribute 'helm-source-header nil :height 1.0)))
-  (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
-  (defun benjamin/helm-buffers-list () (interactive)
-         (unless helm-mode (helm-mode 1))
-         (unless helm-source-buffers-list
-           (setq helm-source-buffers-list
-                 (helm-make-source "Buffers" 'helm-source-buffers)))
-         (let ((helm-split-window-default-side 'right)
-               (helm-display-buffer-default-width 38)
-               (truncate-lines t)
-               (helm-display-header-line nil))
-           (helm :sources              '(helm-source-buffers-list)
-                 :buffer               "*helm buffers*"
-                 :keymap               helm-buffer-map
-                 :input                "\!\\* "
-                 :truncate-lines       helm-buffers-truncate-lines)))
-  (defun benjamin/helm-buffers-persistent-kill (_buffer)
-    (let ((marked (helm-marked-candidates)))
-      (unwind-protect
-          (cl-loop for b in marked do
-		   (progn (helm-preselect
-				   (format "^%s"
-						   (helm-buffers--quote-truncated-buffer b)))
-				  (helm-buffers-persistent-kill-1 b)
-				  (message nil)
-				  (helm--remove-marked-and-update-mode-line b)))
-        (with-helm-buffer
-          (setq helm-marked-candidates nil
-                helm-visible-mark-overlays nil))
-        (helm-force-update (helm-buffers--quote-truncated-buffer
-                            (helm-get-selection))))))
-  (defun benjamin/helm-kill-buffer ()
-	(interactive)
-    (with-helm-alive-p
-      (helm-attrset 'kill-action
-                    '(benjamin/helm-buffers-persistent-kill . never-split))
-      (helm-execute-persistent-action 'kill-action)))
-  (defun helm-backspace ()
-	(interactive)
-    (condition-case nil (backward-delete-char 1)
-      (error (helm-keyboard-quit))))
+  ;; (defun helm-display-mode-line (source &optional force) "")
+  ;; (defun helm-toggle-header-line ()
+  ;;   (if (= (length helm-sources) 1)
+  ;;       (set-face-attribute 'helm-source-header nil :height 0.1)
+  ;;     (set-face-attribute 'helm-source-header nil :height 1.0)))
+  ;; (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
+  ;; (defun benjamin/helm-buffers-list () (interactive)
+  ;;        (unless helm-mode (helm-mode 1))
+  ;;        (unless helm-source-buffers-list
+  ;;          (setq helm-source-buffers-list
+  ;;                (helm-make-source "Buffers" 'helm-source-buffers)))
+  ;;        (let ((helm-split-window-default-side 'right)
+  ;;              (helm-display-buffer-default-width 38)
+  ;;              (truncate-lines t)
+  ;;              (helm-display-header-line nil))
+  ;;          (helm :sources              '(helm-source-buffers-list)
+  ;;                :buffer               "*helm buffers*"
+  ;;                :keymap               helm-buffer-map
+  ;;                :input                "\!\\* "
+  ;;                :truncate-lines       helm-buffers-truncate-lines)))
+  ;; (defun benjamin/helm-buffers-persistent-kill (_buffer)
+  ;;   (let ((marked (helm-marked-candidates)))
+  ;;     (unwind-protect
+  ;;         (cl-loop for b in marked do
+  ;;   	   (progn (helm-preselect
+  ;;   			   (format "^%s"
+  ;;   					   (helm-buffers--quote-truncated-buffer b)))
+  ;;   			  (helm-buffers-persistent-kill-1 b)
+  ;;   			  (message nil)
+  ;;   			  (helm--remove-marked-and-update-mode-line b)))
+  ;;       (with-helm-buffer
+  ;;         (setq helm-marked-candidates nil
+  ;;               helm-visible-mark-overlays nil))
+  ;;       (helm-force-update (helm-buffers--quote-truncated-buffer
+  ;;                           (helm-get-selection))))))
+  ;; (defun benjamin/helm-kill-buffer ()
+  ;;   (interactive)
+  ;;   (with-helm-alive-p
+  ;;     (helm-attrset 'kill-action
+  ;;                   '(benjamin/helm-buffers-persistent-kill . never-split))
+  ;;     (helm-execute-persistent-action 'kill-action)))
+  ;; (defun helm-backspace ()
+  ;;   (interactive)
+  ;;   (condition-case nil (backward-delete-char 1)
+  ;;     (error (helm-keyboard-quit))))
   (put 'benjamin/helm-kill-buffer 'helm-only t)
   (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
   (define-key helm-map (kbd "C-j")   'helm-next-line)
@@ -857,7 +858,7 @@
 (scroll-bar-mode			-1)
 (delete-selection-mode		 1)
 (auto-compression-mode		 t)
-(fringe-mode				 0)
+(fringe-mode				 nil)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))

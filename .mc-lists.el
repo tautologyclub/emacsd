@@ -7,6 +7,7 @@
         backward-delete-char
         beginning-of-line-or-block
         benjamin/backward-kill-word
+        benjamin/highlight
         benjamin/jump-char-bwd
         benjamin/jump-char-fwd
         benjamin/kill-word
