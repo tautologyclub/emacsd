@@ -56,13 +56,6 @@
   (setq unread-command-events (nconc (listify-key-sequence (kbd "C-x"))
                                      unread-command-events)))
 
-;;;###autoload
-(defun benjamin/previous-buffer ()
-  (interactive)
-  (previous-buffer)
-  (when auto-dim-other-buffers-mode
-    (adob--focus-in-hook)))
-
 (defvar benjamin/rec-grep-command "grep --color -nHRi -e ")
 (setq benjamin/rec-grep-command "grep --color -nHri --include \\*.\\* ")
 (defvar benjamin/rec-grep-with-case-command "grep --color -nHRi -e ")
@@ -80,6 +73,13 @@
   (interactive)
   "Recursively grep, ignore case."
   (grep (read-from-minibuffer "grep: " benjamin/rec-grep-with-case-command)))
+
+;;;###autoload
+(defun benjamin/previous-buffer ()
+  (interactive)
+  (previous-buffer)
+  (when auto-dim-other-buffers-mode
+    (adob--focus-in-hook)))
 
 ;;;###autoload
 (defun benjamin/next-buffer ()

@@ -58,10 +58,8 @@ bindsym Print exec --no-startup-id i3-scrot
 
 bindsym F12 exec --no-startup-id touch /home/benjamin/f12_pressed  # Silly hack to make f12 not open some random shit in chrome
 
-# Move to scratchpad
-bindsym $mod+Shift+minus move scratchpad
-# Cycle scratchpad
-bindsym $mod+minus scratchpad show
+bindsym $mod+minus move scratchpad
+bindsym $mod+g scratchpad show
 
 # Don't need these with split_optimally.sh
 ## bindsym $mod+h split h;exec notify-send 'tile horizontally'
@@ -221,7 +219,7 @@ mode "shortcuts" {
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id feh --bg-scale /home/benjamin/Pictures/samsung_stripes.jpg
 
-# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id blueman-applet

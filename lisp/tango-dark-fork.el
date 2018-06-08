@@ -61,7 +61,7 @@ Semantic, and Ansi-Color faces are included.")
    '(auto-dim-other-buffers-face ((t (:inherit 'default :background "#000000" :foreground nil))))
 
    `(linum ((t (:inherit 'default :foreground "#c0c0c0"))))
-   '(default ((t (:height 105 :width normal :family "Bitstream Vera"))))
+   '(default ((t (:height 105 :foreground "#cccccc":width normal :family "Bitstream Vera"))))
 
    `(org-level-1 ((t (:foreground "#20eeff" :bold t :background nil :height 1.25))))
    `(org-level-2 ((t (:foreground "#eebbaa" :bold t :background nil :height 1.10))))

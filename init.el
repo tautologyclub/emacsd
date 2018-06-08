@@ -16,6 +16,7 @@
     (progn (package-refresh-contents) (package-install 'use-package)))
 (setq custom-file (make-temp-file "/tmp/custom.el"))
 
+
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
   `(lambda () (interactive),@b))
@@ -319,6 +320,7 @@
 (define-key magit-diff-mode-map      "j" 'magit-section-forward)
 (define-key magit-diff-mode-map      "k" 'magit-section-backward)
 (defun git-commit-fill-column-hook ()
+  "I mean a commit message should not be 80 chars."
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
@@ -490,6 +492,19 @@
                 (add-to-list 'auto-mode-alist '("\\.bbappend$" . bitbake-mode))
                 (add-hook 'bitbake-mode-hook 'subword-mode)
                 (add-hook 'bitbake-mode-hook 'helm-gtags-mode))
+
+(use-package    hippie-expand
+  :ensure       t
+  :custom       (hippie-expand-try-functions-list
+                 '(try-expand-dabbrev
+                   try-expand-dabbrev-all-buffers
+                   try-expand-dabbrev-from-kill
+                   try-complete-file-name-partially
+                   try-complete-file-name
+                   try-expand-all-abbrevs
+                   try-expand-list
+                   try-expand-line
+                   try-complete-lisp-symbol-partially)))
 
 (use-package    linum
   :ensure       nil
@@ -738,7 +753,8 @@
                 (erc-nick "g00iekabl00ie"))
 
 (use-package    face-remap
-  :config       (defun set-boring-buffer-face () (interactive)
+  :config        (defun set-boring-buffer-face ()
+                   (interactive)
                    (setq buffer-face-mode-face
                          '(:background "gray" :foreground "black"))
                    (buffer-face-mode))

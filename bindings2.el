@@ -90,6 +90,7 @@
 (global-set-key    (kbd "<H-M-return>") 'dropdown-multiterm-right)
 (global-set-key   (kbd "<H-backspace>") 'murder-buffer-with-window)
 (global-set-key      (kbd "C-<return>") 'open-line-below)
+(global-set-key      (kbd "<C-f11>")    'switch-to-buffer)
 
 
 ;; In case I accidentally left swedish keyboard layout on
@@ -281,7 +282,7 @@
 
 ;; todo: M-g hydra-goto                                                      ;;;
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
-(global-set-key     (kbd "s-g")   'grep)
+(global-set-key     (kbd "s-g")    nil)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
 (global-unset-key   (kbd "M-g"))
