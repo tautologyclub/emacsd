@@ -165,10 +165,10 @@
 (global-set-key     (kbd "M-t")   (lambi (forward-char 2)(transpose-words -1)))
 (global-set-key   (kbd "C-c t")   'transpose-params)
 (global-set-key     (kbd "H-t")   'mc/mark-next-like-this)
-(global-set-key   (kbd "C-S-t")   'multi-term-prev)                          ;;;
-(global-set-key (kbd "C-x C-t")   'multi-term)
+(global-set-key   (kbd "C-S-t")   'capitalize-word-toggle)
+(global-set-key (kbd "C-x C-t")   'counsel-term-switch)
 (global-set-key (kbd "C-x   t")   'multi-term-prev)
-(global-set-key   (kbd "H-M-t")   'counsel-term-switch)
+(global-set-key   (kbd "H-M-t")   'multi-term)
                           ;-t      ~
 
 (global-set-key     (kbd "C-y")   'yank)                                     ;;;
