@@ -40,12 +40,14 @@
 	       warning 'face '(:foreground "white" :background "red3")))))))
 ;-------------------------------------------------------------------------------
 
+;; what a horrible hack
+(defvar original-cursor-color (face-attribute 'cursor :background))
 ;;;###autoload
 (defun term-toggle-mode ()
   "Toggle term between line mode and char mode."
   (interactive)
   (if (term-in-line-mode)
-      (progn (set-cursor-color original-cursor-color) ;; fixme don't jox with global stuff...
+      (progn (set-cursor-color original-cursor-color)
              (term-char-mode))
     (progn (set-cursor-color "yellow")
            (term-line-mode))))

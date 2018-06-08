@@ -63,22 +63,21 @@
 (global-set-key    (kbd "C-<f12>") 'switch-to-buffer)        ;;         C-Ctrl_L
 (global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
 ;------------------------------------------------------------------------------;
+(global-set-key (kbd "M-SPC") 'benjamin/set-mark-command)
 
 ;; dubious -- todo
-(global-set-key (kbd "C-;")     'switch-to-buffer)
-(global-set-key (kbd "C-'")     'BIND-ME)									   ;
-(global-set-key (kbd "C-:")     'BIND-ME)									   ;
-(global-set-key (kbd "<S-f9>")  'BIND-ME)                                      ;
-(global-set-key (kbd "M-SPC")   (lambi (benjamin/notify "C-S-f plz")))		   ;
-(global-set-key (kbd "H-SPC")   (lambi (benjamin/notify "C-S-f plz")))		   ;
-(global-set-key (kbd "M-<f12>") 'BIND-ME)                                      ;
-(global-set-key (kbd "M-RET")   'BIND-ME)                                      ;
-(global-set-key (kbd "M-'")     'BIND-ME)                                      ;
-(global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                   ;
-(global-set-key (kbd "H-'")     'BIND-ME)                                      ;
+(global-set-key (kbd "C-;")     'benjamin/helm-buffers-list)                 ;;;
+(global-set-key (kbd "C-'")     'BIND-ME)									 ;;;
+(global-set-key (kbd "C-:")     'BIND-ME)									 ;;;
+(global-set-key (kbd "<S-f9>")  'BIND-ME)                                    ;;;
+(global-set-key (kbd "H-SPC")   'BIND-ME)                                    ;;;
+(global-set-key (kbd "M-<f12>") 'BIND-ME)                                    ;;;
+(global-set-key (kbd "M-RET")   'BIND-ME)                                    ;;;
+(global-set-key (kbd "M-'")     'BIND-ME)                                    ;;;
+(global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                 ;;;
+(global-set-key (kbd "H-'")     'BIND-ME)                                    ;;;
 (global-set-key (kbd "䑄")      'switch-to-buffer)                           ;-'
 ;------------------------------------------------------------------------------;
-
 
 ;; experimental
 (define-key key-translation-map (kbd "C-<f10>") (kbd "TAB"))
@@ -110,7 +109,7 @@
 (define-key key-translation-map
                      (kbd "C-q")    (kbd "C-c"))
 (global-set-key      (kbd "s-q")    'quoted-insert)
-(global-set-key      (kbd "M-q")    (lambi (benjamin/notify "Try s-e yo")))
+(global-set-key      (kbd "M-q")    'backward-to-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key  (kbd "M-s M-q")    'delete-window)
@@ -228,9 +227,9 @@
 (global-set-key   (kbd "C-x p")   'BIND-ME)
 
 (global-set-key     (kbd "C-a")   'beginning-of-line-or-block)
-(global-set-key     (kbd "s-a")   'backward-to-word)                           ;
+(global-set-key     (kbd "s-a")   'backward-to-word)                         ;;;
+(global-set-key     (kbd "H-a")   'ace-window)                               ;;;
 (global-set-key     (kbd "M-a")   (lambi (forward-whitespace -1)))
-(global-set-key     (kbd "H-a")   'ace-window)                                 ;
 (global-set-key   (kbd "C-S-a")   'beginning-of-defun)
 (global-set-key   (kbd "C-M-a")   'elpy-nav-indent-shift-left)
 (global-set-key   (kbd "C-x a")   'simplified-beginning-of-buffer)
@@ -266,26 +265,28 @@
 
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
-(global-set-key     (kbd "s-f")   'forward-to-word)                         ;;;
-;; (global-set-key     (kbd "M-f")   'right-word)
-(global-set-key     (kbd "M-f")   (lambi (benjamin/notify "try s-f yo")))
-(global-set-key   (kbd "C-S-f")   'find-file)                                ;;;
+(global-set-key     (kbd "s-f")   'find-file)
+(global-set-key     (kbd "M-f")   'forward-to-word)
+(global-set-key   (kbd "C-S-f")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
-(global-set-key   (kbd "C-s-f")   'find-file)                                  ;
+(global-set-key   (kbd "C-s-f")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "H-M-f")   'find-file-at-point)
-(global-set-key (kbd "M-s M-f")   'find-file)                                  ;
+(global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
 (global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?( )))
 (global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?) )))
                           ;-f      (
                           ;-F      )
 
+;; todo: M-g hydra-goto                                                      ;;;
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
 (global-set-key     (kbd "s-g")   'grep)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
-(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
+(global-unset-key   (kbd "M-g"))
+(global-set-key (kbd "M-g M-g")   'goto-line-with-feedback)
+(global-set-key (kbd "M-g   g")   'goto-line-with-feedback)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)                      ;

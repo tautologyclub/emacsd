@@ -1,9 +1,9 @@
-rg;;; init.el --- Summary:
+;;; init.el --- Summary:
 ;;; Commentary:
 ;;; Code:
 
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
@@ -35,8 +35,8 @@ rg;;; init.el --- Summary:
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
 
 (use-package    counsel-term
-  :custom       (counsel-term-ff-initial-input          "")
-                (counsel-term-history-initial-input     "")
+  :custom       (counsel-term-ff-initial-input      "")
+                (counsel-term-history-initial-input "")
   :load-path    "~/repos/counsel-term")
 
 (use-package    ample-light-theme  ;; forked
@@ -45,10 +45,10 @@ rg;;; init.el --- Summary:
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
-  :custom       (feebleline-show-git-branch             t)
-                (feebleline-show-dir                    t)
-                (feebleline-show-time                   nil)
-                (feebleline-show-previous-buffer        nil)
+  :custom       (feebleline-show-git-branch      t)
+                (feebleline-show-dir             t)
+                (feebleline-show-time            nil)
+                (feebleline-show-previous-buffer nil)
   :config       (feebleline-mode 1))
 
 
@@ -59,12 +59,24 @@ rg;;; init.el --- Summary:
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
 
+(use-package    hippie-exp
+  :custom       (hippie-expand-try-functions-list
+                 '(try-expand-dabbrev
+                   try-expand-dabbrev-all-buffers
+                   try-expand-dabbrev-from-kill
+                   try-complete-file-name-partially
+                   try-complete-file-name
+                   try-expand-all-abbrevs
+                   try-expand-list
+                   try-expand-line
+                   try-complete-lisp-symbol-partially)))
+
 (use-package    multi-term
   :ensure       t
-  :bind        (:map term-mode-map
-                     ("C-p"   . nil)
-                     ("M-o"   . nil)
-                     ("C-t t" . term-toggle-mode))
+  :bind         (:map term-mode-map
+                      ("C-p"   . nil)
+                      ("M-o"   . nil)
+                      ("C-t t" . term-toggle-mode))
   :custom       (multi-term-program     "/bin/bash")
                 (term-prompt-regexp     "^$\\ ")
                 (term-buffer-maximum-size 16384)
@@ -72,58 +84,58 @@ rg;;; init.el --- Summary:
                 (term-char-mode-buffer-read-only nil)
                 (term-char-mode-point-at-process-mark nil)
   :config       (setq term-bind-key-alist nil)
-(setq term-bind-key-alist
-      '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-d" . term-send-raw)
-        ("C-_" . nil)
-        ("C-p" . projectile-command-map)
-        ("C-j" . next-line)
-        ("C-k" . previous-line)
-        ("C-l" . forward-char)
-        ("C-h" . backward-char)
-        ("C-b" . nil)
-        ("C-n" . term-downdir)
-        ("C-s" . swiper)
-        ("C-t" . nil)
-        ("C-p" . nil)
-        ("C-r" . term-send-backspace)
-        ("C-m" . term-send-return)
-        ("H-w" . counsel-term-ff)
-        ("C-y" . term-paste)
-        ("H-i" . term-paste)
-        ("H-f" . avy-goto-word-or-subword-1)
-        ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
-        ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ;; electric pairs in term
-        ("["   . (lambda () (interactive) (term-send-raw-string "[]")))
-        ("("   . (lambda () (interactive) (term-send-raw-string "()")))
-        ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
-        ("H-c" . counsel-term-cd)
-        ("M-r" . term-send-backward-kill-word)
-        ("M-h" . counsel-term-history)
-        ("M-q" . term-send-backward-word)
-        ("M-f" . term-send-forward-word)
-        ("M-o" . other-window)
-        ("M-p" . term-send-up)
-        ("M-n" . term-send-down)
-        ("M-d" . term-send-delete-word)
-        ("M-," . term-send-raw)
-        ("C-S-a" . beginning-of-line)
-        ("C-S-e" . end-of-line)
-        ("C-S-n" . term-updir)
-        ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ("<f9>". term-send-backspace) ; == [
-        ("TAB" . term-send-raw)
-        ("H-M-f" . find-file-at-point)
-        ("H-M-u"   . (lambda () (interactive)
-                       (term-send-raw-string "sudo ")))
-        ("C-t t" . term-toggle-mode)
-        ("C-c C-c" . term-interrupt-subjob)
-        ("C-c C-e" . term-send-esc)
-        ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
-        ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
-        ("<C-backspace>" . term-send-backward-kill-word)
+                (setq term-bind-key-alist
+                      '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-d" . term-send-raw)
+                        ("C-_" . nil)
+                        ("C-p" . projectile-command-map)
+                        ("C-j" . next-line)
+                        ("C-k" . previous-line)
+                        ("C-l" . forward-char)
+                        ("C-h" . backward-char)
+                        ("C-b" . nil)
+                        ("C-n" . term-downdir)
+                        ("C-s" . swiper)
+                        ("C-t" . nil)
+                        ("C-p" . nil)
+                        ("C-r" . term-send-backspace)
+                        ("C-m" . term-send-return)
+                        ("H-w" . counsel-term-ff)
+                        ("C-y" . term-paste)
+                        ("H-i" . term-paste)
+                        ("H-f" . avy-goto-word-or-subword-1)
+                        ("H-k" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("H-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ;; electric pairs in term
+                        ("["   . (lambda () (interactive) (term-send-raw-string "[]")))
+                        ("("   . (lambda () (interactive) (term-send-raw-string "()")))
+                        ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
+                        ("H-c" . counsel-term-cd)
+                        ("M-r" . term-send-backward-kill-word)
+                        ("M-h" . counsel-term-history)
+                        ("M-q" . term-send-backward-word)
+                        ("M-f" . term-send-forward-word)
+                        ("M-o" . other-window)
+                        ("M-p" . term-send-up)
+                        ("M-n" . term-send-down)
+                        ("M-d" . term-send-delete-word)
+                        ("M-," . term-send-raw)
+                        ("C-S-a" . beginning-of-line)
+                        ("C-S-e" . end-of-line)
+                        ("C-S-n" . term-updir)
+                        ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("<f9>". term-send-backspace) ; == [
+                        ("TAB" . term-send-raw)
+                        ("H-M-f" . find-file-at-point)
+                        ("H-M-u"   . (lambda () (interactive)
+                                       (term-send-raw-string "sudo ")))
+                        ("C-t t" . term-toggle-mode)
+                        ("C-c C-c" . term-interrupt-subjob)
+                        ("C-c C-e" . term-send-esc)
+                        ("C-c C-z" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
+                        ("<C-backspace>" . term-send-backward-kill-word)
                         ("<C-return>"    . term-cd-input))))
 
 (use-package    fill-column-indicator
@@ -211,12 +223,12 @@ rg;;; init.el --- Summary:
 (use-package    helm
   :ensure       t
   :config       (put 'benjamin/helm-kill-buffer    'helm-only t)
-                (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
-                (define-key helm-map (kbd "C-j")   'helm-next-line)
-                (define-key helm-map (kbd "C-k")   'helm-previous-line)
-                (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
-                (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
-                (define-key helm-map (kbd "<f9>")  'helm-backspace)
+  (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
+  (define-key helm-map (kbd "C-j")   'helm-next-line)
+  (define-key helm-map (kbd "C-k")   'helm-previous-line)
+  (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
+  (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
+  (define-key helm-map (kbd "<f9>")  'helm-backspace)
   :custom       (helm-mode-line-string "")
                 (helm-buffer-details-flag nil))
 
@@ -296,16 +308,16 @@ rg;;; init.el --- Summary:
                  'magit-display-buffer-fullframe-status-v1))
 
 ;; todo
-(define-key magit-status-mode-map "j" 'magit-section-forward)
-(define-key magit-status-mode-map "k" 'magit-section-backward)
-(define-key magit-status-mode-map "\C-k" nil)
-(define-key magit-status-mode-map "\C-d" 'magit-discard)
-(define-key magit-log-mode-map "j" 'magit-section-forward)
-(define-key magit-log-mode-map "k" 'magit-section-backward)
+(define-key magit-status-mode-map    "j" 'magit-section-forward)
+(define-key magit-status-mode-map    "k" 'magit-section-backward)
+(define-key magit-status-mode-map    "\C-k" nil)
+(define-key magit-status-mode-map    "\C-d" 'magit-discard)
+(define-key magit-log-mode-map       "j" 'magit-section-forward)
+(define-key magit-log-mode-map       "k" 'magit-section-backward)
 (define-key magit-commit-section-map "j" 'magit-section-forward)
 (define-key magit-commit-section-map "k" 'magit-section-backward)
-(define-key magit-diff-mode-map "j" 'magit-section-forward)
-(define-key magit-diff-mode-map "k" 'magit-section-backward)
+(define-key magit-diff-mode-map      "j" 'magit-section-forward)
+(define-key magit-diff-mode-map      "k" 'magit-section-backward)
 (defun git-commit-fill-column-hook ()
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
@@ -319,50 +331,51 @@ rg;;; init.el --- Summary:
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
                 (define-key counsel-find-file-map
                   (kbd "H-r") 'counsel-up-directory)
-  :custom       (counsel-rg-base-command
+  :custom        (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
                          "--color never %s . 2>/dev/null")))
 
 (use-package    company
   :ensure       t
-  :custom       (company-auto-complete-chars '(?. ?>))    ;; ???
-                (company-backends
-                 '(company-semantic company-clang company-cmake
-                                    company-capf company-files
-                                    (company-dabbrev-code
-                                     company-gtags company-etags
-                                     company-keywords)
-                                    company-oddmuse company-dabbrev))
-                (company-idle-delay 0.5)
-                (company-minimum-prefix-length 3)
-                (company-tooltip-idle-delay 1)
-                (company-show-numbers t)
-                (company-tooltip-limit 10)
+  :custom       (company-auto-complete-chars '(?. ?>))
+  (company-backends
+   '(company-semantic company-clang company-cmake
+                      company-capf company-files
+                      (company-dabbrev-code
+                       company-gtags company-etags
+                       company-keywords)
+                      company-oddmuse company-dabbrev))
+  (company-idle-delay 0.5)
+  (company-minimum-prefix-length 3)
+  (company-tooltip-idle-delay 1)
+  (company-show-numbers t)
+  (company-tooltip-limit 10)
   :config       (counsel-mode 1)
-                (add-hook 'after-init-hook 'global-company-mode)
-                (define-key company-active-map (kbd ";") 'company-complete-selection)
-                (define-key company-active-map (kbd "\"") 'company-select-next)
-                (define-key company-active-map (kbd "C-n") 'company-select-next)
-                (define-key company-active-map (kbd "C-p") 'company-select-previous)
-  ;; abo-abo awesome company use-digit hack below
-  (let ((map company-active-map))
-    (mapc
-     (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
-     (number-sequence 0 9))
-    (define-key map " " (lambda ()
-                          (interactive)
-                          (company-abort)
-                          (self-insert-command 1)))
-    (define-key map (kbd "<return>") nil))
-  (defun ora-company-number ()
-    (interactive)
-    (let* ((k (this-command-keys))
-           (re (concat "^" company-prefix k)))
-      (if (cl-find-if (lambda (s) (string-match re s))
-                      company-candidates)
-          (self-insert-command 1)
-        (company-complete-number (string-to-number k))))))
+  (add-hook 'after-init-hook 'global-company-mode)
+  (define-key company-active-map (kbd ";") 'company-complete-selection)
+  (define-key company-active-map (kbd "\"") 'company-select-next)
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+;; abo-abo awesome company use-digit hack:
+(let ((map company-active-map))
+  (mapc
+   (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
+   (number-sequence 0 9))
+  (define-key map " " (lambda ()
+                        (interactive)
+                        (company-abort)
+                        (self-insert-command 1)))
+  (define-key map (kbd "<return>") nil))
+(defun ora-company-number ()
+  (interactive)
+  (let* ((k (this-command-keys))
+         (re (concat "^" company-prefix k)))
+    (if (cl-find-if (lambda (s) (string-match re s))
+                    company-candidates)
+        (self-insert-command 1)
+        (company-complete-number (string-to-number k)))))
 
 (use-package    asm-mode
   :config       (define-key asm-mode-map (kbd "C-j") nil))
@@ -376,7 +389,7 @@ rg;;; init.el --- Summary:
 (use-package    company-jedi
   :ensure       t
   :config       (add-hook 'python-mode-hook
-                 (lambi (add-to-list 'company-backends 'company-jedi))))
+                  (lambi (add-to-list 'company-backends 'company-jedi))))
 
 (use-package    edit-server
   :ensure       t
@@ -424,7 +437,7 @@ rg;;; init.el --- Summary:
   :hook         (prog-mode-hook . helm-gtags-mode))
 
 (use-package    flycheck
-  :ensure       t
+  :ensure        t
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
                 (flycheck-idle-change-delay 0.5)
                 (flycheck-display-errors-delay 0.5)
@@ -441,6 +454,7 @@ rg;;; init.el --- Summary:
 (use-package    irony
   :ensure       t
   :config       (defun my-irony-mode-hook ()
+                  "Pretty sure this does nothing relevant."
                   (define-key irony-mode-map [remap completion-at-point]
                     'irony-completion-at-point-async)
                   (define-key irony-mode-map [remap complete-symbol]
@@ -540,7 +554,7 @@ rg;;; init.el --- Summary:
                      "* EVENT %?\n%U\n   %c" :empty-lines 1))))
 
 (use-package    markdown-mode
-  :ensure       t
+  :ensure        t
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
                 (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
 
@@ -626,14 +640,9 @@ rg;;; init.el --- Summary:
   :custom       (c-default-style        "linux")
                 (c-basic-offset         8)
   :bind         (:map c-mode-base-map
-                      ("M-q"    . nil)
-                      ("M-e"    . nil)
-                      ("M-a"    . nil)
-                      ("M-j"    . nil)
-                      ("C-M-a"  . nil)
-                      ("C-M-e"  . nil)
-                      ("C-M-j"  . nil)
-                      ("C-M-k"  . nil)
+                      ("M-q"    . nil) ("M-e"    . nil) ("M-a"    . nil)
+                      ("C-M-a"  . nil) ("C-M-e"  . nil) ("M-j"    . nil)
+                      ("C-M-j"  . nil) ("C-M-k"  . nil)
                       ("C-c o"  . c-occur-overview)
                       ("C-c C-c"  . compile)
                       ("M-c"    . hydra-gdb/body)       ;; todo
@@ -703,9 +712,10 @@ rg;;; init.el --- Summary:
                 (define-key diff-mode-map (kbd "M-o") nil))
 
 (use-package    ediff
-  :custom       (ediff-window-setup-function 'ediff-setup-windows-plain)
+  :custom        (ediff-window-setup-function 'ediff-setup-windows-plain)
                 (ediff-split-window-function 'split-window-horizontally)
                 (ediff-diff-options "-w --text"))
+
 (defun ediff-jk ()
   "Vimish navigation for ediff."
   (define-key ediff-mode-map "j" 'ediff-next-difference)
@@ -718,19 +728,15 @@ rg;;; init.el --- Summary:
 
 (use-package    face-remap
   :config       (defun set-boring-buffer-face () (interactive)
-                  (setq buffer-face-mode-face
-                        '(:background "gray" :foreground "black"))
-                  (buffer-face-mode))
+                   (setq buffer-face-mode-face
+                         '(:background "gray" :foreground "black"))
+                   (buffer-face-mode))
                 (add-hook 'help-mode-hook 'set-boring-buffer-face)
                 (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
 (use-package	elec-pair
   :config		(electric-pair-mode			 1)
 				(add-to-list 'electric-pair-pairs '(?\< . ?\> )))
-
-(use-package    evil
-  ;; only for evil-commands
-  :ensure       t)
 
 
 (use-package py-autopep8             :ensure t)
@@ -755,9 +761,9 @@ rg;;; init.el --- Summary:
 
 
 ;;-- Some general hooks --------------------------------------------------------
-(add-hook 'before-save-hook     'delete-trailing-whitespace)
-(add-hook 'find-file-hook       'find-file-root-header-warning)
-(add-hook 'occur-hook           'occur-rename-buffer)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'find-file-hook   'find-file-root-header-warning)
+(add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
           (lambi
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
@@ -765,51 +771,52 @@ rg;;; init.el --- Summary:
 
 
 ;;-- Random general stuff ------------------------------------------------------
-(setq-default fill-column               80
+(setq-default fill-column                    80
               tab-width                 4
 	          indent-tabs-mode			nil)
 
-(setq enable-recursive-minibuffers      nil
-      tab-always-indent                 t
-	  indent-tabs-mode					nil
-	  auto-hscroll-mode					nil
-	  mouse-autoselect-window           t
-      shift-select-mode                 nil
-      echo-keystrokes                   0.1
-	  bookmark-save-flag				1
-	  scroll-margin                     2
-      scroll-preserve-screen-position   nil
-      scroll-error-top-bottom           t
-      fill-column                       80
-      sentence-end-double-space         nil
-      inhibit-splash-screen             t
-      initial-major-mode                'org-mode
-      gc-cons-threshold                 20000000
-	  backup-by-copying                 t
-      delete-old-versions               t
-      kept-new-versions                 10
-      kept-old-versions                 5
-      delete-by-moving-to-trash         t
-      version-control                   t
-      auto-save-file-name-transforms    `((".*" ,temporary-file-directory t))
-      backup-directory-alist            '(("."  . "~/.saves"))
-	  save-interprogram-paste-before-kill t
-      select-enable-clipboard           t
-	  browse-url-browser-function		'browse-url-chrome
-	  browse-url-chrome-arguments		"--new-window"
-	  kill-buffer-query-functions
-		(delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+(setq enable-recursive-minibuffers           nil
+      tab-always-indent                      t
+      indent-tabs-mode                       nil
+      auto-hscroll-mode                      nil
+      mouse-autoselect-window                t
+      shift-select-mode                      nil
+      echo-keystrokes                        0.1
+      bookmark-save-flag                     1
+      scroll-margin                          2
+      scroll-preserve-screen-position        nil
+      scroll-error-top-bottom                t
+      fill-column                            80
+      sentence-end-double-space              nil
+      inhibit-splash-screen                  t
+      initial-major-mode                     'org-mode
+      gc-cons-threshold                      20000000
+      backup-by-copying                      t
+      delete-old-versions                    t
+      kept-new-versions                      10
+      kept-old-versions                      5
+      delete-by-moving-to-trash              t
+      version-control                        t
+      auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
+      backup-directory-alist                '(("."  . "~/.saves"))
+      save-interprogram-paste-before-kill    t
+      select-enable-clipboard                t
+      browse-url-browser-function            'browse-url-chrome
+      browse-url-chrome-arguments            "--new-window"
+      compilation-scroll-output              'first-error
+      kill-buffer-query-functions
+        (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (ansi-color-for-comint-mode-on)
-(fset 'yes-or-no-p		    'y-or-n-p)
-(put 'scroll-left			'disabled nil)
-(set-language-environment	"UTF-8")
-(set-default-coding-systems 'utf-8)
-(menu-bar-mode				-1)
-(tool-bar-mode				-1)
-(scroll-bar-mode			-1)
-(delete-selection-mode		 1)
-(auto-compression-mode		 t)
+(fset 'yes-or-no-p            'y-or-n-p)
+(put 'scroll-left             'disabled nil)
+(set-language-environment     "UTF-8")
+(set-default-coding-systems   'utf-8)
+(menu-bar-mode                -1)
+(tool-bar-mode                -1)
+(scroll-bar-mode              -1)
+(delete-selection-mode         1)
+(auto-compression-mode         t)
 (fringe-mode				 nil)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
@@ -822,9 +829,9 @@ rg;;; init.el --- Summary:
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 
 ;; Open some defaults
-(load		"~/.emacs.d/bindings2.el")
-(find-file	"~/.emacs.d/bindings2.el")
-(find-file	"~/.emacs.d/init.el")
+(load        "~/.emacs.d/bindings2.el")
+(find-file    "~/.emacs.d/bindings2.el")
+(find-file    "~/.emacs.d/init.el")
 
 (provide 'init)
 ;;; init.el ends here
