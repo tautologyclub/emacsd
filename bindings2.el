@@ -91,6 +91,7 @@
 (global-set-key    (kbd "<H-M-return>") 'dropdown-multiterm-right)
 (global-set-key   (kbd "<H-backspace>") 'murder-buffer-with-window)
 (global-set-key      (kbd "C-<return>") 'open-line-below)
+(global-set-key      (kbd "<C-f11>")    'switch-to-buffer)
 
 
 ;; In case I accidentally left swedish keyboard layout on
@@ -157,7 +158,6 @@
 (global-set-key   (kbd "C-x C-r")   (lambi (revert-buffer nil t)))
 (global-set-key (kbd "C-x C-S-r")   'rename-current-buffer-file)
 (global-set-key   (kbd "C-x M-r")   'rename-buffer)
-(define-key isearch-mode-map (kbd "H-r") 'isearch-repeat-backward)
 
 (global-set-key     (kbd "C-t")    ctl-x-map)
 (global-set-key     (kbd "s-t")    nil)
