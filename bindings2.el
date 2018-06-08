@@ -70,7 +70,7 @@
 (global-set-key (kbd "C-'")     'BIND-ME)									 ;;;
 (global-set-key (kbd "C-:")     'BIND-ME)									 ;;;
 (global-set-key (kbd "<S-f9>")  'BIND-ME)                                    ;;;
-(global-set-key (kbd "H-SPC")   'BIND-ME)                                    ;;;
+(global-set-key (kbd "H-SPC")   " ")
 (global-set-key (kbd "M-<f12>") 'BIND-ME)                                    ;;;
 (global-set-key (kbd "M-RET")   'BIND-ME)                                    ;;;
 (global-set-key (kbd "M-'")     'BIND-ME)                                    ;;;

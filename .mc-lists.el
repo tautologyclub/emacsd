@@ -38,6 +38,7 @@
         ora-brackets
         ora-parens
         org-delete-char
+        org-fill-paragraph
         org-force-self-insert
         org-self-insert-command
         special-digit-argument

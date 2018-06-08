@@ -36,6 +36,12 @@
              (set-window-start w2 s1)
              (setq i (1+ i)))))))
 
+(defun open-file-existing-other-window ()
+  "Like title say."
+  (interactive)
+  (let ((split-height-threshold 1000)
+        (split-width-threshold 10000))
+    (call-interactively 'find-file-other-window)))
 
 ;;;###autoload
 (defun fake-C-c ()

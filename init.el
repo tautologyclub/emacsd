@@ -281,7 +281,7 @@
                       ("C-<up>"          . ivy-previous-line-and-call)
                       ("C-<down>"        . ivy-next-line-and-call))
   :config       (ivy-mode 1)
-                (setq ivy-virtual-abbreviate 'name)
+                (setq ivy-virtual-abbreviate 'full)
                 (define-key ivy-occur-grep-mode-map
                   (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
                 (define-key ivy-switch-buffer-map (kbd "M-o") nil)
@@ -328,6 +328,15 @@
 
 (use-package    counsel
   :ensure       t
+  :bind         (:map counsel-find-file-map
+                      ("C-j"    . ivy-next-line)
+                      ("C-k"    . ivy-previous-line)
+                      ("C-S-k"  . ivy-previous-line-and-call)
+                      ("C-S-j"  . ivy-next-line-and-call)
+                      ("C-r"    . ivy-previous-history-element)
+                      ("C-s"    . ivy-next-history-element)
+                      ("M-r"    . ivy-backward-kill-word)
+                      ("C-c o"  . ivy-occur))
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
                 (define-key counsel-find-file-map
                   (kbd "H-r") 'counsel-up-directory)
@@ -525,6 +534,7 @@
                       ("C-a"        . nil)
                       ("C-e"        . nil)
                       ("M-a"        . nil)
+                      ("<C-tab>"    . nil)
                       ("M-e"        . nil)
                       ("C-S-a"      . outline-previous-visible-heading)
                       ("C-S-e"      . outline-next-visible-heading)
@@ -560,7 +570,8 @@
 
 (use-package    git-gutter+
   :ensure       t
-  :config       (global-git-gutter+-mode))
+  ;; wrecks TRAMP for some reason, disabled by default:
+  :config       (global-git-gutter+-mode -1))
 
 (use-package    goto-chg
   :ensure       t)
@@ -734,10 +745,9 @@
                 (add-hook 'help-mode-hook 'set-boring-buffer-face)
                 (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
-(use-package	elec-pair
-  :config		(electric-pair-mode			 1)
-				(add-to-list 'electric-pair-pairs '(?\< . ?\> )))
-
+(use-package    elec-pair
+  :config       (electric-pair-mode 1)
+                (add-to-list 'electric-pair-pairs '(?\< . ?\> )))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -771,9 +781,10 @@
 
 
 ;;-- Random general stuff ------------------------------------------------------
-(setq-default fill-column                    80
-              tab-width                 4
-	          indent-tabs-mode			nil)
+(setq-default fill-column       80
+              truncate-lines    nil
+              tab-width         4
+              indent-tabs-mode  nil)
 
 (setq enable-recursive-minibuffers           nil
       tab-always-indent                      t
@@ -816,8 +827,8 @@
 (tool-bar-mode                -1)
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
-(auto-compression-mode         t)
-(fringe-mode				 nil)
+(auto-compression-mode         1)
+(fringe-mode                 nil)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
