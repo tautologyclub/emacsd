@@ -89,7 +89,7 @@
    `ample-light ;; you must use the same theme name here...
    `(default ((t (:foreground ,"black"
                   :background ,ample/bg
-                  :height 105
+                  :height 60
                   :family "Inconsolata"
                   ))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))

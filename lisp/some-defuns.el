@@ -390,21 +390,29 @@ With arg N insert N newlines."
 
 ;;;###autoload
 (defun capitalize-word-toggle ()
+  "Toggle case on first letter of word at point.
+
+Now works when point is on beginning-of-word."
   (interactive)
-  (let ((start
-         (car
+  (if (looking-at "\\<")
+      (progn (forward-char 1)
+             (call-interactively 'capitalize-word-toggle)
+             (forward-char -1))
+    (let ((start
+           (car
+            (save-excursion
+              (backward-word)
+              (bounds-of-thing-at-point 'symbol)))))
+      (if start
           (save-excursion
-            (backward-word)
-            (bounds-of-thing-at-point 'symbol)))))
-    (if start
-        (save-excursion
-          (goto-char start)
-          (funcall
-           (if (char-upcasep (char-after))
-               'downcase-region
-             'upcase-region)
-           start (1+ start)))
-      (capitalize-word -1))))
+            (goto-char start)
+            (funcall
+             (if (char-upcasep (char-after))
+                 'downcase-region
+               'upcase-region)
+             start (1+ start)))
+        (capitalize-word -1))))
+  )
 
 (defun window-half-height ()
   (max 1 (/ (1- (window-height (selected-window))) 2)))

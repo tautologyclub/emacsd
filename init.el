@@ -1,4 +1,4 @@
-;;; init.el --- Summary:
+rg;;; init.el --- Summary:
 ;;; Commentary:
 ;;; Code:
 
@@ -137,7 +137,7 @@
 (use-package    projectile
   :ensure       t
   :custom       (projectile-completion-system   'ivy)
-                (projectile-enable-caching       t)
+                (projectile-enable-caching       nil)
                 (projectile-globally-ignored-modes
                  '("erc-mode" "help-mode" "completion-list-mode"
                    "Buffer-menu-mode" "gnus-.*-mode" "occur-mode"))
@@ -174,18 +174,16 @@
               ("C-f" . projectile-find-file-in-known-projects)
               ("A"   . projectile-run-async-shell-command-in-root)))
 
-;; todo
 (use-package    counsel-projectile
   :ensure       t
   :config
+  ;; this is super hacky, todo
   (defun counsel-projectile-switch-project-action-run-term (project)
     "Overridden!"
     (let ((projectile-switch-project-action
            (lambda () (projectile-get-term))))
       (counsel-projectile-switch-project-by-name project)))
   :custom
-  ;; set the default switch-project-action index to that of run-term (18)
-  ;; todo: just make it a key binding
     (counsel-projectile-switch-project-action
      (quote
       (18
@@ -212,59 +210,13 @@
 ;; todo
 (use-package    helm
   :ensure       t
-  :config
-  ;; (defun helm-display-mode-line (source &optional force) "")
-  ;; (defun helm-toggle-header-line ()
-  ;;   (if (= (length helm-sources) 1)
-  ;;       (set-face-attribute 'helm-source-header nil :height 0.1)
-  ;;     (set-face-attribute 'helm-source-header nil :height 1.0)))
-  ;; (add-hook 'helm-before-initialize-hook 'helm-toggle-header-line)
-  ;; (defun benjamin/helm-buffers-list () (interactive)
-  ;;        (unless helm-mode (helm-mode 1))
-  ;;        (unless helm-source-buffers-list
-  ;;          (setq helm-source-buffers-list
-  ;;                (helm-make-source "Buffers" 'helm-source-buffers)))
-  ;;        (let ((helm-split-window-default-side 'right)
-  ;;              (helm-display-buffer-default-width 38)
-  ;;              (truncate-lines t)
-  ;;              (helm-display-header-line nil))
-  ;;          (helm :sources              '(helm-source-buffers-list)
-  ;;                :buffer               "*helm buffers*"
-  ;;                :keymap               helm-buffer-map
-  ;;                :input                "\!\\* "
-  ;;                :truncate-lines       helm-buffers-truncate-lines)))
-  ;; (defun benjamin/helm-buffers-persistent-kill (_buffer)
-  ;;   (let ((marked (helm-marked-candidates)))
-  ;;     (unwind-protect
-  ;;         (cl-loop for b in marked do
-  ;;   	   (progn (helm-preselect
-  ;;   			   (format "^%s"
-  ;;   					   (helm-buffers--quote-truncated-buffer b)))
-  ;;   			  (helm-buffers-persistent-kill-1 b)
-  ;;   			  (message nil)
-  ;;   			  (helm--remove-marked-and-update-mode-line b)))
-  ;;       (with-helm-buffer
-  ;;         (setq helm-marked-candidates nil
-  ;;               helm-visible-mark-overlays nil))
-  ;;       (helm-force-update (helm-buffers--quote-truncated-buffer
-  ;;                           (helm-get-selection))))))
-  ;; (defun benjamin/helm-kill-buffer ()
-  ;;   (interactive)
-  ;;   (with-helm-alive-p
-  ;;     (helm-attrset 'kill-action
-  ;;                   '(benjamin/helm-buffers-persistent-kill . never-split))
-  ;;     (helm-execute-persistent-action 'kill-action)))
-  ;; (defun helm-backspace ()
-  ;;   (interactive)
-  ;;   (condition-case nil (backward-delete-char 1)
-  ;;     (error (helm-keyboard-quit))))
-  (put 'benjamin/helm-kill-buffer 'helm-only t)
-  (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
-  (define-key helm-map (kbd "C-j")   'helm-next-line)
-  (define-key helm-map (kbd "C-k")   'helm-previous-line)
-  (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
-  (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
-  (define-key helm-map (kbd "<f9>")  'helm-backspace)
+  :config       (put 'benjamin/helm-kill-buffer    'helm-only t)
+                (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
+                (define-key helm-map (kbd "C-j")   'helm-next-line)
+                (define-key helm-map (kbd "C-k")   'helm-previous-line)
+                (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
+                (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
+                (define-key helm-map (kbd "<f9>")  'helm-backspace)
   :custom       (helm-mode-line-string "")
                 (helm-buffer-details-flag nil))
 

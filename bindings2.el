@@ -56,15 +56,15 @@
 (global-set-key (kbd "TAB") 'indent-or-complete)
 
 ;; beautiful xcape hacks
-(global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)
-(global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)
-(global-set-key     (kbd "H-<f9>") (lambi (benjamin/notify "RET-C plz")))
-(global-set-key      (kbd "<f10>") 'er/expand-region)
-(global-set-key    (kbd "C-<f12>") 'switch-to-buffer)
+(global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)        ;;   [
+(global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)            ;; C-[
+(global-set-key     (kbd "H-<f9>") (lambi (benjamin/notify "RET-C plz")))    ;;;
+(global-set-key      (kbd "<f10>") 'er/expand-region)        ;;          Shift_L
+(global-set-key    (kbd "C-<f12>") 'switch-to-buffer)        ;;         C-Ctrl_L
+(global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
 ;------------------------------------------------------------------------------;
 
 ;; dubious -- todo
-(global-set-key (kbd "C-<tab>") 'yank)
 (global-set-key (kbd "C-;")     'switch-to-buffer)
 (global-set-key (kbd "C-'")     'BIND-ME)									   ;
 (global-set-key (kbd "C-:")     'BIND-ME)									   ;
@@ -341,18 +341,19 @@
                           ;-l      +
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
-(global-set-key     (kbd "M-z")   'kill-line-save)                             ;
-(global-set-key       (kbd "Ϗ")   'kill-line-save)                           ;-z
+(global-set-key     (kbd "M-z")   'kill-line-save)                           ;;;
+                          ;-z     nil                                        ;;;
 
 (global-set-key     (kbd "M-x")   'counsel-M-x)
 (global-set-key       (kbd "χ")   'BIND-ME)                                    ;
 
-(global-set-key     (kbd "H-c")   'compile)                                    ;
-(global-set-key     (kbd "s-c")   'BIND-ME)                                    ;
-(global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)
+(global-set-key     (kbd "H-c")   'compile)                                  ;;;
+(global-set-key     (kbd "s-c")   'BIND-ME)                                  ;;;
+(global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)        ;
 (global-set-key   (kbd "H-M-c")   'BIND-ME)                                    ;
-(global-set-key (kbd "M-s M-c")   'compile)
-(global-set-key       (kbd "σ")   (lambi (benjamin/notify "Use C-S-c")))     ;;;
+(global-set-key (kbd "M-s M-c")   'compile)                                    ;
+(global-set-key (kbd "C-c C-c")   'compile)
+(global-set-key       (kbd "σ")   'capitalize-word-toggle)                   ;-c
 
 (global-set-key     (kbd "M-v")   'hydra-vimish-fold/body)                     ;
 (global-set-key     (kbd "H-v")   (lambi (forward-line -30)))                  ;
