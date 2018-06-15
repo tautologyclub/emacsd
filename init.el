@@ -4,7 +4,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
+;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
@@ -59,18 +59,6 @@
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
-
-(use-package    hippie-exp
-  :custom       (hippie-expand-try-functions-list
-                 '(try-expand-dabbrev
-                   try-expand-dabbrev-all-buffers
-                   try-expand-dabbrev-from-kill
-                   try-complete-file-name-partially
-                   try-complete-file-name
-                   try-expand-all-abbrevs
-                   try-expand-list
-                   try-expand-line
-                   try-complete-lisp-symbol-partially)))
 
 (use-package    multi-term
   :ensure       t
@@ -493,7 +481,7 @@
                 (add-hook 'bitbake-mode-hook 'subword-mode)
                 (add-hook 'bitbake-mode-hook 'helm-gtags-mode))
 
-(use-package    hippie-expand
+(use-package    hippie-exp
   :ensure       t
   :custom       (hippie-expand-try-functions-list
                  '(try-expand-dabbrev
@@ -529,6 +517,9 @@
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
+                ;; (org-ellipsis " /.../")
+                ;; (org-ellipsis " ▼")
+                (org-ellipsis " {…}")
                 (org-agenda-files
                  '("~/work/agenda.org"
                    "~/notes/read.org"
