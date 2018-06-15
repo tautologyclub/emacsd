@@ -89,7 +89,7 @@
    `ample-light ;; you must use the same theme name here...
    `(default ((t (:foreground ,"black"
                   :background ,ample/bg
-                  :height 60
+                  :height 105
                   :family "Inconsolata"
                   ))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))
@@ -498,6 +498,7 @@
    ;;`(org-headline-done ((t (:foreground nil :background nil))))
    `(org-hide ((t (:foreground ,ample/bg :background nil))))
    `(org-latex-and-export-specials ((t (:foreground nil :background nil))))
+   '(org-ellipsis ((t (:underline nil :foreground "#777777"))))
 
    `(org-level-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.25))))
    `(org-level-2 ((t (:foreground "#006620" :bold t :background nil :height 1.10))))

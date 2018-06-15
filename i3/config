@@ -18,7 +18,6 @@ bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/term
 bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-chrome-stable
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id ~/bin/split_optimal; exec --no-startup-id dmenu_recency
-bindsym $mod+e exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
 bindsym $mod+Shift+e split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
 bindsym $mod+t exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
 bindsym $mod+Shift+t exec split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
@@ -205,7 +204,7 @@ mode "resize" {
 bindsym $mod+u exec notify-send "use mod+o instead"
 bindsym $mod+o mode "shortcuts"
 mode "shortcuts" {
-     bindsym e exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
+     bindsym e exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'; mode "default"
 #     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym o exec /home/benjamin/bin/xcape-restart; mode "default"
      bindsym s exec /home/benjamin/bin/xcape-restart --swedish; mode "default"
