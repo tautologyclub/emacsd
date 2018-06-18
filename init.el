@@ -686,6 +686,8 @@
                   (progn (define-key pdf-view-mode-map
                            (kbd "M-g g") 'pdf-view-goto-page)
                          (define-key pdf-view-mode-map
+                           (kbd "M-g M-g") 'pdf-view-goto-page)
+                         (define-key pdf-view-mode-map
                            (kbd "k") 'previous-line)
                          (define-key pdf-view-mode-map
                            (kbd "j") 'next-line)
@@ -749,6 +751,11 @@
   :config       (electric-pair-mode 1)
                 (add-to-list 'electric-pair-pairs '(?\< . ?\> )))
 
+(use-package    markdown-preview-mode
+  ;; broken package
+  :disabled     t
+  :ensure       t)
+
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
 (use-package hydra                   :ensure t)
@@ -776,6 +783,7 @@
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
           (lambi
+           (hs-minor-mode 1)
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
            (local-set-key (kbd "RET") 'newline-and-indent)))
 
@@ -787,6 +795,7 @@
               indent-tabs-mode  nil)
 
 (setq enable-recursive-minibuffers           nil
+      explicit-shell-file-name "/bin/bash"
       tab-always-indent                      t
       indent-tabs-mode                       nil
       auto-hscroll-mode                      nil
@@ -810,6 +819,7 @@
       version-control                        t
       auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
       backup-directory-alist                '(("."  . "~/.saves"))
+      create-lockfiles                       nil
       save-interprogram-paste-before-kill    t
       select-enable-clipboard                t
       browse-url-browser-function            'browse-url-chrome

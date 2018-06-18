@@ -1,5 +1,6 @@
 (require 'hideshow)
 (require 'vimish-fold)
+(require 'some-defuns)
 
 (defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
                             :color
@@ -211,6 +212,22 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("o" overwrite-mode)
   ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
   ("R" read-only-mode)
+  ("RET" nil "quit")
+  ("q" nil "quit"))
+
+
+(defhydra hydra-timestamp (:color blue :columns 2)
+  " timestamp
+--------------------------------------------------------------------------------
+"
+  ("tf" (paste-shell-stdout "date +'%d/%m/%y -- %H:%M:%S'")
+   "DD/MM/YY -- HH:MM:SS")
+  ("tt" (paste-shell-stdout "date +'%H:%M:%S '")
+   "HH:MM:SS")
+  ("td" (paste-shell-stdout "date +'%d/%m/%y '")
+   "DD/MM/YY")
+  ("td" (paste-shell-stdout "date +'%d/%m/%y '")
+   "DD/MM/YY")
   ("RET" nil "quit")
   ("q" nil "quit"))
 

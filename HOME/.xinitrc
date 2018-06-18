@@ -79,4 +79,13 @@ exec $(get_session)
 #exec xterm -geometry 80x66+0+0 -name login
 setxkbmap -option caps:super
 
+if [ -f ~/bin/xcape-restart ]; then
+    ~/bin/./xcape-restart
+fi
+
+if [ -f ~/.xrandr-setup.sh ]; then
+    . ~/.xrandr-setup.sh
+fi
+
+
 unclutter &

@@ -2,6 +2,12 @@
 (require 'expand-region)
 
 ;;;###autoload
+(defun paste-shell-stdout (cmd)
+  (interactive "sCommand: ")
+  (insert (shell-command-to-string cmd))
+  (backward-delete-char 1))
+
+;;;###autoload
 (defun new-line-in-between ()
   (interactive)
   (newline)
@@ -784,7 +790,9 @@ there's a region, all lines that region covers will be duplicated."
     (setq beg (line-beginning-position))
     (if mark-active
         (exchange-point-and-mark))
-    (setq end (line-end-position))
+    (if (and mark-active (bolp))
+        (setq end (- (point) 1))
+      (setq end (line-end-position)))
     (let ((region (buffer-substring-no-properties beg end)))
       (dotimes (i arg)
         (goto-char end)
