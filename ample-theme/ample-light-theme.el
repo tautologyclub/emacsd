@@ -118,7 +118,7 @@
    `(mode-line		((t (:background ,ample/region :foreground ,ample/fg))))
 
    `(linum ((t (:background nil :foreground "dark red"))))
-   `(line-number ((t (:background nil :foreground "dark red"))))
+   `(line-number ((t (:foreground ,ample/bg :background "#3a3a3a"))))
    '(ivy-virtual ((t (:family "Noto Sans" :italic t :foreground "#777777"))))
    `(popup-tip-face ((t (:background ,ample/region-dark :foreground ,ample/dark-tan))))
    `(header-line ((t (:background "#b2b09b" :foreground ,ample/bg))))
@@ -126,6 +126,7 @@
    `(button  ((t (:foreground "saddle brown" :background nil :underline t))))
    '(sh-heredoc ((t (:foreground nil :inherit font-lock-comment-face))))
 
+   '(markdown-pre-face ((t (:inherit nil :background "#cccccc"))))
 
    ;; search
    `(isearch		((t (:background ,ample/blue :foreground ,ample/bg))))
@@ -145,7 +146,7 @@
 
    `(vertical-border ((t (:background ,ample/darker-gray :foreground ,ample/darkest-gray))))
 
-   `(hl-line ((t (:background "#d8d4af"))))
+   `(hl-line ((t (:background "#dad6bf"))))
 
    `(highlight-indentation-face ((t (:background ,ample/darkest-gray))))
 
@@ -495,12 +496,12 @@
    `(org-todo ((t (:foreground ,ample/red :background nil :bold t))))
    `(org-failed-face ((t (:foreground "green" :background nil :bold t))))
    ;;`(org-drawer ((t (:foreground nil :background nil))))
-   ;;`(org-ellipsis ((t (:foreground nil :background nil))))
    ;;`(org-footnote ((t (:foreground nil :background nil))))
    ;;`(org-formula ((t (:foreground nil :background nil))))
    ;;`(org-headline-done ((t (:foreground nil :background nil))))
    `(org-hide ((t (:foreground ,ample/bg :background nil))))
    `(org-latex-and-export-specials ((t (:foreground nil :background nil))))
+   '(org-ellipsis ((t (:underline nil :foreground "#777777" :height 0.7))))
 
    `(org-level-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.25))))
    `(org-level-2 ((t (:foreground "#006620" :bold t :background nil :height 1.10))))
@@ -793,8 +794,6 @@
    ;; widget
    `(widget-field  ((t (:foreground ,ample/fg :background ,ample/region-dark))))
 
-   ;; hl-line ; todooooooo
-   '(hl-line                        ((t (:background "#edd8b4"))))
    ) ;; end of custom-theme-set-faces
 
   (custom-theme-set-variables

@@ -168,7 +168,7 @@
 (global-set-key   (kbd "C-S-t")   'capitalize-word-toggle)
 (global-set-key (kbd "C-x C-t")   'counsel-term-switch)
 (global-set-key (kbd "C-x   t")   'multi-term-prev)
-(global-set-key   (kbd "H-M-t")   'multi-term)
+(global-set-key   (kbd "H-M-t")   'multi-term-w/error-handling)
                           ;-t      ~
 
 (global-set-key     (kbd "C-y")   'yank)                                     ;;;
@@ -340,7 +340,7 @@
                           ;-l      +
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
-(global-set-key     (kbd "M-z")   'kill-line-save)                           ;;;
+(global-set-key     (kbd "M-z")   'kill-line-save)                             ;
                           ;-z     nil                                        ;;;
 
 (global-set-key     (kbd "M-x")   'counsel-M-x)
@@ -399,14 +399,12 @@
 
 (global-set-key (kbd "C--")     'benjamin/previous-buffer)
 (global-set-key (kbd "C-=")     'benjamin/next-buffer)
-(global-set-key (kbd "M--")     'zoom-frm-out)
-(global-set-key (kbd "M-=")     'zoom-frm-in)
-(global-set-key (kbd "C-H--")   'my-decrement-number-decimal)
-(global-set-key (kbd "C-H-=")   'my-increment-number-decimal)
-(global-set-key (kbd "C-_")     (lambi (shrink-window 5)))
-(global-set-key (kbd "C-+")     (lambi (enlarge-window 5)))
-;; (global-set-key (kbd "H--")     'undo-tree-undo)
-;; (global-set-key (kbd "H-=")     'undo-tree-redo)
+(global-set-key (kbd "C-_")     'zoom-frm-out)
+(global-set-key (kbd "C-+")     'zoom-frm-in)
+(global-set-key (kbd "M--")     (lambi (shrink-window 5)))
+(global-set-key (kbd "M-=")     (lambi (enlarge-window 5)))
+(global-set-key (kbd "H--")   'my-decrement-number-decimal)
+(global-set-key (kbd "H-=")   'my-increment-number-decimal)
 
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
@@ -414,7 +412,7 @@
 
 ;; In case I accidentally left swedish keyboard layout on
 (global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
+                                        (call-process "xcape-restart" nil 10 nil)
                                         (benjamin/set-mark-command)))
 (global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
                                         (call-process "xcape-restart" nil 0 nil)
