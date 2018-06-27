@@ -1,5 +1,6 @@
 (require 'hideshow)
 (require 'vimish-fold)
+(require 'some-defuns)
 
 (defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
                             :color
@@ -186,7 +187,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   _t_ truncate-lines:   %`truncate-lines
   _y_ flycheck:         %`flycheck-mode
   _w_ whitespace:       %`whitespace-mode
-  _l_ linum:            %`linum-mode
+  _l_ linum:            %`display-line-numbers
   _i_ fci:              %`fci-mode
   _o_ overwrite:        %`overwrite-mode
   _r_ rec-minibuf       %`enable-recursive-minibuffers
@@ -204,13 +205,36 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("t" toggle-truncate-lines)
   ("y" flycheck-mode)
   ("h" hl-line-mode)
+  ("L" global-hl-line-mode)
   ("H" helm-gtags-mode)
   ("w" whitespace-mode)
-  ("l" linum-mode)
+  ("l" benjamin/toggle-linum)
   ("i" fci-mode)
   ("o" overwrite-mode)
   ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
   ("R" read-only-mode)
+  ("RET" nil "quit")
+  ("q" nil "quit"))
+
+(defun benjamin/toggle-linum ()
+  (interactive)
+  ;; (set (make-local-variable 'display-line-numbers) (not display-line-numbers)))
+  (setq display-line-numbers (not display-line-numbers)))
+
+
+
+(defhydra hydra-timestamp (:color blue :columns 2)
+  " timestamp
+--------------------------------------------------------------------------------
+"
+  ("tf" (paste-shell-stdout "date +'%d/%m/%y -- %H:%M:%S'")
+   "DD/MM/YY -- HH:MM:SS")
+  ("tt" (paste-shell-stdout "date +'%H:%M:%S '")
+   "HH:MM:SS")
+  ("td" (paste-shell-stdout "date +'%d/%m/%y '")
+   "DD/MM/YY")
+  ("td" (paste-shell-stdout "date +'%d/%m/%y '")
+   "DD/MM/YY")
   ("RET" nil "quit")
   ("q" nil "quit"))
 

@@ -35,6 +35,7 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        my-increment-number-decimal
         ora-brackets
         ora-parens
         org-delete-char

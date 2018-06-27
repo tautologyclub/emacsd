@@ -56,6 +56,7 @@
 (global-set-key (kbd "TAB") 'indent-or-complete)
 
 ;; beautiful xcape hacks
+;------------------------------------------------------------------------------;
 (global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)        ;;   [
 (global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)            ;; C-[
 (global-set-key     (kbd "H-<f9>") (lambi (benjamin/notify "RET-C plz")))    ;;;
@@ -168,7 +169,7 @@
 (global-set-key   (kbd "C-S-t")   'capitalize-word-toggle)
 (global-set-key (kbd "C-x C-t")   'counsel-term-switch)
 (global-set-key (kbd "C-x   t")   'multi-term-prev)
-(global-set-key   (kbd "H-M-t")   'multi-term)
+(global-set-key   (kbd "H-M-t")   'multi-term-w/error-handling)
                           ;-t      ~
 
 (global-set-key     (kbd "C-y")   'yank)                                     ;;;
@@ -219,7 +220,7 @@
 (global-set-key     (kbd "H-p")   'undo-tree-redo)                             ;
 (global-set-key     (kbd "s-p")   'counsel-yank-pop)                           ;
 (global-set-key   (kbd "C-S-p")   'async-shell-command)                      ;;;
-(global-set-key   (kbd "H-M-p")   'BIND-ME)                                  ;;;
+(global-set-key   (kbd "H-M-p")   'helm-gtags-pop-stack)
 (global-set-key   (kbd "C-c p")   'er/mark-paragraph)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
@@ -245,22 +246,20 @@
 (global-set-key     (kbd "H-s")   'isearch-forward)                            ;
 (global-set-key   (kbd "C-S-s")   'swiper-all)
 (global-set-key   (kbd "M-s s")   'org-store-link)
-(global-set-key   (kbd "H-M-s")   (lambi (insert (shell-command-to-string
-                                                  (read-string "cmd: ")))))
+(global-set-key   (kbd "H-M-s")   'paste-shell-stdout)
 (global-set-key   (kbd "C-c sd")  (lambi (let ((helm-full-frame t))
                                            (helm-systemd))))
-(global-set-key   (kbd "H-M-s")   'BIND-ME)                                    ;
 (global-set-key (kbd "M-s M-s")   'save-buffer)
                           ;-s      _
 
 (global-set-key     (kbd "C-d")   'delete-char)
-(global-set-key     (kbd "H-d")   'duplicate-current-line-or-region)           ;
+(global-set-key     (kbd "H-d")   'BIND-ME)                                  ;;;
 (global-set-key     (kbd "M-d")   'kill-word)
-(global-set-key   (kbd "H-M-d")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-S-d")   'hungry-delete-forward)
+(global-set-key   (kbd "H-M-d")   'duplicate-current-line-or-region)
 (global-set-key (kbd "M-s M-d")   'delete-window)
 (global-set-key (kbd "M-s   d")   'BIND-ME)                                    ;
-(global-set-key   (kbd "C-x d")   'duplicate-current-line-or-region)           ;
+(global-set-key   (kbd "C-x d")   'hydra-timestamp/body)
 (global-set-key   (kbd "C-c d")   'mark-defun)
                           ;-d      :
 
@@ -293,7 +292,7 @@
 (global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)                      ;
 (global-set-key (kbd "M-s   g")   'hydra-git-gutter/body)
 (global-set-key (kbd "M-s M-g")   'magit-status)
-(global-set-key   (kbd "C-x g")   'magit-status)                               ;
+(global-set-key   (kbd "C-x g")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-c g")   'helm-google)
                           ;-g      ?
 
@@ -334,16 +333,15 @@
 (global-set-key     (kbd "C-l")   'forward-char)
 (global-set-key     (kbd "H-l")   'recenter-top-bottom)
 (global-set-key     (kbd "M-l")   'goto-last-change)
-(global-set-key     (kbd "H-L")   'goto-last-change-reverse)
-(global-set-key   (kbd "H-M-l")   'BIND-ME)                                    ;
-(global-set-key   (kbd "C-S-l")   'elpy-nav-indent-shift-right)                ;
+(global-set-key   (kbd "H-M-l")   'goto-last-change-reverse)
+(global-set-key   (kbd "C-S-l")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-x l")   'counsel-locate)
 (global-set-key   (kbd "M-s l")   'counsel-locate)
 (global-set-key (kbd "M-s M-l")   'org-store-link)
                           ;-l      +
 
 (global-set-key     (kbd "C-z")   'capitalize-word-toggle)
-(global-set-key     (kbd "M-z")   'kill-line-save)                           ;;;
+(global-set-key     (kbd "M-z")   'kill-line-save)                             ;
                           ;-z     nil                                        ;;;
 
 (global-set-key     (kbd "M-x")   'counsel-M-x)
@@ -402,14 +400,12 @@
 
 (global-set-key (kbd "C--")     'benjamin/previous-buffer)
 (global-set-key (kbd "C-=")     'benjamin/next-buffer)
-(global-set-key (kbd "M--")     'zoom-frm-out)
-(global-set-key (kbd "M-=")     'zoom-frm-in)
-(global-set-key (kbd "C-H--")   'my-decrement-number-decimal)
-(global-set-key (kbd "C-H-=")   'my-increment-number-decimal)
-(global-set-key (kbd "C-_")     (lambi (shrink-window 5)))
-(global-set-key (kbd "C-+")     (lambi (enlarge-window 5)))
-;; (global-set-key (kbd "H--")     'undo-tree-undo)
-;; (global-set-key (kbd "H-=")     'undo-tree-redo)
+(global-set-key (kbd "C-_")     'zoom-frm-out)
+(global-set-key (kbd "C-+")     'zoom-frm-in)
+(global-set-key (kbd "M--")     (lambi (shrink-window 5)))
+(global-set-key (kbd "M-=")     (lambi (enlarge-window 5)))
+(global-set-key (kbd "H--")   'my-decrement-number-decimal)
+(global-set-key (kbd "H-=")   'my-increment-number-decimal)
 
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
@@ -417,7 +413,7 @@
 
 ;; In case I accidentally left swedish keyboard layout on
 (global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
+                                        (call-process "xcape-restart" nil 10 nil)
                                         (benjamin/set-mark-command)))
 (global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
                                         (call-process "xcape-restart" nil 0 nil)

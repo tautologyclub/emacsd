@@ -174,5 +174,16 @@
       (message (concat "New term-buffer @ " default-directory))
       (multi-term))))
 
+;;;###autoload
+(defun multi-term-w/error-handling ()
+  "Start a multiterm shell in `default-directory`.
+
+If default directory doesn't exist, cd .. until it does."
+  (interactive)
+  (while (not (file-exists-p default-directory))
+    (setq default-directory
+          (expand-filename (concat default-directory "../"))))
+  (multi-term))
+
 (provide 'term-addons)
 ;;; term-addons.el ends here

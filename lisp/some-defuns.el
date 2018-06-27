@@ -2,6 +2,12 @@
 (require 'expand-region)
 
 ;;;###autoload
+(defun paste-shell-stdout (cmd)
+  (interactive "sCommand: ")
+  (insert (shell-command-to-string cmd))
+  (backward-delete-char 1))
+
+;;;###autoload
 (defun new-line-in-between ()
   (interactive)
   (newline)
@@ -254,7 +260,8 @@ With arg N insert N newlines."
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
     (comment-or-uncomment-region beg end)
-    (forward-line 1)))
+    (unless (region-active-p)
+      (forward-line 1))))
 
 ;;;###autoload
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
@@ -765,12 +772,16 @@ This function is suitable to add to `find-file-hook'."
   (interactive)
   (defvar goto/line 0)
   (unwind-protect
-      (let ((display-line-numbers 1))
-        (git-gutter+-mode -1)
-        (setq goto/line (read-number "Goto line: "))
-        (goto-char (point-min))
-        (forward-line (1- goto/line)))
-    (git-gutter+-mode 1)))
+      (let ((git-gutter-was-enabled git-gutter+-mode)
+            (old-fringe-mode fringe-mode))
+        (fringe-mode 0)
+        (let ((display-line-numbers 1))
+          (git-gutter+-mode -1)
+          (setq goto/line (read-number "Goto line: "))
+          (goto-char (point-min))
+          (forward-line (1- goto/line)))
+        (if git-gutter-was-enabled (git-gutter+-mode 1))
+        (fringe-mode old-fringe-mode))))
 
 ;;;###autoload
 (defun duplicate-current-line-or-region (arg)
@@ -784,7 +795,9 @@ there's a region, all lines that region covers will be duplicated."
     (setq beg (line-beginning-position))
     (if mark-active
         (exchange-point-and-mark))
-    (setq end (line-end-position))
+    (if (and mark-active (bolp))
+        (setq end (- (point) 1))
+      (setq end (line-end-position)))
     (let ((region (buffer-substring-no-properties beg end)))
       (dotimes (i arg)
         (goto-char end)

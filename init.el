@@ -24,6 +24,7 @@
 
 ; -- my own stuff (mostly) -----------------------------------------------------
 (use-package    kill-at-point)
+(use-package    kernel-dev-mode)
 (use-package    ivy-addons)
 (use-package    helm-addons)
 (use-package    some-defuns)
@@ -77,6 +78,7 @@
                       '(("C-g" . (lambda () (interactive) (term-send-raw-string "")))
                         ("C-d" . term-send-raw)
                         ("C-_" . nil)
+                        ("C-r" . counsel-term-history)
                         ("C-p" . projectile-command-map)
                         ("C-j" . next-line)
                         ("C-k" . previous-line)
@@ -87,7 +89,6 @@
                         ("C-s" . swiper)
                         ("C-t" . nil)
                         ("C-p" . nil)
-                        ("C-r" . term-send-backspace)
                         ("C-m" . term-send-return)
                         ("H-w" . counsel-term-ff)
                         ("C-y" . term-paste)
@@ -101,7 +102,6 @@
                         ("{"   . (lambda () (interactive) (term-send-raw-string "{}")))
                         ("H-c" . counsel-term-cd)
                         ("M-r" . term-send-backward-kill-word)
-                        ("M-h" . counsel-term-history)
                         ("M-q" . term-send-backward-word)
                         ("M-f" . term-send-forward-word)
                         ("M-o" . other-window)
@@ -425,7 +425,7 @@
 
 (use-package    hl-line
   :ensure       nil
-  :custom       (hl-line-mode -1))
+  :config       (global-hl-line-mode 1))
 
 (use-package    helm-gtags
   :ensure       t
@@ -517,9 +517,8 @@
 
 (use-package    org
   :custom       (org-hide-leading-stars t)
-                ;; (org-ellipsis " /.../")
-                ;; (org-ellipsis " ▼")
-                (org-ellipsis " {…}")
+                ;; (org-ellipsis " {…}")
+                (org-ellipsis " {...}")
                 (org-agenda-files
                  '("~/work/agenda.org"
                    "~/notes/read.org"
@@ -531,8 +530,8 @@
                    "~/work/endian/glhf/glhf.org"
                    "~/work/v2v-module/v2v.org"))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
-                (add-hook 'org-mode-hook (lambda () (flyspell-mode +1)))
-                (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+                (add-hook 'org-mode-hook (lambi (fringe-mode nil)))
+                  (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
@@ -692,6 +691,8 @@
                   (progn (define-key pdf-view-mode-map
                            (kbd "M-g g") 'pdf-view-goto-page)
                          (define-key pdf-view-mode-map
+                           (kbd "M-g M-g") 'pdf-view-goto-page)
+                         (define-key pdf-view-mode-map
                            (kbd "k") 'previous-line)
                          (define-key pdf-view-mode-map
                            (kbd "j") 'next-line)
@@ -754,7 +755,13 @@
 
 (use-package    elec-pair
   :config       (electric-pair-mode 1)
-                (add-to-list 'electric-pair-pairs '(?\< . ?\> )))
+                ;; (add-to-list 'electric-pair-pairs '(?\< . ?\> ))
+                )
+
+(use-package    markdown-preview-mode
+  ;; broken package
+  :disabled     t
+  :ensure       t)
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -783,6 +790,7 @@
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
           (lambi
+           (hs-minor-mode 1)
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
            (local-set-key (kbd "RET") 'newline-and-indent)))
 
@@ -794,6 +802,7 @@
               indent-tabs-mode  nil)
 
 (setq enable-recursive-minibuffers           nil
+      explicit-shell-file-name "/bin/bash"
       tab-always-indent                      t
       indent-tabs-mode                       nil
       auto-hscroll-mode                      nil
@@ -817,6 +826,7 @@
       version-control                        t
       auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
       backup-directory-alist                '(("."  . "~/.saves"))
+      create-lockfiles                       nil
       save-interprogram-paste-before-kill    t
       select-enable-clipboard                t
       browse-url-browser-function            'browse-url-chrome
@@ -835,7 +845,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                 nil)
+(fringe-mode                   10) ;; todo
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))

@@ -1,17 +1,21 @@
-#!/bin/bash
-set -e
+#!/bin/sh -e
 
 CHR_DEB_DIR=$PWD
 CHR_USER=$(whoami)
 
-HMARGS=" --bind=$HOME/work/hm/repos:/home/$CHR_USER/hm"
-HMARGS+=" --bind=$HOME/.ssh:/home/$CHR_USER/.ssh"
-SOME_NICE_ARGS=" --bind=$HOME/.ssh:/home/$CHR_USER/.ssh"  # todo :)
+NSPARGS="-b "
+NSPARGS+="--bind=$HOME/.ssh:/home/$CHR_USER/.ssh --bind=$HOME/repos:/home/$CHR_USER/repos "
 
-NSPARGS="-b"  # todo: multi-user
+HMARGS="--bind=$HOME/work/hm/repos:/home/$CHR_USER/hm "
+ENABLE_LOOPMOUNT=1  # enable loopback mounting by default
+
 while [[ $# -gt 0 ]]; do
     key="$1"
     case $key in
+        -s|--shell)
+            # TODO
+            just_shell=1
+            shift ;;
         -S|--squeeze)
             CHR_DEB_DIR=/home/benjamin/debian/squeeze
             shift ;;
@@ -23,28 +27,44 @@ while [[ $# -gt 0 ]]; do
             shift # past value
             ;;
         --linux)
-            NSPARGS+=" --bind=$HOME/repos/linux:/home/$CHR_USER/repos/linux"
+            NSPARGS+="--bind=$HOME/repos/linux:/home/$CHR_USER/repos/linux "
             shift ;;
         -bro)
-            NSPARGS+=" --bind-ro=$2"
+            NSPARGS+="--bind-ro=$2 "
             shift
             shift ;;
         -b)
-            NSPARGS+=" --bind=$2"
+            NSPARGS+="--bind=$2 "
             shift # past argument
             shift ;;
         -d|--default)
-            NSPARGS+=" $SOME_NICE_ARGS"
+            NSPARGS+="$SOME_NICE_ARGS "
             shift ;;
-        *)  NSPARGS+=" $@"
+        *)  NSPARGS+="$@ "
             echo Appending \" $@\" to nspawn args
-            exit 1 ;;
+            shift ;;
     esac
 done
 
+
+# Enable loopback devices inside container
+if [ -n "$ENABLE_LOOPMOUNT" ]; then
+    if [ -e /dev/loop-control ]; then
+        NSPARGS+="--bind=/dev/loop-control "
+    fi
+    # NSPARGS+="--bind=/dev/loop0 --bind=/dev/loop1 "
+    for i in seq 0:9; do
+        if [ -e /dev/loop$i ]; then
+            NSPARGS+="--bind=/dev/loop$i "
+        else break; fi
+    done
+fi
+
+tty > ~/.cache/nspawntty
+echo "systemd-nspawn $NSPARGS"
+
 cd $CHR_DEB_DIR
 
-echo "systemd-nspawn $NSPARGS"
-tty > ~/.cache/nspawntty
-
-sudo systemd-nspawn $NSPARGS && rm ~/.cache/nspawntty
+set +e
+sudo systemd-nspawn $NSPARGS
+rm ~/.cache/nspawntty
