@@ -807,6 +807,9 @@
   (add-to-list 'custom-theme-load-path
                (file-name-as-directory (file-name-directory load-file-name))))
 
+(defface my-org-snabel-a-face '((t :inherit 'font-lock-warning-face))
+  "Feebleline timestamp face."
+  :group 'org)
 
 ;;;###autoload
 (defun ample-light-theme()
@@ -821,13 +824,26 @@
   (font-lock-add-keywords
    'org-mode
    '(("^Note\\\:" (0 '((:background "yellow3" :foreground "black" :weight bold))))))
+
+  ;; special highlighting for lines starting with " -- TEXT":
+  (font-lock-add-keywords
+   'org-mode
+   '(("^[[:space:]]--.*" (0 '((:background "yellow3" :foreground "black" :weight bold))))))
+
+  (font-lock-add-keywords
+   'org-mode
+   '(("^[[:space:]]*@.*:" (0 'my-org-snabel-a-face))))
+
+  ;; This is nice, highlights switch cases and tags in C
   (font-lock-add-keywords
    'c-mode '(("\\_<\\([a-zA-Z0-9_]*\\)\\_>\\\:"
               (1 '((:background "#ddddaa" :italic t))))))
   (font-lock-add-keywords
    'prog-mode '(("\\<\\(FIXME\\):"
-                 1 'font-lock-warning-face prepend)))
-  )
+                 (1 'font-lock-warning-face))))
+  (font-lock-add-keywords 'c-mode
+                          '(("\\<\\(FIXME\\):" 1 'font-lock-warning-face prepend)
+                            ("\\<\\(and\\|or\\|not\\)\\>" . 'font-lock-keyword-face))))
 
 (defface org-failed-face '((t :inherit default))
   "The org-todo-keyword FAIL keyword face."

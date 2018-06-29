@@ -4,7 +4,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
-(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
+;; (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
@@ -51,6 +51,17 @@
                 (feebleline-show-time            nil)
                 (feebleline-show-previous-buffer nil)
   :config       (feebleline-mode 1))
+
+(use-package    timeclock-x ;; raw download from wiki
+  :after        (projectile)
+  :custom       (timeclock-get-reason-function nil)
+                (timeclock-get-project-function 'projectile-project-name)
+  :config       (defun timeclock-query-comment () "")
+                (add-hook
+                 'projectile-after-switch-project-hook
+                 (lambda ()
+                   (condition-case nil (timeclock-out) (error nil))
+                   (call-interactively 'timeclock-in))))
 
 
 ; -- others stuff --------------------------------------------------------------
@@ -532,6 +543,19 @@
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
+                (copy-face font-lock-constant-face 'calendar-iso-week-face)
+                (set-face-attribute 'calendar-iso-week-face nil
+                                    :height 0.7)
+                (setq calendar-intermonth-text
+                      '(propertize
+                        (format "%2d"
+                                (car
+                                 (calendar-iso-from-absolute
+                                  (calendar-absolute-from-gregorian
+                                   (list month day year)))))
+                        'font-lock-face 'calendar-iso-week-face))
+                ;; (setq org-agenda-start-on-weekday 'monday)
+                (load-file "~/.emacs.d/sv-kalender.el")
   :bind         (:map org-mode-map
                       ("C-a"        . nil)
                       ("C-e"        . nil)
@@ -828,6 +852,7 @@
       browse-url-browser-function            'browse-url-chrome
       browse-url-chrome-arguments            "--new-window"
       compilation-scroll-output              'first-error
+      vc-follow-symlinks                     t
       kill-buffer-query-functions
         (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
@@ -856,6 +881,10 @@
 (load        "~/.emacs.d/bindings2.el")
 (find-file    "~/.emacs.d/bindings2.el")
 (find-file    "~/.emacs.d/init.el")
+
+;; -- tmp ----------------------------------------------------------------------
+(put 'irony-additional-clang-options 'safe-local-variable #'stringp)
+(add-to-list 'safe-local-variable-values '(eval . (c-set-style "linux")))
 
 (provide 'init)
 ;;; init.el ends here

@@ -311,7 +311,7 @@
 
 (global-set-key     (kbd "s-j")    nil)
 (global-set-key     (kbd "C-j")   'next-line)
-(global-set-key     (kbd "H-j")   'backward-char)                            ;;;
+(global-set-key     (kbd "H-j")   'yank-pop)
 (global-set-key     (kbd "M-j")   'hippie-expand)							   ;
 (global-set-key   (kbd "C-S-j")   'move-text-down)
 (global-set-key   (kbd "H-M-j")   'BIND-ME)                                  ;;;
@@ -352,6 +352,7 @@
 (global-set-key   (kbd "H-M-c")   'BIND-ME)                                    ;
 (global-set-key (kbd "M-s M-c")   'compile)                                    ;
 (global-set-key (kbd "C-c C-c")   'compile)
+(global-set-key  (kbd "C-x cc")   'helm-colors)
 (global-set-key       (kbd "σ")   'capitalize-word-toggle)                   ;-c
 
 (global-set-key     (kbd "M-v")   'hydra-vimish-fold/body)                     ;

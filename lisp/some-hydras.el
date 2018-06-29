@@ -231,6 +231,8 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
    "DD/MM/YY")
   ("td" (paste-shell-stdout "date +'%d/%m/%y '")
    "DD/MM/YY")
+  ("ts" (paste-shell-stdout "date +'%A %d %B %Y '")
+   "DD/MM/YY")
   ("RET" nil "quit")
   ("q" nil "quit"))
 
