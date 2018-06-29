@@ -16,7 +16,6 @@ Make sure it ends with a slash."
     ;; Check if symbol-at-point is all uppercase
     (unless (equal (upcase symatp) symatp)
       (error "No kernel config option at point!"))
-
     (let ((conf (replace-regexp-in-string "^CONFIG_" "config " symatp t)))
       (let ((grep-result (shell-command-to-string
                           (concat "cd " linux-src-root " && "
@@ -30,8 +29,10 @@ Make sure it ends with a slash."
             (find-file (concat linux-src-root kconf))
             (goto-line (string-to-number line))))))))
 
-
-
+(defun kconfig-option-at-point-arbitrary-root (root)
+  "Like the normal function but with ROOT as src root."
+  (let ((linux-src-root root))
+    (call-interactively 'kconfig-option-at-point)))
 
 (provide 'kernel-dev-mode)
 ;;; kernel-dev-mode.el ends here

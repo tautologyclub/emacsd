@@ -4,7 +4,7 @@
 
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
-;; (add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
+;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
 (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
@@ -15,6 +15,7 @@
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
 (setq custom-file (make-temp-file "/tmp/custom.el"))
+
 
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
@@ -70,18 +71,6 @@
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
-
-(use-package    hippie-exp
-  :custom       (hippie-expand-try-functions-list
-                 '(try-expand-dabbrev
-                   try-expand-dabbrev-all-buffers
-                   try-expand-dabbrev-from-kill
-                   try-complete-file-name-partially
-                   try-complete-file-name
-                   try-expand-all-abbrevs
-                   try-expand-list
-                   try-expand-line
-                   try-complete-lisp-symbol-partially)))
 
 (use-package    multi-term
   :ensure       t
@@ -330,6 +319,7 @@
 (define-key magit-diff-mode-map      "j" 'magit-section-forward)
 (define-key magit-diff-mode-map      "k" 'magit-section-backward)
 (defun git-commit-fill-column-hook ()
+  "I mean a commit message should not be 80 chars."
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
@@ -501,6 +491,19 @@
                 (add-to-list 'auto-mode-alist '("\\.bbappend$" . bitbake-mode))
                 (add-hook 'bitbake-mode-hook 'subword-mode)
                 (add-hook 'bitbake-mode-hook 'helm-gtags-mode))
+
+(use-package    hippie-exp
+  :ensure       t
+  :custom       (hippie-expand-try-functions-list
+                 '(try-expand-dabbrev
+                   try-expand-dabbrev-all-buffers
+                   try-expand-dabbrev-from-kill
+                   try-complete-file-name-partially
+                   try-complete-file-name
+                   try-expand-all-abbrevs
+                   try-expand-list
+                   try-expand-line
+                   try-complete-lisp-symbol-partially)))
 
 (use-package    linum
   :ensure       nil
@@ -766,7 +769,8 @@
                 (erc-nick "g00iekabl00ie"))
 
 (use-package    face-remap
-  :config       (defun set-boring-buffer-face () (interactive)
+  :config        (defun set-boring-buffer-face ()
+                   (interactive)
                    (setq buffer-face-mode-face
                          '(:background "gray" :foreground "black"))
                    (buffer-face-mode))
@@ -814,14 +818,16 @@
            (set (make-local-variable 'comment-auto-fill-only-comments) t)
            (local-set-key (kbd "RET") 'newline-and-indent)))
 
-
 ;;-- Random general stuff ------------------------------------------------------
-(setq-default fill-column       80
-              truncate-lines    nil
-              tab-width         4
-              indent-tabs-mode  nil)
+(setq-default
+      fill-column                            80
+      truncate-lines                         nil
+      tab-width                              4
+      indent-tabs-mode                       nil
+      cursor-type                           'hollow)
 
 (setq enable-recursive-minibuffers           nil
+      cursor-type 'hollow
       explicit-shell-file-name "/bin/bash"
       tab-always-indent                      t
       indent-tabs-mode                       nil
@@ -867,6 +873,7 @@
 (delete-selection-mode         1)
 (auto-compression-mode         1)
 (fringe-mode                   10) ;; todo
+(set-cursor-color "red")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
@@ -875,16 +882,14 @@
 (add-to-list 'auto-mode-alist '("\\rc$"      . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bash"    . sh-mode))
 
-(condition-case nil (kill-buffer "*scratch*") (error nil))
-
 ;; Open some defaults
 (load        "~/.emacs.d/bindings2.el")
 (find-file    "~/.emacs.d/bindings2.el")
 (find-file    "~/.emacs.d/init.el")
+(condition-case nil (kill-buffer "*scratch*") (error nil))
 
 ;; -- tmp ----------------------------------------------------------------------
 (put 'irony-additional-clang-options 'safe-local-variable #'stringp)
-(add-to-list 'safe-local-variable-values '(eval . (c-set-style "linux")))
 
 (provide 'init)
 ;;; init.el ends here
