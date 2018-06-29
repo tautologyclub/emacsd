@@ -2,38 +2,37 @@
 (require 'vimish-fold)
 (require 'some-defuns)
 
-(defhydra hydra-git-gutter (:body-pre (git-gutter+-mode 1)
-                            :color
-                            :hint nil)
+(defhydra hydra-git (:body-pre (git-gutter+-mode 1)
+                     :columns 5
+                     :color red)
   "
-Git (gutter and other stuff):
-  _j_: next hunk        _s_tage hunk     _f_ind-file     _q_uit
-  _k_: previous hunk    _r_evert hunk    _b_lame
-  _h_: first hunk       _e_: ediff       _S_tage buffer  _t_ime-machine
-  _l_: last hunk        _p_opup hunk    _cg_rep   _cl_og
-  ^^                    _H_: region-history
-"
-  ("f" magit-find-file :color blue)
-  ("b" magit-blame :color blue)
-  ("cg" counsel-git-grep :color blue)
-  ("cl" counsel-git-log :color blue)
-  ("j" git-gutter+-next-hunk)
-  ("k" git-gutter+-previous-hunk)
-  ("h" (progn (goto-char (point-min))
-              (git-gutter+-next-hunk 1)))
-  ("l" (progn (goto-char (point-min))
-              (git-gutter+-previous-hunk 1)))
+--- git -------------------------------------------------------------------------"
+  ("h"   (progn (goto-char (point-min)) (git-gutter+-next-hunk 1)) "first hunk")
 
-  ("t" git-timemachine :color blue)
-  ("e" vc-ediff :color blue)
-  ("d" magit-diff)
-  ("s" git-gutter+-stage-hunks)
-  ("S" git-gutter+-stage-whole-buffer :color blue)
-  ("H" vc-region-history :color blue)
-  ("r" git-gutter+-revert-hunks)
-  ("p" git-gutter+-popup-hunk)
-  ("SPC" git-gutter+-show-hunk-inline-at-point)
-  ("q" nil :color blue))
+  ("s"   git-gutter+-stage-hunks    "stage hunk")
+  ("S"   git-gutter+-stage-whole-buffer "stage buf" :color blue)
+  ("f"   magit-find-file        "find file"     :color blue)
+  ("t"   git-timemachine        "timemach"      :color blue)
+  ("j"   git-gutter+-next-hunk      "next hunk")
+  ("e"   vc-ediff               "ediff"         :color blue)
+  ("TAB" git-gutter+-popup-hunk "popup hunk")
+
+  ("o"   (progn (magit-log-buffer-file) (delete-other-windows))
+                                "log file"      :color blue)
+  ("b"   magit-blame            "blame"         :color blue)
+  ("k"   git-gutter+-previous-hunk "prev hunk")
+  ("g"   magit-status           "status"        :color blue)
+
+  ("cg"  counsel-git-grep       "grep files"    :color blue)
+  ("cl"  counsel-git-log        "grep log"      :color blue)
+
+  ("d"   magit-diff             "diff range")
+  ("l"   (progn (goto-char (point-max)) (git-gutter+-previous-hunk 1)) "last hunk")
+  ("H"   vc-region-history      "region hist"   :color blue)
+  ("r"   git-gutter+-revert-hunks "revert")
+  ("SPC" git-gutter+-show-hunk-inline-at-point "overlay hunk")
+
+  ("q" nil                      "quit"          :color blue))
 
 (defhydra hydra-ediff (:color blue :columns 2)
   "-- ediff ------------------------------------------------------------------------"
@@ -48,8 +47,7 @@ Git (gutter and other stuff):
   ("RET" nil                    "quit"))
 
 (defhydra hydra-eval (:color blue :columns 2)
-  "-- eval -
-------------------------------------------------------------------------"
+  "-- eval -------------------------------------------------------------------------"
   ("b" eval-buffer              "buffer")
   ("r" eval-region              "region")
   ("d" eval-defun               "defun")
@@ -167,13 +165,12 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("l" last-error       "last"))
 
 (defvar prev-max-mini-window-height max-mini-window-height)
-(defhydra hydra-toggle (:color red
-                        :hint nil
-                        :pre  (progn
-                                (setq prev-max-mini-window-height max-mini-window-height)
-                                (setq max-mini-window-height 30))
-                        :post (progn
-                                (setq max-mini-window-height prev-max-mini-window-height)))
+(defhydra hydra-toggle
+  (:color red
+   :hint nil
+   :pre  (progn (setq prev-max-mini-window-height max-mini-window-height)
+                (setq max-mini-window-height 30))
+   :post (setq max-mini-window-height prev-max-mini-window-height))
   "
   _a_ abbrev:           %`abbrev-mode
   _s_ semantic:         %`semantic-mode
@@ -221,8 +218,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ;; (set (make-local-variable 'display-line-numbers) (not display-line-numbers)))
   (setq display-line-numbers (not display-line-numbers)))
 
-
-
+;; todo
 (defhydra hydra-timestamp (:color blue :columns 2)
   " timestamp
 --------------------------------------------------------------------------------

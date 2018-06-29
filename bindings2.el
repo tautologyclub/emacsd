@@ -288,8 +288,8 @@
 (global-set-key (kbd "M-g   g")   'goto-line-with-feedback)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
-(global-set-key   (kbd "C-S-g")   'hydra-git-gutter/body)                      ;
-(global-set-key (kbd "M-s   g")   'hydra-git-gutter/body)
+(global-set-key   (kbd "C-S-g")   'hydra-git/body)                      ;
+(global-set-key (kbd "M-s   g")   'hydra-git/body)
 (global-set-key (kbd "M-s M-g")   'magit-status)
 (global-set-key   (kbd "C-x g")   'BIND-ME)                                    ;
 (global-set-key   (kbd "C-c g")   'helm-google)

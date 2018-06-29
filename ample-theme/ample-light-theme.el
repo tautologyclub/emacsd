@@ -92,6 +92,7 @@
                   :height 120
                   :family "Inconsolata"
                   ))))
+   '(italic ((t (:underline nil))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))
    `(cursor  ((t (:foreground ,ample/bg :background ,ample/cursor))))
    `(fringe  ((t (:background ,ample/fringe))))
