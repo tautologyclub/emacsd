@@ -243,10 +243,13 @@ umountie(){
         unset LAST_MOUNTIE_POINT
 }
 
-contains()
+girl()
 # Convenience for recursively greping
 {
-    grep -Rl "$@" 2>/dev/null
+    # -I : ignore binary
+    # -R : recursive
+    # -l : list files, not matching lines
+    grep -IRl "$@" 2>/dev/null
 }
 
 
