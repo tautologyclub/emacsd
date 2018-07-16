@@ -5,7 +5,7 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
-(add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
+;; (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
 (add-to-list 'load-path "~/repos/feebleline")
@@ -144,6 +144,7 @@
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
+
 
 ;; todo
 (use-package    projectile
@@ -684,9 +685,14 @@
                       ("C-M-a"  . nil) ("C-M-e"  . nil) ("M-j"    . nil)
                       ("C-M-j"  . nil) ("C-M-k"  . nil)
                       ("C-c o"  . c-occur-overview)
-                      ("C-c C-c"  . compile)
-                      ("M-c"    . hydra-gdb/body)       ;; todo
-                      ("C-i"    . indent-or-complete))
+                      ;; todo: (defun toggle-show-ifdef ())
+                      ("H-M-h"     . hide-ifdef-block)
+                      ("H-M-H"     . show-ifdef-block)
+                      ("C-c H-M-h" . hide-ifdefs)
+                      ("C-c H-M-H" . show-ifdefs)
+                      ("C-c C-c"   . compile)
+                      ("M-c"       . hydra-gdb/body)       ;; todo
+                      ("C-i"       . indent-or-complete))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode))
 
@@ -696,6 +702,7 @@
   (flycheck-mode 1)
   (helm-gtags-mode 1)
   (fci-mode -1) ;; destroys company
+  (hide-ifdef-mode 1) ;; needed...?
   (irony-mode 1)
   (company-mode 1)
   (semantic-mode 1)
@@ -806,6 +813,20 @@
 (use-package highlight               :ensure t)
 (use-package fireplace               :ensure t)
 (use-package flyspell-correct-ivy    :ensure t)
+(use-package visual-fill-column      :ensure t)
+
+(defvar benjamin/visual-fill nil)
+(defun benjamin/visual-fill ()
+  (interactive)
+  (if (not benjamin/visual-fill)
+      (progn (toggle-truncate-lines -1)
+             (fci-mode -1)
+             (visual-fill-column-mode 1)
+             (setq benjamin/visual-fill t))
+    (toggle-truncate-lines +1)
+    (visual-fill-column-mode -1)
+    (setq benjamin/visual-fill nil))
+    )
 
 
 ;;-- Some general hooks --------------------------------------------------------
@@ -889,7 +910,8 @@
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 
 ;; -- tmp ----------------------------------------------------------------------
-(put 'irony-additional-clang-options 'safe-local-variable #'stringp)
+(setq safe-local-variable-values
+      '((irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")))
 
 (provide 'init)
 ;;; init.el ends here

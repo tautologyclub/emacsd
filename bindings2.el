@@ -4,10 +4,6 @@
 ;;; Code:
 ;;; lolol
 ;;; ------------------------
-;;; crux-duplicate-and-comment-current-line-or-region
-;;; crux-eval-and-replace
-;;; crux-insert-date
-;;; crux-with-region-or-line
 ;;; visual-regex
 ;;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
 (global-unset-key (kbd "M-r"))
@@ -53,13 +49,13 @@
 (global-unset-key (kbd "C-_"))
 
 
-(global-set-key (kbd "TAB") 'indent-or-complete)
+;; (global-set-key (kbd "TAB") 'indent-or-complete)
 
 ;; beautiful xcape hacks
 ;------------------------------------------------------------------------------;
 (global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)        ;;   [
 (global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)            ;; C-[
-(global-set-key     (kbd "H-<f9>") (lambi (benjamin/notify "RET-C plz")))    ;;;
+(global-set-key     (kbd "H-<f9>") 'counsel-yank-pop)
 (global-set-key      (kbd "<f10>") 'er/expand-region)        ;;          Shift_L
 (global-set-key    (kbd "C-<f12>") 'switch-to-buffer)        ;;         C-Ctrl_L
 (global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
@@ -74,14 +70,10 @@
 (global-set-key (kbd "H-SPC")   " ")
 (global-set-key (kbd "M-<f12>") 'BIND-ME)                                    ;;;
 (global-set-key (kbd "M-RET")   'BIND-ME)                                    ;;;
-(global-set-key (kbd "M-'")     'BIND-ME)                                    ;;;
+(global-set-key (kbd "M-'")     'BIND-ME)                                      ;
 (global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                 ;;;
 (global-set-key (kbd "H-'")     'BIND-ME)                                    ;;;
-(global-set-key (kbd "䑄")      'switch-to-buffer)                           ;-'
-;------------------------------------------------------------------------------;
-
-;; experimental
-(define-key key-translation-map (kbd "C-<f10>") (kbd "TAB"))
+(global-set-key (kbd "䑄")      'switch-to-buffer)                       ;-' ;;;
 ;------------------------------------------------------------------------------;
 
 
@@ -95,14 +87,16 @@
 
 
 ;; In case I accidentally left swedish keyboard layout on
-(global-set-key (kbd "C-å") (lambi
-                             (benjamin/notify "Switching keyboard layout...")
-                             (call-process "xcape-restart" nil 0 nil)
-                             (benjamin/set-mark-command)))
-(global-set-key (kbd "H-å") (lambi
-                             (benjamin/notify "Switching keyboard layout...")
-                             (call-process "xcape-restart" nil 0 nil)
-                             (call-interactively 'switch-to-buffer)))
+(global-set-key
+ (kbd "C-å")
+ (lambi (benjamin/notify "Switching keyboard layout...")
+        (call-process "xcape-restart" nil 0 nil)
+        (benjamin/set-mark-command)))
+(global-set-key
+ (kbd "H-å")
+ (lambi (benjamin/notify "Switching keyboard layout...")
+        (call-process "xcape-restart" nil 0 nil)
+        (call-interactively 'switch-to-buffer)))
 ;------------------------------------------------------------------------------;
 
 (global-set-key     (kbd "H-0")     'delete-other-windows)
@@ -361,6 +355,7 @@
 (global-set-key     (kbd "s-v")   'counsel-yank-pop)                           ;
 (global-set-key     (kbd "C-v")   (lambi (forward-line 30)))                   ;
 (global-set-key   (kbd "C-S-v")   (lambi (forward-line -30)))                  ;
+(global-set-key   (kbd "C-c v")   'benjamin/visual-fill)
                           ;-v      RET
 
 (global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)
