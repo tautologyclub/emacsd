@@ -5,6 +5,7 @@
       '(
         avy-goto-char-in-line
         backward-delete-char
+        backward-to-word
         beginning-of-line-or-block
         benjamin/backward-kill-word
         benjamin/highlight
@@ -20,6 +21,7 @@
         elpy-nav-indent-shift-right
         end-of-line-or-block
         fill-paragraph
+        forward-to-word
         forward-whitespace
         hungry-delete-backward
         hungry-delete-forward
@@ -113,6 +115,7 @@
         special-lispy-x
         special-pop-tag-mark
         tab-to-tab-stop
+        upcase-word-toggle
         xah-beginning-of-line-or-block
         xah-end-of-line-or-block
         ))

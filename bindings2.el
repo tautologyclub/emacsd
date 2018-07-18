@@ -347,6 +347,7 @@
 (global-set-key   (kbd "H-M-c")   'BIND-ME)                                    ;
 (global-set-key (kbd "M-s M-c")   'compile)                                    ;
 (global-set-key (kbd "C-c C-c")   'compile)
+(global-set-key   (kbd "C-c c")   'calc)
 (global-set-key  (kbd "C-x cc")   'helm-colors)
 (global-set-key       (kbd "σ")   'capitalize-word-toggle)                   ;-c
 

@@ -89,8 +89,9 @@
    `ample-light ;; you must use the same theme name here...
    `(default ((t (:foreground ,"black"
                   :background ,ample/bg
-                  :height 120
-                  :family "Inconsolata"
+                  :height 125
+                  :family "DejaVu Sans Mono"
+                  ;; :family "Inconsolata"
                   ))))
    '(italic ((t (:underline nil))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))

@@ -319,6 +319,7 @@
 (define-key magit-commit-section-map "k" 'magit-section-backward)
 (define-key magit-diff-mode-map      "j" 'magit-section-forward)
 (define-key magit-diff-mode-map      "k" 'magit-section-backward)
+
 (defun git-commit-fill-column-hook ()
   "I mean a commit message should not be 80 chars."
   (setq fill-column 120))
@@ -639,6 +640,8 @@
 
 (use-package    frame
   :config       (window-divider-mode t)
+                (custom-set-faces
+                 '(window-divider ((t (:foreground "#c0c0c0")))))
   :custom       (window-divider-default-bottom-width 1)
                 (window-divider-default-places 'bottom-only))
 
