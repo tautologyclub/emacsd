@@ -16,6 +16,7 @@
         benjamin/set-mark-command
         benjamin/unhighlight-region
         c-electric-delete-forward
+        c-electric-semi&comma
         elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
@@ -26,6 +27,7 @@
         hungry-delete-backward
         hungry-delete-forward
         kill-inner
+        kill-line-save
         kill-region
         kill-region-or-line
         kill-symbol-at-point
@@ -122,6 +124,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        compile
         counsel-grep-or-swiper
         describe-key
         dropdown-multiterm

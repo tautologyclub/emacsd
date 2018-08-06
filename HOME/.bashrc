@@ -120,8 +120,8 @@ complete -cf sudo
 complete -c man which systemctl killall eman wut
 complete -f fdisk
 
-# fuck -- kind of a cheesy util tbh
-eval $(thefuck --alias)
+# always log serial console sessions
+alias minicom='minicom -C /tmp/minicom.cap'
 
 export I_AM_LOCAL=y  # don't remember why I did this but I guess it's for ssh
 
