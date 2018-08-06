@@ -17,6 +17,7 @@
         benjamin/unhighlight-region
         c-electric-delete-forward
         c-electric-semi&comma
+        capitalize-word-toggle
         elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
@@ -39,6 +40,7 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        my-decrement-number-decimal
         my-increment-number-decimal
         ora-brackets
         ora-parens
