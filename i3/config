@@ -19,7 +19,7 @@ bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-ch
 bindsym $mod+Shift+q kill
 bindsym $mod+d exec --no-startup-id ~/bin/split_optimal; exec --no-startup-id dmenu_recency
 bindsym $mod+Shift+e split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer))'
-bindsym $mod+t exec --no-startup-id ~/bin/split_optimal; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
+
 bindsym $mod+Shift+t exec split h; exec emacsclient -ce '(progn (switch-to-buffer nil)(previous-buffer)(multi-term))'
 
 # worth pondering:
@@ -47,7 +47,7 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-bindsym $mod+Shift+f fullscreen toggle
+bindsym $mod+f fullscreen toggle
 
 bindsym $mod+Shift+h exec xdg-open /usr/share/doc/manjaro/i3_help.pdf
 bindsym $mod+Ctrl+x --release exec --no-startup-id xkill
@@ -55,9 +55,13 @@ bindsym $mod+Print --release exec --no-startup-id i3-scrot -w
 bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s
 bindsym Print exec --no-startup-id i3-scrot
 
-bindsym F12 exec --no-startup-id touch /home/benjamin/f12_pressed  # Silly hack to make f12 not open some random shit in chrome
+# Silly hack to make f12 not open some random shit in chrome
+bindsym F12 exec --no-startup-id touch ~/f12_pressed
 
+# Move TO scratchpad
 bindsym $mod+minus move scratchpad
+# Move FROM scratchpad
+bindsym $mod+equal floating toggle
 bindsym $mod+g scratchpad show
 
 # Don't need these with split_optimally.sh
@@ -200,34 +204,49 @@ mode "resize" {
         bindsym $mod+r mode "default"
 }
 
-
-bindsym $mod+u exec notify-send "use mod+o instead"
 bindsym $mod+o mode "shortcuts"
 mode "shortcuts" {
-     bindsym e exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
-#     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
+     bindsym r exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
+     bindsym e exec --no-startup-id ~/bin/split_optimal; \
+               exec emacsclient -ce '(progn (switch-to-buffer nil)\
+                                            (previous-buffer))'; mode "default"
+     bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
+     bindsym t exec --no-startup-id ~/bin/split_optimal; \
+               exec emacsclient -ce '(progn (switch-to-buffer nil)\
+                                            (previous-buffer)\
+                                            (multi-term))'; mode "default"
      bindsym o exec /home/benjamin/bin/xcape-restart; mode "default"
-     bindsym s exec /home/benjamin/bin/xcape-restart --swedish; mode "default"
-     bindsym b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/google-chrome-stable; mode "default"
+     bindsym s exec /home/benjamin/bin/xcape-restart --swedish; \
+               mode "default"
+     bindsym shift+s exec setxkbmap -layout se; \
+               exec notify-send -t 1000 "layout se"; mode "default"
+     bindsym b exec --no-startup-id ~/bin/split_optimal; \
+               exec /usr/bin/google-chrome-stable; mode "default"
 
      bindsym Return mode "default"
      bindsym q mode "default"
 }
 
+# Lock screen
+# bindsym $mod+9 exec --no-startup-id blurlock
+
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id feh --bg-scale /home/benjamin/Pictures/samsung_stripes.jpg
 
-# exec --no-startup-id nitrogen --restore; sleep 1; compton -b
+exec --no-startup-id nitrogen --restore; sleep 1; compton -b
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
+exec --no-startup-id pamac-tray
 exec --no-startup-id blueman-applet
+#exec --no-startup-id start_conky_maia
+# exec --no-startup-id start_conky_green
 exec --no-startup-id xautolock -time 90 -locker blurlock
 exec_always --no-startup-id fix_xcursor
 
 # Start i3bar to display a workspace bar (plus the system information i3status if available)
 bar {
-	status_command /home/benjamin/.emacs.d/bin/my-i3status.sh
+	status_command i3status
 	position bottom
 
 ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
@@ -240,12 +259,12 @@ bar {
 	strip_workspace_numbers yes
 
 	colors {
-    #   background $transparent
+#       background $transparent
         background #2B2C2B
         statusline #F9FAF9
         separator  #454947
 
-        #                          border  backgr. text
+#                                  border  backgr. text
         focused_workspace  #F9FAF9 #16A085 #2B2C2B
         active_workspace   #595B5B #353836 #FDF6E3
         inactive_workspace #595B5B #353836 #EEE8D5
@@ -253,6 +272,7 @@ bar {
     }
 }
 
+# hide/unhide i3status bar
 bindsym $mod+m bar mode toggle
 
 # Theme colors

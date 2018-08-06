@@ -272,6 +272,8 @@
                       ("C-r"    . ivy-previous-history-element)
                       ("C-s"    . ivy-next-history-element)
                       ("H-o"    . ivy-dispatching-done)
+                      ("C-v"    . ivy-scroll-up-command)
+                      ("C-S-v"  . ivy-scroll-down-command)
                       ("M-r"    . ivy-backward-kill-word)
                       ("C-x e"  . ivy-end-of-buffer)
                       ("C-x a"  . ivy-beginning-of-buffer)
@@ -312,6 +314,10 @@
 (define-key magit-status-mode-map    "j" 'magit-section-forward)
 (define-key magit-status-mode-map    "k" 'magit-section-backward)
 (define-key magit-status-mode-map    "\C-k" nil)
+(define-key magit-hunk-section-map    "\C-j" nil)
+(define-key magit-hunk-section-map    "\C-k" nil)
+(define-key magit-file-section-map    "\C-j" nil)
+(define-key magit-file-section-map    "\C-k" nil)
 (define-key magit-status-mode-map    "\C-d" 'magit-discard)
 (define-key magit-log-mode-map       "j" 'magit-section-forward)
 (define-key magit-log-mode-map       "k" 'magit-section-backward)
@@ -358,7 +364,7 @@
                        company-gtags company-etags
                        company-keywords)
                       company-oddmuse company-dabbrev))
-  (company-idle-delay 0.5)
+  (company-idle-delay 0)
   (company-minimum-prefix-length 3)
   (company-tooltip-idle-delay 1)
   (company-show-numbers t)
@@ -565,6 +571,7 @@
                       ("C-a"        . nil)
                       ("C-e"        . nil)
                       ("M-a"        . nil)
+                      ("M-RET"      . nil)
                       ("<C-tab>"    . nil)
                       ("M-e"        . nil)
                       ("C-S-a"      . outline-previous-visible-heading)
@@ -641,12 +648,13 @@
 (use-package    frame
   :config       (window-divider-mode t)
                 (custom-set-faces
-                 '(window-divider ((t (:foreground "#c0c0c0")))))
+                 '(window-divider ((t (:foreground "#707070")))))
   :custom       (window-divider-default-bottom-width 1)
                 (window-divider-default-places 'bottom-only))
 
 (use-package    yasnippet
   :ensure       t
+  :after        (auto-indent-mode)
   :config       (yas-global-mode 1))
 
 (use-package    semantic
@@ -788,14 +796,14 @@
                 (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
 (use-package    elec-pair
-  :config       (electric-pair-mode 1)
-                ;; (add-to-list 'electric-pair-pairs '(?\< . ?\> ))
-                )
+  :config       (electric-pair-mode 1))
 
-(use-package    markdown-preview-mode
-  ;; broken package
-  :disabled     t
-  :ensure       t)
+(use-package    auto-indent-mode
+  :ensure       t
+  :custom       (auto-indent-on-visit-file          nil)
+                (auto-indent-indent-style           'conservative)
+                (auto-indent-untabify-on-save-file  nil)
+  :config       (auto-indent-global-mode))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -828,8 +836,7 @@
              (setq benjamin/visual-fill t))
     (toggle-truncate-lines +1)
     (visual-fill-column-mode -1)
-    (setq benjamin/visual-fill nil))
-    )
+    (setq benjamin/visual-fill nil)))
 
 
 ;;-- Some general hooks --------------------------------------------------------
@@ -844,47 +851,48 @@
 
 ;;-- Random general stuff ------------------------------------------------------
 (setq-default
-      fill-column                            80
-      truncate-lines                         nil
-      tab-width                              4
-      indent-tabs-mode                       nil
-      cursor-type                           'hollow)
+ fill-column                            80
+ truncate-lines                         nil
+ tab-width                              4
+ indent-tabs-mode                       nil
+ cursor-type                           'hollow)
 
-(setq enable-recursive-minibuffers           nil
-      cursor-type 'hollow
-      explicit-shell-file-name "/bin/bash"
-      tab-always-indent                      t
-      indent-tabs-mode                       nil
-      auto-hscroll-mode                      nil
-      mouse-autoselect-window                t
-      shift-select-mode                      nil
-      echo-keystrokes                        0.1
-      bookmark-save-flag                     1
-      scroll-margin                          2
-      scroll-preserve-screen-position        nil
-      scroll-error-top-bottom                t
-      fill-column                            80
-      sentence-end-double-space              nil
-      inhibit-splash-screen                  t
-      initial-major-mode                     'org-mode
-      gc-cons-threshold                      20000000
-      backup-by-copying                      t
-      delete-old-versions                    t
-      kept-new-versions                      10
-      kept-old-versions                      5
-      delete-by-moving-to-trash              t
-      version-control                        t
-      auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
-      backup-directory-alist                '(("."  . "~/.saves"))
-      create-lockfiles                       nil
-      save-interprogram-paste-before-kill    t
-      select-enable-clipboard                t
-      browse-url-browser-function            'browse-url-chrome
-      browse-url-chrome-arguments            "--new-window"
-      compilation-scroll-output              'first-error
-      vc-follow-symlinks                     t
-      kill-buffer-query-functions
-        (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
+(setq
+ enable-recursive-minibuffers           nil
+ cursor-type                            'hollow
+ explicit-shell-file-name               "/bin/bash"
+ tab-always-indent                      t
+ indent-tabs-mode                       nil
+ auto-hscroll-mode                      nil
+ mouse-autoselect-window                t
+ shift-select-mode                      nil
+ echo-keystrokes                        0.1
+ bookmark-save-flag                     1
+ scroll-margin                          2
+ scroll-preserve-screen-position        nil
+ scroll-error-top-bottom                t
+ fill-column                            80
+ sentence-end-double-space              nil
+ inhibit-splash-screen                  t
+ initial-major-mode                     'org-mode
+ gc-cons-threshold                      20000000
+ backup-by-copying                      t
+ delete-old-versions                    t
+ kept-new-versions                      10
+ kept-old-versions                      5
+ delete-by-moving-to-trash              t
+ version-control                        t
+ auto-save-file-name-transforms        `((".*" ,temporary-file-directory t))
+ backup-directory-alist                '(("."  . "~/.saves"))
+ create-lockfiles                       nil
+ save-interprogram-paste-before-kill    t
+ select-enable-clipboard                t
+ browse-url-browser-function            'browse-url-chrome
+ browse-url-chrome-arguments            "--new-window"
+ compilation-scroll-output              'first-error
+ vc-follow-symlinks                     t
+ kill-buffer-query-functions
+ (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (ansi-color-for-comint-mode-on)
 (fset 'yes-or-no-p            'y-or-n-p)
@@ -896,7 +904,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   10) ;; todo
+(fringe-mode                   16)
 (set-cursor-color "red")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))

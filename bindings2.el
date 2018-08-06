@@ -49,8 +49,6 @@
 (global-unset-key (kbd "C-_"))
 
 
-;; (global-set-key (kbd "TAB") 'indent-or-complete)
-
 ;; beautiful xcape hacks
 ;------------------------------------------------------------------------------;
 (global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)        ;;   [
@@ -61,6 +59,8 @@
 (global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
 ;------------------------------------------------------------------------------;
 (global-set-key (kbd "M-SPC") 'benjamin/set-mark-command)
+(global-set-key (kbd "C-SPC") 'find-file)
+(global-set-key (kbd "M-RET") 'find-file)
 
 ;; dubious -- todo
 (global-set-key (kbd "C-;")     'benjamin/helm-buffers-list)                 ;;;
@@ -69,11 +69,11 @@
 (global-set-key (kbd "<S-f9>")  'BIND-ME)                                    ;;;
 (global-set-key (kbd "H-SPC")   " ")
 (global-set-key (kbd "M-<f12>") 'BIND-ME)                                    ;;;
-(global-set-key (kbd "M-RET")   'BIND-ME)                                    ;;;
 (global-set-key (kbd "M-'")     'BIND-ME)                                      ;
 (global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                 ;;;
 (global-set-key (kbd "H-'")     'BIND-ME)                                    ;;;
-(global-set-key (kbd "䑄")      'switch-to-buffer)                       ;-' ;;;
+(global-set-key (kbd "䑄")      'capitalize-word-toggle)                     ;-'
+(global-set-key (kbd "ሴ")       'capitalize-word-toggle)                   ;-RET
 ;------------------------------------------------------------------------------;
 
 
@@ -369,7 +369,7 @@
 (global-set-key   (kbd "M-s b")   'helm-chrome-bookmarks)
                           ;-b      ` (backtick)
 
-(global-set-key     (kbd "C-n")   'benjamin/helm-buffers-list)               ;;;
+(global-set-key     (kbd "C-n")   'mark-line)
 (global-set-key     (kbd "H-n")   'goto-next-line-with-same-indentation)     ;;;
 (global-set-key     (kbd "M-n")   'hydra-errgo/next-error)                     ;
 (global-set-key   (kbd "H-M-n")   'hydra-errgo/previous-error)
