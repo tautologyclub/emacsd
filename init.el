@@ -375,6 +375,19 @@
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
 
+;; silly hack to make indent/complete functionality work properly
+(define-key company-mode-map [remap indent-for-tab-command]
+  'company-indent-for-tab-command)
+(defvar completion-at-point-functions-saved nil)
+(defun company-indent-for-tab-command (&optional arg)
+  (interactive "P")
+  (let ((completion-at-point-functions-saved completion-at-point-functions)
+        (completion-at-point-functions '(company-complete-common-wrapper)))
+    (indent-for-tab-command arg)))
+(defun company-complete-common-wrapper ()
+  (let ((completion-at-point-functions completion-at-point-functions-saved))
+    (company-complete-common)))
+
 ;; abo-abo awesome company use-digit hack:
 (let ((map company-active-map))
   (mapc
@@ -903,6 +916,7 @@
  browse-url-browser-function            'browse-url-chrome
  browse-url-chrome-arguments            "--new-window"
  compilation-scroll-output              'first-error
+ tab-always-indent                      'complete
  vc-follow-symlinks                     t
  kill-buffer-query-functions
  (delq 'process-kill-buffer-query-function kill-buffer-query-functions))

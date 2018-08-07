@@ -186,7 +186,7 @@
 (global-set-key (kbd "M-s M-u")   'sudo-find-file)
 (global-set-key       (kbd "ψ")   'universal-argument)
 
-(global-set-key     (kbd "C-i")   'indent-or-complete)
+;; (global-set-key     (kbd "C-i")   'indent-or-complete)
 (global-set-key     (kbd "H-i")   'yank)
 (global-set-key     (kbd "H-I")   'counsel-yank-pop)
 (global-set-key     (kbd "M-i")   'counsel-imenu)
@@ -214,13 +214,13 @@
 (global-set-key     (kbd "H-p")   'undo-tree-redo)                             ;
 (global-set-key     (kbd "s-p")   'counsel-yank-pop)                           ;
 (global-set-key   (kbd "C-S-p")   'async-shell-command)                      ;;;
-(global-set-key   (kbd "H-M-p")   'helm-gtags-pop-stack)
+(global-set-key   (kbd "H-M-p")   'previous-error)
 (global-set-key   (kbd "C-c p")   'er/mark-paragraph)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
 (global-set-key   (kbd "C-c Pt")  'profiler-stop)
 (global-set-key   (kbd "C-c Pe")  'profiler-reset)
-(global-set-key   (kbd "C-x p")   'BIND-ME)
+(global-set-key   (kbd "C-x p")   'first-error)
 
 (global-set-key     (kbd "C-a")   'beginning-of-line-or-block)
 (global-set-key     (kbd "s-a")   'backward-to-word)                         ;;;
@@ -268,10 +268,9 @@
 (global-set-key   (kbd "H-M-f")   'find-file-at-point)
 (global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
-(global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?( )))
-(global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?) )))
+(global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?\( )))
+(global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?\) )))
                           ;-f      (
-                          ;-F      )
 
 ;; todo: M-g hydra-goto                                                      ;;;
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
@@ -359,7 +358,7 @@
 (global-set-key   (kbd "C-c v")   'benjamin/visual-fill)
                           ;-v      RET
 
-(global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)
+(global-set-key     (kbd "M-b")   'hydra-errgo/previous-error)               ;;;
 (global-set-key     (kbd "H-b")   'switch-to-buffer-other-window)              ;
 (global-set-key     (kbd "C-b")   'counsel-bookmark)
 (global-set-key   (kbd "H-M-b")   'switch-to-buffer-other-window)              ;
@@ -371,12 +370,13 @@
 
 (global-set-key     (kbd "C-n")   'mark-line)
 (global-set-key     (kbd "H-n")   'goto-next-line-with-same-indentation)     ;;;
-(global-set-key     (kbd "M-n")   'hydra-errgo/next-error)                     ;
-(global-set-key   (kbd "H-M-n")   'hydra-errgo/previous-error)
+(global-set-key     (kbd "M-n")   'hydra-errgo/next-error)                   ;;;
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                            ;;;
+(global-set-key   (kbd "H-M-n")   'next-error)
+(global-set-key   (kbd "C-x n")   (lambi (simplified-end-of-buffer)
+                                         (previous-error)))
 (global-set-key       (kbd "ν")   "&")                                       ;;;
 
-;; C-m                                                                       ;;;
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
 (global-set-key     (kbd "H-m")   'hydra-toggle/body)
