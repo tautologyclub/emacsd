@@ -209,11 +209,12 @@
                           ;-o      <backspace>                                 ;
 
 (define-key projectile-mode-map (kbd "C-c p") nil)
-(global-set-key     (kbd "C-p")   'projectile-command-map)
+;; (global-set-key     (kbd "C-p")   'projectile-command-map)
+(global-set-key     (kbd "C-p")   'hydra-projectile/body)
 (global-set-key     (kbd "M-p")   'benjamin/pop-to-mark-command)
 (global-set-key     (kbd "H-p")   'undo-tree-redo)                             ;
 (global-set-key     (kbd "s-p")   'counsel-yank-pop)                           ;
-(global-set-key   (kbd "C-S-p")   'async-shell-command)                      ;;;
+(global-set-key   (kbd "C-S-p")   'hydra-projectile-other-window/body)
 (global-set-key   (kbd "H-M-p")   'previous-error)
 (global-set-key   (kbd "C-c p")   'er/mark-paragraph)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
