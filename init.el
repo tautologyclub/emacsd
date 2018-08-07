@@ -371,7 +371,6 @@
   (company-tooltip-limit 10)
   :config       (counsel-mode 1)
   (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd ";") 'company-complete-selection)
   (define-key company-active-map (kbd "\"") 'company-select-next)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous))
@@ -394,6 +393,7 @@
                     company-candidates)
         (self-insert-command 1)
         (company-complete-number (string-to-number k)))))
+
 
 (use-package    asm-mode
   :config       (define-key asm-mode-map (kbd "C-j") nil))
@@ -688,7 +688,7 @@
 
 (use-package    cc-mode
   :after        (semantic)
-  :custom       (c-default-style        "linux")
+  :custom       (c-default-style        "user")
                 (c-basic-offset         8)
   :bind         (:map c-mode-base-map
                       ("M-q"    . nil) ("M-e"    . nil) ("M-a"    . nil)
@@ -708,6 +708,11 @@
 
 (defun benjamin/c-hook ()
   "Setup for C bla."
+  (c-set-style
+   (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
+       "linux"
+     "user"))
+
   (subword-mode 1)
   (flycheck-mode 1)
   (helm-gtags-mode 1)
@@ -784,6 +789,14 @@
 (use-package    erc
   :custom       (erc-autojoin-channels-alist '(("#emacs")))
                 (erc-nick "g00iekabl00ie"))
+
+(use-package    hexl
+  :config       (add-to-list 'auto-mode-alist '("\\.hex$" . hexl-mode)))
+
+(use-package    elf-mode
+  :ensure       t
+  :config       (add-to-list 'auto-mode-alist '("\\.elf$" . elf-mode)))
+
 
 (use-package    face-remap
   :config        (defun set-boring-buffer-face ()
