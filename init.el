@@ -654,6 +654,7 @@
 
 (use-package    yasnippet
   :ensure       t
+  :after        (auto-indent-mode)
   :config       (yas-global-mode 1))
 
 (use-package    semantic
@@ -809,7 +810,13 @@
 
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
-;; (add-to-list 'electric-pair-pairs '(?\< . ?\> ))
+
+(use-package    auto-indent-mode
+  :ensure       t
+  :custom       (auto-indent-on-visit-file          nil)
+                (auto-indent-indent-style           'conservative)
+                (auto-indent-untabify-on-save-file  nil)
+  :config       (auto-indent-global-mode))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -842,8 +849,7 @@
              (setq benjamin/visual-fill t))
     (toggle-truncate-lines +1)
     (visual-fill-column-mode -1)
-    (setq benjamin/visual-fill nil))
-    )
+    (setq benjamin/visual-fill nil)))
 
 
 ;;-- Some general hooks --------------------------------------------------------
