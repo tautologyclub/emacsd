@@ -201,14 +201,14 @@ With arg N insert N newlines."
 
 ;;;###autoload
 (defun open-next-line (arg)
-      "Move to the next line and then opens a line.
+  "Move to the next line and then opens a line.
     See also `newline-and-indent'."
-      (interactive "p")
-      (end-of-line)
-      (open-line arg)
-      (next-line 1)
-      (when newline-and-indent
-        (indent-according-to-mode)))
+  (interactive "p")
+  (end-of-line)
+  (open-line arg)
+  (next-line 1)
+  (when newline-and-indent
+    (indent-according-to-mode)))
 
 ;;;###autoload
 (defun copy-keep-highlight (beg end)
@@ -223,7 +223,7 @@ With arg N insert N newlines."
   (if (null (mark t))
       (pop-global-mark)
     (if (= (point) (mark t))
-	(message "Mark popped"))
+	    (message "Mark popped"))
     (goto-char (mark t))
     (pop-mark)))
 
@@ -255,7 +255,7 @@ With arg N insert N newlines."
   (indent-region (- (point) 800) (+ (point) 160))
   (message nil))
 
-  ;;;###autoload
+;;;###autoload
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive

@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; todo: https://github.com/abo-abo/hydra/wiki/Macro
+
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
@@ -781,9 +783,86 @@
   :custom       (gud-pdb-command-name "python -m pdb")
   :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
 
+
+
+;; SPC             realgud:cmd-step
+;; +               realgud:cmd-enable
+;; -               realgud:cmd-disable
+;; 1               realgud-goto-arrow1
+;; 2               realgud-goto-arrow2
+;; 3               realgud-goto-arrow3
+;; 4               realgud:goto-loc-hist-4
+;; 5               realgud:goto-loc-hist-5
+;; 6               realgud:goto-loc-hist-6
+;; 7               realgud:goto-loc-hist-7
+;; 8               realgud:goto-loc-hist-8
+;; 9               realgud:goto-loc-hist-9
+;; <               realgud:cmd-newer-frame
+;; >               realgud:cmd-older-frame
+;; C               realgud-window-cmd-undisturb-src
+;; D               realgud:cmd-delete
+;; E               realgud:cmd-eval-at-point
+;; F               realgud:window-bt
+;; I               realgud:cmdbuf-info-describe
+;; J               realgud:cmd-jump
+;; K               realgud:cmd-kill
+;; Q               realgud:cmd-terminate
+;; R               realgud:cmd-restart
+;; S               realgud-window-src-undisturb-cmd
+;; T               realgud:cmd-backtrace
+;; U               realgud:cmd-until
+;; X               realgud:cmd-clear
+;; b               realgud:cmd-break
+;; c               realgud:cmd-continue
+;; d               realgud:cmd-newer-frame
+;; e               realgud:eval-dotsymbol-at-point
+;; f               realgud:cmd-finish
+;; n               realgud:cmd-next
+;; p               realgud:eval-dotsymbol-at-point
+;; q               realgud:cmd-quit
+;; r               realgud:cmd-restart
+;; s               realgud:cmd-step
+;; u               realgud:cmd-older-frame
+;; <A-down>        realgud-track-hist-newer
+;; <A-up>          realgud-track-hist-older
+;; <M-S-down>      realgud-track-hist-newest
+;; <M-S-up>        realgud-track-hist-oldest
+;; <M-down>        realgud-track-hist-newer
+;; <M-kp-2>        realgud-track-hist-newer
+;; <M-kp-8>        realgud-track-hist-older
+;; <M-kp-down>     realgud-track-hist-newer
+;; <M-kp-up>       realgud-track-hist-older
+;; <M-print>       realgud-track-hist-older
+;; <M-up>          realgud-track-hist-older
+;; <S-f11>         realgud:cmd-finish
+;; <S-f5>          realgud:cmd-quit
+;; <delete>        realgud:cmd-delete
+;; <enter>         realgud:cmd-repeat-last
+;; <f10>           realgud:cmd-next
+;; <f11>           realgud:cmd-step
+;; <f5>            realgud:cmd-continue
+;; <f9>            realgud:cmd-break
+;; <insert>        realgud-short-key-mode
+;; <mouse-2>       realgud:tooltip-eval
+;; <left-margin> <mouse-1> realgud-cmds--mouse-add-remove-bp
+;; C-c SPC         realgud:cmd-break
+;; C-x C-q         realgud-short-key-mode
+;; C-x C-a C-q     realgud-short-key-mode
+;; <m-insert>      realgud-short-key-mode
+
+(defun my-forward-whitespace ()
+  (interactive)
+  (forward-whitespace 1))
+
+(defun my-backward-whitespace ()
+  (interactive)
+  (forward-whitespace -1))
+
+;; TODO: Fix realgud so that we can insert visual breaks. jfc...
 (use-package    realgud
   :ensure       t
   :custom       (realgud:pdb-command-name "python -m pdb")
+                (realgud-safe-mode nil)
   :config       (defun realgud:eval-dotsymbol-at-point ()
                   "The eval-at-point stuff included in realgud are baaad."
                   (interactive)
@@ -791,12 +870,19 @@
                     (modify-syntax-entry ?. "_")
                     (let ((bounds (bounds-of-thing-at-point 'symbol)))
                       (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
+                (define-key realgud-track-mode-map (kbd "M-c") realgud-short-key-mode-hook)
   :bind         (:map realgud:shortkey-mode-map
+                      ("e" . realgud:eval-dotsymbol-at-point)
+
                       ("J" . realgud:cmd-jump)
                       ("K" . realgud:cmd-kill)
-                      ("j" . next-line)
-                      ("p" . realgud:eval-dotsymbol-at-point)
-                      ("k" . previous-line)))
+                      ("h" . my-backward-whitespace)
+                      ("j" . next-lines-indentation)
+                      ("k" . previous-lines-indentation)
+                      ("l" . my-forward-whitespace)
+
+                      ("c" . realgud:cmd-continue)
+                      ("n" . realgud:cmd-next)))
 
 (use-package    diff-mode
   :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)

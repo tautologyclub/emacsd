@@ -2,6 +2,68 @@
 (require 'vimish-fold)
 (require 'some-defuns)
 
+;; 32 candidates:
+;; C-c C-n         gud-next
+;; C-c C-p         gud-print
+;; C-c C-r         gud-cont
+;; C-c <           gud-up
+;; C-c >           gud-down
+;; C-t C-a C-b     gud-break
+;; C-t C-a C-d     gud-remove
+;; C-t C-a C-e     gud-statement
+;; C-t C-a C-f     gud-finish
+;; C-t C-a C-l     gud-refresh
+;; C-t C-a C-n     gud-next
+;; C-t C-a C-p     gud-print
+;; C-t C-a C-r     gud-cont
+;; C-t C-a C-s     gud-step
+;; C-t C-a <       gud-up
+;; C-t C-a >       gud-down
+;; C-x C-a C-b     gud-break
+;; C-x C-a C-d     gud-remove
+;; C-x C-a C-e     gud-statement
+;; C-x C-a C-f     gud-finish
+;; C-x C-a C-l     gud-refresh
+;; C-x C-a C-n     gud-next
+;; C-x C-a C-p     gud-print
+;; C-x C-a C-r     gud-cont
+;; C-x C-a C-s     gud-step
+;; C-x C-a <       gud-up
+;; C-x C-a >       gud-down
+
+(defun next-lines-indentation ()
+  "Next line, then back to indentation."
+  (interactive)
+  (forward-line 1)
+  (back-to-indentation))
+
+(defun previous-lines-indentation ()
+  "Next line, then back to indentation."
+  (interactive)
+  (forward-line -1)
+  (back-to-indentation))
+
+(defhydra hydra-gdb (:columns 6     :color pink
+                     :pre (auto-dim-other-buffers-mode -1)
+                     :post (auto-dim-other-buffers-mode +1))
+  "-"
+  ("q"  nil :color blue)
+  ("y"  gud-statement "send py-line")
+  ("o"  other-window "other win")
+
+  ("F"  gud-finish "finish")
+  ("s"  gud-step "step")
+  ("j"  next-lines-indentation)
+  ("k"  previous-lines-indentation)
+  ("L"  gud-refresh)
+
+  ("c"  gud-continue)
+  ("n"  gud-next "next")
+
+  ("DEL"    gud-remove)
+  ("SPC"    gud-break "break")
+  )
+
 (defhydra hydra-git (:body-pre (git-gutter+-mode 1)
                      :columns 5
                      :color red)
@@ -257,6 +319,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("d"   counsel-projectile-find-dir "dir")
   ("D"   projectile-find-dir-other-window         "dir o/w")
   ("e"   projectile-recentf "recentf")
+  ("E"   projectile-edit-dir-locals "dir-locals")
   ("f"   projectile-find-file-other-window "file o/w")
   ("g"   counsel-projectile-git-grep "git grep")
   ("i"   projectile-ibuffer "ibuffer")

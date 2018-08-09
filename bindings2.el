@@ -342,6 +342,7 @@
 (global-set-key     (kbd "M-x")   'counsel-M-x)
 (global-set-key       (kbd "χ")   'BIND-ME)                                    ;
 
+(global-set-key     (kbd "M-c")   'hydra-gdb/body)
 (global-set-key     (kbd "H-c")   'compile)                                  ;;;
 (global-set-key     (kbd "s-c")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-S-c")   'comment-or-uncomment-region-or-line)        ;
