@@ -365,7 +365,7 @@
                        company-keywords)
                       company-oddmuse company-dabbrev))
   (company-idle-delay 0)
-  (company-minimum-prefix-length 3)
+  (company-minimum-prefix-length 2)
   (company-tooltip-idle-delay 1)
   (company-show-numbers t)
   (company-tooltip-limit 10)
@@ -667,7 +667,7 @@
 
 (use-package    yasnippet
   :ensure       t
-  :after        (auto-indent-mode)
+  ;; :after        (auto-indent-mode)
   :config       (yas-global-mode 1))
 
 (use-package    semantic
@@ -700,10 +700,21 @@
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h"))
 
+(defun set-local-indent-after-yank (true)
+  "Habpowjeg TRUE fepowjfew."
+  (if true (add-hook 'yank 'indent-region t t)
+    (remove-hook 'yank 'indent-region)))
+
+(defadvice yank (after indent-yanked-stuff activate)
+  "Indent region after yanking stuff."
+  (call-interactively 'indent-region))
+
+
 (use-package    cc-mode
   :after        (semantic)
   :custom       (c-default-style        "user")
-                (c-basic-offset         8)
+                (c-basic-offset         4)
+                (c-backslash-max-column 80)
   :bind         (:map c-mode-base-map
                       ("M-q"    . nil) ("M-e"    . nil) ("M-a"    . nil)
                       ("C-M-a"  . nil) ("C-M-e"  . nil) ("M-j"    . nil)
@@ -716,17 +727,19 @@
                       ("C-c H-M-H" . show-ifdefs)
                       ("C-c C-c"   . compile)
                       ("M-c"       . hydra-gdb/body)       ;; todo
-                      ("C-i"       . indent-or-complete))
+                      ("C-i"       . company-indent-for-tab-command))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode))
 
 (defun benjamin/c-hook ()
   "Setup for C bla."
-  (c-set-style
-   (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
-       "linux"
-     "user"))
-
+  (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
+      (progn (c-set-style "linux")
+             (setq c-tab-always-indent t))
+    (progn (setq c-basic-offset 4)
+           (setq c-tab-always-indent t)
+           (c-set-style "user")))
+  (set-local-indent-after-yank t)
   (subword-mode 1)
   (flycheck-mode 1)
   (helm-gtags-mode 1)
@@ -825,10 +838,16 @@
   :config       (electric-pair-mode 1))
 
 (use-package    auto-indent-mode
+  :disabled     t ;; terrible
   :ensure       t
   :custom       (auto-indent-on-visit-file          nil)
                 (auto-indent-indent-style           'conservative)
                 (auto-indent-untabify-on-save-file  nil)
+                ;; (auto-indent-known-indent-level-variables
+                 ;; '( lisp-body-indent
+                    ;; sgml-basic-offset
+                    ;; python-indent
+		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
 (use-package py-autopep8             :ensure t)

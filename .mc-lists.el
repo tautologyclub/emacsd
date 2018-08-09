@@ -18,6 +18,8 @@
         c-electric-delete-forward
         c-electric-semi&comma
         capitalize-word-toggle
+        company-indent-for-tab-command
+        duplicate-current-line-or-region
         elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
@@ -48,6 +50,8 @@
         org-fill-paragraph
         org-force-self-insert
         org-self-insert-command
+        org-shiftleft
+        org-shiftright
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char

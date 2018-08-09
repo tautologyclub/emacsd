@@ -192,7 +192,8 @@
 (global-set-key     (kbd "M-i")   'counsel-imenu)
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
-(global-set-key   (kbd "H-M-i")   'BIND-ME)                                    ;
+(global-set-key   (kbd "H-M-i")   'benjamin/indent-a-bit-around-point)
+(global-set-key (kbd "M-s M-i")   'benjamin/indent-a-bit-around-point)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
 (global-set-key   (kbd "C-c i")   'ivy-resume)
                           ;-i      *

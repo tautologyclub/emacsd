@@ -240,10 +240,22 @@ With arg N insert N newlines."
   (interactive)
   (if (region-active-p) ()
     (set-mark-command nil))
-  (exchange-point-and-mark)
-  )
+  (exchange-point-and-mark))
 
 ;;;###autoload
+(defun benjamin/indent-buffer ()
+  "Indent entire buffer according to mode."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+;;;###autoload
+(defun benjamin/indent-a-bit-around-point ()
+  "Indent some suitably large area around point according to mode."
+  (interactive)
+  (indent-region (- (point) 800) (+ (point) 160))
+  (message nil))
+
+  ;;;###autoload
 (defadvice kill-region (before slick-cut activate compile)
   "When called interactively with no active region, kill a single line instead."
   (interactive
