@@ -48,6 +48,7 @@
         org-fill-paragraph
         org-force-self-insert
         org-self-insert-command
+        smart-open-line-above
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char

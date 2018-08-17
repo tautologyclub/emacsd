@@ -169,7 +169,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   (:color red
    :hint nil
    :pre  (progn (setq prev-max-mini-window-height max-mini-window-height)
-                (setq max-mini-window-height 30))
+                (setq max-mini-window-height (max max-mini-window-height 30)))
    :post (setq max-mini-window-height prev-max-mini-window-height))
   "
   _a_ abbrev:           %`abbrev-mode

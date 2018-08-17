@@ -268,8 +268,8 @@
 (global-set-key   (kbd "H-M-f")   'find-file-at-point)
 (global-set-key (kbd "M-s M-f")   'find-file)
 (global-set-key (kbd "M-s C-f")   'benjamin/find-file-other-frame)
-(global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?( )))
-(global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?) )))
+(global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?\( )))
+(global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?\) )))
                           ;-f      (
                           ;-F      )
 

@@ -811,12 +811,19 @@
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
 
-(use-package    auto-indent-mode
+(use-package    auto-indent-moede
+  :disabled     t   ;; useless
   :ensure       t
   :custom       (auto-indent-on-visit-file          nil)
                 (auto-indent-indent-style           'conservative)
                 (auto-indent-untabify-on-save-file  nil)
   :config       (auto-indent-global-mode))
+
+(use-package    paren
+  :custom       (show-paren-delay 0.1)
+                (show-paren-highlight-openparen t)
+                (show-paren-when-point-inside-paren t)
+  :config       (show-paren-mode 1))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -838,6 +845,7 @@
 (use-package fireplace               :ensure t)
 (use-package flyspell-correct-ivy    :ensure t)
 (use-package visual-fill-column      :ensure t)
+
 
 (defvar benjamin/visual-fill nil)
 (defun benjamin/visual-fill ()
@@ -871,6 +879,9 @@
  cursor-type                           'hollow)
 
 (setq
+ split-width-threshold                  300
+ frame-inhibit-implied-resize           t
+ max-mini-window-height                 0.3
  enable-recursive-minibuffers           nil
  cursor-type                            'hollow
  explicit-shell-file-name               "/bin/bash"
@@ -904,6 +915,7 @@
  browse-url-chrome-arguments            "--new-window"
  compilation-scroll-output              'first-error
  vc-follow-symlinks                     t
+ x-stretch-cursor                       t
  kill-buffer-query-functions
  (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
