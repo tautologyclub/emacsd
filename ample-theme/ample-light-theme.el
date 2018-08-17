@@ -89,7 +89,7 @@
    `ample-light ;; you must use the same theme name here...
    `(default ((t (:foreground ,"black"
                   :background ,ample/bg
-                  :height 105
+                  :height 125
                   :family "DejaVu Sans Mono"
                   ;; :family "Inconsolata"
                   ))))

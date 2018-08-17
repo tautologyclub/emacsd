@@ -16,7 +16,10 @@
         benjamin/set-mark-command
         benjamin/unhighlight-region
         c-electric-delete-forward
+        c-electric-paren
+        c-electric-pound
         c-electric-semi&comma
+        c-electric-star
         capitalize-word-toggle
         company-indent-for-tab-command
         duplicate-current-line-or-region

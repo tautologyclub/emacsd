@@ -147,6 +147,8 @@
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
 
+(use-package    smex
+  :ensure       t)
 
 ;; todo
 (use-package    projectile
@@ -359,23 +361,25 @@
 (use-package    company
   :ensure       t
   :custom       (company-auto-complete-chars '(?. ?>))
-  (company-backends
-   '(company-semantic company-clang company-cmake
-                      company-capf company-files
-                      (company-dabbrev-code
-                       company-gtags company-etags
-                       company-keywords)
-                      company-oddmuse company-dabbrev))
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 2)
-  (company-tooltip-idle-delay 1)
-  (company-show-numbers t)
-  (company-tooltip-limit 10)
+                (company-backends
+                 '(company-semantic
+                   company-clang company-cmake
+                   company-capf company-files
+                   (company-dabbrev-code
+                    company-gtags company-etags
+                    company-keywords)
+                   company-oddmuse company-dabbrev))
+                (company-idle-delay 0)
+                (company-minimum-prefix-length 2)
+                (company-irony-ignore-case nil)
+                (company-tooltip-idle-delay 1)
+                (company-show-numbers t)
+                (company-tooltip-limit 10)
   :config       (counsel-mode 1)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd "\"") 'company-select-next)
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+                (add-hook 'after-init-hook 'global-company-mode)
+                (define-key company-active-map (kbd "\"") 'company-select-next)
+                (define-key company-active-map (kbd "C-n") 'company-select-next)
+                (define-key company-active-map (kbd "C-p") 'company-select-previous))
 
 ;; silly hack to make indent/complete functionality work properly
 (define-key company-mode-map [remap indent-for-tab-command]
@@ -393,6 +397,7 @@
 ;; abo-abo awesome company use-digit hack:
 (let ((map company-active-map))
   (mapc
+   ;; (lambda (x) (define-key map (format "%d" x) nil))
    (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
    (number-sequence 0 9))
   (define-key map " " (lambda ()
@@ -564,8 +569,8 @@
                    "~/work/endian/glhf/glhf.org"
                    "~/work/v2v-module/v2v.org"))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
-                (add-hook 'org-mode-hook (lambi (fringe-mode nil)))
-                  (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+                ;; (add-hook 'org-mode-hook (lambi (fringe-mode nil)) t t)
+                (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
@@ -645,6 +650,7 @@
   :custom       (elpy-rpc-backend "jedi")
                 (python-indent-guess-indent-offset t)
                 (python-shell-interpreter "ipython")
+                (python-indent-offset 4)
                 (python-shell-interpreter-args "-i --simple-prompt")
                 (python-indent-guess-indent-offset-verbose nil)
                 (python-skeleton-autoinsert t)
@@ -702,15 +708,19 @@
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h"))
 
+(defvar indent-after-yank nil)
 (defun set-local-indent-after-yank (true)
   "Habpowjeg TRUE fepowjfew."
-  (if true (add-hook 'yank 'indent-region t t)
-    (remove-hook 'yank 'indent-region)))
+  (if true
+      (progn (add-hook 'yank 'indent-region t t)
+             (setq indent-after-yank t))
+    (progn (remove-hook 'yank 'indent-region)
+           (setq indent-after-yank nil))))
 
 (defadvice yank (after indent-yanked-stuff activate)
   "Indent region after yanking stuff."
+  (exchange-point-and-mark)
   (call-interactively 'indent-region))
-
 
 (use-package    cc-mode
   :after        (semantic)
@@ -975,10 +985,10 @@
 (add-hook 'find-file-hook   'find-file-root-header-warning)
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
-          (lambi
-           (hs-minor-mode 1)
-           (set (make-local-variable 'comment-auto-fill-only-comments) t)
-           (local-set-key (kbd "RET") 'newline-and-indent)))
+ (lambi (set-local-indent-after-yank t)
+        (hs-minor-mode 1)
+        ;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
+        (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;;-- Random general stuff ------------------------------------------------------
 (setq-default
@@ -1036,7 +1046,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   16)
+(fringe-mode                   32)
 (set-cursor-color "red")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
