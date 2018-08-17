@@ -83,8 +83,8 @@ if [ -f ~/bin/xcape-restart ]; then
     ~/bin/./xcape-restart
 fi
 
-if [ -f $HOME/.xrandr-setup.sh ]; then
-    . $HOME/.xrandr-setup.sh
+if [ -f ~/.xrandr-setup.sh ]; then
+     ~/./.xrandr-setup.sh
 fi
 
 

@@ -16,8 +16,13 @@
         benjamin/set-mark-command
         benjamin/unhighlight-region
         c-electric-delete-forward
+        c-electric-paren
+        c-electric-pound
         c-electric-semi&comma
+        c-electric-star
         capitalize-word-toggle
+        company-indent-for-tab-command
+        duplicate-current-line-or-region
         elpy-nav-backward-indent
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
@@ -49,6 +54,8 @@
         org-force-self-insert
         org-self-insert-command
         smart-open-line-above
+        org-shiftleft
+        org-shiftright
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char

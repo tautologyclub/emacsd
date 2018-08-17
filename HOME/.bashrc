@@ -131,8 +131,8 @@ if [ -e ~/.bash_history_tmp ]; then
     mv ~/.bash_history_tmp ~/.bash_history
 fi
 
-sed -i 's/[[:space:]]*$//' ~/.bash_history
 # Remove trailing whitespaces in bash_history
+sed -i 's/[[:space:]]*$//' ~/.bash_history
 
 # random stupid fix for emacs term
 my_dummy_binary 2>/dev/null || {

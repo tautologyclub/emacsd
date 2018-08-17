@@ -2,6 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
+;;; todo: https://github.com/abo-abo/hydra/wiki/Macro
+
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
 ;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
@@ -145,6 +147,8 @@
                 (fci-rule-color "#545454")
   :config       (add-hook 'org-mode-hook 'fci-mode))
 
+(use-package    smex
+  :ensure       t)
 
 ;; todo
 (use-package    projectile
@@ -357,27 +361,43 @@
 (use-package    company
   :ensure       t
   :custom       (company-auto-complete-chars '(?. ?>))
-  (company-backends
-   '(company-semantic company-clang company-cmake
-                      company-capf company-files
-                      (company-dabbrev-code
-                       company-gtags company-etags
-                       company-keywords)
-                      company-oddmuse company-dabbrev))
-  (company-idle-delay 0)
-  (company-minimum-prefix-length 3)
-  (company-tooltip-idle-delay 1)
-  (company-show-numbers t)
-  (company-tooltip-limit 10)
+                (company-backends
+                 '(company-semantic
+                   company-clang company-cmake
+                   company-capf company-files
+                   (company-dabbrev-code
+                    company-gtags company-etags
+                    company-keywords)
+                   company-oddmuse company-dabbrev))
+                (company-idle-delay 0)
+                (company-minimum-prefix-length 2)
+                (company-irony-ignore-case nil)
+                (company-tooltip-idle-delay 1)
+                (company-show-numbers t)
+                (company-tooltip-limit 10)
   :config       (counsel-mode 1)
-  (add-hook 'after-init-hook 'global-company-mode)
-  (define-key company-active-map (kbd "\"") 'company-select-next)
-  (define-key company-active-map (kbd "C-n") 'company-select-next)
-  (define-key company-active-map (kbd "C-p") 'company-select-previous))
+                (add-hook 'after-init-hook 'global-company-mode)
+                (define-key company-active-map (kbd "\"") 'company-select-next)
+                (define-key company-active-map (kbd "C-n") 'company-select-next)
+                (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+;; silly hack to make indent/complete functionality work properly
+(define-key company-mode-map [remap indent-for-tab-command]
+  'company-indent-for-tab-command)
+(defvar completion-at-point-functions-saved nil)
+(defun company-indent-for-tab-command (&optional arg)
+  (interactive "P")
+  (let ((completion-at-point-functions-saved completion-at-point-functions)
+        (completion-at-point-functions '(company-complete-common-wrapper)))
+    (indent-for-tab-command arg)))
+(defun company-complete-common-wrapper ()
+  (let ((completion-at-point-functions completion-at-point-functions-saved))
+    (company-complete-common)))
 
 ;; abo-abo awesome company use-digit hack:
 (let ((map company-active-map))
   (mapc
+   ;; (lambda (x) (define-key map (format "%d" x) nil))
    (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
    (number-sequence 0 9))
   (define-key map " " (lambda ()
@@ -549,8 +569,8 @@
                    "~/work/endian/glhf/glhf.org"
                    "~/work/v2v-module/v2v.org"))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
-                (add-hook 'org-mode-hook (lambi (fringe-mode nil)))
-                  (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
+                ;; (add-hook 'org-mode-hook (lambi (fringe-mode nil)) t t)
+                (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
                 (define-key org-mode-map (kbd "C-o")
                   (lambi (beginning-of-line) (newline)
                          (forward-line -1)))
@@ -630,6 +650,7 @@
   :custom       (elpy-rpc-backend "jedi")
                 (python-indent-guess-indent-offset t)
                 (python-shell-interpreter "ipython")
+                (python-indent-offset 4)
                 (python-shell-interpreter-args "-i --simple-prompt")
                 (python-indent-guess-indent-offset-verbose nil)
                 (python-skeleton-autoinsert t)
@@ -654,7 +675,6 @@
 
 (use-package    yasnippet
   :ensure       t
-  :after        (auto-indent-mode)
   :config       (yas-global-mode 1))
 
 (use-package    semantic
@@ -687,10 +707,25 @@
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h"))
 
+(defvar indent-after-yank nil)
+(defun set-local-indent-after-yank (true)
+  "Habpowjeg TRUE fepowjfew."
+  (if true
+      (progn (add-hook 'yank 'indent-region t t)
+             (setq indent-after-yank t))
+    (progn (remove-hook 'yank 'indent-region)
+           (setq indent-after-yank nil))))
+
+(defadvice yank (after indent-yanked-stuff activate)
+  "Indent region after yanking stuff."
+  (exchange-point-and-mark)
+  (call-interactively 'indent-region))
+
 (use-package    cc-mode
   :after        (semantic)
   :custom       (c-default-style        "user")
-                (c-basic-offset         8)
+                (c-basic-offset         4)
+                (c-backslash-max-column 80)
   :bind         (:map c-mode-base-map
                       ("M-q"    . nil) ("M-e"    . nil) ("M-a"    . nil)
                       ("C-M-a"  . nil) ("C-M-e"  . nil) ("M-j"    . nil)
@@ -703,17 +738,19 @@
                       ("C-c H-M-H" . show-ifdefs)
                       ("C-c C-c"   . compile)
                       ("M-c"       . hydra-gdb/body)       ;; todo
-                      ("C-i"       . indent-or-complete))
+                      ("C-i"       . company-indent-for-tab-command))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode))
 
 (defun benjamin/c-hook ()
   "Setup for C bla."
-  (c-set-style
-   (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
-       "linux"
-     "user"))
-
+  (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
+      (progn (c-set-style "linux")
+             (setq c-tab-always-indent t))
+    (progn (setq c-basic-offset 4)
+           (setq c-tab-always-indent t)
+           (c-set-style "user")))
+  (set-local-indent-after-yank t)
   (subword-mode 1)
   (flycheck-mode 1)
   (helm-gtags-mode 1)
@@ -755,9 +792,86 @@
   :custom       (gud-pdb-command-name "python -m pdb")
   :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
 
+
+
+;; SPC             realgud:cmd-step
+;; +               realgud:cmd-enable
+;; -               realgud:cmd-disable
+;; 1               realgud-goto-arrow1
+;; 2               realgud-goto-arrow2
+;; 3               realgud-goto-arrow3
+;; 4               realgud:goto-loc-hist-4
+;; 5               realgud:goto-loc-hist-5
+;; 6               realgud:goto-loc-hist-6
+;; 7               realgud:goto-loc-hist-7
+;; 8               realgud:goto-loc-hist-8
+;; 9               realgud:goto-loc-hist-9
+;; <               realgud:cmd-newer-frame
+;; >               realgud:cmd-older-frame
+;; C               realgud-window-cmd-undisturb-src
+;; D               realgud:cmd-delete
+;; E               realgud:cmd-eval-at-point
+;; F               realgud:window-bt
+;; I               realgud:cmdbuf-info-describe
+;; J               realgud:cmd-jump
+;; K               realgud:cmd-kill
+;; Q               realgud:cmd-terminate
+;; R               realgud:cmd-restart
+;; S               realgud-window-src-undisturb-cmd
+;; T               realgud:cmd-backtrace
+;; U               realgud:cmd-until
+;; X               realgud:cmd-clear
+;; b               realgud:cmd-break
+;; c               realgud:cmd-continue
+;; d               realgud:cmd-newer-frame
+;; e               realgud:eval-dotsymbol-at-point
+;; f               realgud:cmd-finish
+;; n               realgud:cmd-next
+;; p               realgud:eval-dotsymbol-at-point
+;; q               realgud:cmd-quit
+;; r               realgud:cmd-restart
+;; s               realgud:cmd-step
+;; u               realgud:cmd-older-frame
+;; <A-down>        realgud-track-hist-newer
+;; <A-up>          realgud-track-hist-older
+;; <M-S-down>      realgud-track-hist-newest
+;; <M-S-up>        realgud-track-hist-oldest
+;; <M-down>        realgud-track-hist-newer
+;; <M-kp-2>        realgud-track-hist-newer
+;; <M-kp-8>        realgud-track-hist-older
+;; <M-kp-down>     realgud-track-hist-newer
+;; <M-kp-up>       realgud-track-hist-older
+;; <M-print>       realgud-track-hist-older
+;; <M-up>          realgud-track-hist-older
+;; <S-f11>         realgud:cmd-finish
+;; <S-f5>          realgud:cmd-quit
+;; <delete>        realgud:cmd-delete
+;; <enter>         realgud:cmd-repeat-last
+;; <f10>           realgud:cmd-next
+;; <f11>           realgud:cmd-step
+;; <f5>            realgud:cmd-continue
+;; <f9>            realgud:cmd-break
+;; <insert>        realgud-short-key-mode
+;; <mouse-2>       realgud:tooltip-eval
+;; <left-margin> <mouse-1> realgud-cmds--mouse-add-remove-bp
+;; C-c SPC         realgud:cmd-break
+;; C-x C-q         realgud-short-key-mode
+;; C-x C-a C-q     realgud-short-key-mode
+;; <m-insert>      realgud-short-key-mode
+
+(defun my-forward-whitespace ()
+  (interactive)
+  (forward-whitespace 1))
+
+(defun my-backward-whitespace ()
+  (interactive)
+  (forward-whitespace -1))
+
+;; TODO: Fix realgud so that we can insert visual breaks. jfc...
 (use-package    realgud
   :ensure       t
   :custom       (realgud:pdb-command-name "python -m pdb")
+                (realgud-safe-mode nil)
   :config       (defun realgud:eval-dotsymbol-at-point ()
                   "The eval-at-point stuff included in realgud are baaad."
                   (interactive)
@@ -765,12 +879,19 @@
                     (modify-syntax-entry ?. "_")
                     (let ((bounds (bounds-of-thing-at-point 'symbol)))
                       (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
+                (define-key realgud-track-mode-map (kbd "M-c") realgud-short-key-mode-hook)
   :bind         (:map realgud:shortkey-mode-map
+                      ("e" . realgud:eval-dotsymbol-at-point)
+
                       ("J" . realgud:cmd-jump)
                       ("K" . realgud:cmd-kill)
-                      ("j" . next-line)
-                      ("p" . realgud:eval-dotsymbol-at-point)
-                      ("k" . previous-line)))
+                      ("h" . my-backward-whitespace)
+                      ("j" . next-lines-indentation)
+                      ("k" . previous-lines-indentation)
+                      ("l" . my-forward-whitespace)
+
+                      ("c" . realgud:cmd-continue)
+                      ("n" . realgud:cmd-next)))
 
 (use-package    diff-mode
   :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)
@@ -811,12 +932,17 @@
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
 
-(use-package    auto-indent-moede
-  :disabled     t   ;; useless
+(use-package    auto-indent-mode
+  :disabled     t ;; terrible
   :ensure       t
   :custom       (auto-indent-on-visit-file          nil)
                 (auto-indent-indent-style           'conservative)
                 (auto-indent-untabify-on-save-file  nil)
+                ;; (auto-indent-known-indent-level-variables
+                 ;; '( lisp-body-indent
+                    ;; sgml-basic-offset
+                    ;; python-indent
+		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
 (use-package    paren
@@ -865,10 +991,10 @@
 (add-hook 'find-file-hook   'find-file-root-header-warning)
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook
-          (lambi
-           (hs-minor-mode 1)
-           (set (make-local-variable 'comment-auto-fill-only-comments) t)
-           (local-set-key (kbd "RET") 'newline-and-indent)))
+ (lambi (set-local-indent-after-yank t)
+        (hs-minor-mode 1)
+        ;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
+        (local-set-key (kbd "RET") 'newline-and-indent)))
 
 ;;-- Random general stuff ------------------------------------------------------
 (setq-default
@@ -914,6 +1040,7 @@
  browse-url-browser-function            'browse-url-chrome
  browse-url-chrome-arguments            "--new-window"
  compilation-scroll-output              'first-error
+ tab-always-indent                      'complete
  vc-follow-symlinks                     t
  x-stretch-cursor                       t
  kill-buffer-query-functions
@@ -929,7 +1056,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   16)
+(fringe-mode                   32)
 (set-cursor-color "red")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
