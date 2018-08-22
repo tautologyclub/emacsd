@@ -138,3 +138,6 @@ sed -i 's/[[:space:]]*$//' ~/.bash_history
 my_dummy_binary 2>/dev/null || {
     export PATH=/home/benjamin/bin:$PATH
 }
+
+export BASH_HELPER_LIBDIR=/home/benjamin/repos/bash_och_brudar
+export BASH_HELPER_MAIN="$BASH_HELPER_LIBDIR"/bash-helpers.sh

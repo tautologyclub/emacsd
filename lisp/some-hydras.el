@@ -248,6 +248,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   _w_ whitespace:       %`whitespace-mode
   _l_ linum:            %`display-line-numbers
   _i_ fci:              %`fci-mode
+  _I_ auto-dim:         %`auto-dim-other-buffers-mode
   _o_ overwrite:        %`overwrite-mode
   _r_ rec-minibuf       %`enable-recursive-minibuffers
   _R_ read-only         %`buffer-read-only
@@ -269,6 +270,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("w" whitespace-mode)
   ("l" benjamin/toggle-linum)
   ("i" fci-mode)
+  ("I" auto-dim-other-buffers-mode)
   ("o" overwrite-mode)
   ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
   ("R" read-only-mode)

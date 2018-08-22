@@ -32,6 +32,7 @@
         forward-whitespace
         hungry-delete-backward
         hungry-delete-forward
+        indent-for-tab-command
         kill-inner
         kill-line-save
         kill-region
@@ -134,6 +135,7 @@
 (setq mc/cmds-to-run-once
       '(
         compile
+        counsel-find-file
         counsel-grep-or-swiper
         describe-key
         dropdown-multiterm

@@ -7,6 +7,7 @@
 ;;; visual-regex
 ;;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
 (global-unset-key (kbd "M-r"))
+(global-unset-key (kbd "M-g"))
 (global-unset-key (kbd "M-c"))
 (global-unset-key (kbd "M-s"))
 (global-unset-key (kbd "M-k"))
@@ -153,7 +154,6 @@
 (global-set-key (kbd "C-x C-S-r")   'rename-current-buffer-file)
 (global-set-key   (kbd "C-x M-r")   'rename-buffer)
                             ;-r      [
-                            ;-R      ]
 
 (global-set-key     (kbd "s-t")    nil)                                      ;;;
 (global-set-key     (kbd "C-t")    ctl-x-map)
@@ -193,6 +193,7 @@
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
 (global-set-key   (kbd "H-M-i")   'benjamin/indent-a-bit-around-point)
+(global-set-key   (kbd "C-M-i")   'benjamin/indent-a-bit-around-point)
 (global-set-key (kbd "M-s M-i")   'benjamin/indent-a-bit-around-point)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
 (global-set-key   (kbd "C-c i")   'ivy-resume)
@@ -279,12 +280,10 @@
 (global-set-key     (kbd "s-g")    nil)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
-(global-unset-key   (kbd "M-g"))
-(global-set-key (kbd "M-g M-g")   'goto-line-with-feedback)
-(global-set-key (kbd "M-g   g")   'goto-line-with-feedback)
+(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
+(global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
-(global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
-(global-set-key   (kbd "C-S-g")   'hydra-git/body)                      ;
+(global-set-key   (kbd "C-S-g")   'hydra-git/body)                             ;
 (global-set-key (kbd "M-s   g")   'hydra-git/body)
 (global-set-key (kbd "M-s M-g")   'magit-status)
 (global-set-key   (kbd "C-x g")   'BIND-ME)                                    ;
