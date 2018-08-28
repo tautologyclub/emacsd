@@ -952,6 +952,9 @@
 		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
+(use-package    display-line-numbers
+  :config       (global-display-line-numbers-mode t)) ;; test
+
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
 (use-package hydra                   :ensure t)
@@ -1054,7 +1057,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   32)
+(fringe-mode                   0)
 (set-cursor-color "dark violet")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
