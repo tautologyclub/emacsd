@@ -260,6 +260,7 @@ ff()
 }
 
 
+alias ln='ln -v'
 alias xclip='xclip -selection clipboard'
 
 if [ -n $HACKY_ALIASES ]; then

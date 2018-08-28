@@ -319,6 +319,7 @@
 (global-set-key     (kbd "H-k")   'kill-inner)
 (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key   (kbd "C-S-k")   'move-text-up)
+(global-set-key   (kbd "C-c k")   'kconfig-option-at-point-projectile-root)
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)                       ;
                           ;-k      '                                         ;;;

@@ -1006,7 +1006,9 @@
 
 (setq
  enable-recursive-minibuffers           nil
- cursor-type                            'hollow
+ ;; enable-recursive-minibuffers           t
+ cursor-type                            t
+ ;; cursor-type                            'hollow
  explicit-shell-file-name               "/bin/bash"
  tab-always-indent                      t
  indent-tabs-mode                       nil
@@ -1034,8 +1036,8 @@
  create-lockfiles                       nil
  save-interprogram-paste-before-kill    t
  select-enable-clipboard                t
- browse-url-browser-function            'browse-url-chrome
- browse-url-chrome-arguments            "--new-window"
+ ;; browse-url-browser-function            'browse-url-chrome
+ ;; browse-url-chrome-arguments            "--new-window"
  compilation-scroll-output              'first-error
  tab-always-indent                      'complete
  vc-follow-symlinks                     t
@@ -1053,7 +1055,7 @@
 (delete-selection-mode         1)
 (auto-compression-mode         1)
 (fringe-mode                   32)
-(set-cursor-color "red")
+(set-cursor-color "dark violet")
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))

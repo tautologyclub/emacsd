@@ -3,7 +3,14 @@
 ;;; Commentary:
 
 (defcustom linux-src-root "~/repos/linux/"
-  "Location of kernel source tree root.
+  "Default location of kernel source tree root.
+
+Make sure it ends with a slash."
+  :type 'string
+  :group 'kernel-dev)
+
+(defcustom uboot-src-root "/home/benjamin/work/consat/nxp-android-bsp/uboot-imx/"
+  "Default location of uboot source tree root.
 
 Make sure it ends with a slash."
   :type 'string
@@ -33,6 +40,16 @@ Make sure it ends with a slash."
   "Like the normal function but with ROOT as src root."
   (let ((linux-src-root root))
     (call-interactively 'kconfig-option-at-point)))
+
+(defun kconfig-option-at-point-projectile-root ()
+  (interactive)
+  "Like the normal function but with projectile-root as src root."
+  (let ((linux-src-root (projectile-project-root)))
+    (call-interactively 'kconfig-option-at-point)))
+
+(defun kconfig-option-at-point-uboot ()
+  (interactive)
+  (kconfig-option-at-point-arbitrary-root uboot-src-root))
 
 (provide 'kernel-dev-mode)
 ;;; kernel-dev-mode.el ends here
