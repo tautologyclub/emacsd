@@ -335,6 +335,9 @@
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
+(use-package    magit-todos
+  :ensure       t)
+
 (use-package    swiper
   :ensure       t
   :custom       (counsel-grep-swiper-limit      120000))
