@@ -68,11 +68,10 @@
   "Fuck off."
   (interactive)
   (call-interactively 'multi-term)
-  (term-send-raw-string " git log ")
-  )
+  (term-send-raw-string " git log "))
 
 (defhydra hydra-git (:body-pre (git-gutter+-mode 1)
-                     :columns 5
+                     :columns 4
                      :color red)
   "
 --- git -------------------------------------------------------------------------"
@@ -94,6 +93,11 @@
 
   ("cg"  counsel-git-grep       "grep files"    :color blue)
   ("cl"  counsel-git-log        "grep log"      :color blue)
+
+  ("G"  (lambda () (interactive)
+          (progn (multi-term)
+                 (term-send-raw-string " git log --grep ")))
+                             "grep log (shell)" :color blue)
 
   ("d"   magit-diff             "diff range")
   ("l"   (progn (goto-char (point-max)) (git-gutter+-previous-hunk 1)) "last hunk")

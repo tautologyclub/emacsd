@@ -311,6 +311,7 @@
   :ensure       t
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read)
+                (magit-log-arguments '("--graph" "--color" "--decorate" "-n256"))
                 (magit-display-buffer-function
                  'magit-display-buffer-fullframe-status-v1))
 
