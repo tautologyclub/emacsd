@@ -64,6 +64,13 @@
   ("SPC"    gud-break "break")
   )
 
+(defun get-term-and-git-log ()
+  "Fuck off."
+  (interactive)
+  (call-interactively 'multi-term)
+  (term-send-raw-string " git log ")
+  )
+
 (defhydra hydra-git (:body-pre (git-gutter+-mode 1)
                      :columns 5
                      :color red)
@@ -90,6 +97,7 @@
 
   ("d"   magit-diff             "diff range")
   ("l"   (progn (goto-char (point-max)) (git-gutter+-previous-hunk 1)) "last hunk")
+  ("L"   get-term-and-git-log   "log in term" :color blue)
   ("H"   vc-region-history      "region hist"   :color blue)
   ("r"   git-gutter+-revert-hunks "revert")
   ("SPC" git-gutter+-show-hunk-inline-at-point "overlay hunk")
