@@ -350,6 +350,31 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("z"   projectile-cache-current-file "cache this file")
   ("q"   nil "cancel" :color blue))
 
+(global-unset-key (kbd "<f2>"))
+(global-set-key (kbd "<f2>") 'hydra-nav/body)
+
+(defhydra hydra-nav
+  (:color red
+   :pre (set-mark-if-inactive)
+   :columns 4
+   )
+  ("q"  nil :color blue)
+
+  ("a"  beginning-of-line-or-block)
+  ("e"  end-of-line-or-block)
+  ("h"  backward-char)
+  ("j"  next-line)
+  ("k"  previous-line)
+  ("l"  forward-char)
+
+  ("n"  mark-line) ;; todo
+
+  ("<f2>"   exchange-point-and-mark)
+
+
+  )
+
+
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here
