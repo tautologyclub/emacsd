@@ -354,22 +354,45 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
 (global-set-key (kbd "<f2>") 'hydra-nav/body)
 
 (defhydra hydra-nav
-  (:color red
-   :pre (set-mark-if-inactive)
-   :columns 4
-   )
-  ("q"  nil :color blue)
+  (:color red :pre (set-mark-if-inactive) :hint nil)
+"--- navigate yo ----------------------------------------------------------------
+"
+  ("q"      nil                         :color blue)
+  ("w"      kill-region)
+  ("e"      end-of-line-or-block)
+  ("r"      recenter-top-bottom)
+  ("t"      mc/mark-next-like-this)
+  ("o"      other-window) ;; no
+  ("p"      benjamin/pop-to-mark-command) ;; doesnt work
 
-  ("a"  beginning-of-line-or-block)
-  ("e"  end-of-line-or-block)
-  ("h"  backward-char)
-  ("j"  next-line)
-  ("k"  previous-line)
-  ("l"  forward-char)
+  ("a"      beginning-of-line-or-block)
+  ("s"      swiper)
+  ("d"      mark-defun)
+  ("f"      avy-goto-char-in-line)
+  ("g"      avy-goto-word-or-subword-1)
+  ("h"      backward-char)
+  ("j"      next-line)
+  ("k"      previous-line)
+  ("l"      forward-char)
 
-  ("n"  mark-line) ;; todo
+  ("n"      avy-goto-line) ;; ?
+
+  ("A"      simplified-beginning-of-buffer)
+  ("E"      simplified-end-of-buffer)
+
+  ("1"      (lambda () (interactive) (execute-kbd-macro (kbd "C-1"))))
+  ("2"      (lambda () (interactive) (execute-kbd-macro (kbd "C-2"))))
+  ("3"      (lambda () (interactive) (execute-kbd-macro (kbd "C-3"))))
+  ("4"      (lambda () (interactive) (execute-kbd-macro (kbd "C-4"))))
+  ("5"      (lambda () (interactive) (execute-kbd-macro (kbd "C-5"))))
+  ("6"      (lambda () (interactive) (execute-kbd-macro (kbd "C-6"))))
+  ("7"      (lambda () (interactive) (execute-kbd-macro (kbd "C-7"))))
+  ("8"      (lambda () (interactive) (execute-kbd-macro (kbd "C-8"))))
+  ("9"      (lambda () (interactive) (execute-kbd-macro (kbd "C-9"))))
 
   ("<f2>"   exchange-point-and-mark)
+  ("<f10>"  er/expand-region)
+  ("SPC"    (lambda () (interactive) (deactivate-mark)))
 
 
   )

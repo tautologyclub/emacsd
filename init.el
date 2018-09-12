@@ -448,7 +448,8 @@
 (use-package    auto-dim-other-buffers
   :ensure       t
   :custom       (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
-  :config       (auto-dim-other-buffers-mode 1))
+  :config       (auto-dim-other-buffers-mode -1)
+)
 
 (use-package    volatile-highlights
   :ensure       t
@@ -1079,6 +1080,56 @@
 ;; -- tmp ----------------------------------------------------------------------
 (setq safe-local-variable-values
       '((irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")))
+(fringe-mode 0)
+(global-hl-line-mode -1)
+
+;;--- super todo ----
+(require 'face-remap)
+(defvar highlight-focus:last-buffer nil)
+(defvar highlight-focus:cookie nil)
+(defvar highlight-focus:app-has-focus t)
+(defvar highlight-focus:face 'default)
+(defvar highlight-focus:face-property :background)
+(defvar highlight-focus:face-property-value "white")
+(defvar highlight-focus:face-property-value-on "lime green")
+(defvar highlight-focus:face-property-value-off "spring green")
+(setq highlight-focus:face-property-value-on "#cbc9b1")
+(setq highlight-focus:face-property-value-off "dark gray")
+
+(defun highlight-focus:check ()
+  "Check if focus has changed, and if so, update remapping."
+  (let ((current-buffer (and highlight-focus:app-has-focus (current-buffer))))
+    (unless (or (minibufferp) (eq highlight-focus:last-buffer current-buffer))
+      (when (and highlight-focus:last-buffer highlight-focus:cookie)
+        (with-current-buffer highlight-focus:last-buffer
+          (face-remap-add-relative
+           highlight-focus:face
+           highlight-focus:face-property
+           highlight-focus:face-property-value-off)))
+      (setq highlight-focus:last-buffer current-buffer)
+      (when current-buffer
+        (setq highlight-focus:cookie
+              (face-remap-add-relative
+               highlight-focus:face
+               highlight-focus:face-property
+               highlight-focus:face-property-value-on))))))
+
+(defun highlight-focus:app-focus (state)
+  (setq highlight-focus:app-has-focus state)
+  (highlight-focus:check))
+
+(defadvice other-window (after highlight-focus activate)
+  (highlight-focus:check))
+(defadvice select-window (after highlight-focus activate)
+  (highlight-focus:check))
+(defadvice select-frame (after highlight-focus activate)
+  (highlight-focus:check))
+
+(add-hook 'window-configuration-change-hook 'highlight-focus:check)
+(add-hook 'focus-in-hook (lambda () (highlight-focus:app-focus t)))
+(add-hook 'focus-out-hook (lambda () (highlight-focus:app-focus nil)))
+
+
 
 (provide 'init)
 ;;; init.el ends here

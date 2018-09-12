@@ -32,6 +32,14 @@
         forward-whitespace
         hungry-delete-backward
         hungry-delete-forward
+        hydra-nav/backward-char
+        hydra-nav/beginning-of-line-or-block
+        hydra-nav/end-of-line-or-block
+        hydra-nav/er/expand-region
+        hydra-nav/forward-char
+        hydra-nav/kill-region
+        hydra-nav/next-line
+        hydra-nav/previous-line
         kill-inner
         kill-line-save
         kill-region
@@ -53,9 +61,9 @@
         org-fill-paragraph
         org-force-self-insert
         org-self-insert-command
-        smart-open-line-above
         org-shiftleft
         org-shiftright
+        smart-open-line-above
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char
@@ -142,6 +150,10 @@
         handle-switch-frame
         handle-switch-frame
         helm-M-x
+        hydra-nav/body
+        hydra-nav/exchange-point-and-mark
+        hydra-nav/mc/mark-next-like-this
+        hydra-nav/swiper
         hydra-toggle/body
         hydra-toggle/overwrite-mode
         iedit-switch-to-mc-mode
