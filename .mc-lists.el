@@ -21,6 +21,7 @@
         c-electric-semi&comma
         c-electric-star
         capitalize-word-toggle
+        comment-or-uncomment-region-or-line
         company-indent-for-tab-command
         duplicate-current-line-or-region
         elpy-nav-backward-indent
@@ -134,6 +135,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        benjamin/previous-buffer
         compile
         counsel-find-file
         counsel-grep-or-swiper
@@ -149,5 +151,4 @@
         iedit-switch-to-mc-mode
         indent-or-complete
         ivy-alt-done
-        lispy-cursor-down
         ))

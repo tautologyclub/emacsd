@@ -260,9 +260,9 @@
 (global-set-key   (kbd "C-c d")   'mark-defun)
                           ;-d      :
 
+(global-set-key     (kbd "s-f")    nil)
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
-(global-set-key     (kbd "s-f")   'find-file)
 (global-set-key     (kbd "M-f")   'forward-to-word)
 (global-set-key   (kbd "C-S-f")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)

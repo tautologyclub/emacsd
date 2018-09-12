@@ -49,7 +49,7 @@
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
-  :custom       (feebleline-show-git-branch      t)
+  :custom       (feebleline-show-git-branch      nil) ;; FIXME: revise implementation to cache branch, messes up sshfs/tramp right now
                 (feebleline-show-dir             t)
                 (feebleline-show-time            nil)
                 (feebleline-show-previous-buffer nil)
@@ -98,7 +98,9 @@
                         ("C-l" . forward-char)
                         ("C-h" . backward-char)
                         ("C-b" . nil)
-                        ("C-n" . term-downdir)
+                        ("H-n" . term-downdir)
+                        ("H-p" . term-updir)
+                        ("C-n" . mark-line)
                         ("C-s" . swiper)
                         ("C-t" . nil)
                         ("C-p" . nil)
@@ -124,7 +126,6 @@
                         ("M-," . term-send-raw)
                         ("C-S-a" . beginning-of-line)
                         ("C-S-e" . end-of-line)
-                        ("C-S-n" . term-updir)
                         ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
                         ("<f9>". term-send-backspace) ; == [
                         ("TAB" . term-send-raw)
@@ -238,6 +239,7 @@
                 (helm-buffer-details-flag nil))
 
 (use-package    ivy-rich
+  :disabled     t ; todo evaluate
   :ensure       t
   :after        (ivy)
   :custom       (ivy-rich-path-style 'abbrev)
@@ -318,7 +320,23 @@
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read)
                 (magit-display-buffer-function
-                 'magit-display-buffer-fullframe-status-v1))
+                 'magit-display-buffer-fullframe-status-v1)
+                (magit-status-sections-hook
+                 '( magit-insert-status-headers
+                   magit-insert-merge-log
+                   magit-insert-rebase-sequence
+                   magit-insert-am-sequence
+                   magit-insert-sequencer-sequence
+                   magit-insert-bisect-output
+                   magit-insert-bisect-rest
+                   magit-insert-bisect-log
+                   magit-insert-untracked-files
+                   magit-insert-unstaged-changes
+                   magit-insert-staged-changes
+                   magit-insert-stashes
+                   magit-insert-unpulled-from-upstream
+                   magit-insert-unpulled-from-pushremote
+                   magit-insert-unpushed-to-pushremote)))
 
 ;; todo
 (define-key magit-status-mode-map    "j" 'magit-section-forward)
@@ -630,7 +648,10 @@
 (use-package    markdown-mode
   :ensure        t
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
-                (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
+                (add-hook 'markdown-mode-hook 'turn-on-auto-fill)
+  :bind         (:map markdown-mode-map
+                      ("M-RET" . nil))
+                )
 
 (use-package    git-gutter+
   :ensure       t
@@ -1004,8 +1025,9 @@
  fill-column                            80
  truncate-lines                         nil
  tab-width                              4
- indent-tabs-mode                       nil
- cursor-type                           'hollow)
+ cursor-type                            t
+ ;; cursor-type                           'hollow
+ indent-tabs-mode                       nil)
 
 (setq
  enable-recursive-minibuffers           nil
@@ -1050,6 +1072,7 @@
 (ansi-color-for-comint-mode-on)
 (fset 'yes-or-no-p            'y-or-n-p)
 (put 'scroll-left             'disabled nil)
+(put 'narrow-to-region        'disabled nil)
 (set-language-environment     "UTF-8")
 (set-default-coding-systems   'utf-8)
 (menu-bar-mode                -1)
@@ -1058,7 +1081,7 @@
 (delete-selection-mode         1)
 (auto-compression-mode         1)
 (fringe-mode                   0)
-(set-cursor-color "dark violet")
+
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
