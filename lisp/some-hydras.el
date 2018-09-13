@@ -64,8 +64,14 @@
   ("SPC"    gud-break "break")
   )
 
+(defun get-term-and-git-log ()
+  "Fuck off."
+  (interactive)
+  (call-interactively 'multi-term)
+  (term-send-raw-string " git log "))
+
 (defhydra hydra-git (:body-pre (git-gutter+-mode 1)
-                     :columns 5
+                     :columns 4
                      :color red)
   "
 --- git -------------------------------------------------------------------------"
@@ -88,8 +94,14 @@
   ("cg"  counsel-git-grep       "grep files"    :color blue)
   ("cl"  counsel-git-log        "grep log"      :color blue)
 
+  ("G"  (lambda () (interactive)
+          (progn (multi-term)
+                 (term-send-raw-string " git log --grep ")))
+                             "grep log (shell)" :color blue)
+
   ("d"   magit-diff             "diff range")
   ("l"   (progn (goto-char (point-max)) (git-gutter+-previous-hunk 1)) "last hunk")
+  ("L"   get-term-and-git-log   "log in term" :color blue)
   ("H"   vc-region-history      "region hist"   :color blue)
   ("r"   git-gutter+-revert-hunks "revert")
   ("SPC" git-gutter+-show-hunk-inline-at-point "overlay hunk")
@@ -231,7 +243,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   (:color red
    :hint nil
    :pre  (progn (setq prev-max-mini-window-height max-mini-window-height)
-                (setq max-mini-window-height 30))
+                (setq max-mini-window-height (max max-mini-window-height 30)))
    :post (setq max-mini-window-height prev-max-mini-window-height))
   "
   _a_ abbrev:           %`abbrev-mode

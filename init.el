@@ -260,7 +260,7 @@
                 (ivy-height-alist
                  '((counsel-evil-registers . 5)
                    (counsel-yank-pop       . 24)
-                   (counsel-git-log        . 24)
+                   (counsel-git-log        . 60)
                    (counsel--generic       . 24)
                    (counsel-el             . 7)))
                 (ivy-extra-directories          nil)
@@ -319,6 +319,7 @@
   :ensure       t
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read)
+                (magit-log-arguments '("--graph" "--color" "--decorate" "-n256"))
                 (magit-display-buffer-function
                  'magit-display-buffer-fullframe-status-v1)
                 (magit-status-sections-hook
@@ -358,6 +359,10 @@
   "I mean a commit message should not be 80 chars."
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
+
+(use-package    magit-todos
+  :disabled     t  ;; prob slows down huge repos too much
+  :ensure       t)
 
 (use-package    swiper
   :ensure       t
@@ -702,7 +707,6 @@
 
 (use-package    yasnippet
   :ensure       t
-  ;; :after        (auto-indent-mode)
   :config       (yas-global-mode 1))
 
 (use-package    semantic
@@ -976,6 +980,12 @@
 (use-package    display-line-numbers
   :config       (global-display-line-numbers-mode t)) ;; test
 
+(use-package    paren
+  :custom       (show-paren-delay 0.1)
+                (show-paren-highlight-openparen t)
+                (show-paren-when-point-inside-paren t)
+  :config       (show-paren-mode 1))
+
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
 (use-package hydra                   :ensure t)
@@ -996,6 +1006,7 @@
 (use-package fireplace               :ensure t)
 (use-package flyspell-correct-ivy    :ensure t)
 (use-package visual-fill-column      :ensure t)
+
 
 (defvar benjamin/visual-fill nil)
 (defun benjamin/visual-fill ()
@@ -1030,6 +1041,9 @@
  indent-tabs-mode                       nil)
 
 (setq
+ split-width-threshold                  300
+ frame-inhibit-implied-resize           t
+ max-mini-window-height                 0.3
  enable-recursive-minibuffers           nil
  ;; enable-recursive-minibuffers           t
  cursor-type                            t
@@ -1066,6 +1080,7 @@
  compilation-scroll-output              'first-error
  tab-always-indent                      'complete
  vc-follow-symlinks                     t
+ x-stretch-cursor                       t
  kill-buffer-query-functions
  (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 

@@ -57,6 +57,7 @@
         org-self-insert-command
         org-shiftleft
         org-shiftright
+        smart-open-line-above
         special-digit-argument
         special-lh-knight/body
         special-lispy-ace-char
