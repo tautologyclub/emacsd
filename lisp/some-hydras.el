@@ -434,10 +434,10 @@ replacements. "
     (setq-local cursor-type nav-mode--prev-cursor-type)))
 
 (define-key nav-mode-map (kbd "q") 'left-word)
-(define-key nav-mode-map (kbd "w") 'kill-ring-save-keep-selection)
+(define-key nav-mode-map (kbd "w") 'kill-ring-save-keep-selection) ;;
 (define-key nav-mode-map (kbd "e") 'end-of-line-or-block)
 ;; (define-key nav-mode-map (kbd "r") (lambi (nav-mode -1)
-(define-key nav-mode-map (kbd "t") 'exchange-point-and-mark)
+(define-key nav-mode-map (kbd "t") 'exchange-point-and-mark);;
 ;; (define-key nav-mode-map (kbd "y") (lambi (let ((deactivate-mark)) (yank))))
 (define-key nav-mode-map (kbd "u") 'scroll-down-command)
 (define-key nav-mode-map (kbd "i") 'benjamin/mark-inside-pairs)
@@ -446,7 +446,7 @@ replacements. "
 
 (define-key nav-mode-map (kbd "a") 'beginning-of-line-or-block)
 (define-key nav-mode-map (kbd "s") 'counsel-grep-or-swiper)
-(define-key nav-mode-map (kbd "d") 'mark-defun)
+(define-key nav-mode-map (kbd "d") 'beginning-of-defun)
 (define-key nav-mode-map (kbd "f") 'forward-to-word)
 (define-key nav-mode-map (kbd "g") (lambi (push-mark-no-activate)
                                           (avy-goto-word-or-subword-1)))
@@ -496,10 +496,12 @@ replacements. "
 (define-key nav-mode-map (kbd "9") (lambi (execute-kbd-macro (kbd "C-9"))))
 
 (define-key nav-mode-map (kbd "?") help-map)
+(define-key nav-mode-map (kbd "<f9>") 'exchange-point-and-mark)
 (define-key nav-mode-map (kbd "<f10>") 'er/expand-region)
 (define-key nav-mode-map (kbd "SPC")   'set-mark-command)
-(define-key nav-mode-map (kbd "RET")   'keyboard-quit)
+(define-key nav-mode-map (kbd "RET") (lambi (deactivate-mark) (nav-mode -1)))
 
+(add-hook 'find-file-hook 'nav-mode)
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here
