@@ -147,10 +147,10 @@
 
 ;;;###autoload
 (defun volatile-kill-buffer ()
-   "Kill current buffer unconditionally."
-   (interactive)
-   (let ((buffer-modified-p nil))
-     (kill-buffer (current-buffer))))
+  "Kill current buffer unconditionally."
+  (interactive)
+  (let ((buffer-modified-p nil))
+    (kill-buffer (current-buffer))))
 
 ;;;###autoload
 (defun murder-buffer-with-window ()
@@ -170,9 +170,13 @@
 (defun benjamin/mark-inside-pairs ()
   "Go fuck yourself."
   (interactive)
-  (if (er--point-inside-pairs-p)
-      (er/mark-inside-pairs)
-    (er/mark-outside-pairs)))
+  (if (equal last-command 'benjamin/mark-inside-pairs)
+      (call-interactively 'er/expand-region)
+    (if (er--point-inside-string-p)
+        (er/mark-inside-quotes)
+      (if (er--point-inside-pairs-p)
+          (er/mark-inside-pairs)
+        (er/mark-outside-pairs)))))
 
 ;;;###autoload
 (defun replace-last-sexp ()

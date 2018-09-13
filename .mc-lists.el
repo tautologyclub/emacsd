@@ -40,6 +40,7 @@
         hydra-nav/kill-region
         hydra-nav/next-line
         hydra-nav/previous-line
+        indent-for-tab-command
         kill-inner
         kill-line-save
         kill-region
@@ -161,4 +162,5 @@
         indent-or-complete
         ivy-alt-done
         lispy-cursor-down
+        nav-mode
         ))

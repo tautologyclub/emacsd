@@ -105,7 +105,7 @@
 (define-key key-translation-map
                      (kbd "C-q")    (kbd "C-c"))
 (global-set-key      (kbd "s-q")    'quoted-insert)
-(global-set-key      (kbd "M-q")    'backward-to-word)
+(global-set-key      (kbd "M-q")    'left-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
 (global-set-key    (kbd "C-x q")    'query-replace)
 (global-set-key  (kbd "M-s M-q")    'delete-window)

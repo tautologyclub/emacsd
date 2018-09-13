@@ -259,6 +259,11 @@
                 (ivy-count-format               "%d/%d - ")
                 (ivy-display-style              'fancy)
                 (ivy-ignore-buffers             '("\\` "))
+                (ivy-height-alist '((counsel-evil-registers . 5)
+                                    (counsel-yank-pop . 20)
+                                    (counsel-git-log . 60)
+                                    (counsel--generic . 7)
+                                    (counsel-el . 7)))
                 (add-to-list 'ivy-ignore-buffers "\\*Flycheck")
                 (add-to-list 'ivy-ignore-buffers "\\*CEDET")
                 (add-to-list 'ivy-ignore-buffers "\\*BACK")
@@ -951,9 +956,10 @@
   :config       (auto-indent-global-mode))
 
 (use-package    paren
+  :disabled     t
   :custom       (show-paren-delay 0.1)
                 (show-paren-highlight-openparen t)
-                (show-paren-when-point-inside-paren t)
+                (show-paren-when-point-inside-paren nil)
   :config       (show-paren-mode 1))
 
 (use-package py-autopep8             :ensure t)
@@ -1133,3 +1139,4 @@
 
 (provide 'init)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)
