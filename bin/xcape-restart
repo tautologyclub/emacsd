@@ -23,7 +23,7 @@ xmodmap -e    "add Control = Control_R"
 xcape -e "Control_R=Return"             # reclaim RET
 xcape -e 'Control_L=F12'
 xcape -e 'Shift_L=F10'
-xcape -e 'Shift_R=Tab'
+xcape -e 'Shift_R=F2'
 xcape -e 'Super_L=Tab'                  # todo
 
 if [[ "$LAYOUT" = "swedish" ]]; then
