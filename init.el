@@ -146,7 +146,8 @@
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
-  :config       (add-hook 'org-mode-hook 'fci-mode))
+  :config       ;; (add-hook 'org-mode-hook 'fci-mode)
+  )
 
 (use-package    smex
   :ensure       t)
@@ -398,7 +399,7 @@
                     company-gtags company-etags
                     company-keywords)
                    company-oddmuse company-dabbrev))
-                (company-idle-delay 0)
+                (company-idle-delay 0.4)
                 (company-minimum-prefix-length 2)
                 (company-irony-ignore-case nil)
                 (company-tooltip-idle-delay 1)
