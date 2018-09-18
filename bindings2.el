@@ -141,7 +141,7 @@
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "M-r")   'backward-kill-word)
 (global-set-key       (kbd "C-r")   'kill-symbol-at-point)
-(global-set-key       (kbd "H-r")   'kill-word-at-point)
+(global-set-key       (kbd "H-r")   'backward-delete-char)
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)
 (global-set-key   (kbd "M-s   r")   'benjamin/rec-grep)

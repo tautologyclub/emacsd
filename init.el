@@ -1046,6 +1046,7 @@
  indent-tabs-mode                       nil)
 
 (setq
+ truncate-lines                         nil
  split-width-threshold                  300
  frame-inhibit-implied-resize           t
  max-mini-window-height                 0.3
