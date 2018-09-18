@@ -1054,6 +1054,8 @@
  tab-always-indent                      'complete
  vc-follow-symlinks                     t
  x-stretch-cursor                       t
+ scroll-margin                          6
+ scroll-conservatively                  100
  kill-buffer-query-functions
  (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
