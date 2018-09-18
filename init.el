@@ -321,6 +321,7 @@
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read)
                 (magit-log-arguments '("--graph" "--color" "--decorate" "-n256"))
+                (magit-log-arguments (quote ("--color" "--decorate" "-n256")))
                 (magit-display-buffer-function
                  'magit-display-buffer-fullframe-status-v1)
                 (magit-status-sections-hook
@@ -495,7 +496,8 @@
 
 (use-package    hl-line
   :ensure       nil
-  :config       (global-hl-line-mode 1))
+  :custom       (hl-line-sticky-flag nil)
+  :config       (global-hl-line-mode -1))
 
 (use-package    helm-gtags
   :ensure       t
@@ -983,9 +985,10 @@
   :config       (global-display-line-numbers-mode t)) ;; test
 
 (use-package    paren
+  :disabled     t
   :custom       (show-paren-delay 0.1)
                 (show-paren-highlight-openparen t)
-                (show-paren-when-point-inside-paren t)
+                (show-paren-when-point-inside-paren nil)
   :config       (show-paren-mode 1))
 
 (use-package py-autopep8             :ensure t)
@@ -1116,8 +1119,6 @@
 ;; -- tmp ----------------------------------------------------------------------
 (setq safe-local-variable-values
       '((irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")))
-(fringe-mode 0)
-(global-hl-line-mode -1)
 
 ;;--- super todo ----
 (require 'face-remap)
@@ -1169,3 +1170,4 @@
 
 (provide 'init)
 ;;; init.el ends here
+(put 'narrow-to-region 'disabled nil)
