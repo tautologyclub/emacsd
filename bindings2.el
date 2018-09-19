@@ -57,7 +57,8 @@
 (global-set-key     (kbd "H-<f9>") 'counsel-yank-pop)
 (global-set-key      (kbd "<f10>") 'er/expand-region)        ;;          Shift_L
 (global-set-key    (kbd "C-<f12>") 'switch-to-buffer)        ;;         C-Ctrl_L
-(global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
+;; (global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
+(global-set-key    (kbd "C-<tab>")  nil)
 ;------------------------------------------------------------------------------;
 (global-set-key (kbd "M-SPC") 'benjamin/set-mark-command)
 (global-set-key (kbd "C-SPC") 'find-file)
@@ -85,26 +86,13 @@
 (global-set-key   (kbd "<H-backspace>") 'murder-buffer-with-window)
 (global-set-key      (kbd "C-<return>") 'open-line-below)
 (global-set-key      (kbd "<C-f11>")    'switch-to-buffer)
-
-
-;; In case I accidentally left swedish keyboard layout on
-(global-set-key
- (kbd "C-å")
- (lambi (benjamin/notify "Switching keyboard layout...")
-        (call-process "xcape-restart" nil 0 nil)
-        (benjamin/set-mark-command)))
-(global-set-key
- (kbd "H-å")
- (lambi (benjamin/notify "Switching keyboard layout...")
-        (call-process "xcape-restart" nil 0 nil)
-        (call-interactively 'switch-to-buffer)))
 ;------------------------------------------------------------------------------;
 
-(global-set-key     (kbd "H-0")     'delete-other-windows)
-(global-set-key     (kbd "H-3")     'BIND-ME)
+(global-set-key     (kbd "C-0")     'switch-to-buffer)
+(global-set-key     (kbd "H-0")      nil)
+(global-set-key     (kbd "H-3")     'nav-mode)
 
-(define-key key-translation-map
-                     (kbd "C-q")    (kbd "C-c"))
+(global-set-key      (kbd "C-q")    'backward-to-word)
 (global-set-key      (kbd "s-q")    'quoted-insert)
 (global-set-key      (kbd "M-q")    'left-word)
 (global-set-key    (kbd "C-S-q")    'fill-paragraph)
@@ -261,9 +249,10 @@
                           ;-d      :
 
 (global-set-key     (kbd "s-f")    nil)
-(global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
+(global-set-key     (kbd "C-f")   'forward-to-word)
+;; (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
-(global-set-key     (kbd "M-f")   'forward-to-word)
+(global-set-key     (kbd "M-f")   'avy-goto-char-in-line)
 (global-set-key   (kbd "C-S-f")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
