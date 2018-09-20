@@ -260,6 +260,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   _w_ whitespace:       %`whitespace-mode
   _l_ linum:            %`display-line-numbers
   _i_ fci:              %`fci-mode
+  _I_ auto-dim:         %`auto-dim-other-buffers-mode
   _o_ overwrite:        %`overwrite-mode
   _r_ rec-minibuf       %`enable-recursive-minibuffers
   _R_ read-only         %`buffer-read-only
@@ -281,6 +282,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("w" whitespace-mode)
   ("l" benjamin/toggle-linum)
   ("i" fci-mode)
+  ("I" auto-dim-other-buffers-mode)
   ("o" overwrite-mode)
   ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
   ("R" read-only-mode)
@@ -340,14 +342,17 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("m"   projectile-multi-occur "multi-occur")
   ("o"   projectile-find-other-file "otherf")
   ("p"   counsel-projectile "counsel")
-  ("q"   projectile-replace "replace")
-  ("r"   counsel-projectile-rg "rg")
+  ("R"   projectile-replace "replace")
+  ;; ("r"   counsel-projectile-rg "rg")
+  ("r"   counsel-projectile-ag "rg") ;; tmp, counsel-rg kinda broken...?
   ("s"   counsel-projectile-switch-project "switch")
   ("t"   projectile-get-term "get-term")
   ("u"   projectile-run-project "run")
   ("x"   projectile-remove-known-project "remove a project")
   ("X"   projectile-cleanup-known-projects "cleanup projects")
   ("z"   projectile-cache-current-file "cache this file")
+  ("C-g" nil :color blue)
+  ("RET" nil :color blue)
   ("q"   nil "cancel" :color blue))
 
 (global-unset-key (kbd "<f9>"))
@@ -364,15 +369,16 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
 
 (defhydra hydra-nav
   (:color red :pre (set-mark-if-inactive) :hint nil)
-"--- navigate yo ----------------------------------------------------------------
-"
+"--- navigate yo ----------------------------------------------------------------"
   ("q"      nil                         :color blue)
   ("w"      kill-ring-save-keep-selection)
   ("e"      end-of-line-or-block)
   ("r"      kill-region)
   ("t"      mc/mark-next-like-this)
-  ("o"      other-window)
-  ("p"      nil) ;;
+  ("u"      undo-tree-undo)
+  ("U"      undo-tree-redo)
+  ("o"      other-window) ;; no
+  ("p"      benjamin/pop-to-mark-command) ;; doesnt work
 
   ("a"      beginning-of-line-or-block)
   ("s"      swiper)
@@ -406,6 +412,7 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
 
   ("<f9>"   exchange-point-and-mark)
   ("<f10>"  er/expand-region)
+  ("-"      er/contract-region)
   ("SPC"    (lambda () (interactive) (deactivate-mark)))
   )
 
@@ -414,6 +421,14 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   "Map for `nav-mode'.")
 
 (global-set-key (kbd "<f9>") 'nav-mode)
+
+(defun benjamin/toggle-hl-line ()
+  (interactive)
+  (if hl-line-mode
+      (hl-line-mode -1))
+  (hl-line-mode))
+
+(add-hook 'nav-mode-hook 'benjamin/toggle-hl-line)
 
 (defvar nav-mode--prev-cursor-type t)
 (setq nav-mode--prev-cursor-type t)
@@ -431,18 +446,22 @@ replacements. "
                (set-mark-if-inactive))
              (setq nav-mode--prev-cursor-type cursor-type)
              (setq-local cursor-type '(hbar . 7)))
-    (setq-local cursor-type nav-mode--prev-cursor-type)))
+    (setq-local cursor-type nav-mode--prev-cursor-type)
+    (when hl-line-mode (hl-line-mode -1))))
 
 (define-key nav-mode-map (kbd "q") 'left-word)
 (define-key nav-mode-map (kbd "w") 'kill-ring-save-keep-selection) ;;
 (define-key nav-mode-map (kbd "e") 'end-of-line-or-block)
-;; (define-key nav-mode-map (kbd "r") (lambi (nav-mode -1)
+(define-key nav-mode-map (kbd "r") 'recenter-top-bottom)
 (define-key nav-mode-map (kbd "t") 'exchange-point-and-mark);;
 ;; (define-key nav-mode-map (kbd "y") (lambi (let ((deactivate-mark)) (yank))))
 (define-key nav-mode-map (kbd "u") 'scroll-down-command)
 (define-key nav-mode-map (kbd "i") 'benjamin/mark-inside-pairs)
-(define-key nav-mode-map (kbd "o") (lambi (swiper (thing-at-point 'word))))
-(define-key nav-mode-map (kbd "p") (lambi (swiper (thing-at-point 'symbol))))
+(define-key nav-mode-map (kbd "o") (lambi (minibuffer-with-setup-hook 'nav-mode
+                                            (swiper (thing-at-point 'word)))))
+(define-key nav-mode-map (kbd "p") (lambi (minibuffer-with-setup-hook 'nav-mode
+                                            (swiper (thing-at-point 'symbol)))))
+(define-key nav-mode-map (kbd "<f9>") 'exchange-point-and-mark) ;; [
 
 (define-key nav-mode-map (kbd "a") 'beginning-of-line-or-block)
 (define-key nav-mode-map (kbd "s") 'counsel-grep-or-swiper)
@@ -454,6 +473,8 @@ replacements. "
 (define-key nav-mode-map (kbd "j") 'next-line)
 (define-key nav-mode-map (kbd "k") 'previous-line)
 (define-key nav-mode-map (kbd "l") 'forward-char)
+;; (define-key nav-mode-map (kbd ";") 'forward-char)
+;; (define-key nav-mode-map (kbd "'") 'forward-char)
 
 (define-key nav-mode-map (kbd "z") 'copy-symbol-at-point)
 (define-key nav-mode-map (kbd "x")  ctl-x-map)
@@ -462,11 +483,13 @@ replacements. "
 ;; (define-key nav-mode-map (kbd "b") 'switch-to-buffer)
 (define-key nav-mode-map (kbd "n") 'avy-goto-char-in-line)
 (define-key nav-mode-map (kbd "m") 'mark-line) ;;
+;; (define-key nav-mode-map (kbd ",") 'mark-line) ;;
+;; (define-key nav-mode-map (kbd ".") 'mark-line) ;;
+;; (define-key nav-mode-map (kbd "/") 'mark-line) ;;
 
 (define-key nav-mode-map (kbd "Q") (lambi (forward-whitespace -1)))
 (define-key nav-mode-map (kbd "W") 'widen)
 (define-key nav-mode-map (kbd "E") 'simplified-end-of-buffer)
-(define-key nav-mode-map (kbd "R") 'recenter-top-bottom)
 (define-key nav-mode-map (kbd "I") (lambi (nav-mode -1)(iedit-mode)))
 (define-key nav-mode-map (kbd "O") 'narrow-to-region)
 (define-key nav-mode-map (kbd "P") 'previous-error)
@@ -496,7 +519,6 @@ replacements. "
 (define-key nav-mode-map (kbd "9") (lambi (execute-kbd-macro (kbd "C-9"))))
 
 (define-key nav-mode-map (kbd "?") help-map)
-(define-key nav-mode-map (kbd "<f9>") 'exchange-point-and-mark)
 (define-key nav-mode-map (kbd "<f10>") 'er/expand-region)
 (define-key nav-mode-map (kbd "SPC")   'set-mark-command)
 (define-key nav-mode-map (kbd "RET") (lambi (deactivate-mark) (nav-mode -1)))

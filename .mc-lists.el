@@ -21,6 +21,7 @@
         c-electric-semi&comma
         c-electric-star
         capitalize-word-toggle
+        comment-or-uncomment-region-or-line
         company-indent-for-tab-command
         duplicate-current-line-or-region
         elpy-nav-backward-indent
@@ -32,6 +33,7 @@
         forward-whitespace
         hungry-delete-backward
         hungry-delete-forward
+        indent-for-tab-command
         hydra-nav/backward-char
         hydra-nav/beginning-of-line-or-block
         hydra-nav/end-of-line-or-block
@@ -143,7 +145,9 @@
 
 (setq mc/cmds-to-run-once
       '(
+        benjamin/previous-buffer
         compile
+        counsel-find-file
         counsel-grep-or-swiper
         describe-key
         dropdown-multiterm
@@ -161,6 +165,5 @@
         iedit-switch-to-mc-mode
         indent-or-complete
         ivy-alt-done
-        lispy-cursor-down
         nav-mode
         ))

@@ -95,7 +95,7 @@
                   ))))
    '(italic ((t (:underline nil))))
    ;; `(default ((t (:foreground ,"black" :background "#d5e0a6" :height 90))))
-   `(cursor  ((t (:foreground ,ample/bg :background ,ample/cursor))))
+   `(cursor  ((t (:foreground ,ample/bg :background "#ad7c00"))))
    `(fringe  ((t (:background ,ample/fringe))))
    `(link    ((t (:foreground ,ample/lighter-blue :underline t))))
    `(region  ((t (:background ,ample/region))))
@@ -120,7 +120,7 @@
    `(mode-line		((t (:background ,ample/region :foreground ,ample/fg))))
 
    `(linum ((t (:background nil :foreground "dark red"))))
-   `(line-number ((t (:foreground ,ample/bg :background "#3a3a3a"))))
+   `(line-number ((t (:foreground "dim gray" :background ,ample/bg))))
    '(ivy-virtual ((t (:family "Noto Sans" :italic t :foreground "#777777"))))
    `(popup-tip-face ((t (:background ,ample/region-dark :foreground ,ample/dark-tan))))
    `(header-line ((t (:background "#b2b09b" :foreground ,ample/bg))))

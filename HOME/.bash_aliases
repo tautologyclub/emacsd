@@ -260,6 +260,7 @@ ff()
 }
 
 
+alias ln='ln -v'
 alias xclip='xclip -selection clipboard'
 
 if [ -n $HACKY_ALIASES ]; then
@@ -274,10 +275,11 @@ if [ -n $HACKY_ALIASES ]; then
     alias .....='cd ../../../..'
     alias ......='cd ../../../../..'
 
-    require gio
-    alias rm='gio trash'
-    alias seetrash='ll ~/.local/share/Trash/files/'
-    alias emptytrash='sudo /bin/rm -rf ~/.local/share/Trash/*'
+    require gio && {
+        alias rm='gio trash'
+        alias seetrash='ll ~/.local/share/Trash/files/'
+        alias emptytrash='sudo /bin/rm -rf ~/.local/share/Trash/*'
+    }
 fi
 
 colors()

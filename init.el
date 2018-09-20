@@ -98,7 +98,9 @@
                         ("C-l" . forward-char)
                         ("C-h" . backward-char)
                         ("C-b" . nil)
-                        ("C-n" . term-downdir)
+                        ("H-n" . term-downdir)
+                        ("H-p" . term-updir)
+                        ("C-n" . mark-line)
                         ("C-s" . swiper)
                         ("C-t" . nil)
                         ("C-p" . nil)
@@ -124,7 +126,6 @@
                         ("M-," . term-send-raw)
                         ("C-S-a" . beginning-of-line)
                         ("C-S-e" . end-of-line)
-                        ("C-S-n" . term-updir)
                         ("C-S-l" . (lambda () (interactive) (term-send-raw-string "")))
                         ("<f9>". term-send-backspace) ; == [
                         ("TAB" . term-send-raw)
@@ -145,7 +146,8 @@
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
-  :config       (add-hook 'org-mode-hook 'fci-mode))
+  :config       ;; (add-hook 'org-mode-hook 'fci-mode)
+  )
 
 (use-package    smex
   :ensure       t)
@@ -228,16 +230,17 @@
 (use-package    helm
   :ensure       t
   :config       (put 'benjamin/helm-kill-buffer    'helm-only t)
-  (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
-  (define-key helm-map (kbd "C-j")   'helm-next-line)
-  (define-key helm-map (kbd "C-k")   'helm-previous-line)
-  (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
-  (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
-  (define-key helm-map (kbd "<f9>")  'helm-backspace)
+                (define-key helm-map (kbd "M-k")   'benjamin/helm-kill-buffer)
+                (define-key helm-map (kbd "C-j")   'helm-next-line)
+                (define-key helm-map (kbd "C-k")   'helm-previous-line)
+                (define-key helm-map (kbd "C-S-j") 'helm-follow-action-forward)
+                (define-key helm-map (kbd "C-S-k") 'helm-follow-action-backward)
+                (define-key helm-map (kbd "<f9>")  'helm-backspace)
   :custom       (helm-mode-line-string "")
                 (helm-buffer-details-flag nil))
 
 (use-package    ivy-rich
+  :disabled     t ; todo evaluate
   :ensure       t
   :after        (ivy)
   :custom       (ivy-rich-path-style 'abbrev)
@@ -255,22 +258,16 @@
                 (ivy-use-selectable-prompt      t)
                 (ivy-fixed-height-minibuffer    t)
                 (ivy-height                     24)
+                (ivy-height-alist
+                 '((counsel-evil-registers . 5)
+                   (counsel-yank-pop       . 24)
+                   (counsel-git-log        . 60)
+                   (counsel--generic       . 24)
+                   (counsel-el             . 7)))
                 (ivy-extra-directories          nil)
                 (ivy-count-format               "%d/%d - ")
                 (ivy-display-style              'fancy)
                 (ivy-ignore-buffers             '("\\` "))
-                (ivy-height-alist '((counsel-evil-registers . 5)
-                                    (counsel-yank-pop . 20)
-                                    (counsel-git-log . 60)
-                                    (counsel--generic . 7)
-                                    (counsel-el . 7)))
-                (add-to-list 'ivy-ignore-buffers "\\*Flycheck")
-                (add-to-list 'ivy-ignore-buffers "\\*CEDET")
-                (add-to-list 'ivy-ignore-buffers "\\*BACK")
-                (add-to-list 'ivy-ignore-buffers "\\*Help\\*")
-                (add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
-                (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
-                (add-to-list 'ivy-ignore-buffers "\\*helm")
   :bind         (:map ivy-minibuffer-map
                       ("M-o"    . nil)
                       ("S-SPC"  . nil)
@@ -293,6 +290,13 @@
                       ("C-<up>"          . ivy-previous-line-and-call)
                       ("C-<down>"        . ivy-next-line-and-call))
   :config       (ivy-mode 1)
+                (add-to-list 'ivy-ignore-buffers "\\*Flycheck")
+                (add-to-list 'ivy-ignore-buffers "\\*CEDET")
+                (add-to-list 'ivy-ignore-buffers "\\*BACK")
+                (add-to-list 'ivy-ignore-buffers "\\*Help\\*")
+                (add-to-list 'ivy-ignore-buffers "\\*Messages\\*")
+                (add-to-list 'ivy-ignore-buffers "\\*Compile-Log\\*")
+                (add-to-list 'ivy-ignore-buffers "\\*helm")
                 (setq ivy-virtual-abbreviate 'full)
                 (define-key ivy-occur-grep-mode-map
                   (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
@@ -317,8 +321,25 @@
   :after        (ivy)
   :custom       (magit-completing-read-function 'ivy-completing-read)
                 (magit-log-arguments '("--graph" "--color" "--decorate" "-n256"))
+                (magit-log-arguments (quote ("--color" "--decorate" "-n256")))
                 (magit-display-buffer-function
-                 'magit-display-buffer-fullframe-status-v1))
+                 'magit-display-buffer-fullframe-status-v1)
+                (magit-status-sections-hook
+                 '( magit-insert-status-headers
+                   magit-insert-merge-log
+                   magit-insert-rebase-sequence
+                   magit-insert-am-sequence
+                   magit-insert-sequencer-sequence
+                   magit-insert-bisect-output
+                   magit-insert-bisect-rest
+                   magit-insert-bisect-log
+                   magit-insert-untracked-files
+                   magit-insert-unstaged-changes
+                   magit-insert-staged-changes
+                   magit-insert-stashes
+                   magit-insert-unpulled-from-upstream
+                   magit-insert-unpulled-from-pushremote
+                   magit-insert-unpushed-to-pushremote)))
 
 ;; todo
 (define-key magit-status-mode-map    "j" 'magit-section-forward)
@@ -342,6 +363,7 @@
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
 (use-package    magit-todos
+  :disabled     t  ;; prob slows down huge repos too much
   :ensure       t)
 
 (use-package    swiper
@@ -378,7 +400,7 @@
                     company-gtags company-etags
                     company-keywords)
                    company-oddmuse company-dabbrev))
-                (company-idle-delay 0)
+                (company-idle-delay 0.4)
                 (company-minimum-prefix-length 2)
                 (company-irony-ignore-case nil)
                 (company-tooltip-idle-delay 1)
@@ -474,7 +496,8 @@
 
 (use-package    hl-line
   :ensure       nil
-  :config       (global-hl-line-mode 1))
+  :custom       (hl-line-sticky-flag nil)
+  :config       (global-hl-line-mode -1))
 
 (use-package    helm-gtags
   :ensure       t
@@ -634,7 +657,10 @@
 (use-package    markdown-mode
   :ensure        t
   :config       (add-hook 'markdown-mode-hook 'fci-mode)
-                (add-hook 'markdown-mode-hook 'turn-on-auto-fill))
+                (add-hook 'markdown-mode-hook 'turn-on-auto-fill)
+  :bind         (:map markdown-mode-map
+                      ("M-RET" . nil))
+                )
 
 (use-package    git-gutter+
   :ensure       t
@@ -955,6 +981,9 @@
 		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
+(use-package    display-line-numbers
+  :config       (global-display-line-numbers-mode t)) ;; test
+
 (use-package    paren
   :disabled     t
   :custom       (show-paren-delay 0.1)
@@ -1012,15 +1041,19 @@
  fill-column                            80
  truncate-lines                         nil
  tab-width                              4
- indent-tabs-mode                       nil
- cursor-type                           'hollow)
+ cursor-type                            t
+ ;; cursor-type                           'hollow
+ indent-tabs-mode                       nil)
 
 (setq
+ truncate-lines                         nil
  split-width-threshold                  300
  frame-inhibit-implied-resize           t
  max-mini-window-height                 0.3
  enable-recursive-minibuffers           nil
- cursor-type                            'hollow
+ ;; enable-recursive-minibuffers           t
+ cursor-type                            t
+ ;; cursor-type                            'hollow
  explicit-shell-file-name               "/bin/bash"
  tab-always-indent                      t
  indent-tabs-mode                       nil
@@ -1048,8 +1081,8 @@
  create-lockfiles                       nil
  save-interprogram-paste-before-kill    t
  select-enable-clipboard                t
- browse-url-browser-function            'browse-url-chrome
- browse-url-chrome-arguments            "--new-window"
+ ;; browse-url-browser-function            'browse-url-chrome
+ ;; browse-url-chrome-arguments            "--new-window"
  compilation-scroll-output              'first-error
  tab-always-indent                      'complete
  vc-follow-symlinks                     t
@@ -1062,6 +1095,7 @@
 (ansi-color-for-comint-mode-on)
 (fset 'yes-or-no-p            'y-or-n-p)
 (put 'scroll-left             'disabled nil)
+(put 'narrow-to-region        'disabled nil)
 (set-language-environment     "UTF-8")
 (set-default-coding-systems   'utf-8)
 (menu-bar-mode                -1)
@@ -1069,8 +1103,8 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   32)
-(set-cursor-color "red")
+(fringe-mode                   0)
+
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
@@ -1088,8 +1122,6 @@
 ;; -- tmp ----------------------------------------------------------------------
 (setq safe-local-variable-values
       '((irony-additional-clang-options "-I/home/benjamin/repos/linux/include" "-include/home/benjamin/repos/linux/include/linux/kconfig.h" "-D__KERNEL__" "-D__GNUC__" "-DMODULE" "-Dcpu_to_le32(x) x" "-Dle32_to_cpu(x) x" "-Dcpu_to_le16(x) x" "-Dle16_to_cpu(x) x" "-DDEBUG" "-DCC_HAVE_ASM_GOTO" "-DKBUILD_STR(s)=#s" "-DKBUILD_BASENAME=KBUILD_STR(bounds)" "-DKBUILD_MODNAME=KBUILD_STR(bounds)" "-D__LINUX_ARM_ARCH__=7" "-nostdinc")))
-(fringe-mode 0)
-(global-hl-line-mode -1)
 
 ;;--- super todo ----
 (require 'face-remap)

@@ -786,18 +786,19 @@ This function is suitable to add to `find-file-hook'."
 (defun goto-line-with-feedback ()
   "Show line numbers temporarily, while prompting for the line number input."
   (interactive)
-  (defvar goto/line 0)
-  (unwind-protect
-      (let ((git-gutter-was-enabled git-gutter+-mode)
-            (old-fringe-mode fringe-mode))
-        (fringe-mode 0)
+  (let ((git-gutter-was-enabled
+         (and (fboundp git-gutter+-mode) git-gutter+-mode))
+        (old-fringe-mode fringe-mode)
+        (goto/line 0))
+    (unwind-protect
         (let ((display-line-numbers 1))
+          (fringe-mode 0)
           (git-gutter+-mode -1)
           (setq goto/line (read-number "Goto line: "))
           (goto-char (point-min))
           (forward-line (1- goto/line)))
-        (if git-gutter-was-enabled (git-gutter+-mode 1))
-        (fringe-mode old-fringe-mode))))
+      (if git-gutter-was-enabled (git-gutter+-mode 1))
+      (fringe-mode old-fringe-mode))))
 
 ;;;###autoload
 (defun duplicate-current-line-or-region (arg)

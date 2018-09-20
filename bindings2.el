@@ -7,6 +7,7 @@
 ;;; visual-regex
 ;;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
 (global-unset-key (kbd "M-r"))
+(global-unset-key (kbd "M-g"))
 (global-unset-key (kbd "M-c"))
 (global-unset-key (kbd "M-s"))
 (global-unset-key (kbd "M-k"))
@@ -140,7 +141,7 @@
 (global-set-key       (kbd "s-r")    nil)
 (global-set-key       (kbd "M-r")   'backward-kill-word)
 (global-set-key       (kbd "C-r")   'kill-symbol-at-point)
-(global-set-key       (kbd "H-r")   'kill-word-at-point)
+(global-set-key       (kbd "H-r")   'backward-delete-char)
 (global-set-key     (kbd "C-S-r")   'hungry-delete-backward)
 (global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)
 (global-set-key   (kbd "M-s   r")   'benjamin/rec-grep)
@@ -153,7 +154,6 @@
 (global-set-key (kbd "C-x C-S-r")   'rename-current-buffer-file)
 (global-set-key   (kbd "C-x M-r")   'rename-buffer)
                             ;-r      [
-                            ;-R      ]
 
 (global-set-key     (kbd "s-t")    nil)                                      ;;;
 (global-set-key     (kbd "C-t")    ctl-x-map)
@@ -192,7 +192,8 @@
 (global-set-key     (kbd "M-i")   'counsel-imenu)
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
-(global-set-key   (kbd "H-M-i")   'benjamin/indent-a-bit-around-point)
+(global-set-key   (kbd "H-M-i")   'benjamin/indent-a-bit-around-point)         ;
+(global-set-key   (kbd "C-M-i")   'benjamin/indent-a-bit-around-point)         ;
 (global-set-key (kbd "M-s M-i")   'benjamin/indent-a-bit-around-point)
 (global-set-key   (kbd "C-x i")   'iedit-mode)
 (global-set-key   (kbd "C-c i")   'ivy-resume)
@@ -259,9 +260,9 @@
 (global-set-key   (kbd "C-c d")   'mark-defun)
                           ;-d      :
 
+(global-set-key     (kbd "s-f")    nil)
 (global-set-key     (kbd "C-f")   'avy-goto-char-in-line)
 (global-set-key     (kbd "H-f")   'avy-goto-word-or-subword-1)
-(global-set-key     (kbd "s-f")   'find-file)
 (global-set-key     (kbd "M-f")   'forward-to-word)
 (global-set-key   (kbd "C-S-f")   'BIND-ME)                                  ;;;
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
@@ -279,12 +280,10 @@
 (global-set-key     (kbd "s-g")    nil)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case)
-(global-unset-key   (kbd "M-g"))
-(global-set-key (kbd "M-g M-g")   'goto-line-with-feedback)
-(global-set-key (kbd "M-g   g")   'goto-line-with-feedback)
+(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
+(global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
-(global-set-key   (kbd "C-M-g")   'avy-goto-line)                              ;
-(global-set-key   (kbd "C-S-g")   'hydra-git/body)                      ;
+(global-set-key   (kbd "C-S-g")   'hydra-git/body)                             ;
 (global-set-key (kbd "M-s   g")   'hydra-git/body)
 (global-set-key (kbd "M-s M-g")   'magit-status)
 (global-set-key   (kbd "C-x g")   'BIND-ME)                                    ;
@@ -320,6 +319,7 @@
 (global-set-key     (kbd "H-k")   'kill-inner)
 (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key   (kbd "C-S-k")   'move-text-up)
+(global-set-key   (kbd "C-c k")   'kconfig-option-at-point-projectile-root)
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)                       ;
                           ;-k      '                                         ;;;
