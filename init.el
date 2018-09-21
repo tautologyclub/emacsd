@@ -49,7 +49,7 @@
 
 (use-package    feebleline
   :load-path    "~/repos/feebleline"
-  :custom       (feebleline-show-git-branch      nil) ;; FIXME: revise implementation to cache branch, messes up sshfs/tramp right now
+  :custom       (feebleline-show-git-branch      t)
                 (feebleline-show-dir             t)
                 (feebleline-show-time            nil)
                 (feebleline-show-previous-buffer nil)
@@ -948,13 +948,12 @@
   :custom       (erc-autojoin-channels-alist '(("#emacs")))
                 (erc-nick "g00iekabl00ie"))
 
-(use-package    hexl
+(use-package    hexl ;; FIXME: can be improved
   :config       (add-to-list 'auto-mode-alist '("\\.hex$" . hexl-mode)))
 
 (use-package    elf-mode
   :ensure       t
   :config       (add-to-list 'auto-mode-alist '("\\.elf$" . elf-mode)))
-
 
 (use-package    face-remap
   :config        (defun set-boring-buffer-face ()
@@ -967,6 +966,9 @@
 
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
+
+(use-package    display-line-numbers
+  :config       (global-display-line-numbers-mode 1))
 
 (use-package    auto-indent-mode
   :disabled     t ;; terrible
@@ -981,15 +983,15 @@
 		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
-(use-package    display-line-numbers
-  :config       (global-display-line-numbers-mode t)) ;; test
-
 (use-package    paren
-  :disabled     t
+  :disabled     t ;; kinda annoying tbh
   :custom       (show-paren-delay 0.1)
                 (show-paren-highlight-openparen t)
                 (show-paren-when-point-inside-paren nil)
   :config       (show-paren-mode 1))
+
+(use-package    eldoc
+  :config       (global-eldoc-mode -1)) ;; mucks up feebleline
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -1010,20 +1012,9 @@
 (use-package highlight               :ensure t)
 (use-package fireplace               :ensure t)
 (use-package flyspell-correct-ivy    :ensure t)
-(use-package visual-fill-column      :ensure t)
-
-
-(defvar benjamin/visual-fill nil)
-(defun benjamin/visual-fill ()
-  (interactive)
-  (if (not benjamin/visual-fill)
-      (progn (toggle-truncate-lines -1)
-             (fci-mode -1)
-             (visual-fill-column-mode 1)
-             (setq benjamin/visual-fill t))
-    (toggle-truncate-lines +1)
-    (visual-fill-column-mode -1)
-    (setq benjamin/visual-fill nil)))
+(use-package visual-regexp           :ensure t)
+(use-package visual-fill-column      :disabled)
+(use-package rainbow-delimiters      :disabled)
 
 
 ;;-- Some general hooks --------------------------------------------------------

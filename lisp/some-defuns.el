@@ -256,7 +256,7 @@ With arg N insert N newlines."
 (defun benjamin/indent-a-bit-around-point ()
   "Indent some suitably large area around point according to mode."
   (interactive)
-  (indent-region (- (point) 800) (+ (point) 160))
+  (indent-region (- (point) 800) (+ (point) 400))
   (message nil))
 
 ;;;###autoload
