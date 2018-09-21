@@ -524,7 +524,7 @@ replacements. "
 (define-key nav-mode-map (kbd "SPC")   'set-mark-command)
 (define-key nav-mode-map (kbd "RET") (lambi (deactivate-mark) (nav-mode -1)))
 
-(add-hook 'find-file-hook 'nav-mode)
+;; (add-hook 'find-file-hook 'nav-mode)
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here

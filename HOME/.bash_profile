@@ -3,6 +3,7 @@
 #
 
 export PATH=~/bin:$PATH
+export PATH=$PATH:/usr/bin/core_perl
 export I_AM_LOCAL=y
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc

@@ -180,10 +180,21 @@
 
 If default directory doesn't exist, cd .. until it does."
   (interactive)
-  (while (not (file-exists-p default-directory))
-    (setq default-directory
-          (expand-filename (concat default-directory "../"))))
-  (multi-term))
+  (if (string-match-p "^/ssh\:" default-directory)
+      (let ((ssh-cmd
+             (concat "ssh " tramp-current-user "@" tramp-current-host ""))
+            (remote-directory
+             (car (cdr (cdr (split-string default-directory ":"))))) ; ugly
+            (default-directory
+              counsel-term--home-dir))
+        (message (format "%s" remote-directory))
+        (multi-term)
+        (term-send-raw-string ssh-cmd)
+        (term-send-raw-string (concat "cd " remote-directory "")))
+    (while (not (file-exists-p default-directory))
+      (setq default-directory
+            (expand-filename (concat default-directory "../"))))
+    (multi-term)))
 
 (provide 'term-addons)
 ;;; term-addons.el ends here
