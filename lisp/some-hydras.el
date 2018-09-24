@@ -248,8 +248,8 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   "
   _a_ abbrev:           %`abbrev-mode
   _s_ semantic:         %`semantic-mode
-  _S_ flyspell:         %`flyspell-mode
   _T_    stickyfunc:    %`semantic-stickyfunc-mode
+  _S_ flyspell:         %`flyspell-mode
   _e_ feebleline:       %`feebleline-mode
   _f_ auto-fill:        %`auto-fill-function
   _h_ hl-line:          %`hl-line-mode
@@ -281,10 +281,11 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("H" helm-gtags-mode)
   ("w" whitespace-mode)
   ("l" benjamin/toggle-linum)
-  ("i" fci-mode)
+  ("i" fci-mode                                     :color blue)
   ("I" auto-dim-other-buffers-mode)
   ("o" overwrite-mode)
-  ("r" (setq enable-recursive-minibuffers (not enable-recursive-minibuffers)))
+  ("r" (setq enable-recursive-minibuffers
+             (not enable-recursive-minibuffers))    :color blue)
   ("R" read-only-mode)
   ("RET" nil "quit")
   ("q" nil "quit"))
@@ -523,7 +524,7 @@ replacements. "
 (define-key nav-mode-map (kbd "SPC")   'set-mark-command)
 (define-key nav-mode-map (kbd "RET") (lambi (deactivate-mark) (nav-mode -1)))
 
-(add-hook 'find-file-hook 'nav-mode)
+;; (add-hook 'find-file-hook 'nav-mode)
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here
