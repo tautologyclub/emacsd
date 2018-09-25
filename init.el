@@ -18,11 +18,9 @@
     (progn (package-refresh-contents) (package-install 'use-package)))
 (setq custom-file (make-temp-file "/tmp/custom.el"))
 
-
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
   `(lambda () (interactive),@b))
-
 
 ; -- my own stuff (mostly) -----------------------------------------------------
 (use-package    kill-at-point)
@@ -32,7 +30,7 @@
 (use-package    some-defuns)
 (use-package    some-hydras)
 (use-package    pdf-custom)
-(use-package    zoom-frm)
+(use-package    zoom-frm)         ;; raw download
 (use-package    company-flyspell) ;; raw download
 
 (use-package    term-addons
@@ -623,12 +621,14 @@
   :bind         (:map org-mode-map
                       ("C-a"        . nil)
                       ("C-e"        . nil)
+                      ;; ("C-S-a"      . nil)
+                      ;; ("C-S-e"      . nil)
                       ("M-a"        . nil)
-                      ("M-RET"      . nil)
-                      ("<C-tab>"    . nil)
                       ("M-e"        . nil)
-                      ("C-S-a"      . outline-previous-visible-heading)
-                      ("C-S-e"      . outline-next-visible-heading)
+                      ("s-a"      . outline-previous-visible-heading)
+                      ("s-e"      . outline-next-visible-heading)
+                      ("M-RET"      . nil)
+                      ;; ("<C-tab>"    . nil)
                       ("C-j"        . next-line)
                       ("C-k"        . previous-line)))
 
@@ -743,20 +743,6 @@
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
                              "/usr/lib/clang/5.0.0/include/stddef.h"))
 
-(defvar indent-after-yank nil)
-(defun set-local-indent-after-yank (true)
-  "Habpowjeg TRUE fepowjfew."
-  (if true
-      (progn (add-hook 'yank 'indent-region t t)
-             (setq indent-after-yank t))
-    (progn (remove-hook 'yank 'indent-region)
-           (setq indent-after-yank nil))))
-
-(defadvice yank (after indent-yanked-stuff activate)
-  "Indent region after yanking stuff."
-  (exchange-point-and-mark)
-  (call-interactively 'indent-region))
-
 (use-package    cc-mode
   :after        (semantic)
   :custom       (c-default-style        "user")
@@ -777,33 +763,6 @@
                       ("C-i"       . company-indent-for-tab-command))
   :init         (semanticdb-enable-gnu-global-databases 'c-mode)
                 (semanticdb-enable-gnu-global-databases 'c++-mode))
-
-(defun benjamin/c-hook ()
-  "Setup for C bla."
-  (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
-      (progn (c-set-style "linux")
-             (setq c-tab-always-indent t))
-    (progn (setq c-basic-offset 4)
-           (setq c-tab-always-indent t)
-           (c-set-style "user")))
-  (set-local-indent-after-yank t)
-  (subword-mode 1)
-  (flycheck-mode 1)
-  (helm-gtags-mode 1)
-  (fci-mode -1) ;; destroys company
-  (hide-ifdef-mode 1) ;; needed...?
-  (irony-mode 1)
-  (company-mode 1)
-  (semantic-mode 1)
-  (semantic-stickyfunc-mode -1)
-  (set (make-local-variable 'company-backends)
-       '((company-irony-c-headers
-          ;; company-c-headers
-          company-irony
-          company-cmake)))
-  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
-(add-hook 'c-mode-hook 'benjamin/c-hook)
-(add-hook 'c++-mode-hook 'benjamin/c-hook)
 
 (use-package    pdf-tools
   :ensure       t
@@ -968,7 +927,8 @@
   :config       (electric-pair-mode 1))
 
 (use-package    display-line-numbers
-  :config       (global-display-line-numbers-mode 1))
+  :config       (add-hook 'after-init-hook
+                          (lambda () (global-display-line-numbers-mode 1))))
 
 (use-package    auto-indent-mode
   :disabled     t ;; terrible
@@ -1018,14 +978,55 @@
 
 
 ;;-- Some general hooks --------------------------------------------------------
+(defadvice yank (after indent-yanked-stuff activate)
+  "Indent region after yanking stuff. In programming mode."
+  (when (derived-mode-p 'prog-mode)
+    (exchange-point-and-mark)
+    (call-interactively 'indent-region)
+    (exchange-point-and-mark)))
+
+(defadvice yank-pop (after indent-yanked-stuff activate)
+  "Indent region after yanking stuff. In programming mode."
+  (when (derived-mode-p 'prog-mode)
+    (exchange-point-and-mark)
+    (call-interactively 'indent-region)
+    (exchange-point-and-mark)))
+
+(defun benjamin/prog-mode-hook ()
+  "My hook for 'prog-mode'."
+  (hs-minor-mode 1)
+  (set (make-local-variable 'comment-auto-fill-only-comments) t)
+  (local-set-key (kbd "RET") 'newline-and-indent))
+
+(defun benjamin/c-hook ()
+  "Setup for C bla."
+  (if (string-match-p "linux\\|uboot|u-boot" buffer-file-name)
+      (progn (c-set-style "linux")
+             (setq c-tab-always-indent t))
+    (progn (setq c-basic-offset 4)
+           (setq c-tab-always-indent t)
+           (c-set-style "user")))
+  (subword-mode 1)
+  (flycheck-mode 1)
+  (helm-gtags-mode 1)
+  (fci-mode -1) ;; destroys company
+  (hide-ifdef-mode 1) ;; needed...?
+  (irony-mode 1)
+  (company-mode 1)
+  (semantic-mode 1)
+  (semantic-stickyfunc-mode -1)
+  (set (make-local-variable 'company-backends)
+       '((company-irony-c-headers
+          ;; company-c-headers
+          company-irony
+          company-cmake)))
+  (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-(add-hook 'find-file-hook   'find-file-root-header-warning)
 (add-hook 'occur-hook       'occur-rename-buffer)
-(add-hook 'prog-mode-hook
- (lambi (set-local-indent-after-yank t)
-        (hs-minor-mode 1)
-        ;; (set (make-local-variable 'comment-auto-fill-only-comments) t)
-        (local-set-key (kbd "RET") 'newline-and-indent)))
+(add-hook 'prog-mode-hook   'benjamin/prog-mode-hook)
+(add-hook 'c-mode-hook      'benjamin/c-hook)
+(add-hook 'c++-mode-hook    'benjamin/c-hook)
 
 ;;-- Random general stuff ------------------------------------------------------
 (setq-default
@@ -1092,7 +1093,7 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   0)
+(fringe-mode                   4)
 
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))

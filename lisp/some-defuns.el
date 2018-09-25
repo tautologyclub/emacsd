@@ -411,7 +411,7 @@ With arg N insert N newlines."
 ;;;###autoload
 (defun sudo-edit-current ()
   (interactive)
-      (find-file (concat "/sudo:root@localhost:" buffer-file-name)))
+  (find-file (concat "/sudo:root@localhost:" buffer-file-name)))
 
 ;;;###autoload
 (defun char-upcasep (letter)
