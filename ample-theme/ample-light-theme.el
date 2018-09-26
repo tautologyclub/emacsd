@@ -129,6 +129,7 @@
    '(sh-heredoc ((t (:foreground nil :inherit font-lock-comment-face))))
 
    '(markdown-pre-face ((t (:inherit nil :background "#cccccc"))))
+   '(markdown-plain-url-face ((t (:inherit nil :foreground "blue" :underline t))))
 
    ;; search
    `(isearch		((t (:background ,ample/blue :foreground ,ample/bg))))
@@ -505,8 +506,8 @@
    `(org-latex-and-export-specials ((t (:foreground nil :background nil))))
    '(org-ellipsis ((t (:underline nil :foreground "#777777" :height 0.7))))
 
-   `(org-level-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.25))))
-   `(org-level-2 ((t (:foreground "#006620" :bold t :background nil :height 1.10))))
+   `(org-level-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.0))))
+   `(org-level-2 ((t (:foreground "#006620" :bold t :background nil :height 1.0))))
    `(org-level-3 ((t (:foreground "#990066" :bold t :background nil))))
    `(org-level-4 ((t (:foreground "#338833" :bold t :background nil))))
    `(org-level-5 ((t (:foreground "#0055ff" :bold t :background nil))))
@@ -829,11 +830,15 @@
   ;; special highlighting for lines starting with " -- TEXT":
   (font-lock-add-keywords
    'org-mode
-   '(("^[[:space:]]--.*" (0 '((:background "yellow3" :foreground "black" :weight bold))))))
+   '(("^[[:blank:]]--.*\n" (0 '((:background "#a8a590" :weight bold))))))
 
   (font-lock-add-keywords
    'org-mode
    '(("^[[:space:]]*@.*:" (0 'my-org-snabel-a-face))))
+
+  (font-lock-add-keywords
+   'org-mode
+   '(("^\\_<\\([A-Z_]*\\)\\_>\\:" (0 '((:foreground "magenta" :weight bold))))))
 
   ;; This is nice, highlights switch cases and tags in C
   (font-lock-add-keywords

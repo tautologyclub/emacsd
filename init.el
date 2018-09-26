@@ -1,7 +1,6 @@
 ;;; init.el --- Summary:
 ;;; Commentary:
 ;;; Code:
-
 ;;; todo: https://github.com/abo-abo/hydra/wiki/Macro
 
 (require 'package)
@@ -29,6 +28,7 @@
 (use-package    helm-addons)
 (use-package    some-defuns)
 (use-package    some-hydras)
+(use-package    some-i3-defuns)
 (use-package    pdf-custom)
 (use-package    zoom-frm)         ;; raw download
 (use-package    company-flyspell) ;; raw download
@@ -633,6 +633,7 @@
                       ("C-k"        . previous-line)))
 
 (use-package    org-capture
+  :after        (org)
   :custom       (org-default-notes-file "~/notes/capture.org")
   :config       (add-to-list 'org-agenda-files "~/notes/capture.org")
                 (setq org-capture-templates
@@ -716,11 +717,6 @@
 (use-package    semantic
   :custom       (semantic-idle-scheduler-idle-time 5)
   :config       (semantic-mode 1)
-                (defun my-inhibit-semantic-p ()
-                  (not (equal major-mode 'org-mode)))
-                (with-eval-after-load 'semantic
-                  (add-to-list 'semantic-inhibit-functions
-                               #'my-inhibit-semantic-p))
                 (global-semantic-idle-scheduler-mode t)
                 (add-to-list 'semantic-default-submodes
                              'global-semantic-idle-scheduler-mode)
@@ -740,8 +736,9 @@
 (use-package    company-irony              :ensure t)
 (use-package    company-irony-c-headers    :ensure t)
 (use-package    semantic/bovine/c
+  ;; fixme -- is this needed/desirable:
   :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-                             "/usr/lib/clang/5.0.0/include/stddef.h"))
+                             "/usr/lib/clang/6.0.1/include/stddef.h"))
 
 (use-package    cc-mode
   :after        (semantic)
@@ -926,10 +923,6 @@
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
 
-(use-package    display-line-numbers
-  :config       (add-hook 'after-init-hook
-                          (lambda () (global-display-line-numbers-mode 1))))
-
 (use-package    auto-indent-mode
   :disabled     t ;; terrible
   :ensure       t
@@ -951,7 +944,13 @@
   :config       (show-paren-mode 1))
 
 (use-package    eldoc
-  :config       (global-eldoc-mode -1)) ;; mucks up feebleline
+  :custom       (eldoc-idle-delay 1)
+  :config       (defun my-eldoc-display-message (format-string &rest args)
+                  "Display eldoc message near point."
+                  (when format-string
+                    (pos-tip-show (apply 'format format-string args))))
+                (setq eldoc-message-function #'my-eldoc-display-message)
+)
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -1022,6 +1021,11 @@
           company-cmake)))
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
 
+(defun benjamin/find-file-hook ()
+  "Stuff to do when opening a normal file."
+  (display-line-numbers-mode 1))
+
+(add-hook 'find-file-hook   'benjamin/find-file-hook)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook   'benjamin/prog-mode-hook)

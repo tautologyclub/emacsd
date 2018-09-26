@@ -212,11 +212,11 @@ mode "resize" {
 bindsym $mod+o mode "shortcuts"
 mode "shortcuts" {
      bindsym r exec /home/benjamin/.emacs.d/bin/emacs-restart; mode "default"
-     bindsym e exec --no-startup-id ~/bin/split_optimal; \
+     bindsym e exec ~/bin/split_optimal; \
                exec emacsclient -ce '(progn (switch-to-buffer nil)\
                                             (previous-buffer))'; mode "default"
      bindsym u exec /home/benjamin/bin/xcape-restart; mode "default"
-     bindsym t exec --no-startup-id ~/bin/split_optimal; \
+     bindsym t exec ~/bin/split_optimal; \
                exec emacsclient -ce '(progn (switch-to-buffer nil)\
                                             (previous-buffer)\
                                             (multi-term))'; mode "default"
@@ -225,7 +225,7 @@ mode "shortcuts" {
                mode "default"
      bindsym shift+s exec setxkbmap -layout se; \
                exec notify-send -t 1000 "layout se"; mode "default"
-     bindsym b exec --no-startup-id ~/bin/split_optimal; \
+     bindsym b exec ~/bin/split_optimal; \
                exec /usr/bin/google-chrome-stable; mode "default"
 
      bindsym Return mode "default"
