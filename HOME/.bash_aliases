@@ -259,6 +259,10 @@ ff()
     find 2>/dev/null | grep "$@"
 }
 
+ful() {
+# Grepping for file names, but with full path
+    find "$PWD" 2>/dev/null | grep "$@"
+}
 
 alias ln='ln -v'
 alias xclip='xclip -selection clipboard'
@@ -331,4 +335,10 @@ extract ()
   else
     echo "'$1' is not a valid file"
   fi
+}
+
+ssh_and_track ()
+{
+    # Todo: extract [user@]destination and save it to some file
+    /usr/bin/ssh "$*"
 }
