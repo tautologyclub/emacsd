@@ -44,8 +44,8 @@
   (back-to-indentation))
 
 (defhydra hydra-gdb (:columns 6     :color pink
-                     :pre (auto-dim-other-buffers-mode -1)
-                     :post (auto-dim-other-buffers-mode +1))
+                              :pre (auto-dim-other-buffers-mode -1)
+                              :post (auto-dim-other-buffers-mode +1))
   "-"
   ("q"  nil :color blue)
   ("y"  gud-statement "send py-line")
@@ -70,9 +70,34 @@
   (call-interactively 'multi-term)
   (term-send-raw-string " git log "))
 
+(defhydra hydra-magit(:columns 4 :color amaranth)
+  "
+--- magit -----------------------------------------------------------------------"
+  ("q"    nil "quit")
+  ("o"   (progn (magit-log-buffer-file) (delete-other-windows)))
+
+  ("D"   magit-diff-trace-definition            "def-diff-trace")
+  ("O"   magit-log-trace-definition             "def-log-trace")
+  ("F"   magit-log-buffer-file                  "file-log-trace")
+  ("d"   magit-diff                             "diff range")
+
+  ("T"   get-term-and-git-log   "log in term")
+  ("g"   counsel-git-grep           "grep files")
+  ("l"   counsel-git-log           "grep log")
+  ("L"  (lambda () (interactive)
+          (progn (multi-term)
+                 (term-send-raw-string " git log --grep ")))
+   "grep log (shell)")
+  ("s"   magit-status           "status")
+  ("f"   magit-find-file        "find file")
+
+  ("b"   magit-blame            "blame")
+
+  )
+
 (defhydra hydra-git (:body-pre (git-gutter+-mode 1)
-                     :columns 4
-                     :color red)
+                               :columns 4
+                               :color red)
   "
 --- git -------------------------------------------------------------------------"
   ("h"   (progn (goto-char (point-min)) (git-gutter+-next-hunk 1)) "first hunk")
@@ -99,6 +124,10 @@
                  (term-send-raw-string " git log --grep ")))
                              "grep log (shell)" :color blue)
 
+  ;; FIXME: These are garbage. Just do a magit-hydra, forget gutter
+  ("D"   magit-diff-trace-definition             "def-diff-trace" :color blue)
+  ("O"   magit-log-trace-definition              "def-log-trace" :color blue)
+  ("F"   magit-log-buffer-file                   "file-log-trace" :color blue)
   ("d"   magit-diff             "diff range")
   ("l"   (progn (goto-char (point-max)) (git-gutter+-previous-hunk 1)) "last hunk")
   ("L"   get-term-and-git-log   "log in term" :color blue)
@@ -356,9 +385,6 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   ("RET" nil :color blue)
   ("q"   nil "cancel" :color blue))
 
-(global-unset-key (kbd "<f9>"))
-(global-set-key (kbd "<f9>") 'hydra-nav/body)
-
 (defun kill-ring-save-keep-selection ()
     "Just like `kill-ring-save' with arguments ARGS but keep selection."
     (interactive)
@@ -523,8 +549,6 @@ replacements. "
 (define-key nav-mode-map (kbd "<f10>") 'er/expand-region)
 (define-key nav-mode-map (kbd "SPC")   'set-mark-command)
 (define-key nav-mode-map (kbd "RET") (lambi (deactivate-mark) (nav-mode -1)))
-
-;; (add-hook 'find-file-hook 'nav-mode)
 
 (provide 'some-hydras)
 ;;; some-hydras.el ends here

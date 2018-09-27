@@ -66,7 +66,7 @@
 
 ;; dubious -- todo
 (global-set-key (kbd "C-;")     'benjamin/helm-buffers-list)                 ;;;
-(global-set-key (kbd "C-'")     'BIND-ME)									 ;;;
+(global-set-key (kbd "C-'")     'hydra-magit/body)									 ;;;
 (global-set-key (kbd "C-:")     'BIND-ME)									 ;;;
 (global-set-key (kbd "<S-f9>")  'BIND-ME)                                    ;;;
 (global-set-key (kbd "H-SPC")   " ")
@@ -92,6 +92,7 @@
 ;------------------------------------------------------------------------------;
 
 (global-set-key     (kbd "C-0")     'switch-to-buffer)
+(global-set-key     (kbd "C-9")     'hydra-magit/body)
 (global-set-key     (kbd "H-0")      nil)
 (global-set-key     (kbd "H-3")     'nav-mode)
 
@@ -280,7 +281,7 @@
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)           ; broken
 (global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case) ; broken
-(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
+(global-set-key     (kbd "M-g")   'goto-line)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-S-g")   'hydra-git/body)                             ;
@@ -395,9 +396,10 @@
 (global-set-key   (kbd "H-M-m")   'kmacro-call-macro)
 (global-set-key       (kbd "μ")   "$")                                       ;;;
 
+(global-set-key (kbd "C-,")     'hydra-magit/body)
+
 (global-set-key (kbd "H-,")     'goto-prev-line-with-same-indentation)		 ;;;
 (global-set-key (kbd "H-.")     'goto-next-line-with-same-indentation)		 ;;;
-(global-set-key (kbd "C-,")     'set-mark-and-deactive)						 ;;;
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
 (global-set-key (kbd "C->")     (lambi (forward-line 40)))
 (global-set-key (kbd "C-<")     (lambi (forward-line -40)))
