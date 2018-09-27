@@ -22,48 +22,54 @@
     ))
 
 (defvar counsel-bar-candidates nil)
+(make-variable-buffer-local 'counsel-bar-candidates)
 
-(defcustom counsel-bar-filter-regex "^*" "Fuasfasf." :group 'counsel-bar)
-(setq counsel-bar-filter-regex nil)
+(defcustom counsel-bar-filter-regex "^\\*" "Fuasfasf." :group 'counsel-bar :type 'string)
+(setq counsel-bar-filter-regex "^\\*")
 
-(defun counsel-bar--filtered-insert (candidate &optional number)
+(defun counsel-bar--insert (candidate &optional number)
   "Insert CANDIDATE unless it satifies predicate, NUMBER too."
-  ;; (unless (string-match-p counsel-bar-filter-regex candidate)
-  (if number (insert (format "%-3s" number)))
-  (insert (propertize (concat candidate "\n") 'face font-lock-comment-face)))
-;; )
+  (if number (insert (format " %-3s" number)))
+  (insert (propertize (concat candidate "\n") 'face font-lock-variable-name-face))
+  )
 
-(defun counsel-bar-get-window () (interactive)
+(defun counsel-bar--filter-candidate (candidate)
+  "Ass fff aa CANDIDATE."
+  (if (string-match-p counsel-bar-filter-regex candidate) nil t))
+
+(defun counsel-bar-open-window ()
   "Asf ff ass."
+  (interactive)
+  (setq counsel-bar-candidates
+        (seq-filter 'counsel-bar--filter-candidate
+                    (sort (counsel-projectile--project-buffers) 'string<)))
   (let ((current-window (selected-window))
-        ;; Get split new window.
+        (tmp-counsel-bar-candidates counsel-bar-candidates)
         (new-window (split-window
                      (selected-window)
                      counsel-bar-width
                      t)))
-    ;; Select split window.
-    (setq counsel-bar-window ;; todo: -- buffer local
-          (if counsel-bar-right-side
-              ;; Select right window when `counsel-bar-right-side' is enable.
-              new-window
-            ;; Otherwise select left widnow.
-            current-window))
     (switch-to-buffer (concat "*counsel-bar*<" (buffer-name) ">"))
-    (mapcar* 'counsel-bar--filtered-insert
-             (sort (counsel-projectile--project-buffers) 'string<)
-             (number-sequence 1 (length (counsel-projectile--project-buffers))))
+    (insert (propertize (concat "-- " (projectile-project-name) " --\n") 'face font-lock-keyword-face))
+    (mapcar* 'counsel-bar--insert
+             (sort tmp-counsel-bar-candidates 'string<)
+             (number-sequence 1 (length tmp-counsel-bar-candidates)))
 
-    (other-window 1) ;; hacky :(
+    (unless counsel-bar-right-side (other-window 1)) ;; hacky :(
+    ))
 
-    )
-  )
+(global-set-key (kbd "C-2") 'counsel-bar-open-window)
 
-(counsel-bar-get-window)
-(global-set-key (kbd "C-2") 'counsel-bar-get-window)
-
-(setq list2 '("apa" "banan"))
-(setq list1 '("1" "2"))
-(mapcar* (lambda (x y) (message (concat x y))) list1 list2)
+(global-set-key (kbd "M-s 1 RET") (lambi (when counsel-bar-candidates (switch-to-buffer (nth 0 counsel-bar-candidates )))))
+(global-set-key (kbd "M-s 2") (lambi (switch-to-buffer (nth 1 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 3") (lambi (switch-to-buffer (nth 2 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 4") (lambi (switch-to-buffer (nth 3 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 5") (lambi (switch-to-buffer (nth 4 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 6") (lambi (switch-to-buffer (nth 5 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 7") (lambi (switch-to-buffer (nth 6 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 8") (lambi (switch-to-buffer (nth 7 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 9") (lambi (switch-to-buffer (nth 8 counsel-bar-candidates ))))
+(global-set-key (kbd "M-s 10 RET") (lambi (switch-to-buffer (nth 9 counsel-bar-candidates ))))
 
 (provide 'counsel-bar)
 ;;; counsel-bar.el ends here
