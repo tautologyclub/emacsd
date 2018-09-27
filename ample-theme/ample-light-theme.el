@@ -819,9 +819,9 @@
   (load-theme 'ample-light t)
   ;; (setq minibuffer-setup-hook nil)
   (add-hook 'minibuffer-setup-hook
-	    (lambda () (make-local-variable 'face-remapping-alist)
-	      (add-to-list
-	       'face-remapping-alist '(default (:background "#d5e0a6")))))
+	        (lambda () (make-local-variable 'face-remapping-alist)
+	          (add-to-list
+	           'face-remapping-alist '(default (:background "#d5e0a6")))))
   (font-lock-add-keywords
    'org-mode
    '(("^Note\\\:" (0 '((:background "yellow3" :foreground "black" :weight bold))))))
