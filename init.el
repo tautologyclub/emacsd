@@ -926,10 +926,6 @@
 (use-package    elec-pair
   :config       (electric-pair-mode 1))
 
-(use-package    display-line-numbers
-  :config       (add-hook 'after-init-hook
-                          (lambda () (global-display-line-numbers-mode 1))))
-
 (use-package    auto-indent-mode
   :disabled     t ;; terrible
   :ensure       t
