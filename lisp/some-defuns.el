@@ -63,9 +63,9 @@
                                      unread-command-events)))
 
 (defvar benjamin/rec-grep-command "grep --color -nHRi -e ")
-(setq benjamin/rec-grep-command "grep --color -nHri --include \\*.\\* ")
+(setq benjamin/rec-grep-command "grep --color -nHriI --max-count=1200 --include \\*.\\* ")
 (defvar benjamin/rec-grep-with-case-command "grep --color -nHRi -e ")
-(setq benjamin/rec-grep-with-case-command "grep --color -nHr --include \\*.\\* ")
+(setq benjamin/rec-grep-with-case-command "grep --color -nHrI --include \\*.\\* ")
 
 ;;;###autoload
 (defun benjamin/rec-grep ()
@@ -398,8 +398,7 @@ With arg N insert N newlines."
 (defun copy-current-file-path ()
   "Add current file path to kill ring. Limits the filename to project root if possible."
   (interactive)
-  (let ((filename (concat (file-name-directory (buffer-file-name)) (buffer-file-name))))
-    (kill-new filename)))
+  (kill-new (buffer-file-name)))
 
 ;;;###autoload
 (defun copy-current-dir-path ()

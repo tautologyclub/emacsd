@@ -423,13 +423,15 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
 
 (global-set-key (kbd "<f9>") 'nav-mode)
 
-(defun benjamin/toggle-hl-line ()
-  (interactive)
-  (if hl-line-mode
-      (hl-line-mode -1))
-  (hl-line-mode))
+(defun benjamin/nav-mode-toggle-hl-line ()
+  (if nav-mode
+      (progn (hl-line-mode)
+             ;; (set (make-local-variable 'hl-line) '((t :background "gray"))))
+             (setq hl-line '((t :background "gray"))))
+    (hl-line-mode -1)))
 
-(add-hook 'nav-mode-hook 'benjamin/toggle-hl-line)
+(setq nav-mode-hook nil)
+(add-hook 'nav-mode-hook 'benjamin/nav-mode-toggle-hl-line)
 
 (defvar nav-mode--prev-cursor-type t)
 (setq nav-mode--prev-cursor-type t)
@@ -447,8 +449,10 @@ replacements. "
                (set-mark-if-inactive))
              (setq nav-mode--prev-cursor-type cursor-type)
              (setq-local cursor-type '(hbar . 7)))
+    ;; (hl-line-mode -1)
     (setq-local cursor-type nav-mode--prev-cursor-type)
-    (when hl-line-mode (hl-line-mode -1))))
+    ;; (when hl-line-mode (hl-line-mode -1))
+    ))
 
 (define-key nav-mode-map (kbd "q") 'left-word)
 (define-key nav-mode-map (kbd "w") 'kill-ring-save-keep-selection) ;;

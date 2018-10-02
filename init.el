@@ -144,8 +144,7 @@
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
                 (fci-rule-color "#545454")
-  :config       ;; (add-hook 'org-mode-hook 'fci-mode)
-  )
+  :config       ;; (add-hook 'org-mode-hook 'fci-mode))
 
 (use-package    smex
   :ensure       t)
@@ -172,6 +171,7 @@
                         (multi-term)
                         (rename-buffer projectile--proj-term-name)))))
                 (projectile-mode 1)
+                (define-key projectile-mode-map (kbd "C-c p") nil)
   :bind (:map projectile-command-map
               ("t"   . projectile-get-term)
               ("T"   . projectile-test-project)
@@ -716,6 +716,7 @@
 
 (use-package    semantic
   :custom       (semantic-idle-scheduler-idle-time 5)
+                (semanticdb-default-save-directory "~/.semanticdb")
   :config       (semantic-mode 1)
                 (global-semantic-idle-scheduler-mode t)
                 (add-to-list 'semantic-default-submodes
@@ -1023,9 +1024,10 @@
 
 (defun benjamin/find-file-hook ()
   "Stuff to do when opening a normal file."
-  (display-line-numbers-mode 1))
+  ;; (display-line-numbers-mode 1)
+  )
 
-(add-hook 'find-file-hook   'benjamin/find-file-hook)
+;; (add-hook 'find-file-hook   'benjamin/find-file-hook)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'occur-hook       'occur-rename-buffer)
 (add-hook 'prog-mode-hook   'benjamin/prog-mode-hook)

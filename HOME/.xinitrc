@@ -87,5 +87,11 @@ if [ -f ~/.xrandr-setup.sh ]; then
      ~/./.xrandr-setup.sh
 fi
 
+# Try to shuffle monitors around
+lsmod | grep nvidia && {
+    nvidia-settings --assign "CurrentMetaMode=DPY-4: nvidia-auto-select @1920x1080 +4047+909 {ViewPortIn=1920x1080, ViewPortOut=1920x1080+0+0}, DPY-1: nvidia-auto-select @3840x2160 +0+0 {ViewPortIn=3840x2160, ViewPortOut=3840x2160+0+0}"
+} || {
+    notify-send -t 800 "NVIDIA driver not in use"
+}
 
 unclutter &

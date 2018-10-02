@@ -52,16 +52,17 @@
 
 ;; beautiful xcape hacks
 ;------------------------------------------------------------------------------;
-(global-set-key       (kbd "<f9>") 'backward-delete-char-untabify)        ;;   [
+(global-set-key       (kbd "<f9>") 'nav-mode)        ;;   [
 (global-set-key     (kbd "C-<f9>") 'benjamin/set-mark-command)            ;; C-[
-(global-set-key     (kbd "H-<f9>") 'counsel-yank-pop)
+(global-set-key        (kbd "C-å") 'benjamin/set-mark-command)
+(global-set-key     (kbd "H-<f9>") 'counsel-yank-pop)                        ;;;
 (global-set-key      (kbd "<f10>") 'er/expand-region)        ;;          Shift_L
 (global-set-key    (kbd "C-<f12>") 'switch-to-buffer)        ;;         C-Ctrl_L
 ;; (global-set-key    (kbd "C-<tab>") 'switch-to-buffer)        ;;  C-Tab || C-Caps
 (global-set-key    (kbd "C-<tab>")  nil)
 ;------------------------------------------------------------------------------;
 (global-set-key (kbd "M-SPC") 'benjamin/set-mark-command)
-(global-set-key (kbd "C-SPC") 'find-file)
+;; (global-set-key (kbd "C-SPC") 'set-mark-command)
 (global-set-key (kbd "M-RET") 'find-file)
 
 ;; dubious -- todo
@@ -161,6 +162,7 @@
 (global-set-key (kbd "C-x C-t")   'multi-term-w/error-handling)
 (global-set-key (kbd "C-x   t")   'multi-term-prev)                            ;
 (global-set-key   (kbd "M-s t")   'vr/mc-mark)
+(global-set-key   (kbd "M-s M-t") 'hydra-toggle/body)
 (global-set-key   (kbd "C-c t")   'transpose-params)
 (global-set-key   (kbd "C-S-t")   'capitalize-word-toggle)
                           ;-t      ~
@@ -188,13 +190,14 @@
 ;; (global-set-key     (kbd "C-i")   'indent-or-complete)
 (global-set-key     (kbd "H-i")   'yank)
 (global-set-key     (kbd "H-I")   'counsel-yank-pop)
-(global-set-key     (kbd "M-i")   'counsel-imenu)
+(global-set-key     (kbd "M-i")   'counsel-imenu)                            ;;;
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
-(global-set-key   (kbd "H-M-i")   'benjamin/indent-a-bit-around-point)
-(global-set-key   (kbd "C-M-i")   'benjamin/indent-a-bit-around-point)
+(global-set-key   (kbd "H-M-i")   'counsel-yank-pop)
+(global-set-key   (kbd "C-M-i")   'benjamin/indent-a-bit-around-point)         ;
 (global-set-key (kbd "M-s M-i")   'benjamin/indent-a-bit-around-point)
-(global-set-key   (kbd "C-x i")   'iedit-mode)
+(global-set-key   (kbd "M-s i")   'iedit-mode)
+(global-set-key   (kbd "C-x i")   'iedit-mode)                                 ;
 (global-set-key   (kbd "C-c i")   'ivy-resume)
                           ;-i      *
 
@@ -208,14 +211,14 @@
 (global-set-key (kbd "C-x C-o")   'occur-dwim)
 (global-set-key       (kbd "ӽ")    nil)                                      ;;;
 
-(define-key projectile-mode-map (kbd "C-c p") nil)
 (global-set-key     (kbd "C-p")   'hydra-projectile/body)
 (global-set-key     (kbd "M-p")   'benjamin/pop-to-mark-command)
 (global-set-key     (kbd "H-p")   'undo-tree-redo)                           ;;;
-(global-set-key     (kbd "s-p")   'counsel-yank-pop)                         ;;;
+(global-set-key     (kbd "s-p")   'kill-paragraph)                             ;
+(global-set-key     (kbd "s-P")   'backward-kill-paragraph)                    ;
 (global-set-key   (kbd "C-S-p")   'fill-paragraph)
-(global-set-key   (kbd "H-M-p")   'previous-error)
 (global-set-key   (kbd "C-c p")   'er/mark-paragraph)
+(global-set-key   (kbd "H-M-p")   'previous-error)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
 (global-set-key   (kbd "C-c Pt")  'profiler-stop)
@@ -276,12 +279,10 @@
 (global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?\) )))
                           ;-f      (
 
-;; todo: M-g hydra-goto                                                      ;;;
 (global-set-key     (kbd "s-g")    nil)
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
+(global-set-key     (kbd "M-g")   'goto-line)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)           ; broken
-(global-set-key (kbd "C-x s-g")   'benjamin/rec-grep-with-case) ; broken
-(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
 (global-set-key   (kbd "C-S-g")   'hydra-git/body)                             ;
@@ -291,11 +292,11 @@
 (global-set-key   (kbd "C-c g")   'helm-google)
                           ;-g      ?
 
-(global-set-key     (kbd "H-h")    help-map)
 (global-set-key     (kbd "C-h")   'backward-char)
+(global-set-key     (kbd "H-h")    help-map)
 (global-set-key     (kbd "M-h")   'hs-toggle-hiding)
-(global-set-key   (kbd "H-M-h")   'benjamin/highlight)
-(global-set-key   (kbd "H-M-H")   'benjamin/unhighlight-region)
+(global-set-key   (kbd "H-M-h")   'benjamin/highlight)                         ;
+(global-set-key   (kbd "H-M-H")   'benjamin/unhighlight-region)                ;
 (global-set-key   (kbd "C-S-h")   (lambi (set-mark-if-inactive)
                                          (forward-char -1)))
 (global-set-key   (kbd "C-x h")    help-map)
@@ -387,7 +388,7 @@
 
 (global-set-key     (kbd "M-m")   'counsel-mark-ring)
 (global-set-key     (kbd "s-m")   'helm-man-woman)
-(global-set-key     (kbd "H-m")   'hydra-toggle/body)
+(global-set-key     (kbd "H-m")   'hydra-toggle/body)                        ;;;
 (global-set-key   (kbd "C-S-m")   'mark-line)
 (global-set-key   (kbd "C-c m")   'helm-global-mark-ring)
 (global-set-key (kbd "C-c RET")   'helm-global-mark-ring)
@@ -414,12 +415,3 @@
 
 ;; misc mode mappings
 (define-key help-mode-map (kbd "q")   'murder-buffer-with-window)
-
-
-;; In case I accidentally left swedish keyboard layout on
-(global-set-key (kbd "C-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 10 nil)
-                                        (benjamin/set-mark-command)))
-(global-set-key (kbd "H-å")      (lambi (benjamin/notify "Switching keyboard layout...")
-                                        (call-process "xcape-restart" nil 0 nil)
-                                        (call-interactively 'switch-to-buffer)))

@@ -130,6 +130,12 @@
 
    '(markdown-pre-face ((t (:inherit nil :background "#cccccc"))))
    '(markdown-plain-url-face ((t (:inherit nil :foreground "blue" :underline t))))
+   '(markdown-code-face ((t (:height 1.0))))
+   `(markdown-header-face-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.0))))
+   `(markdown-header-face-2 ((t (:foreground "#990066" :bold t :background nil :height 1.0))))
+   `(markdown-header-face-3 ((t (:foreground "#006620" :bold t :background nil :height 1.0))))
+   `(markdown-header-face-4 ((t (:foreground "#338833" :bold t :background nil))))
+   `(markdown-header-face-5 ((t (:foreground "#0055ff" :bold t :background nil))))
 
    ;; search
    `(isearch		((t (:background ,ample/blue :foreground ,ample/bg))))
@@ -830,6 +836,9 @@
   ;; special highlighting for lines starting with " -- TEXT":
   (font-lock-add-keywords
    'org-mode
+   '(("^[[:blank:]]--.*\n" (0 '((:background "#a8a590" :weight bold))))))
+  (font-lock-add-keywords
+   'markdown-mode
    '(("^[[:blank:]]--.*\n" (0 '((:background "#a8a590" :weight bold))))))
 
   (font-lock-add-keywords
