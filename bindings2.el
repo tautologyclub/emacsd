@@ -67,14 +67,14 @@
 
 ;; dubious -- todo
 (global-set-key (kbd "C-;")     'benjamin/helm-buffers-list)                 ;;;
-(global-set-key (kbd "C-'")      nil)									 ;;;
-(global-set-key (kbd "C-:")      nil)									 ;;;
-(global-set-key (kbd "<S-f9>")   nil)                                    ;;;
+(global-set-key (kbd "C-:")      nil)									     ;;;
+(global-set-key (kbd "C-'")     'hydra-magit/body)							 ;;;
+(global-set-key (kbd "<S-f9>")   nil)                                        ;;;
 (global-set-key (kbd "H-SPC")   " ")
-(global-set-key (kbd "M-<f12>")  nil)                                    ;;;
-(global-set-key (kbd "M-'")      nil)                                      ;
+(global-set-key (kbd "M-<f12>")  nil)                                        ;;;
+(global-set-key (kbd "M-'")      nil)                                          ;
 (global-set-key (kbd "H-;")     'benjamin/helm-buffers-list)                 ;;;
-(global-set-key (kbd "H-'")      nil)                                    ;;;
+(global-set-key (kbd "H-'")      nil)                                        ;;;
 (global-set-key (kbd "䑄")      'capitalize-word-toggle)                     ;-'
 (global-set-key (kbd "ሴ")       'capitalize-word-toggle)                   ;-RET
 ;------------------------------------------------------------------------------;
@@ -93,6 +93,7 @@
 ;------------------------------------------------------------------------------;
 
 (global-set-key     (kbd "C-0")     'switch-to-buffer)
+(global-set-key     (kbd "C-9")     'hydra-magit/body)
 (global-set-key     (kbd "H-0")      nil)
 (global-set-key     (kbd "H-3")     'nav-mode)
 
@@ -397,9 +398,10 @@
 (global-set-key   (kbd "H-M-m")   'kmacro-call-macro)
 (global-set-key       (kbd "μ")   "$")                                       ;;;
 
+(global-set-key (kbd "C-,")     'hydra-magit/body)
+
 (global-set-key (kbd "H-,")     'goto-prev-line-with-same-indentation)		 ;;;
 (global-set-key (kbd "H-.")     'goto-next-line-with-same-indentation)		 ;;;
-(global-set-key (kbd "C-,")     'set-mark-and-deactive)						 ;;;
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)
 (global-set-key (kbd "C->")     (lambi (forward-line 40)))
 (global-set-key (kbd "C-<")     (lambi (forward-line -40)))

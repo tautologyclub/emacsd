@@ -83,6 +83,7 @@
 ;;;###autoload
 (defun benjamin/previous-buffer ()
   (interactive)
+  ;; FIXME: Skip buffers according to regexp
   (previous-buffer)
   (when auto-dim-other-buffers-mode
     (adob--focus-in-hook)))

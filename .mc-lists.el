@@ -33,7 +33,6 @@
         forward-whitespace
         hungry-delete-backward
         hungry-delete-forward
-        indent-for-tab-command
         hydra-nav/backward-char
         hydra-nav/beginning-of-line-or-block
         hydra-nav/end-of-line-or-block
@@ -42,6 +41,7 @@
         hydra-nav/kill-region
         hydra-nav/next-line
         hydra-nav/previous-line
+        indent-for-tab-command
         indent-for-tab-command
         kill-inner
         kill-line-save
@@ -56,6 +56,8 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        markdown-enter-key
+        markdown-outdent-or-delete
         my-decrement-number-decimal
         my-increment-number-decimal
         ora-brackets
@@ -165,5 +167,6 @@
         iedit-switch-to-mc-mode
         indent-or-complete
         ivy-alt-done
+        lispy-cursor-down
         nav-mode
         ))

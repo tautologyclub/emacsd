@@ -15,7 +15,7 @@
 (package-initialize)
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
-(setq custom-file (make-temp-file "/tmp/custom.el"))
+(setq custom-file "~/.emacs.d/.custom")
 
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
@@ -137,14 +137,19 @@
                         ("C-c C-x" . (lambda () (interactive) (term-send-raw-string "")))
                         ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
                         ("<C-backspace>" . term-send-backward-kill-word)
-                        ("<C-return>"    . term-cd-input))))
+                        ("<C-return>"    . term-cd-input)))
+                (add-hook 'term-mode-hook 'benjamin/term-hook))
+
+(defun benjamin/term-hook ()
+  "Run on open terminal."
+  (set (make-local-variable 'scroll-margin) 0)
+  )
 
 (use-package    fill-column-indicator
   :ensure       t
   :custom       (fci-rule-display 80)
                 (fci-rule-width 1)
-                (fci-rule-color "#545454")
-  :config       ;; (add-hook 'org-mode-hook 'fci-mode))
+                (fci-rule-color "#545454"))
 
 (use-package    smex
   :ensure       t)
@@ -730,9 +735,10 @@
   "Grep for definitions/declarations etc, in C."
   (interactive)
   (let ((list-matching-lines-face nil))
-    (occur "^[a-z].*("))
-  (enlarge-window 25)
-  (hydra-errgo/body))
+    (occur "^[a-z\\_].*("))
+  ;; (enlarge-window 25)
+  (hydra-errgo/body)
+  )
 
 (use-package    company-irony              :ensure t)
 (use-package    company-irony-c-headers    :ensure t)
@@ -1085,13 +1091,14 @@
  tab-always-indent                      'complete
  vc-follow-symlinks                     t
  x-stretch-cursor                       t
+ scroll-margin                          6
+ scroll-conservatively                  100
  kill-buffer-query-functions
  (delq 'process-kill-buffer-query-function kill-buffer-query-functions))
 
 (ansi-color-for-comint-mode-on)
 (fset 'yes-or-no-p            'y-or-n-p)
 (put 'scroll-left             'disabled nil)
-(put 'narrow-to-region        'disabled nil)
 (set-language-environment     "UTF-8")
 (set-default-coding-systems   'utf-8)
 (menu-bar-mode                -1)
@@ -1099,14 +1106,13 @@
 (scroll-bar-mode              -1)
 (delete-selection-mode         1)
 (auto-compression-mode         1)
-(fringe-mode                   4)
-
+(fringe-mode                   12)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.sch$"    . text-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$"    . sh-mode))
-(add-to-list 'auto-mode-alist '("\\rc$"      . sh-mode))
+(add-to-list 'auto-mode-alist '("rc$"        . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bash"    . sh-mode))
 
 ;; Open some defaults
@@ -1169,4 +1175,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-(put 'narrow-to-region 'disabled nil)
