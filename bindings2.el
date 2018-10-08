@@ -44,6 +44,7 @@
 (global-unset-key (kbd "C-x ="))
 (global-unset-key (kbd "C-x {"))
 (global-unset-key (kbd "C-x }"))
+(global-unset-key (kbd "C-x C-a"))
 (global-unset-key (kbd "C-x ;"))
 (global-unset-key (kbd "C-x ESC"))
 (global-unset-key (kbd "C-<f10>"))
@@ -218,7 +219,7 @@
 (global-set-key     (kbd "s-p")   'kill-paragraph)                             ;
 (global-set-key     (kbd "s-P")   'backward-kill-paragraph)                    ;
 (global-set-key   (kbd "C-S-p")   'fill-paragraph)
-(global-set-key   (kbd "C-c p")   'er/mark-paragraph)
+(global-set-key   (kbd "C-c p")   'mark-paragraph)
 (global-set-key   (kbd "H-M-p")   'previous-error)
 (global-set-key   (kbd "C-c Ps")  'profiler-start)
 (global-set-key   (kbd "C-c Pr")  'profiler-report)
@@ -282,7 +283,7 @@
 
 (global-set-key     (kbd "s-g")    nil)
 (global-set-key     (kbd "H-g")   'dropdown-multiterm-prev)
-(global-set-key     (kbd "M-g")   'goto-line)
+(global-set-key     (kbd "M-g")   'goto-line-with-feedback)
 (global-set-key   (kbd "C-s-g")   'benjamin/rec-grep)           ; broken
 (global-set-key   (kbd "C-M-g")   'avy-goto-line)
 (global-set-key   (kbd "H-M-g")   'avy-goto-line)
@@ -298,8 +299,7 @@
 (global-set-key     (kbd "M-h")   'hs-toggle-hiding)
 (global-set-key   (kbd "H-M-h")   'benjamin/highlight)                         ;
 (global-set-key   (kbd "H-M-H")   'benjamin/unhighlight-region)                ;
-(global-set-key   (kbd "C-S-h")   (lambi (set-mark-if-inactive)
-                                         (forward-char -1)))
+(global-set-key   (kbd "C-S-h")   (lambi (set-mark-if-inactive) (forward-char -1)))
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-c h")   'hs-hide-all)
 (global-set-key   (kbd "C-c H")   'hs-show-all)
@@ -311,10 +311,9 @@
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'yank-pop)
 (global-set-key     (kbd "M-j")   'hippie-expand)							   ;
-(global-set-key   (kbd "C-S-j")   (lambi (set-mark-if-inactive)
-                                         (forward-line 1)))
+(global-set-key   (kbd "C-s-j")   (lambi (scroll-up 1)))
+(global-set-key   (kbd "C-S-j")   (lambi (set-mark-if-inactive) (forward-line 1)))
 (global-set-key   (kbd "C-M-j")   'move-text-down)
-(global-set-key   (kbd "C-x j")    nil)                                    ;
 (global-set-key    (kbd "C-\"")   (lambi (fastnav-search-char-forward 1 ?\" )))
                           ;-j     "
 
@@ -325,6 +324,7 @@
 (global-set-key   (kbd "C-M-k")   'move-text-up)
 (global-set-key   (kbd "C-S-k")   (lambi (set-mark-if-inactive)
                                          (forward-line -1)))
+(global-set-key   (kbd "s-C-k")   (lambi (scroll-up -1)))
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-c k")   'kconfig-option-at-point-projectile-root)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)                       ;

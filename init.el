@@ -506,8 +506,7 @@
   :ensure       t
   :custom       (helm-gtags-auto-update         t)
                 (helm-gtags-use-input-at-cursor t)
-  :config       (define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
-                (setenv "GTAGSLIBPATH" "~/.gtags") ;; todo bad
+  :config       (setenv "GTAGSLIBPATH" "~/.gtags") ;; todo bad
   :hook         (prog-mode-hook . helm-gtags-mode))
 
 (use-package    flycheck
@@ -546,6 +545,7 @@
   :ensure       t
   :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode))
                 (add-to-list 'auto-mode-alist '("\\.dtsi$" . dts-mode))
+                (add-to-list 'auto-mode-alist '("\\.dto$" . dts-mode))
                 (add-hook 'dts-mode-hook 'subword-mode)
                 (add-hook 'dts-mode-hook 'helm-gtags-mode))
 
@@ -1017,9 +1017,10 @@
   (helm-gtags-mode 1)
   (fci-mode -1) ;; destroys company
   (hide-ifdef-mode 1) ;; needed...?
-  (irony-mode 1)
+  ;; (irony-mode 1)
   (company-mode 1)
   (semantic-mode 1)
+  (local-set-key (kbd "M-.") 'semantic-ia-fast-jump)
   (semantic-stickyfunc-mode -1)
   (set (make-local-variable 'company-backends)
        '((company-irony-c-headers
@@ -1062,7 +1063,7 @@
  tab-always-indent                      t
  indent-tabs-mode                       nil
  auto-hscroll-mode                      nil
- mouse-autoselect-window                t
+ mouse-autoselect-window                nil
  shift-select-mode                      nil
  echo-keystrokes                        0.1
  bookmark-save-flag                     1

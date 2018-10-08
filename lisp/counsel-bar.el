@@ -28,6 +28,11 @@
 (defvar counsel-bar--timer)
 (global-set-key (kbd "H-M-j") 'counsel-bar-mode)
 
+(defadvice other-window (after avoid-counsel-bar)
+  "Avoid counsel-bar window advice."
+  (when (eq (current-buffer) (get-buffer (counsel-bar--own-name)))
+    (other-window 1)))
+
 (define-minor-mode counsel-bar-mode
   "Do some shit. "
   :group 'counsel-bar
@@ -40,9 +45,10 @@
         (add-hook 'focus-out-hook 'counsel-bar-open-window);
         (setq counsel-bar--timer (run-with-timer 1 1 'counsel-bar-open-window))
         (counsel-bar-open-window)
-        )
+        (ad-activate 'other-window))
 
     ;; -- deactivate  ----
+    (ad-deactivate 'other-window)
     (remove-hook 'focus-in-hook 'counsel-bar-open-window);
     (remove-hook 'focus-out-hook 'counsel-bar-open-window);
     (let ((win-to-del (get-buffer-window (counsel-bar--own-name))))

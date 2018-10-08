@@ -16,8 +16,8 @@ while [[ $# -gt 0 ]]; do
             # TODO
             just_shell=1
             shift ;;
-        -S|--squeeze)
-            CHR_DEB_DIR=/home/benjamin/debian/squeeze
+        -S|--stretch)
+            CHR_DEB_DIR=/home/benjamin/debian/stretch
             shift ;;
         -J|--jessie)
             CHR_DEB_DIR=/home/benjamin/debian/jessie

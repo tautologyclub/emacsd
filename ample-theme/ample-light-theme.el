@@ -129,6 +129,7 @@
    '(sh-heredoc ((t (:foreground nil :inherit font-lock-comment-face))))
 
    '(markdown-pre-face ((t (:inherit nil :background "#cccccc"))))
+   '(markdown-italic-face ((t (:inherit font-lock-comment-face))))
    '(markdown-plain-url-face ((t (:inherit nil :foreground "blue" :underline t))))
    '(markdown-code-face ((t (:height 1.0))))
    `(markdown-header-face-1 ((t (:foreground "#2000ff" :bold t :background nil :height 1.0))))
