@@ -19,6 +19,7 @@
         c-electric-paren
         c-electric-pound
         c-electric-semi&comma
+        c-electric-slash
         c-electric-star
         capitalize-word-toggle
         comment-or-uncomment-region-or-line

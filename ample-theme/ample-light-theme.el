@@ -112,7 +112,7 @@
    `(font-lock-constant-face	      ((t (:foreground "#cc0088" :bold t))))
    `(font-lock-warning-face	      ((t (:foreground "red" :bold t))))
    `(font-lock-variable-name-face     ((t (:foreground "#330066" :italic nil :bold t))))
-   `(font-lock-doc-face		      ((t (:foreground ,ample/dark-tan))))
+   `(font-lock-doc-face		      ((t (:foreground "dark red"))))
 
    ;; mode line & powerline
    `(powerline-active1	((t (:foreground ,ample/darkest-gray))))

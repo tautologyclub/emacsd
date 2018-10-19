@@ -28,13 +28,30 @@
   (interactive)
   (minibuffer-with-setup-hook (lambda () (insert "!\*"))
     (call-interactively #'ivy-switch-buffer))
-)
+  )
 
 ;;;###autoload
 (defun swiper-pre-insert-symbol ()
   (interactive)
   (minibuffer-with-setup-hook (lambda () (insert ivy--default))
     (call-interactively #'swiper)))
+
+;;;###autoload
+(defun ivy-kill-buffer ()
+  (interactive)
+  (ivy-set-action 'kill-buffer)
+  (ivy-call)
+  (ivy--reset-state ivy-last)
+  (ivy-set-action 'ivy--switch-buffer-action))
+
+;;;###autoload
+(defun ivy-jump-to-multiterm ()
+  (interactive)
+  (ivy-quit-and-run
+    (let ((default-directory ivy--directory))
+      (multi-term))))
+
+
 
 (provide 'ivy-addons)
 ;;; ivy-addons.el ends here

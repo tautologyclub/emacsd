@@ -24,7 +24,6 @@
 ; -- my own stuff (mostly) -----------------------------------------------------
 (use-package    kill-at-point)
 (use-package    kernel-dev-mode)
-(use-package    ivy-addons)
 (use-package    helm-addons)
 (use-package    some-defuns)
 (use-package    some-hydras)
@@ -32,6 +31,11 @@
 (use-package    pdf-custom)
 (use-package    zoom-frm)         ;; raw download
 (use-package    company-flyspell) ;; raw download
+
+(use-package    ivy-addons
+  :after        (ivy)
+  :config       (define-key ivy-switch-buffer-map (kbd "M-k") 'ivy-kill-buffer)
+                (define-key ivy-minibuffer-map (kbd "H-t") 'ivy-jump-to-multiterm))
 
 (use-package    term-addons
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
@@ -138,12 +142,10 @@
                         ("C-c C-l" . (lambda () (interactive) (term-send-raw-string "")))
                         ("<C-backspace>" . term-send-backward-kill-word)
                         ("<C-return>"    . term-cd-input)))
+                (defun benjamin/term-hook ()
+                  "Run on open terminal."
+                  (set (make-local-variable 'scroll-margin) 0))
                 (add-hook 'term-mode-hook 'benjamin/term-hook))
-
-(defun benjamin/term-hook ()
-  "Run on open terminal."
-  (set (make-local-variable 'scroll-margin) 0)
-  )
 
 (use-package    fill-column-indicator
   :ensure       t
@@ -242,8 +244,7 @@
   :custom       (helm-mode-line-string "")
                 (helm-buffer-details-flag nil))
 
-(use-package    ivy-rich
-  :disabled     t ; todo evaluate
+(use-package    ivy-rich :disabled ;; slightly buggy
   :ensure       t
   :after        (ivy)
   :custom       (ivy-rich-path-style 'abbrev)
@@ -253,6 +254,7 @@
   :config       (ivy-set-display-transformer
                  'ivy-switch-buffer 'ivy-rich-switch-buffer-transformer)
                 (defun ivy-rich-switch-buffer-major-mode () ""))
+
 
 (use-package    ivy
   :ensure       t
@@ -304,15 +306,7 @@
                 (define-key ivy-occur-grep-mode-map
                   (kbd "C-c w") 'ivy-wgrep-change-to-wgrep-mode)
                 (define-key ivy-switch-buffer-map (kbd "M-o") nil)
-                (define-key ivy-switch-buffer-map (kbd "M-k")
-                  (lambi (ivy-set-action 'kill-buffer)
-                         (ivy-call)
-                         (ivy--reset-state ivy-last)
-                         (ivy-set-action 'ivy--switch-buffer-action)))
-                (define-key ivy-minibuffer-map (kbd "H-t")
-                  (lambi (ivy-quit-and-run
-                           (let ((default-directory ivy--directory))
-                             (multi-term))))))
+                )
 
 (use-package    avy
   :ensure       t
@@ -365,8 +359,7 @@
   (setq fill-column 120))
 (add-hook 'git-commit-mode-hook 'git-commit-fill-column-hook)
 
-(use-package    magit-todos
-  :disabled     t  ;; prob slows down huge repos too much
+(use-package    magit-todos :disabled ;; prob slows down huge repos too much
   :ensure       t)
 
 (use-package    swiper
@@ -385,8 +378,8 @@
                       ("M-r"    . ivy-backward-kill-word)
                       ("C-c o"  . ivy-occur))
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
-                (define-key counsel-find-file-map
-                  (kbd "H-r") 'counsel-up-directory)
+                (define-key counsel-find-file-map (kbd "H-r") 'counsel-up-directory)
+                (counsel-mode 1)
   :custom        (counsel-rg-base-command
                  (concat "rg -i --no-heading --line-number --max-columns 120 "
                          "--max-count 200 --max-filesize 100M "
@@ -409,51 +402,41 @@
                 (company-tooltip-idle-delay 1)
                 (company-show-numbers t)
                 (company-tooltip-limit 10)
-  :config       (counsel-mode 1)
-                (add-hook 'after-init-hook 'global-company-mode)
-                (define-key company-active-map (kbd "\"") 'company-select-next)
-                (define-key company-active-map (kbd "C-n") 'company-select-next)
-                (define-key company-active-map (kbd "C-p") 'company-select-previous))
-
-;; silly hack to make indent/complete functionality work properly
-(define-key company-mode-map [remap indent-for-tab-command]
-  'company-indent-for-tab-command)
-(defvar completion-at-point-functions-saved nil)
-(defun company-indent-for-tab-command (&optional arg)
-  (interactive "P")
-  (let ((completion-at-point-functions-saved completion-at-point-functions)
-        (completion-at-point-functions '(company-complete-common-wrapper)))
-    (indent-for-tab-command arg)))
-(defun company-complete-common-wrapper ()
-  (let ((completion-at-point-functions completion-at-point-functions-saved))
-    (company-complete-common)))
-
-;; abo-abo awesome company use-digit hack:
-(let ((map company-active-map))
-  (mapc
-   ;; (lambda (x) (define-key map (format "%d" x) nil))
-   (lambda (x) (define-key map (format "%d" x) 'ora-company-number))
-   (number-sequence 0 9))
-  (define-key map " " (lambda ()
-                        (interactive)
-                        (company-abort)
-                        (self-insert-command 1)))
-  (define-key map (kbd "<return>") nil))
-(defun ora-company-number ()
-  (interactive)
-  (let* ((k (this-command-keys))
-         (re (concat "^" company-prefix k)))
-    (if (cl-find-if (lambda (s) (string-match re s))
-                    company-candidates)
-        (self-insert-command 1)
-        (company-complete-number (string-to-number k)))))
+  :config       (add-hook 'after-init-hook 'global-company-mode)
+                ;; silly hack to make indent/complete functionality work properly
+                (defvar completion-at-point-functions-saved nil)
+                (defun company-indent-for-tab-command (&optional arg)
+                  (interactive "P")
+                  (let ((completion-at-point-functions-saved completion-at-point-functions)
+                        (completion-at-point-functions '(company-complete-common-wrapper)))
+                    (indent-for-tab-command arg)))
+                (defun company-complete-common-wrapper ()
+                  (let ((completion-at-point-functions completion-at-point-functions-saved))
+                    (company-complete-common)))
+                (define-key company-active-map (kbd "C-j") 'company-select-next)
+                (define-key company-active-map (kbd "C-k") 'company-select-previous)
+                (define-key company-mode-map [remap indent-for-tab-command]
+                  'company-indent-for-tab-command)
+                (define-key company-active-map (kbd "C-1") (lambi (company-complete-number 1)))
+                (define-key company-active-map (kbd "C-2") (lambi (company-complete-number 2)))
+                (define-key company-active-map (kbd "C-3") (lambi (company-complete-number 3)))
+                (define-key company-active-map (kbd "C-4") (lambi (company-complete-number 4)))
+                (define-key company-active-map (kbd "C-5") (lambi (company-complete-number 5)))
+                (define-key company-active-map (kbd "C-6") (lambi (company-complete-number 6)))
+                (define-key company-active-map (kbd "C-7") (lambi (company-complete-number 7)))
+                (define-key company-active-map (kbd "C-8") (lambi (company-complete-number 8)))
+                (define-key company-active-map (kbd "C-9") (lambi (company-complete-number 9)))
+                (define-key company-active-map (kbd "C-0") (lambi (company-complete-number 10))))
 
 
 (use-package    asm-mode
   :config       (define-key asm-mode-map (kbd "C-j") nil))
 
-(use-package    jedi
-  :disabled     t   ;; apparently company-jedi REPLACES jedi
+(use-package    cmake-mode
+  :ensure       t
+  :config       (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode)))
+
+(use-package    jedi :disabled ;; apparently company-jedi REPLACES jedi
   :ensure       t
   :init         (add-hook 'python-mode-hook 'jedi:setup)
                 (add-hook 'python-mode-hook 'jedi:ac-setup))
@@ -463,7 +446,7 @@
   :config       (add-hook 'python-mode-hook
                   (lambi (add-to-list 'company-backends 'company-jedi))))
 
-(use-package    edit-server
+(use-package    edit-server :disabled ;; super duper buggy
   :ensure       t
   :config       (edit-server-start))
 
@@ -927,11 +910,14 @@
                 (add-hook 'help-mode-hook 'set-boring-buffer-face)
                 (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
-(use-package    elec-pair
+(use-package    elec-pair :disabled     ;; just for the annoying << stuff
   :config       (electric-pair-mode 1))
 
-(use-package    auto-indent-mode
-  :disabled     t ;; terrible
+(use-package    smartparens
+  :ensure       t
+  :config       (smartparens-global-mode 1))
+
+(use-package    auto-indent-mode :disabled ;; terrible
   :ensure       t
   :custom       (auto-indent-on-visit-file          nil)
                 (auto-indent-indent-style           'conservative)
@@ -943,8 +929,7 @@
 		            ;; python-indent-offset))
   :config       (auto-indent-global-mode))
 
-(use-package    paren
-  :disabled     t ;; kinda annoying tbh
+(use-package    paren :disabled ;; kinda annoying tbh
   :custom       (show-paren-delay 0.1)
                 (show-paren-highlight-openparen t)
                 (show-paren-when-point-inside-paren nil)
@@ -957,7 +942,7 @@
                   (when format-string
                     (pos-tip-show (apply 'format format-string args))))
                 (setq eldoc-message-function #'my-eldoc-display-message)
-)
+                (global-eldoc-mode -1))
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -1017,10 +1002,11 @@
   (helm-gtags-mode 1)
   (fci-mode -1) ;; destroys company
   (hide-ifdef-mode 1) ;; needed...?
-  ;; (irony-mode 1)
+  (irony-mode 1)
   (company-mode 1)
   (semantic-mode 1)
-  (local-set-key (kbd "M-.") 'semantic-ia-fast-jump)
+  ;; (local-set-key (kbd "M-.") 'semantic-ia-fast-jump)
+  (local-set-key (kbd "M-.") 'helm-gtags-dwim)
   (semantic-stickyfunc-mode -1)
   (set (make-local-variable 'company-backends)
        '((company-irony-c-headers
@@ -1029,10 +1015,10 @@
           company-cmake)))
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
 
-(defun benjamin/find-file-hook ()
-  "Stuff to do when opening a normal file."
-  ;; (display-line-numbers-mode 1)
-  )
+;; (defun benjamin/find-file-hook ()
+;;   "Stuff to do when opening a normal file."
+;;   ;; (display-line-numbers-mode 1)
+;;   )
 
 ;; (add-hook 'find-file-hook   'benjamin/find-file-hook)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)

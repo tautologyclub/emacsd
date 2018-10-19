@@ -311,7 +311,7 @@
 (global-set-key     (kbd "C-j")   'next-line)
 (global-set-key     (kbd "H-j")   'yank-pop)
 (global-set-key     (kbd "M-j")   'hippie-expand)							   ;
-(global-set-key   (kbd "C-s-j")   (lambi (scroll-up 1)))
+(global-set-key   (kbd "C-s-j")   (lambi (scroll-up 4)))
 (global-set-key   (kbd "C-S-j")   (lambi (set-mark-if-inactive) (forward-line 1)))
 (global-set-key   (kbd "C-M-j")   'move-text-down)
 (global-set-key    (kbd "C-\"")   (lambi (fastnav-search-char-forward 1 ?\" )))
@@ -324,7 +324,7 @@
 (global-set-key   (kbd "C-M-k")   'move-text-up)
 (global-set-key   (kbd "C-S-k")   (lambi (set-mark-if-inactive)
                                          (forward-line -1)))
-(global-set-key   (kbd "s-C-k")   (lambi (scroll-up -1)))
+(global-set-key   (kbd "C-s-k")   (lambi (scroll-up -4)))
 (global-set-key   (kbd "H-M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "C-c k")   'kconfig-option-at-point-projectile-root)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)                       ;
@@ -337,6 +337,7 @@
 (global-set-key   (kbd "H-M-l")   'goto-last-change-reverse)
 (global-set-key   (kbd "C-S-l")   (lambi (set-mark-if-inactive)
                                          (forward-char 1)))
+(global-set-key   (kbd "C-s-l")   'hydra-lazy/body)
 (global-set-key   (kbd "C-x l")   'counsel-locate)
 (global-set-key   (kbd "M-s l")   'counsel-locate)
 (global-set-key (kbd "M-s M-l")   'org-store-link)

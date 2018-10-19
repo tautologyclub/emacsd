@@ -43,25 +43,33 @@
   (forward-line -1)
   (back-to-indentation))
 
+(defhydra hydra-lazy (:columns 4 :color blue)
+  " -- lazy hydra -----------"
+  ("nr" (lambda () (interactive) (shell-command "nrfjprog --reset")) "\"nrfjprog --reset\"")
+  ("jl" (lambda () (interactive) (shell-command "systemctl --user start jlink_gdb")) "JLinkGDB @ nRF52")
+  ("ps" (lambda () (interactive) (profiler-start 'cpu)) "(profiler-start 'cpu)")
+  ("pt" (lambda () (interactive) (profiler-stop)) "(profiler-stop)")
+  )
+
 (defhydra hydra-gdb (:columns 6     :color pink
                               :pre (auto-dim-other-buffers-mode -1)
                               :post (auto-dim-other-buffers-mode +1))
   "-"
   ("q"  nil :color blue)
-  ("y"  gud-statement "send py-line")
-  ("o"  other-window "other win")
+  ("y"  gud-statement               "send py-line")
+  ("o"  other-window                "other win")
 
-  ("F"  gud-finish "finish")
-  ("s"  gud-step "step")
+  ("F"  gud-finish                  "finish")
+  ("s"  gud-step                    "step")
   ("j"  next-lines-indentation)
   ("k"  previous-lines-indentation)
   ("L"  gud-refresh)
 
   ("c"  gud-continue)
-  ("n"  gud-next "next")
+  ("n"  gud-next                    "next")
 
   ("DEL"    gud-remove)
-  ("SPC"    gud-break "break")
+  ("SPC"    gud-break               "break")
   )
 
 (defun get-term-and-git-log ()
