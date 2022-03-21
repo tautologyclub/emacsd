@@ -1,0 +1,2 @@
+export ZEPHYR_TOOLCHAIN_VARIANT=cross-compile
+export CROSS_COMPILE=/usr/bin/arm-none-eabi-

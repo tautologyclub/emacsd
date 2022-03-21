@@ -1,0 +1,63 @@
+#!/bin/bash
+
+
+# This is to let this be run by udev. But it doesn't work :'(
+DISPLAY=:0
+XAUTHORITY=/home/benjamin/.Xauthority
+XDG_RUNTIME_DIR=/run/user/1000
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+
+
+if [ "$1" = "--swedish" ]; then
+    LAYOUT=swedish
+    /usr/bin/notify-send -t 1000 "Swedish-ish layout"
+    setxkbmap -layout se
+else
+    /usr/bin/notify-send -t 1000 "US-ish layout"
+    setxkbmap -layout us
+fi
+
+killall xcape
+setxkbmap -option caps:super
+xmodmap /home/benjamin/.Xmodmap
+# TODO: Move the weirdness from .Xmodmap to here
+
+# Remap RET to Control
+xmodmap -e "remove Control = Control_R"
+xmodmap -e "keycode 105 = Return Return U1234 U0123"
+xmodmap -e "keycode 36 = Control_R"
+xmodmap -e "add Control = Control_R"
+
+xmodmap -e "keycode 119 = BackSpace"
+
+xmodmap -e "remove mod2 = Num_Lock"
+xmodmap -e "add mod2 = Num_Lock"
+
+# Remap weirdo Windows menu key to Super (for HHKB)
+xmodmap -e "keycode 135 = Super_L"
+
+xcape -e "Control_R=Return"             # reclaim RET
+# xcape -e 'Control_L=F12'
+xcape -e 'Shift_L=F10'
+xcape -e 'Shift_R=semicolon'
+#xcape -e 'Super_L=Tab'                  # todo
+
+if [[ "$LAYOUT" = "swedish" ]]; then
+    xcape -e 'Alt_R=aring'              # reclaim å
+    xcape -e 'Mode_switch=Odiaeresis'   # reclaim ö
+                                        # reclaim ä:
+    xmodmap -e "keycode  48 = adiaeresis Adiaeresis adiaeresis Adiaeresis "
+    # Basically use US keyboard but with åäö
+    xmodmap -e "keycode 59 = comma less comma less comma less comma less "
+    xmodmap -e "keycode  60 = period greater period greater period greater period greater"
+    xmodmap -e "keycode  61 = slash question slash question slash question slash question"
+    xmodmap -e "keycode  21 = equal plus equal plus equal plus equal plus"
+    xmodmap -e "keycode  20 = minus underscore minus underscore minus underscore minus underscore"
+else
+    xcape -e 'Alt_R=F9'
+    xcape -e 'Mode_switch=semicolon'    # reclaim ;
+    # xcape -e 'Mode_switch=odiaeresis'    # reclaim ö
+fi
+
+xcape -e 'Hyper_L=q'
+xcape -e 'Alt_L=F7'
