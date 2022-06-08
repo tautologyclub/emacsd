@@ -70,8 +70,9 @@ bindsym $mod+minus move scratchpad
 bindsym $mod+equal floating toggle
 bindsym $mod+g scratchpad show
 
-# Clear notify-send notifications
-bindsym $mod+c exec pkill dunst
+# Clear notify-send notifications. Restart dunst asap so that notifications can
+# be suspended, for example when screen locking
+bindsym $mod+c exec --no-startup-id pkill dunst && /usr/bin/dunst &
 
 # Don't need these with split_optimally.sh
 ## bindsym $mod+h split h;exec notify-send 'tile horizontally'

@@ -174,7 +174,9 @@ With arg N insert N newlines."
     (if (region-active-p)
         (setq beg (region-beginning) end (region-end))
       (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)))
+    (comment-or-uncomment-region beg end)
+    (unless (region-active-p)
+      (forward-line))))
 
 ;;;###autoload
 (defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
@@ -296,9 +298,7 @@ With arg N insert N newlines."
   "Add current file path to kill ring. Limits the filename to project root if possible."
   (interactive)
   (let ((filename (buffer-file-name)))
-    (kill-new (if eproject-mode
-                  (s-chop-prefix (eproject-root) filename)
-                filename))))
+    (kill-new filename)))
 
 ;;;###autoload
 (defun sudo-edit-current ()
@@ -308,24 +308,6 @@ With arg N insert N newlines."
 ;;;###autoload
 (defun char-upcasep (letter)
   (eq letter (upcase letter)))
-
-;;;###autoload
-(defun capitalize-word-toggle ()
-  (interactive)
-  (let ((start
-         (car
-          (save-excursion
-            (backward-word)
-            (bounds-of-thing-at-point 'symbol)))))
-    (if start
-        (save-excursion
-          (goto-char start)
-          (funcall
-           (if (char-upcasep (char-after))
-               'downcase-region
-             'upcase-region)
-           start (1+ start)))
-      (capitalize-word -1))))
 
 (defun window-half-height ()
   (max 1 (/ (1- (window-height (selected-window))) 2)))

@@ -1,0 +1,12 @@
+#!/bin/bash
+set -euo pipefail
+
+t=$(mktemp /tmp/XXXXXX.emacs-pager)
+
+on_exit() {
+    rm -f -- $t
+}
+trap on_exit EXIT
+
+cat - >> $t
+emacsclient -c $t || true

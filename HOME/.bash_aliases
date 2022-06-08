@@ -425,6 +425,7 @@ extract ()
             *.zip)       unzip "$*"     ;;
             *.Z)         uncompress "$*";;
             *.7z)        7z x "$*"      ;;
+            *.xz)        tar xf "$*"      ;;
             *)           echo "'$1' cannot be extracted via ex()" ;;
         esac
     else
@@ -436,10 +437,6 @@ ssh_and_track ()
 {
     # Todo: extract [user@]destination and save it to some file
     /usr/bin/ssh "$*"
-}
-
-require i3lock && {
-    alias zzzzz='y_prompt i3lock && systemctl suspend'
 }
 
 alias gnome-control-center='env XDG_CURRENT_DESKTOP=GNOME gnome-control-center'

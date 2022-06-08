@@ -1,4 +1,3 @@
-
 ;;; init.el --- Summary:
 ;;; Commentary:
 ;;; Code:
@@ -25,6 +24,8 @@
 
 ; -- tmp fix -------------------------------------------------------------------
 (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+
 
 ; -- my own stuff (mostly) -----------------------------------------------------
 (use-package    kill-at-point)
@@ -85,11 +86,48 @@
   ) ;; not good enough(, yet?)
 
 ; -- others stuff --------------------------------------------------------------
+;; (use-package eglot :ensure t)
+;; (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
+;; (add-hook 'c-mode-hook 'eglot-ensure)
+;; (add-hook 'c++-mode-hook 'eglot-ensure)
+
+(use-package lsp-mode
+  :ensure t
+  :commands (lsp ls-deferred)
+  :config
+  (setq lsp-before-save-edits nil)
+  (setq lsp-signature-auto-activate nil)
+  (setq lsp-eldoc-enable-hover nil)
+  (setq lsp-enable-symbol-highlighting nil)
+  (setq lsp-semantic-tokens-enable nil)
+  (setq lsp-enable-semantic-highlighting nil)
+  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq lsp-enable-file-watchers nil))
+
+(use-package lsp-ui
+  :ensure t
+  :config
+  (setq lsp-ui-doc-enable nil)
+  )
+
+(use-package ccls
+ :ensure t
+ :config
+ (setq ccls-library-folders-fn (lambda (_workspace)
+                                 (list
+                                  "/home/benjamin/work/west/zephyr"
+                                  "")))
+ :hook
+ ((c-mode c++-mode) . (lambda () (require 'ccls) (lsp))))
+
 (use-package    undo-tree
   :ensure       t
   :config       (global-undo-tree-mode 1)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
+
+(use-package    scad-mode
+  :ensure       t)
 
 (use-package    multi-term
   :ensure       t
@@ -495,7 +533,23 @@
                  "ag --nocolor --nogroup %s")
                 )
 
+(use-package    auto-complete
+  :ensure       t
+  :custom       (ac-delay 0.4)
+                (ac-auto-show-menu 0.4)
+                (ac-use-fuzzy nil)
+                (ac-menu-height 14)
+                (ac-ignore-case nil)
+  :bind         (:map ac-completing-map
+                      ("M-j" . ac-next)
+                      ("M-k" . ac-previous)
+                      )
+  :config       (ac-config-default)
+                (global-auto-complete-mode t)
+  )
+
 (use-package    company
+  :disabled     t ;; Company got terrible all of a sudden, no idea why
   :ensure       t
   :custom       (company-auto-complete-chars '(?. ?>))
                 (company-backends
@@ -569,6 +623,7 @@
   :config       (global-auto-revert-mode))
 
 (use-package    auto-dim-other-buffers
+  :disabled t
   :ensure       t
   :custom       (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   :config       (add-hook 'after-init-hook (lambda ()
@@ -577,7 +632,7 @@
                 (add-hook 'focus-in-hook 'adob--focus-change)
                 (add-hook 'focus-out-hook 'adob--focus-change)
                 (custom-set-faces
-                  '(auto-dim-other-buffers-face ((t (:background "dark gray"))))))
+                 '(auto-dim-other-buffers-face ((t (:background "#c7c7c7"))))))
 
 (use-package    volatile-highlights
   :ensure       t
@@ -846,11 +901,10 @@
                       ("C-c H-M-h" . hide-ifdefs)
                       ("C-c H-M-H" . show-ifdefs)
                       ("C-c C-c"   . compile)
-                      ("M-c"       . hydra-gdb/body)       ;; todo
-                      ("C-i"       . company-indent-for-tab-command)
-                      )
-  :init         (semanticdb-enable-gnu-global-databases 'c-mode)
-                (semanticdb-enable-gnu-global-databases 'c++-mode))
+                      ;; ("C-i"       . company-indent-for-tab-command)
+                      ))
+  ;; :init         (semanticdb-enable-gnu-global-databases 'c-mode)
+                ;; (semanticdb-enable-gnu-global-databases 'c++-mode))
 
 (use-package    pdf-tools
   :ensure       t
@@ -1108,12 +1162,9 @@
   (whitespace-mode 1)   ;; alternative to fci-mode
   (hide-ifdef-mode 1)   ;; FIXME: tune
   (irony-mode 1)
-  (company-mode 1)
-  (make-variable-buffer-local 'company-backends)
-  ;; (setq company-backends '(company-gtags company-clang company-cmake company-capf company-files
-  ;;                                        (company-dabbrev-code company-gtags company-etags company-keywords)
-  ;;                                        company-oddmuse company-dabbrev))
-  (semantic-mode 1)
+  (company-mode -1)
+  (auto-complete-mode 1)
+  (semantic-mode -1)
   (local-set-key (kbd "M-.") 'helm-gtags-dwim)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
 
@@ -1157,6 +1208,29 @@
 (add-hook 'c++-mode-hook    'benjamin/c-hook)
 
 ;;-- Random general stuff ------------------------------------------------------
+
+;; See bin/E for explanation :P
+(defvar emacs-pager-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "q") 'server-edit)
+    map)
+  "Keymap for `emacs-pager-mode'.")
+
+(define-minor-mode emacs-pager-mode
+  "Helper mode for using emacs as pager."
+  :require 'benjamin/emacs-pager
+  :keymap emacs-pager-mode-map
+  (if emacs-pager-mode
+      ;; Activation:
+      (progn
+        (format-decode-buffer 'ansi-colors)
+        (read-only-mode 1)
+        (toggle-frame-fullscreen))
+    )
+  )
+(add-to-list 'auto-mode-alist '("\\.emacs-pager\\'" . emacs-pager-mode))
+
+
 (setq-default
  fill-column                            80
  truncate-lines                         nil
@@ -1165,11 +1239,11 @@
  ;; cursor-type                           'hollow
  indent-tabs-mode                       nil
  truncate-lines                         t
+ left-margin-width                      1
  )
 
 (desktop-save-mode -1)
 (savehist-mode 1)
-
 
 (setq
  truncate-lines                         t
@@ -1189,7 +1263,6 @@
  shift-select-mode                      nil
  echo-keystrokes                        0.1
  bookmark-save-flag                     1
- scroll-margin                          2
  scroll-preserve-screen-position        nil
  scroll-error-top-bottom                t
  fill-column                            80
@@ -1243,7 +1316,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(auto-dim-other-buffers-face ((t (:background "dark gray"))))
+ '(auto-dim-other-buffers-face ((t (:background "#232326"))))
  '(font-lock-variable-name-face ((t (:foreground "dark blue"))))
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.6))))
  '(markdown-header-face-2 ((t (:inherit markdown-header-face :foreground "dark green" :height 1.4))))
@@ -1286,9 +1359,12 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
  '(package-selected-packages
-   '(elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode csharp-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
+   '(lsp-ui ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode csharp-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
  '(safe-local-variable-values
-   '((projectile-project-root . "/home/benjamin/work/aquarobur")
+   '((projectile-project-root . "~/work/duke/")
+     (projectile-project-root . "/home/benjamin/work/ppuck")
+     (projectile-project-root . "/home/benjamin/work/duke")
+     (projectile-project-root . "/home/benjamin/work/aquarobur")
      (projectile-project-root . "/home/benjamin/notes/blippa/west")
      (projectile-project-root . "/home/benjamin/work/ez")
      (projectile-project-root . "/home/benjamin/work/voi")

@@ -1,0 +1,4 @@
+#!/bin/bash
+set -euo pipefail
+
+ps aux | grep -s $* | grep -v "grep -s $*" | grep -v $0

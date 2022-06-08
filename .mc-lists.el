@@ -14,10 +14,12 @@
         c-electric-semi&comma
         c-electric-slash
         c-electric-star
+        c-indent-line-or-region
         capitalize-word-toggle
         company-indent-for-tab-command
         duplicate-current-line-or-region
         elpy-nav-indent-shift-left
+        elpy-nav-indent-shift-right
         end-of-line-or-block
         forward-to-word
         forward-whitespace
@@ -123,6 +125,7 @@
         ivy-alt-done
         lispy-cursor-down
         markdown-outdent-or-delete
+        multi-term-w/error-handling
         projectile-compile-project
         sp-remove-active-pair-overlay
         wgrep-finish-edit
