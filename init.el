@@ -110,6 +110,35 @@
   (setq lsp-ui-doc-enable nil)
   )
 
+; Mail -- TODO
+(use-package notmuch
+  :ensure t
+  )
+
+(use-package dart-mode
+  :ensure t
+  ;; Optional
+  :hook (dart-mode . flutter-test-mode))
+
+(use-package flutter
+  :after dart-mode
+  :bind (:map dart-mode-map
+              ("C-M-x" . #'flutter-run-or-hot-reload))
+  :custom
+  (flutter-sdk-path "/home/benjamin/snap/flutter/common/flutter")
+  )
+
+(use-package lsp-dart
+  :ensure t
+  :hook (dart-mode . lsp)
+  :custom
+      (lsp-dart-sdk-dir "/home/benjamin/snap/flutter/common/flutter/bin/cache/dart-sdk")
+      (lsp-dart-flutter-sdk-dir "/home/benjamin/snap/flutter/common/flutter")
+  )
+
+(use-package lsp-treemacs
+  :ensure t)
+
 (use-package ccls
  :ensure t
  :config
@@ -123,6 +152,7 @@
 (use-package    undo-tree
   :ensure       t
   :config       (global-undo-tree-mode 1)
+  :custom       (undo-tree-auto-save-history nil)
   :bind         (:map undo-tree-map ("C-x r" . nil)
                                     ("C-_"   . nil)))
 
@@ -1359,7 +1389,7 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
  '(package-selected-packages
-   '(lsp-ui ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode csharp-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
+   '(lsp-dart dart-mode flutter notmuch lsp-ui ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode csharp-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
  '(safe-local-variable-values
    '((projectile-project-root . "~/work/duke/")
      (projectile-project-root . "/home/benjamin/work/ppuck")
