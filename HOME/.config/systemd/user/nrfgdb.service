@@ -1,0 +1,8 @@
+[Unit]
+Description=JLink GDB server (for nRF52)
+
+[Service]
+Type=simple
+ExecStart=/opt/SEGGER/JLink/JLinkGDBServer -select USB -device nrf52 -if swd -speed 5000 -port 2331
+ExecStop=killall JLinkGDBServer
+Restart=never

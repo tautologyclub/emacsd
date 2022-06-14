@@ -1,0 +1,10 @@
+[Unit]
+Description=Service for starting the RTT logger on pis
+[Service]
+Type=simple
+ExecStart=screen -Dm JLinkRTTLogger -device NRF52 -if SWD -speed 4000 \
+             /tmp/jlink.cap &
+Restart=on-failure
+RestartSec=10s
+[Install]
+WantedBy=multi-user.target
