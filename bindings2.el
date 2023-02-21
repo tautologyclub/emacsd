@@ -164,6 +164,7 @@
 (global-set-key     (kbd "H-M-r")   'kill-sexp-at-point)
 (global-set-key   (kbd "M-s   r")   'benjamin/rec-grep)
 (global-set-key   (kbd "M-s M-r")   'benjamin/rec-grep-with-case)
+(global-set-key   (kbd "M-s M-k")   'volatile-kill-buffer)
 (global-set-key   (kbd "M-s H-r")   'counsel-rg)
 (global-set-key   (kbd "M-s C-r")   'counsel-git-grep)
 (global-set-key     (kbd "C-x r")   'grep)
@@ -175,11 +176,15 @@
 
 (global-set-key     (kbd "s-t")   'transpose-chars)                          ;;;
 (global-set-key     (kbd "C-t")    ctl-x-map)
-(global-set-key     (kbd "H-t")   'mc/mark-next-like-this)
-(global-set-key     (kbd "M-t")   'transpose-words)
+(global-set-key     (kbd "H-M-t")   'mc/mark-next-like-this)
+;; (global-set-key     (kbd "M-t")   'transpose-words)
+(global-set-key     (kbd "M-t")   (lambi (insert "åt")))
+(global-set-key     (kbd "M-T")   (lambi (insert "ÅT")))
+(global-set-key     (kbd "H-t")   "qt") ; for mqtt :P
+(global-set-key     (kbd "H-T")   "QT") ; for mqtt :P
 (global-set-key   (kbd "C-M-t")   (lambi (transpose-words -1)))
 (global-set-key   (kbd "C-s-t")   'counsel-term-switch)
-(global-set-key   (kbd "H-M-t")   'multi-term-prev)
+;(global-set-key   (kbd "H-M-t")   'multi-term-prev)
 (global-set-key (kbd "C-x C-t")   'multi-term-w/error-handling)
 (global-set-key (kbd "C-x   t")   'multi-term-prev)                            ;
 (global-set-key   (kbd "M-s t")   'vr/mc-mark)
@@ -334,7 +339,7 @@
 (global-set-key   (kbd "C-x f")   'hydra-flycheck/body)
 (global-set-key   (kbd "C-M-f")   'forward-sexp)
 (global-set-key   (kbd "H-M-f")   'find-file-at-point)
-(global-set-key (kbd "M-s M-f")   'find-file)
+(global-set-key (kbd "M-s M-f")   'helm-find-files)
 (global-set-key     (kbd "C-(")   (lambi (fastnav-search-char-forward 1 ?\( )))
 (global-set-key     (kbd "C-)")   (lambi (fastnav-search-char-forward 1 ?\) )))
                           ;-f      (
@@ -355,8 +360,8 @@
 (global-set-key     (kbd "C-h")   'backward-char)
 (global-set-key     (kbd "H-h")    help-map)
 (global-set-key     (kbd "M-h")   'hs-toggle-hiding)
-(global-set-key   (kbd "H-M-h")   'benjamin/highlight)                         ;
-(global-set-key   (kbd "H-M-H")   'benjamin/unhighlight-region)                ;
+(global-set-key   (kbd "H-M-h")   'benjamin/highlight)
+(global-set-key   (kbd "H-M-H")   'hlt-unhighlight-region)
 (global-set-key   (kbd "C-S-h")   (lambi (set-mark-if-inactive) (forward-char -1)))
 (global-set-key   (kbd "C-x h")    help-map)
 (global-set-key   (kbd "C-c h")   'hs-hide-all)

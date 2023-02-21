@@ -134,8 +134,6 @@ sed -i 's/[[:space:]]*$//' ~/.bash_history
 my_dummy_binary 2>/dev/null || {
     export PATH=/home/benjamin/bin:$PATH
 
-
-
 }
 
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH

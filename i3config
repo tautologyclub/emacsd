@@ -15,8 +15,9 @@ workspace_auto_back_and_forth yes
 
 
 # Bindings
-bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/alacritty
-bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/chromium
+bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec LIBGL_ALWAYS_SOFTWARE=1 /home/benjamin/bin/alacritty
+# bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/gnome-terminal
+bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /home/benjamin/bin/browser
 bindsym $mod+Shift+q kill
 bindsym $mod+Ctrl+q kill
 bindsym $mod+e exec --no-startup-id ~/bin/split_optimal; exec --no-startup-id dmenu_run
@@ -252,7 +253,7 @@ mode "shortcuts" {
 
 # Autostart applications
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id feh --bg-scale /home/benjamin/Pictures/samsung_stripes.jpg
+exec --no-startup-id feh --bg-scale /home/benjamin/4k-wallpaper.jpg
 
 exec --no-startup-id nitrogen --restore; sleep 1; compton --inactive-dim 0.15 -b
 exec --no-startup-id nm-applet
@@ -316,14 +317,14 @@ client.background       #2B2C2B
 
 # Brightness mode
 mode "brightness" {
-     bindsym Right exec xbacklight -inc 20
-     bindsym Left exec xbacklight -dec 20
+     # bindsym Right exec xbacklight -inc 20
+     # bindsym Left exec xbacklight -dec 20
 
-     bindsym Up exec xbacklight -inc 20
-     bindsym Down exec xbacklight -dec 20
+     # bindsym Up exec xbacklight -inc 20
+     # bindsym Down exec xbacklight -dec 20
 
-     bindsym k exec /home/benjamin/bin/backlight_ctrl.sh "+20" >> /tmp/backlight.log;
-     bindsym j exec /home/benjamin/bin/backlight_ctrl.sh "-20" >> /tmp/backlight.log;
+     bindsym k exec --no-startup-id brightnessctl set +5%
+     bindsym j exec --no-startup-id brightnessctl set 5%-
 
      bindsym Return        mode "default"
      bindsym Escape        mode "default"
@@ -344,7 +345,7 @@ bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
 mode "volume" {
      bindsym m     exec amixer -q -D pulse set Master toggle
 
-     bindsym Right exec pactl set-sink-volume @DEFAULT_SINK@ +10%; exec /home/benjamin/bin/getvol
+     bindsym Right exec pactl set-sink-volupme @DEFAULT_SINK@ +10%; exec /home/benjamin/bin/getvol
      bindsym Left  exec pactl set-sink-volume @DEFAULT_SINK@ -10%; exec /home/benjamin/bin/getvol
      bindsym Up    exec pactl set-sink-volume @DEFAULT_SINK@ +10%; exec /home/benjamin/bin/getvol
      bindsym Down  exec pactl set-sink-volume @DEFAULT_SINK@ -10%; exec /home/benjamin/bin/getvol

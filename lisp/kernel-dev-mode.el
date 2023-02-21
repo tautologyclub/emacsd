@@ -22,7 +22,7 @@ Make sure it ends with a slash."
   (let ((symatp (thing-at-point 'symbol)))
     ;; Check if symbol-at-point is all uppercase
     (unless (equal (upcase symatp) symatp)
-      (error "No kernel config option at point!"))
+      (error (concat "No kernel config option at point: " symatp)))
     (let ((conf (replace-regexp-in-string "^CONFIG_" "config " symatp t)))
       (let ((grep-result (shell-command-to-string
                           (concat "cd " linux-src-root " && "

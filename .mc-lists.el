@@ -7,7 +7,9 @@
         backward-delete-char
         backward-to-word
         beginning-of-line-or-block
+        benjamin/indent-a-bit-around-point
         benjamin/set-mark-command
+        c-electric-brace
         c-electric-colon
         c-electric-delete-forward
         c-electric-paren
@@ -27,6 +29,7 @@
         hungry-delete-forward
         indent-for-tab-command
         kill-inner
+        kill-region
         kill-region-or-line
         kill-symbol-at-point
         kill-to-beginning-of-indentation-or-line
@@ -42,6 +45,7 @@
         move-text-up
         my-decrement-number-decimal
         my-increment-number-decimal
+        org-self-insert-command
         smart-open-line-above
         special-digit-argument
         special-lh-knight/body
@@ -116,11 +120,20 @@
         tab-to-tab-stop
         undefined
         upcase-word-toggle
+        yaml-electric-backspace
+        yaml-electric-dash-and-dot
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        c-electric-pound
+        cmake-end-of-defun
+        counsel-M-x
+        dap-tooltip-mouse-motion
+        dropdown-multiterm
         handle-switch-frame
+        hydra-magit/body
+        iedit-mode
         iedit-switch-to-mc-mode
         ivy-alt-done
         lispy-cursor-down
@@ -128,5 +141,6 @@
         multi-term-w/error-handling
         projectile-compile-project
         sp-remove-active-pair-overlay
+        wdired-finish-edit
         wgrep-finish-edit
         ))

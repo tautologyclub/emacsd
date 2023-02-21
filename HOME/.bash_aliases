@@ -159,16 +159,6 @@ file_assert()
     done
 }
 
-with_pwd()
-# Eval CMD with DIR as working directory. Usage:
-#     with_pwd DIR CMD
-{
-    local prev_dir=$PWD
-    cd "$1" && shift && eval "$@" || local ret=$?
-    cd "$prev_dir"
-    return $ret
-}
-
 random_string()
 # A random "normal" string of length $1 (useful for file names and stuff where
 # you might not want spaces or escape characters)
@@ -178,17 +168,14 @@ random_string()
 }
 
 random_hex()
-# A random "normal" string of length $1 (useful for file names and stuff where
-# you might not want spaces or escape characters)
-# Usage:  random_string $len
 {
     if [[ "$1" == "-c" ]]; then
-        echo C STYLE NOT IMPLEMENTED
+        errcho C STYLE NOT IMPLEMENTED
         shift
-        cat /dev/urandom | tr -dc 'a-f0-9' | fold -w "$1" | head -n 1
-    else
-        cat /dev/urandom | tr -dc 'a-f0-9' | fold -w "$1" | head -n 1
     fi
+    local num=$1
+    num=$((num*2))
+    cat /dev/urandom | tr -dc 'a-f0-9' | fold -w "$num" | head -n 1
 }
 
 random_file()
@@ -198,22 +185,18 @@ random_file()
     head -c "$2" < /dev/urandom > "$1"
 }
 
-cpwd()
-# If you don't have a terminal that lets you navigate through stdout, this one's
-# golden. But also, check out 'termite'. Best solution is to put
-#
-#     alias xclip='xclip -selection clipboard'
-#
-# in your .bashrc.
-{
-    require xclip
-    pwd | xclip -selection clipboard
-}
-
 hex_to_dec()
-# Usage:  hex_to_dec [0x]DEADBEEF
+# Usage:  hex_to_dec [0x]DEADBEEF [[0x]1000] [...]
 {
-    printf "%d" "$1"
+    while [[ $# -gt 0 ]]; do
+        num=$1
+        if [ ! "${num:0:2}" = "0x" ]; then
+            num="0x$num"
+        fi
+        printf "%d " "$num"
+        shift
+    done
+    printf "\n"
 }
 
 subdirs()
@@ -251,7 +234,6 @@ app_alive()
         }
     done
 }
-
 
 mountie()
 # Because typing mount commands is really boring
@@ -304,21 +286,27 @@ girl()
 ff()
 # Convenience for grepping for file names
 {
-    find . 2>/dev/null | grep "$@"
+    local directory="."
+    if [[ "$1" == "-p" ]]; then
+        directory="$PWD"
+        shift
+    fi
+    find "$directory" 2>/dev/null | grep "$@"
 }
 
-ful() {
-# Grepping for file names, but with full path
-    find "$PWD" 2>/dev/null | grep "$@"
+FF()
+# See above, but gives absolute path
+{
+    ff -p "$@"
 }
 
 alias ln='ln -v'
 alias xclip='xclip -selection clipboard'
-
 alias make='make -j$(nproc)'
 
-# always log serial console sessions, use color and default to ttyUSB0
-alias minicom='/usr/bin/minicom -D /dev/ttyUSB0 --color=on -C /tmp/minicom.cap'
+# always log serial console sessions, use color, default to ttyUSB0 and do not
+# send weird modem initialization chars
+alias minicom='/usr/bin/minicom -o -D /dev/ttyUSB0 --color=on -C /tmp/minicom.cap'
 
 # less interprets colors/escape chars
 alias less='less -r'
@@ -329,13 +317,6 @@ test -f ~/.config/systemd/user/rttlog.service && test ! -f ~/bin/rttlog && {
 
 
 mkdir -p "$HOME/log"
-MC()
-{
-    /usr/bin/minicom -D /dev/ttyUSB0 --color=on -C "$HOME/log/minicom-$(date +%y%m%d-%H%M).cap" "$@"
-}
-
-export -f MC
-
 
 y_prompt()
 # Prompts user for a single input char. Returns true iff input is y/Y.
@@ -348,17 +329,8 @@ y_prompt()
     [[ $REPLY =~ ^[Yy]$ ]]
 }
 
-if require i3exit 2>/dev/null ; then
-    alias logout='y_prompt logout && i3exit logout'
-    alias suspend='y_prompt suspend && i3exit suspend'
-    alias poweroff='y_prompt poweroff && i3exit poweroff'
-    alias lock='i3exit lock'
-    alias hibernate='i3exit hibernate'
-    alias reboot='y_prompt reboot && i3exit reboot'
-fi
-
 if [ -n "$HACKY_ALIASES" ]; then
-    alias sharedir='python2 -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
+    alias sharedir='python2.7 -c "import SimpleHTTPServer;SimpleHTTPServer.test()"'
 
     alias ll='ls -alh'
     alias ls='ls --color -h --group-directories-first'
@@ -433,67 +405,10 @@ extract ()
     fi
 }
 
-ssh_and_track ()
+list_git_files ()
 {
-    # Todo: extract [user@]destination and save it to some file
-    /usr/bin/ssh "$*"
+    git ls-tree --full-tree --name-only -r HEAD
 }
 
 alias gnome-control-center='env XDG_CURRENT_DESKTOP=GNOME gnome-control-center'
-
-# daniels emqx script
-# voi ()
-# {
-#     local urn
-#     local cmd
-#     if [[ "$2" == *"urn"* ]]; then
-#         urn="$2"
-#     else
-#         urn="urn:imei:$2"
-#     fi
-#     cmd="$1 $urn ${@:3}"
-#     python3 -u -m emqxlwm2m --host dev-mqtt.iot.stage.voiapp.io --known-endpoints ~/work/voi/.notes/scooters.txt -x ~/work/voi/ng-iot-platform/lwm2m_objects -t 5 --echo $cmd
-# }
-
-voi_port_fwd ()
-{
-    # kubectl port-forward svc/ng-iot-emqx 1883:1883
-
-    # Set up PF explicitly to dev
-    # kubectl port-forward svc/mosquitto-gw 1883 --context gke_entropy-iot-prod_europe-north1-b_ng-iot-dev
-    kubectl port-forward service/ng-iot-mosquitto-gw 1883:1883
-}
-
-voi_port_fwd_stageprod ()
-{
-    kubectl --context gke_entropy-iot-prod_europe-north1-b_ng-iot-staging port-forward pods/ng-iot-emqx-0 1883:1883
-}
-
-voiprod ()
-{
-    python3 -u -m emqxlwm2m --host localhost --known-endpoints ~/work/voi/.notes/scooters.txt -x ~/work/voi/ng-iot-platform/lwm2m_objects -t 5 --echo "$@"
-}
-
-# voiprod ()
-voi ()
-{
-    local urn
-    local cmd
-    if [[ "$2" == *"urn"* ]]; then
-        urn="$2"
-    else
-        urn="urn:imei:$2"
-    fi
-    cmd="$1 $urn ${@:3}"
-    python3 -u -m emqxlwm2m --host localhost --known-endpoints ~/work/voi/.notes/scooters.txt -x ~/work/voi/ng-iot-platform/lwm2m_objects -t 5 --echo $cmd
-}
-
-voi_unlock ()
-{
-    voi write urn:imei:$1 /34120/0/2 --value 2
-}
-
-voi_lock ()
-{
-    voi write urn:imei:$1 /34120/0/2 --value 1
-}
+alias cpac='ssh cpac@scrapheap.local'

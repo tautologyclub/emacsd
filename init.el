@@ -52,8 +52,8 @@
   :config       (add-hook 'sh-mode-hook 'benjamin/sh-hook))
 
 (use-package    counsel-term
-  :custom       (counsel-term-ff-initial-input      "")
-                (counsel-term-history-initial-input "")
+  :custom       (counsel-term-ff-initial-input "")
+                (counsel-th-initial-input "")
   :load-path    "~/repos/counsel-term")
 
 (defun feebleline-time-string ()
@@ -95,20 +95,28 @@
   :ensure t
   :commands (lsp ls-deferred)
   :config
-  (setq lsp-before-save-edits nil)
-  (setq lsp-signature-auto-activate nil)
-  (setq lsp-eldoc-enable-hover nil)
-  (setq lsp-enable-symbol-highlighting nil)
-  (setq lsp-semantic-tokens-enable nil)
-  (setq lsp-enable-semantic-highlighting nil)
-  (setq lsp-headerline-breadcrumb-enable nil)
-  (setq lsp-enable-file-watchers nil))
+    (setq lsp-before-save-edits nil)
+    (setq lsp-signature-auto-activate nil)
+    (setq lsp-eldoc-enable-hover nil)
+    (setq lsp-enable-symbol-highlighting nil)
+    (setq lsp-semantic-tokens-enable nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+    (setq lsp-enable-file-watchers nil)
+    (setq lsp-enable-indentation nil)
+  )
 
 (use-package lsp-ui
+  :disabled t ; this is so fucking intrusive
   :ensure t
   :config
   (setq lsp-ui-doc-enable nil)
   )
+
+(use-package csv-mode
+  :ensure t)
+
+(use-package pdf-tools
+  :ensure t)
 
 ; Mail -- TODO
 (use-package notmuch
@@ -329,6 +337,11 @@
        ("xt" counsel-projectile-switch-project-action-run-term "invoke term from project root")
        ("O" counsel-projectile-switch-project-action-org-capture "org-capture into project")))))
 
+(use-package    counsel-gtags
+  :disabled     t ; this package sucks
+  :ensure       t
+  )
+
 ;; todo
 (use-package    helm
   :ensure       t
@@ -343,6 +356,16 @@
                 (helm-full-frame t)
                 (helm-buffer-details-flag t))
                 ;; (helm-buffer-details-flag nil))
+
+(use-package    helm-gtags
+  :ensure       t
+  :custom       (helm-gtags-auto-update         t)
+                (helm-gtags-use-input-at-cursor t)
+  :hook         (prog-mode-hook . helm-gtags-mode)
+  :bind         (:map helm-gtags-mode-map
+                      ("M-."   . helm-gtags-dwim)
+                      ("H-M-." . helm-gtags-find-tag-other-window)
+                      ("H-M-j" . helm-gtags-find-tag)))
 
 (use-package    all-the-icons   :disabled     t ;; meh
   :ensure       t
@@ -575,7 +598,7 @@
                       ("M-k" . ac-previous)
                       )
   :config       (ac-config-default)
-                (global-auto-complete-mode t)
+                (global-auto-complete-mode)
   )
 
 (use-package    company
@@ -692,13 +715,6 @@
   :custom       (hl-line-sticky-flag nil)
   :config       (global-hl-line-mode -1))
 
-(use-package    helm-gtags
-  :ensure       t
-  :custom       (helm-gtags-auto-update         t)
-                (helm-gtags-use-input-at-cursor t)
-  :config       (setenv "GTAGSLIBPATH" "~/.gtags") ;; todo bad
-  :hook         (prog-mode-hook . helm-gtags-mode))
-
 (use-package    flycheck
   :ensure        t
   :custom       (flycheck-check-syntax-automatically '(mode-enabled idle-change save))
@@ -725,13 +741,20 @@
                   '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
 
 (use-package    dts-mode
+  :disabled     t ; this is a pretty bad package tbh
   :ensure       t
   :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode))
                 (add-to-list 'auto-mode-alist '("\\.dtsi$" . dts-mode))
                 (add-to-list 'auto-mode-alist '("\\.dto$" . dts-mode))
                 (add-to-list 'auto-mode-alist '("\\.overlay$" . dts-mode))
                 (add-hook 'dts-mode-hook 'subword-mode)
-                (add-hook 'dts-mode-hook 'helm-gtags-mode))
+                (add-hook 'dts-mode-hook 'helm-gtags-mode)
+                )
+
+(add-to-list 'auto-mode-alist '("\\.dts$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.dtsi$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.dto$" . c-mode))
+(add-to-list 'auto-mode-alist '("\\.overlay$" . c-mode))
 
 (use-package    bitbake
   :ensure       t
@@ -1191,11 +1214,10 @@
   (fci-mode -1)         ;; destroys company
   (whitespace-mode 1)   ;; alternative to fci-mode
   (hide-ifdef-mode 1)   ;; FIXME: tune
-  (irony-mode 1)
+  ;; (irony-mode 1)
   (company-mode -1)
-  (auto-complete-mode 1)
+  (auto-complete-mode -1)
   (semantic-mode -1)
-  (local-set-key (kbd "M-.") 'helm-gtags-dwim)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
 
 (defun remove-dos-eol ()
@@ -1236,6 +1258,7 @@
 (add-hook 'prog-mode-hook   'benjamin/prog-mode-hook)
 (add-hook 'c-mode-hook      'benjamin/c-hook)
 (add-hook 'c++-mode-hook    'benjamin/c-hook)
+(add-hook 'text-mode-hook   (lambda () (fci-mode 1)))
 
 ;;-- Random general stuff ------------------------------------------------------
 
@@ -1267,6 +1290,7 @@
  tab-width                              4
  cursor-type                            t
  ;; cursor-type                           'hollow
+ blink-cursor-mode                      nil
  indent-tabs-mode                       nil
  truncate-lines                         t
  left-margin-width                      1
@@ -1335,6 +1359,7 @@
 (fringe-mode -1)
 
 (add-to-list 'auto-mode-alist '("defconfig$" . conf-mode))
+(add-to-list 'auto-mode-alist '("sdkconfig"  . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.conf$"   . conf-mode))
 (add-to-list 'auto-mode-alist '("\\.sch$"    . text-mode))
 (add-to-list 'auto-mode-alist '("\\.scr$"    . sh-mode))
@@ -1387,11 +1412,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(auth-source-save-behavior nil)
  '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
  '(package-selected-packages
-   '(lsp-dart dart-mode flutter notmuch lsp-ui ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode csharp-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
+   '(csv-mode lsp-dart dart-mode flutter notmuch ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
  '(safe-local-variable-values
-   '((projectile-project-root . "~/work/duke/")
+   '((projectile-project-root . "/home/benjamin/work/matter")
+     (projectile-project-root . "/home/benjamin/work/badgrader/")
+     (projectile-project-root . "/home/benjamin/work/aidiagnostics/")
+     (projectile-project-root . "/home/benjamin/work/willow/hub-firmware/")
+     (projectile-project-root . "/home/benjamin/.local/esp/")
+     (projectile-project-root . "/home/benjamin/.local/esp")
+     (projectile-project-root . "/home/benjamin/work/willow")
+     (projectile-project-root . "/home/benjamin/work/frigbot")
+     (projectile-project-root . "/home/benjamin/work/west/")
+     (projectile-project-root . "~/work/duke/")
      (projectile-project-root . "/home/benjamin/work/ppuck")
      (projectile-project-root . "/home/benjamin/work/duke")
      (projectile-project-root . "/home/benjamin/work/aquarobur")
@@ -1399,4 +1434,6 @@
      (projectile-project-root . "/home/benjamin/work/ez")
      (projectile-project-root . "/home/benjamin/work/voi")
      (projectile-project-root . "~/work/careofsweden")
-     (projectile-project-root . "/home/benjamin/work/sandvik"))))
+     (projectile-project-root . "/home/benjamin/work/sandvik")))
+ '(warning-suppress-log-types '((comp) (comp)))
+ '(warning-suppress-types '((comp))))
