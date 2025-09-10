@@ -27,6 +27,8 @@ keycode  33 = p P U03C0 U03A0
 ! Map [ to Alt
 keycode  34 = Alt_R Alt_R Alt_R
 keycode  35 = Delete BackSpace
+! keycode  22 = Delete BackSpace
+! keycode  119 = Delete
 
 !keycode  38 = a A slash U03b1
 keycode  38 = a A KP_Left U03b1
@@ -45,7 +47,7 @@ keycode  46 = l L plus U039B
 keycode  47 = Mode_switch Mode_switch Mode_switch
 
 keycode  48 = apostrophe quotedbl U04444
-keycode  49 = Escape asciitilde 0 asciitilde
+keycode  49 = BackSpace Escape asciitilde
 keycode  51 = grave asciitilde 0 asciitilde
 keycode  52 = z Z U03CF U0396
 keycode  53 = x X U03C7 U03A7

@@ -1,3 +1,4 @@
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 
@@ -122,21 +123,30 @@ complete -f fdisk
 export I_AM_LOCAL=y  # don't remember why I did this but I guess it's for ssh
 
 # Remove duplicates in bash_history without affecting line number
-cat -n ~/.bash_history | sort -uk2 | sort -nk1 | cut -f2- > ~/.bash_history_tmp
-if [ -e ~/.bash_history_tmp ]; then
-    mv ~/.bash_history_tmp ~/.bash_history
-fi
+remove_dupes_etc() {
+    local tmpfile
+    tmpfile=$(mktemp)
 
-# Remove trailing whitespaces in bash_history
-sed -i 's/[[:space:]]*$//' ~/.bash_history
+    cat -n ~/.bash_history | sort -uk2 | sort -nk1 | cut -f2- > "$tmpfile"
+    if [[ ! "$(stat -c %s $tmpfile)" == "0" ]]; then
+        # Remove trailing whitespaces
+        sed -i 's/[[:space:]]*$//' "$tmpfile"
+        mv "$tmpfile" ~/.bash_history
+    fi
+}
+
+remove_dupes_etc
 
 # random stupid fix for emacs term
 my_dummy_binary 2>/dev/null || {
     export PATH=/home/benjamin/bin:$PATH
-
 }
 
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH
+
+if [ -d $HOME/flutter/bin ]; then
+    export PATH=$PATH:$HOME/flutter/bin
+fi
 
 export BASH_HELPER_LIBDIR=/home/benjamin/repos/bash_och_brudar
 export BASH_HELPER_MAIN="$BASH_HELPER_LIBDIR"/bash-helpers.sh
@@ -150,8 +160,11 @@ if [ -f '/home/benjamin/bin/google-cloud-sdk/path.bash.inc' ]; then . '/home/ben
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/home/benjamin/bin/google-cloud-sdk/completion.bash.inc' ]; then . '/home/benjamin/bin/google-cloud-sdk/completion.bash.inc'; fi
-. "$HOME/.cargo/env"
 
 if [ -f ~/repos/alacritty/extra/completions/alacritty.bash ]; then
     . ~/repos/alacritty/extra/completions/alacritty.bash
 fi
+
+. ~/.zenv/bin/activate || true
+
+export PNG_DIR=~/work/sktc/vibration-sensor/firmware/tools/png

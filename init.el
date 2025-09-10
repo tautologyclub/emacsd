@@ -125,23 +125,42 @@
 
 (use-package dart-mode
   :ensure t
-  ;; Optional
-  :hook (dart-mode . flutter-test-mode))
+  :hook
+    (dart-mode . lsp)
+    (dart-mode . flutter-test-mode))
+
+(use-package dart-server
+  :ensure t
+  :config
+    (setq dart-server-sdk-path "/home/benjamin/flutter/bin/cache/dart-sdk")
+)
+
+(use-package html-mode
+  :bind (:map html-mode-map
+              ("M-o" . nil))
+  :config
+    (setq dart-server-sdk-path "/home/benjamin/flutter/bin/cache/dart-sdk")
+)
 
 (use-package flutter
   :after dart-mode
   :bind (:map dart-mode-map
               ("C-M-x" . #'flutter-run-or-hot-reload))
-  :custom
-  (flutter-sdk-path "/home/benjamin/snap/flutter/common/flutter")
+  :custom (flutter-sdk-path "/home/benjamin/flutter/")
+  )
+
+(use-package rst
+  :bind (:map rst-mode-map
+              ("C-=" . nil))
   )
 
 (use-package lsp-dart
   :ensure t
   :hook (dart-mode . lsp)
   :custom
-      (lsp-dart-sdk-dir "/home/benjamin/snap/flutter/common/flutter/bin/cache/dart-sdk")
-      (lsp-dart-flutter-sdk-dir "/home/benjamin/snap/flutter/common/flutter")
+      ;; (lsp-dart-sdk-dir "/home/benjamin/snap/flutter/common/flutter/bin/cache/dart-sdk")
+  (lsp-dart-sdk-dir "/home/benjamin/flutter/bin/cache/dart-sdk")
+  (lsp-dart-flutter-sdk-dir "/home/benjamin/flutter")
   )
 
 (use-package lsp-treemacs
@@ -255,7 +274,7 @@
 (use-package    projectile
   :ensure       t
   :custom       (projectile-completion-system   'ivy)
-                (projectile-enable-caching       nil)
+                (projectile-enable-caching       t)
                 (projectile-globally-ignored-modes
                  '("erc-mode" "help-mode" "completion-list-mode"
                    "Buffer-menu-mode" "gnus-.*-mode" "occur-mode"))
@@ -364,7 +383,8 @@
   :hook         (prog-mode-hook . helm-gtags-mode)
   :bind         (:map helm-gtags-mode-map
                       ("M-."   . helm-gtags-dwim)
-                      ("H-M-." . helm-gtags-find-tag-other-window)
+                      ("H-M-." . helm-gtags-find-rtag)
+                      ("C-," . helm-gtags-find-rtag)
                       ("H-M-j" . helm-gtags-find-tag)))
 
 (use-package    all-the-icons   :disabled     t ;; meh
@@ -597,8 +617,7 @@
                       ("M-j" . ac-next)
                       ("M-k" . ac-previous)
                       )
-  :config       (ac-config-default)
-                (global-auto-complete-mode)
+  :config       (global-auto-complete-mode)
   )
 
 (use-package    company
@@ -704,7 +723,7 @@
                       ("k"   . compilation-previous-error)))
 
 (use-package    recentf
-  :custom       (recentf-max-saved-items 5000)
+  :custom       (recentf-max-saved-items 10000)
   :config       (recentf-mode 1))
 
 (use-package    whitespace
@@ -1129,13 +1148,9 @@
 ;;                 (add-hook 'mu4e-compose-mode-hook
 ;;                  (lambi (local-set-key (kbd "C-a") 'beginning-of-line-or-block))))
 
-(use-package    slack
-  ;; https://github.com/yuya373/emacs-slack
-  :ensure       t
-  )
-
 ;; ?????
 (use-package    alert
+  :disabled
   :ensure       t
   :commands     (alert)
   :init         (setq alert-default-style 'notifier))
@@ -1144,6 +1159,13 @@
   :ensure       t
   :bind (:map iedit-mode-keymap
               ("C-h" . nil)))
+
+; Note: MELPA version
+(use-package go-mode
+  :ensure       t
+  :config       (add-hook 'go-mode-hook #'lsp-deferred)
+  )
+
 
 (use-package py-autopep8             :ensure t)
 (use-package stickyfunc-enhance      :ensure t)
@@ -1248,10 +1270,6 @@
 
 (use-package    tabbar
   :ensure       t)
-
-(use-package    csharp-mode
-  :ensure       t
-  :config       (add-to-list 'auto-mode-alist '("\\.cs\\'" . csharp-mode)))
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (add-hook 'occur-hook       'occur-rename-buffer)
@@ -1372,6 +1390,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(auto-dim-other-buffers-face ((t (:background "#232326"))))
+ '(avy-lead-face ((t (:background "MistyRose1" :foreground "black"))))
+ '(avy-lead-face-0 ((t (:background "light goldenrod" :foreground "black"))))
+ '(avy-lead-face-1 ((t (:background "powder blue" :foreground "black"))))
+ '(avy-lead-face-2 ((t (:background "bisque" :foreground "black"))))
  '(font-lock-variable-name-face ((t (:foreground "dark blue"))))
  '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.6))))
  '(markdown-header-face-2 ((t (:inherit markdown-header-face :foreground "dark green" :height 1.4))))
@@ -1415,9 +1437,56 @@
  '(auth-source-save-behavior nil)
  '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
  '(package-selected-packages
-   '(csv-mode lsp-dart dart-mode flutter notmuch ccls eglot lsp-treemacs lsp-mode scad-mode eproject intel-hex-mode auto-complete-config auto-complete elpy helm-projectile auto-dim-other-buffers yasnippet yaml-mode wgrep volatile-highlights visual-regexp visual-fill-column vimish-fold use-package undo-tree term-projectile tabbar switch-buffer-functions stickyfunc-enhance smex smartparens slack realgud pyenv-mode py-autopep8 pdf-tools multiple-cursors multi-term move-text markdown-mode magit lispy ivy-rich ivy-hydra hungry-delete highlight helm-systemd helm-gtags helm-google helm-chrome goto-chg git-timemachine git-gutter+ function-args flyspell-correct-ivy flycheck-pos-tip flycheck-irony fireplace fill-column-indicator expand-region elf-mode dts-mode counsel-projectile company-jedi company-irony-c-headers company-irony cmake-mode bitbake anaconda-mode))
+   '(anaconda-mode auto-complete auto-complete-config auto-dim-other-buffers
+                   bitbake ccls cmake-mode company-irony company-irony-c-headers
+                   company-jedi counsel-projectile csv-mode dart-mode
+                   dart-server dockerfile-mode dts-mode eglot elf-mode elpy
+                   eproject expand-region fill-column-indicator fireplace
+                   flutter flutter-l10n-flycheck flycheck-irony flycheck-pos-tip
+                   flyspell-correct-ivy function-args git-gutter+
+                   git-timemachine go go-mode goto-chg helm-chrome helm-google
+                   helm-gtags helm-projectile helm-rg helm-systemd highlight
+                   hungry-delete intel-hex-mode ivy-hydra ivy-rich lispy
+                   lsp-dart lsp-mode lsp-treemacs magit markdown-mode move-text
+                   multi-term multiple-cursors notmuch pdf-tools py-autopep8
+                   pyenv-mode realgud scad-mode slack smartparens smex
+                   stickyfunc-enhance switch-buffer-functions tabbar
+                   term-projectile toml-mode undo-tree use-package vimish-fold
+                   visual-fill-column visual-regexp volatile-highlights wgrep
+                   yaml-mode yasnippet))
  '(safe-local-variable-values
-   '((projectile-project-root . "/home/benjamin/work/matter")
+   '((projectile-project-root . "/home/benjamin/work/nefer/software")
+     (projectile-project-root . "/home/benjamin/work/stenhård/elbow-button")
+     (projectile-project-root . "/home/benjamin/work/eub/modbus-radar/west")
+     (projectile-project-root . "/home/benjamin/work/picadeli/vision")
+     (projectile-project-root . "/home/benjamin/work/ludafarm/mfg/target")
+     (projectile-project-root . "/home/benjamin/work/mfg-matter/firmware")
+     (projectile-project-root . "/home/benjamin/work/mimbly/firmware")
+     (projectile-project-root . "/home/benjamin/work/piab/iot-jumpoff")
+     (projectile-project-root . "/home/benjamin/work/sktc/vibration-sensor")
+     (projectile-project-root . "/home/benjamin/work/polygon-group/firmware")
+     (projectile-project-root . "/home/benjamin/work/stenhård/xit")
+     (projectile-project-root . "/home/benjamin/work/eub/radar-playground")
+     (projectile-project-root
+      . "/home/benjamin/work/eub/products/eub-gateway/gateway-t113-buildroot")
+     (projectile-project-root
+      . "/home/benjamin/work/eub/products/eub-gateway-gateway-t113-buildroot")
+     (projectile-project-root . "/home/benjamin/work/capillary/radar-sensor")
+     (projectile-project-root . "/home/benjamin/work/eub/products/forgetmenot")
+     (projectile-project-root . "/home/benjamin/work/nrf-workspace")
+     (projectile-project-root . "/home/benjamin/work/eub")
+     (projectile-project-root
+      . "/home/benjamin/work/eub/products/eub-gateway/nrf-cocpu/")
+     (projectile-project-root . "/home/benjamin/work/ludafarm/device-firmware")
+     (projectile-project-root . "/home/benjamin/work/eub/products/felix")
+     (projectile-project-root . "/home/benjamin/work/west")
+     (projectile-project-root . "/home/benjamin/work/eub/zephyr-template")
+     (projectile-project-root . "/home/benjamin/work/blippa")
+     (projectile-project-root . "/home/benjamin/work/sandvik/screen-sensor-2023")
+     (projectile-project-root . "/home/benjamin/work/ktc/ktc-han-port")
+     (projectile-project-root . "/home/benjamin/work/ktc/ktc-han/port")
+     (projectile-project-root . "/home/benjamin/work/freepower/cem_fw")
+     (projectile-project-root . "/home/benjamin/work/matter")
      (projectile-project-root . "/home/benjamin/work/badgrader/")
      (projectile-project-root . "/home/benjamin/work/aidiagnostics/")
      (projectile-project-root . "/home/benjamin/work/willow/hub-firmware/")

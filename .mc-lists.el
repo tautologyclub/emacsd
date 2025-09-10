@@ -18,7 +18,9 @@
         c-electric-star
         c-indent-line-or-region
         capitalize-word-toggle
+        comment-or-uncomment-region-or-line
         company-indent-for-tab-command
+        counsel-yank-pop
         duplicate-current-line-or-region
         elpy-nav-indent-shift-left
         elpy-nav-indent-shift-right
@@ -39,13 +41,17 @@
         lispy-kill
         lispy-parens
         lispy-quotes
+        magit-discard
         mark-line
         markdown-cycle
         move-text-down
         move-text-up
         my-decrement-number-decimal
         my-increment-number-decimal
+        org-delete-char
+        org-return
         org-self-insert-command
+        org-yank
         smart-open-line-above
         special-digit-argument
         special-lh-knight/body
@@ -120,15 +126,21 @@
         tab-to-tab-stop
         undefined
         upcase-word-toggle
+        wdired--self-insert
+        wdired-abort-changes
         yaml-electric-backspace
         yaml-electric-dash-and-dot
         ))
 
 (setq mc/cmds-to-run-once
       '(
+        benjamin/next-buffer
+        benjamin/previous-buffer
         c-electric-pound
         cmake-end-of-defun
         counsel-M-x
+        counsel-find-file
+        counsel-term-switch
         dap-tooltip-mouse-motion
         dropdown-multiterm
         handle-switch-frame
@@ -141,6 +153,9 @@
         multi-term-w/error-handling
         projectile-compile-project
         sp-remove-active-pair-overlay
+        swiper
         wdired-finish-edit
+        wgrep-change-to-wgrep-mode
         wgrep-finish-edit
+        zoom-frm-out
         ))

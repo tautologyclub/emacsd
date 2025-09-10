@@ -411,4 +411,4 @@ list_git_files ()
 }
 
 alias gnome-control-center='env XDG_CURRENT_DESKTOP=GNOME gnome-control-center'
-alias cpac='ssh cpac@scrapheap.local'
+alias zenv='. ~/.zenv/bin/activate'

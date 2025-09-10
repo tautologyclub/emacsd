@@ -31,3 +31,8 @@ export I_AM_LOCAL=y
 if [ -f ~/.cargo/env ]; then
     source ~/.cargo/env
 fi
+
+export PATH="$PATH:$HOME/flutter/bin"
+
+# For AgentForwarding
+ssh-add

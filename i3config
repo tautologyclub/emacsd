@@ -15,7 +15,7 @@ workspace_auto_back_and_forth yes
 
 
 # Bindings
-bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec LIBGL_ALWAYS_SOFTWARE=1 /home/benjamin/bin/alacritty
+bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec LIBGL_ALWAYS_SOFTWARE=1 /usr/bin/alacritty
 # bindsym $mod+Return exec --no-startup-id ~/bin/split_optimal; exec /usr/bin/gnome-terminal
 bindsym $mod+b exec --no-startup-id ~/bin/split_optimal; exec /home/benjamin/bin/browser
 bindsym $mod+Shift+q kill
@@ -274,7 +274,7 @@ bar {
 
 	bindsym button4 nop
 	bindsym button5 nop
-	font xft:Noto Sans 8
+	font xft:Noto Sans 10
 	strip_workspace_numbers yes
 
 	colors {
@@ -360,7 +360,7 @@ mode "volume" {
 bindsym $mod+v mode "volume"
 
 #exec --no-startup-id pulseaudio
-#exec --no-startup-id pa-applet
+exec --no-startup-id pa-applet
 bindsym $mod+Ctrl+v exec pavucontrol
 
 # exec_always --no-startup-id "/usr/bin/bash /home/benjamin/.emacs.d/HOME/start-emacs-daemon.sh"

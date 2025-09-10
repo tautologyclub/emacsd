@@ -28,7 +28,7 @@ xmodmap -e "keycode 105 = Return Return U1234 U0123"
 xmodmap -e "keycode 36 = Control_R"
 xmodmap -e "add Control = Control_R"
 
-xmodmap -e "keycode 119 = BackSpace"
+# xmodmap -e "keycode 119 = BackSpace"
 
 xmodmap -e "remove mod2 = Num_Lock"
 xmodmap -e "add mod2 = Num_Lock"
@@ -56,7 +56,6 @@ if [[ "$LAYOUT" = "swedish" ]]; then
 else
     xcape -e 'Alt_R=F9'
     xcape -e 'Mode_switch=semicolon'    # reclaim ;
-    # xcape -e 'Mode_switch=odiaeresis'    # reclaim ö
 fi
 
 xcape -e 'Hyper_L=q'

@@ -241,7 +241,7 @@
 (global-set-key       (kbd "ӽ")    ";")
 
 (global-set-key (kbd "C-p") nil)
-(global-set-key (kbd "C-p C-p") 'helm-projectile)
+(global-set-key (kbd "C-p C-p") 'projectile-find-file)
 (global-set-key (kbd "C-p !")   'projectile-run-async-shell-command-in-root)
 (global-set-key (kbd "C-p C-f") 'projectile-find-file-in-known-projects)
 (global-set-key (kbd "C-p G")   'ggtags-update-tags)
@@ -262,7 +262,7 @@
 (global-set-key (kbd "C-p o")   'projectile-find-other-file)
 (global-set-key (kbd "C-p p")   'helm-projectile)
 (global-set-key (kbd "C-p R")   'projectile-replace)
-(global-set-key (kbd "C-p r")   'counsel-projectile-rg)
+(global-set-key (kbd "C-p r")   'counsel-projectile-ag)
 (global-set-key (kbd "C-p s")   'counsel-projectile-switch-project)
 (global-set-key (kbd "C-p t")   'projectile-get-term)
 (global-set-key (kbd "C-p u")   'projectile-run-project)
@@ -451,6 +451,8 @@
 (global-set-key     (kbd "C-n")   'mark-line)
 (global-set-key     (kbd "H-n")   'goto-next-line-with-same-indentation)     ;;;
 (global-set-key     (kbd "M-n")   'next-error)                                 ;
+(global-set-key     (kbd "M-N")   'previous-error)
+(global-set-key   (kbd "C-M-n")   'flycheck-list-errors)
 (global-set-key   (kbd "C-S-n")   'lispy-forward)                            ;;;
 (global-set-key   (kbd "H-M-n")   'multi-term-next)
 (global-set-key   (kbd "C-x n")   'narrow-to-region)
@@ -468,7 +470,7 @@
 (global-set-key   (kbd "H-M-m")   'kmacro-call-macro)
 (global-set-key       (kbd "μ")   "$")                                       ;;;
 
-(global-set-key (kbd "C-,")     'hydra-magit/body)
+;(global-set-key (kbd "C-,")     'hydra-magit/body)
 
 (global-set-key (kbd "H-,")     'goto-prev-line-with-same-indentation)		 ;;;
 (global-set-key (kbd "H-.")     'goto-next-line-with-same-indentation)		 ;;;
