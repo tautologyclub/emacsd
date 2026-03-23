@@ -283,24 +283,6 @@ With arg N insert N newlines."
            (line-beginning-position 2)))))
 
 ;;;###autoload
-(defun comment-or-uncomment-region-or-line ()
-  "Comments or uncomments the region or the current line if there's no active region."
-  (interactive)
-  (let (beg end)
-    (if (region-active-p)
-        (setq beg (region-beginning) end (region-end))
-      (setq beg (line-beginning-position) end (line-end-position)))
-    (comment-or-uncomment-region beg end)
-    (unless (region-active-p)
-      (forward-line 1))))
-
-;;;###autoload
-(defadvice comment-or-uncomment-region-or-line (after deactivate-mark-nil
-                                                      activate)
-  "Don't deactivate mark when commenting."
-      (setq deactivate-mark nil))
-
-;;;###autoload
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single line instead."
   (interactive

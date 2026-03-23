@@ -617,4 +617,4 @@ This function is suitable to add to `find-file-hook'."
   (re-search-backward (s-concat "^" (s-repeat (current-column) " ") "[^ \t\r\n\v\f]"))
   (back-to-indentation))
 
-(provide 'some-defuns)
+(provide 'defuns)

@@ -3,6 +3,8 @@
 ;;; Code:
 ;;; todo: https://github.com/abo-abo/hydra/wiki/Macro
 (setenv "PATH" (concat "/home/benjamin/bin:/home/benjamin/.local/bin:" (getenv "PATH"))) ; ugh
+(add-to-list 'exec-path "/home/benjamin/bin")
+(add-to-list 'exec-path "/home/benjamin/.local/bin")
 
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
@@ -367,7 +369,7 @@
   :disabled     t ; this package sucks
   :ensure       t
   )
-bo
+
 ;; todo
 (use-package    helm
   :ensure       t
@@ -834,20 +836,26 @@ bo
   ;; wrecks TRAMP for some reason, disabled by default:
   :config       (global-git-gutter+-mode -1))
 
-(use-package    helm-systemd
-  :ensure       t
-  :custom       (helm-systemd-list-all t)
-                (helm-systemd-list-not-loaded t))
 
-(use-package    anaconda-mode
-  :ensure       t
-  :config       (add-hook 'python-mode-hook 'anaconda-mode)
-                (with-eval-after-load "anaconda-mode"
-                  (define-key anaconda-mode-map (kbd "M-r") nil)))
+(use-package pet
+  :ensure t
+  :config
+  (advice-add 'pet-project-root :filter-return #'file-name-as-directory)
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq-local python-shell-interpreter     (pet-executable-find "python")
+                          python-shell-virtualenv-root (pet-virtualenv-root)))))
 
-(add-hook 'python-mode-hook
-          (lambda ()
-            (electric-indent-local-mode -1)))
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                         (require 'lsp-pyright)
+                         (lsp-deferred)
+                         (electric-indent-local-mode -1)
+                         (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
+  :custom
+  (lsp-pyright-langserver-command "basedpyright-langserver")
+  (lsp-pyright-disable-organize-imports t))
 
 (use-package    frame
   :config       (window-divider-mode t)
@@ -870,9 +878,7 @@ bo
   (hydra-errgo/body)
   )
 
-
 (use-package    cc-mode
-  :after        (semantic)
   :custom       (c-default-style        "linux")
                 (c-basic-offset         8)
                 (c-backslash-max-column 80)
@@ -882,15 +888,13 @@ bo
                       ("C-M-j"  . nil) ("C-M-k"  . nil)
                       ("C-c o"  . c-occur-overview)
                       ;; todo: (defun toggle-show-ifdef ())
-                      ("H-M-h"     . hide-ifdef-block)
-                      ("H-M-H"     . show-ifdef-block)
-                      ("C-c H-M-h" . hide-ifdefs)
-                      ("C-c H-M-H" . show-ifdefs)
+                      ("C-M-h"     . hide-ifdef-block)
+                      ("C-M-H"     . show-ifdef-block)
+                      ("C-c C-M-h" . hide-ifdefs)
+                      ("C-c C-M-H" . show-ifdefs)
                       ("C-c C-c"   . compile)
                       ;; ("C-i"       . company-indent-for-tab-command)
                       ))
-  ;; :init         (semanticdb-enable-gnu-global-databases 'c-mode)
-                ;; (semanticdb-enable-gnu-global-databases 'c++-mode))
 
 (use-package    pdf-tools
   :ensure       t
@@ -912,44 +916,6 @@ bo
                            (kbd "C-j") 'pdf-view-next-page)))
                 (add-to-list 'auto-mode-alist '("\\.pdf" . pdf-view-mode))
                 (add-hook 'pdf-view-mode-hook 'pdf-isearch-minor-mode))
-
-(use-package    gud
-  :custom       (gud-pdb-command-name "python -m pdb")
-  :config       (define-key gud-mode-map (kbd "M-c") 'hydra-gdb/body))
-
-(defun my-forward-whitespace ()
-  (interactive)
-  (forward-whitespace 1))
-
-(defun my-backward-whitespace ()
-  (interactive)
-  (forward-whitespace -1))
-
-;; TODO: Fix realgud so that we can insert visual breaks. jfc...
-(use-package    realgud
-  :ensure       t
-  :custom       (realgud:pdb-command-name "python -m pdb")
-                (realgud-safe-mode nil)
-  :config       (defun realgud:eval-dotsymbol-at-point ()
-                  "The eval-at-point stuff included in realgud are baaad."
-                  (interactive)
-                  (with-syntax-table (make-syntax-table (syntax-table))
-                    (modify-syntax-entry ?. "_")
-                    (let ((bounds (bounds-of-thing-at-point 'symbol)))
-                      (realgud:cmd-eval-region (car bounds) (cdr bounds)))))
-                (define-key realgud-track-mode-map (kbd "M-c") realgud-short-key-mode-hook)
-  :bind         (:map realgud:shortkey-mode-map
-                      ("e" . realgud:eval-dotsymbol-at-point)
-
-                      ("J" . realgud:cmd-jump)
-                      ("K" . realgud:cmd-kill)
-                      ("h" . my-backward-whitespace)
-                      ("j" . next-lines-indentation)
-                      ("k" . previous-lines-indentation)
-                      ("l" . my-forward-whitespace)
-
-                      ("c" . realgud:cmd-continue)
-                      ("n" . realgud:cmd-next)))
 
 (use-package    diff-mode
   :config       (define-key diff-mode-map (kbd "M-.") 'diff-goto-source)
@@ -1057,7 +1023,6 @@ bo
   )
 
 
-(use-package py-autopep8             :ensure t)
 (use-package hydra                   :ensure t)
 (use-package vimish-fold             :ensure t)
 (use-package expand-region           :ensure t)
@@ -1262,6 +1227,8 @@ bo
 
 ;; Open some defaults
 (load        "~/.emacs.d/bindings2.el")
+(load        "~/.emacs.d/lisp/defuns.el")
+(load        "~/.emacs.d/lisp/some-defuns.el")
 (find-file    "~/.emacs.d/bindings2.el")
 (find-file    "~/.emacs.d/init.el")
 (condition-case nil (kill-buffer "*scratch*") (error nil))

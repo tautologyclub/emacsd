@@ -145,6 +145,8 @@
         dropdown-multiterm
         handle-switch-frame
         hydra-magit/body
+        hydra-toggle/body
+        hydra-toggle/fci-mode-and-exit
         iedit-mode
         iedit-switch-to-mc-mode
         ivy-alt-done

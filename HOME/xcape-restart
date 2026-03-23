@@ -37,7 +37,6 @@ xmodmap -e "add mod2 = Num_Lock"
 xmodmap -e "keycode 135 = Super_L"
 
 xcape -e "Control_R=Return"             # reclaim RET
-# xcape -e 'Control_L=F12'
 xcape -e 'Shift_L=F10'
 xcape -e 'Shift_R=semicolon'
 #xcape -e 'Super_L=Tab'                  # todo
@@ -58,5 +57,4 @@ else
     xcape -e 'Mode_switch=semicolon'    # reclaim ;
 fi
 
-xcape -e 'Hyper_L=q'
 xcape -e 'Alt_L=F7'
