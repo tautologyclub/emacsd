@@ -131,7 +131,9 @@ remove_dupes_etc() {
     if [[ ! "$(stat -c %s $tmpfile)" == "0" ]]; then
         # Remove trailing whitespaces
         sed -i 's/[[:space:]]*$//' "$tmpfile"
-        mv "$tmpfile" ~/.bash_history
+        mv "$tmpfile" ~/.bash_history || {
+            echo "FAILED RECONSTRUCTING BASH HISTORY, saved in $tmpfile"
+        }
     fi
 }
 
@@ -144,12 +146,13 @@ my_dummy_binary 2>/dev/null || {
 
 export PATH=$HOME/.local/bin:$HOME/bin:$PATH
 
+if [ -d $HOME/go/bin ]; then
+    export PATH=$PATH:$HOME/go/bin
+fi
+
 if [ -d $HOME/flutter/bin ]; then
     export PATH=$PATH:$HOME/flutter/bin
 fi
-
-export BASH_HELPER_LIBDIR=/home/benjamin/repos/bash_och_brudar
-export BASH_HELPER_MAIN="$BASH_HELPER_LIBDIR"/bash-helpers.sh
 
 # export ZEPHYR_BASE=/home/benjamin/zephyrproject/zephyr
 # export ZEPHYR_TOOLCHAIN_VARIANT=cross-compile
@@ -168,3 +171,8 @@ fi
 . ~/.zenv/bin/activate || true
 
 export PNG_DIR=~/work/sktc/vibration-sensor/firmware/tools/png
+
+export HCI_ADAPTER=hci1
+
+export STM32_PRG_PATH=/home/benjamin/.local/STMicroelectronics/STM32Cube/STM32CubeProgrammer/bin
+export PATH="$PATH:$STM32_PRG_PATH":/opt/st/stm32cubeide_2.1.0/stm32cubeide

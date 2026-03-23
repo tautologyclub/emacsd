@@ -105,6 +105,11 @@
     (setq lsp-enable-indentation nil)
   )
 
+(use-package highlight-indent-guides
+  :ensure   t
+  :config   (setq highlight-indent-guides-method 'character
+                  highlight-indent-guides-character ?·))
+
 (use-package lsp-ui
   :disabled t ; this is so fucking intrusive
   :ensure t
@@ -126,8 +131,7 @@
 (use-package dart-mode
   :ensure t
   :hook
-    (dart-mode . lsp)
-    (dart-mode . flutter-test-mode))
+    (dart-mode . lsp))
 
 (use-package dart-server
   :ensure t
@@ -911,6 +915,10 @@
                 (with-eval-after-load "anaconda-mode"
                   (define-key anaconda-mode-map (kbd "M-r") nil)))
 
+(add-hook 'python-mode-hook
+          (lambda ()
+            (electric-indent-local-mode -1)))
+
 (use-package    frame
   :config       (window-divider-mode t)
                 (custom-set-faces
@@ -1446,16 +1454,21 @@
                    flyspell-correct-ivy function-args git-gutter+
                    git-timemachine go go-mode goto-chg helm-chrome helm-google
                    helm-gtags helm-projectile helm-rg helm-systemd highlight
-                   hungry-delete intel-hex-mode ivy-hydra ivy-rich lispy
-                   lsp-dart lsp-mode lsp-treemacs magit markdown-mode move-text
-                   multi-term multiple-cursors notmuch pdf-tools py-autopep8
-                   pyenv-mode realgud scad-mode slack smartparens smex
-                   stickyfunc-enhance switch-buffer-functions tabbar
-                   term-projectile toml-mode undo-tree use-package vimish-fold
-                   visual-fill-column visual-regexp volatile-highlights wgrep
-                   yaml-mode yasnippet))
+                   highlight-indent-guides hungry-delete intel-hex-mode
+                   ivy-hydra ivy-rich lispy lsp-dart lsp-mode lsp-treemacs magit
+                   markdown-mode move-text multi-term multiple-cursors notmuch
+                   pdf-tools py-autopep8 pyenv-mode realgud scad-mode slack
+                   smartparens smex stickyfunc-enhance switch-buffer-functions
+                   tabbar term-projectile toml-mode undo-tree use-package
+                   vimish-fold visual-fill-column visual-regexp
+                   volatile-highlights wgrep yaml-mode yasnippet))
  '(safe-local-variable-values
-   '((projectile-project-root . "/home/benjamin/work/nefer/software")
+   '((projectile-project-root . "/home/benjamin/work/chargenode/ups")
+     (projectile-project-root . "/home/benjamin/work/wireflow/hardware/bringup")
+     (lsp-clients-clangd-args
+      . "--compile-commands-dir=/home/benjamin/work/sensio/cs/build/cs_proximity_initiator/")
+     (projectile-project-root . "/home/benjamin/work/sensio/cs")
+     (projectile-project-root . "/home/benjamin/work/nefer/software")
      (projectile-project-root . "/home/benjamin/work/stenhård/elbow-button")
      (projectile-project-root . "/home/benjamin/work/eub/modbus-radar/west")
      (projectile-project-root . "/home/benjamin/work/picadeli/vision")
@@ -1495,13 +1508,6 @@
      (projectile-project-root . "/home/benjamin/work/willow")
      (projectile-project-root . "/home/benjamin/work/frigbot")
      (projectile-project-root . "/home/benjamin/work/west/")
-     (projectile-project-root . "~/work/duke/")
-     (projectile-project-root . "/home/benjamin/work/ppuck")
-     (projectile-project-root . "/home/benjamin/work/duke")
-     (projectile-project-root . "/home/benjamin/work/aquarobur")
-     (projectile-project-root . "/home/benjamin/notes/blippa/west")
-     (projectile-project-root . "/home/benjamin/work/ez")
-     (projectile-project-root . "/home/benjamin/work/voi")
      (projectile-project-root . "~/work/careofsweden")
      (projectile-project-root . "/home/benjamin/work/sandvik")))
  '(warning-suppress-log-types '((comp) (comp)))

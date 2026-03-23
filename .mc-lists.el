@@ -152,6 +152,7 @@
         markdown-outdent-or-delete
         multi-term-w/error-handling
         projectile-compile-project
+        projectile-test-project
         sp-remove-active-pair-overlay
         swiper
         wdired-finish-edit

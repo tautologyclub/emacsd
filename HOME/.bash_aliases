@@ -9,6 +9,11 @@ MEM()
     ps -eo rss,pid,euser,args:100 --sort %mem | grep -v grep | grep -i $@ | awk '{printf $1/1024 "MB"; $1=""; print }'
 }
 
+GIT_VERSION()
+{
+    git describe --tags --always --abbrev=8 --dirty
+}
+
 
 errcho()
 # Usage:  Just like echo xyz, but to stderr
@@ -412,3 +417,5 @@ list_git_files ()
 
 alias gnome-control-center='env XDG_CURRENT_DESKTOP=GNOME gnome-control-center'
 alias zenv='. ~/.zenv/bin/activate'
+
+alias VM='nohup virt-manager -c qemu:///system > /dev/null &'

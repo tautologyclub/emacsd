@@ -1,0 +1,76 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("/home/benjamin/work/eub/modbus-radar/west/zephyr/samples/bluetooth/hci_usb/prj.conf"
+ (filename . "~/work/eub/modbus-radar/west/zephyr/samples/bluetooth/hci_usb/prj.conf")
+ (front-context-string)
+ (rear-context-string . "R_RX_BUFFERS=18\n")
+ (position . 1081)
+ (last-modified 27058 28327 319998 411000))
+("/tmp/jlink.cap"
+ (filename . "/tmp/jlink.cap")
+ (front-context-string . "[00:00:00.261,29")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26792 19295 754959 641000))
+("/home/benjamin/work/eub/hemsida-copy-rehaul.md"
+ (filename . "~/work/eub/hemsida-copy-rehaul.md")
+ (front-context-string . "## KUNDCASE\n\n## ")
+ (rear-context-string . "G PRODUKTION\n\n\n\n")
+ (position . 3376)
+ (last-modified 26752 60666 550338 12000))
+("/home/benjamin/work/eub/products/demo/notes.md"
+ (filename . "~/work/eub/products/demo/notes.md")
+ (front-context-string . "### Protocol\n\nHT")
+ (rear-context-string . "authentication\n\n")
+ (position . 585)
+ (last-modified 26580 19223 495243 972000))
+("/home/benjamin/work/eub/modbus-radar/west/kite-boards/boards/arm/vidante_snuro/vidante_snuro.dts"
+ (filename . "~/work/eub/modbus-radar/west/kite-boards/boards/arm/vidante_snuro/vidante_snuro.dts")
+ (front-context-string . "		label = \"A1X1_")
+ (rear-context-string . "\n		reg = <0x0>;\n")
+ (position . 2992)
+ (last-modified 26577 50703 771802 872000))
+("/home/benjamin/work/matter/sensor-firmware/boards/arm/sense_lte_mini/sense_lte_mini_common.dtsi"
+ (filename . "~/work/matter/sensor-firmware/boards/arm/sense_lte_mini/sense_lte_mini_common.dtsi")
+ (front-context-string . "/*\n * Copyright ")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26577 48957 672363 953000))
+("/home/benjamin/work/mimbly/firmware/esp32/mimbox-common-drivers/include/mimbly/common/fsm_config.h"
+ (filename . "~/work/mimbly/firmware/esp32/mimbox-common-drivers/include/mimbly/common/fsm_config.h")
+ (front-context-string . "#ifndef MIMBLY_F")
+ (rear-context-string)
+ (position . 1)
+ (last-modified 26522 7008 802548 869000))
+("/home/benjamin/work/eub/marketing/gateway-web.md"
+ (filename . "~/work/eub/marketing/gateway-web.md")
+ (front-context-string . "### DETAILED SPE")
+ (rear-context-string . "kan editera!!\n\n\n")
+ (position . 2701)
+ (last-modified 26497 23498 471335 953000))
+("/home/benjamin/work/matter/manufacturing/mfg-scripts/rf_playground.py"
+ (filename . "~/work/matter/manufacturing/mfg-scripts/rf_playground.py")
+ (front-context-string . "\n# Works: LTE-M,")
+ (rear-context-string . "1,1,6,0,0,3,3,0\n")
+ (position . 2059)
+ (last-modified 26496 60483 683615 719000))
+("/home/benjamin/work/eub/zephyr-template/eub/scripts/hil/pi-setup.sh"
+ (filename . "~/work/eub/zephyr-template/eub/scripts/hil/pi-setup.sh")
+ (front-context-string . "\nexit 0\n\n# venv\n")
+ (rear-context-string . "ontrol --reload\n")
+ (position . 1775)
+ (last-modified 26439 1835 890177 50000))
+("/home/benjamin/.local/zephyr-sdk-0.16.5/arm-zephyr-eabi/arm-zephyr-eabi/include/sys/errno.h"
+ (filename . "~/.local/zephyr-sdk-0.16.5/arm-zephyr-eabi/arm-zephyr-eabi/include/sys/errno.h")
+ (front-context-string . "	/* Connection r")
+ (rear-context-string . "ECONNREFUSED 111")
+ (position . 5481)
+ (last-modified 26224 12957 894458 461000))
+("/home/benjamin/.local/zephyr-sdk-0.14.2/arm-zephyr-eabi/arm-zephyr-eabi/include/sys/errno.h"
+ (filename . "~/.local/zephyr-sdk-0.14.2/arm-zephyr-eabi/arm-zephyr-eabi/include/sys/errno.h")
+ (front-context-string . "\n/* Please don't")
+ (rear-context-string . " (void);\n#endif\n")
+ (position . 344))
+)

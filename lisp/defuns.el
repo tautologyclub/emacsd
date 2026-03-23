@@ -1,5 +1,36 @@
 (require 'expand-region)
 
+;;;###autoload
+(defun tail-file-with-ansi-colors (file)
+  "Tail FILE with ANSI colors, removing ^M safely and avoiding partial escape codes."
+  (interactive "fFile to tail: ")
+  (let* ((buf-name (format "*tail %s*" (file-name-nondirectory file)))
+         (buf (find-file-noselect file)))
+    (with-current-buffer buf
+      ;; Rename buffer
+      (rename-buffer buf-name t)
+      ;; Use read-only tailing
+      (special-mode)
+      (auto-revert-tail-mode 1)
+      ;; Hook to apply ANSI colors after each revert
+      (add-hook 'after-revert-hook
+                (lambda ()
+                  (let ((inhibit-read-only t))
+                    ;; Apply ANSI colors first
+                    (ansi-color-apply-on-region (point-min) (point-max))
+                    ;; Remove carriage returns only as literal characters
+                    (goto-char (point-min))
+                    (while (search-forward "\r" nil t)
+                      (replace-match ""))
+                    ;; Prevent modified prompts
+                    (set-buffer-modified-p nil)))
+                nil t)
+      ;; Revert immediately to apply ANSI color
+      (let ((inhibit-read-only t))
+        (revert-buffer t t))
+      (goto-char (point-max)))
+    (switch-to-buffer buf)))
+
 ;; elpy sucks but these are okay
 ;;;###autoload
 (defun elpy-nav-normalize-region ()
