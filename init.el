@@ -4,10 +4,11 @@
 ;;; todo: https://github.com/abo-abo/hydra/wiki/Macro
 (setenv "PATH" (concat "/home/benjamin/bin:/home/benjamin/.local/bin:" (getenv "PATH"))) ; ugh
 
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
+
 (require 'package)
 (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/") t)
-;;(add-to-list 'package-archives '("melpa-stable" . "https://melpa-stable.milkbox.net/packages/") t)
-;; (add-to-list 'package-archives '("marmalade"    . "https://marmalade-repo.org/packages/"))
 (add-to-list 'load-path "~/.emacs.d/lisp/")
 (add-to-list 'load-path "~/repos/counsel-term/")
 (add-to-list 'load-path "~/repos/feebleline")
@@ -15,8 +16,6 @@
 (package-initialize)
 (if (not (fboundp 'use-package))
     (progn (package-refresh-contents) (package-install 'use-package)))
-;; (setq custom-file "~/.emacs.d/.custom")
-;; (load-file custom-file)
 
 (defmacro lambi (&rest b)
   "Just a lazy macro, have to mention B in docstring."
@@ -86,11 +85,6 @@
   ) ;; not good enough(, yet?)
 
 ; -- others stuff --------------------------------------------------------------
-;; (use-package eglot :ensure t)
-;; (add-to-list 'eglot-server-programs '((c++-mode c-mode) "clangd"))
-;; (add-hook 'c-mode-hook 'eglot-ensure)
-;; (add-hook 'c++-mode-hook 'eglot-ensure)
-
 (use-package lsp-mode
   :ensure t
   :commands (lsp ls-deferred)
@@ -103,24 +97,42 @@
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-enable-file-watchers nil)
     (setq lsp-enable-indentation nil)
-  )
+    (setq lsp-completion-provider :none)
+    (defun benjamin/lsp-setup-orderless ()
+      (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
+            '(orderless)))
+    (add-hook 'lsp-completion-mode-hook #'benjamin/lsp-setup-orderless)
+
+  (defun benjamin/zephyr-setup ()
+    "Find compile_commands.json under the west workspace root and write .clangd."
+    (interactive)
+    (let* ((west-root (locate-dominating-file default-directory ".west"))
+           (_ (unless west-root (error "No .west directory found")))
+           (found (split-string
+                   (shell-command-to-string
+                    (format "find %s -name compile_commands.json 2>/dev/null"
+                            (shell-quote-argument (expand-file-name west-root))))
+                   "\n" t))
+           (_ (unless found (error "No compile_commands.json found under %s" west-root)))
+           (chosen (if (= 1 (length found))
+                       (car found)
+                     (completing-read "Select compile_commands.json: " found nil t)))
+           (build-dir (file-relative-name (file-name-directory chosen) west-root))
+           (clangd-file (expand-file-name ".clangd" west-root)))
+      (with-temp-file clangd-file
+        (insert "CompileFlags:\n")
+        (insert (format "  CompilationDatabase: %s\n" build-dir)))
+      (message "Wrote %s (CompilationDatabase: %s)" clangd-file build-dir)
+      (when (lsp-workspaces)
+        (lsp-restart-workspace)))))
 
 (use-package highlight-indent-guides
   :ensure   t
   :config   (setq highlight-indent-guides-method 'character
                   highlight-indent-guides-character ?·))
 
-(use-package lsp-ui
-  :disabled t ; this is so fucking intrusive
-  :ensure t
-  :config
-  (setq lsp-ui-doc-enable nil)
-  )
 
 (use-package csv-mode
-  :ensure t)
-
-(use-package pdf-tools
   :ensure t)
 
 ; Mail -- TODO
@@ -135,13 +147,6 @@
 
 (use-package dart-server
   :ensure t
-  :config
-    (setq dart-server-sdk-path "/home/benjamin/flutter/bin/cache/dart-sdk")
-)
-
-(use-package html-mode
-  :bind (:map html-mode-map
-              ("M-o" . nil))
   :config
     (setq dart-server-sdk-path "/home/benjamin/flutter/bin/cache/dart-sdk")
 )
@@ -285,14 +290,12 @@
                 (projectile-mode-line "")
                 (projectile-project-root-files
                  '(".dir-locals.el" ".west" ".repo" "pubspec.yaml" "info.rkt"
-                   "Cargo.toml" "stack.yaml" "DESCRIPTION" "Eldev" "Cask"
+                   "Cargo.toml" "stack.yaml" "Cask"
                    "shard.yml" "Gemfile" ".bloop" "deps.edn" "build.boot"
                    "project.clj" "build.sbt" "application.properties" "gradlew"
                    "build.gradle" "pom.xml" "poetry.lock" "Pipfile" "tox.ini"
-                   "setup.py" "requirements.txt" "manage.py" "angular.json"
-                   ;; "CMakeLists.txt" "Makefile"
                    "WORKSPACE" "meson.build" "GTAGS"
-                   "TAGS" "configure.ac" "configure.in" "cscope.out")
+                   "TAGS" )
                  )
   :config       (add-to-list 'projectile-project-root-files ".repo")
                 (add-to-list 'projectile-project-root-files ".west")
@@ -391,14 +394,6 @@
                       ("C-," . helm-gtags-find-rtag)
                       ("H-M-j" . helm-gtags-find-tag)))
 
-(use-package    all-the-icons   :disabled     t ;; meh
-  :ensure       t
-  :config       (defun ivy-rich-switch-buffer-icon (candidate)
-                  (with-current-buffer (get-buffer candidate)
-	                (let ((icon (all-the-icons-icon-for-mode major-mode)))
-	                  (if (symbolp icon)
-	                      (all-the-icons-icon-for-mode 'fundamental-mode)
-	                    icon)))))
 
 (use-package    ivy-rich ;;:disabled ;; slightly buggy
   :ensure       t
@@ -610,68 +605,36 @@
                  "ag --nocolor --nogroup %s")
                 )
 
-(use-package    auto-complete
-  :ensure       t
-  :custom       (ac-delay 0.4)
-                (ac-auto-show-menu 0.4)
-                (ac-use-fuzzy nil)
-                (ac-menu-height 14)
-                (ac-ignore-case nil)
-  :bind         (:map ac-completing-map
-                      ("M-j" . ac-next)
-                      ("M-k" . ac-previous)
-                      )
-  :config       (global-auto-complete-mode)
-  )
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 
-(use-package    company
-  :disabled     t ;; Company got terrible all of a sudden, no idea why
-  :ensure       t
-  :custom       (company-auto-complete-chars '(?. ?>))
-                (company-backends
-                 '(company-semantic
-                   company-clang company-cmake
-                   company-capf company-files
-                   (company-dabbrev-code
-                    company-gtags company-etags
-                    company-keywords)
-                   company-oddmuse company-dabbrev))
-                (company-idle-delay 0.4)
-                (company-minimum-prefix-length 2)
-                (company-irony-ignore-case nil)
-                (company-tooltip-idle-delay 1)
-                (company-show-numbers t)
-                (company-tooltip-limit 5)
-  :config       (add-hook 'after-init-hook 'global-company-mode)
-                ;; silly hack to make indent/complete functionality work properly
-                (defvar completion-at-point-functions-saved nil)
-                (defun company-indent-for-tab-command (&optional arg)
-                  (interactive "P")
-                  (let ((completion-at-point-functions-saved completion-at-point-functions)
-                        (completion-at-point-functions '(company-complete-common-wrapper)))
-                    (indent-for-tab-command arg)))
-                (defun company-complete-common-wrapper ()
-                  (let ((completion-at-point-functions completion-at-point-functions-saved))
-                    (company-complete-common)))
-                (define-key company-active-map (kbd "M-j") 'company-select-next)
-                (define-key company-active-map (kbd "M-k") 'company-select-previous)
-                (define-key company-active-map (kbd "C-j") nil)
-                (define-key company-active-map (kbd "C-k") nil)
-                (define-key company-active-map (kbd "RET") 'nil)
-                (define-key company-active-map (kbd "<tab>") 'company-complete-selection)
-                (define-key company-mode-map [remap indent-for-tab-command]
-                  'company-indent-for-tab-command)
-                (define-key company-active-map (kbd "C-1") (lambi (company-complete-number 1)))
-                (define-key company-active-map (kbd "C-2") (lambi (company-complete-number 2)))
-                (define-key company-active-map (kbd "C-3") (lambi (company-complete-number 3)))
-                (define-key company-active-map (kbd "C-4") (lambi (company-complete-number 4)))
-                (define-key company-active-map (kbd "C-5") (lambi (company-complete-number 5)))
-                (define-key company-active-map (kbd "C-6") (lambi (company-complete-number 6)))
-                (define-key company-active-map (kbd "C-7") (lambi (company-complete-number 7)))
-                (define-key company-active-map (kbd "C-8") (lambi (company-complete-number 8)))
-                (define-key company-active-map (kbd "C-9") (lambi (company-complete-number 9)))
-                (define-key company-active-map (kbd "C-0") (lambi (company-complete-number 10))
-                  ))
+(use-package corfu
+  :ensure t
+  :demand t
+  :custom
+  (corfu-auto        t)
+  (corfu-auto-delay  0.4)
+  (corfu-auto-prefix 2)
+  (corfu-cycle       t)
+  (corfu-quit-no-match 'separator)
+  :bind (:map corfu-map
+              ("M-j"   . corfu-next)
+              ("M-k"   . corfu-previous)
+              ("<tab>" . corfu-complete)
+              ("RET"   . nil))
+  :config
+  (global-corfu-mode 1)
+  (with-eval-after-load 'ivy
+    (setq completion-in-region-function #'corfu--completion-in-region)))
+
+(use-package cape
+  :ensure t
+  :config
+  (add-hook 'completion-at-point-functions #'cape-dabbrev t)
+  (add-hook 'completion-at-point-functions #'cape-file    t))
 
 
 (use-package    asm-mode
@@ -681,17 +644,10 @@
   :ensure       t
   :config       (add-to-list 'auto-mode-alist '("CMakeLists.txt" . cmake-mode)))
 
-(use-package    company-jedi
-  :ensure       t
-  :config       (add-hook 'python-mode-hook
-                  (lambi (add-to-list 'company-backends 'company-jedi))))
 
 (use-package    edit-server :disabled ;; super duper buggy
   :ensure       t
   :config       (edit-server-start))
-
-(use-package    switch-buffer-functions
-  :ensure       t)
 
 (use-package    autorevert
   :custom       (auto-revert-verbose                 nil)
@@ -753,26 +709,7 @@
   :custom       (flycheck-pos-tip-timeout 5)
   :config       (with-eval-after-load 'flycheck (flycheck-pos-tip-mode)))
 
-(use-package    irony
-  :ensure       t
-)
 
-(use-package    flycheck-irony
-  :ensure       t
-  :after        (flycheck irony)
-  :config       (eval-after-load 'flycheck
-                  '(add-hook 'flycheck-mode-hook #'flycheck-irony-setup)))
-
-(use-package    dts-mode
-  :disabled     t ; this is a pretty bad package tbh
-  :ensure       t
-  :config       (add-to-list 'auto-mode-alist '("\\.dts$" . dts-mode))
-                (add-to-list 'auto-mode-alist '("\\.dtsi$" . dts-mode))
-                (add-to-list 'auto-mode-alist '("\\.dto$" . dts-mode))
-                (add-to-list 'auto-mode-alist '("\\.overlay$" . dts-mode))
-                (add-hook 'dts-mode-hook 'subword-mode)
-                (add-hook 'dts-mode-hook 'helm-gtags-mode)
-                )
 
 (add-to-list 'auto-mode-alist '("\\.dts$" . c-mode))
 (add-to-list 'auto-mode-alist '("\\.dtsi$" . c-mode))
@@ -799,16 +736,12 @@
                    try-expand-line
                    try-complete-lisp-symbol-partially)))
 
-(use-package    linum   :disabled
-  :ensure       nil
-  :custom       (global-linum-mode nil))
 
 (use-package    flyspell
   :bind         (:map flyspell-mode-map
-                      (("C-.")   . nil)
-                       ("σ"       . company-flyspell)
-                       ("C-;"     . flyspell-correct-word-before-point)
-                       ("H-M-y"   . flyspell/save-word))
+                      ("C-."   . nil)
+                      ("C-;"   . flyspell-correct-word-before-point)
+                      ("H-M-y" . flyspell/save-word))
   :config       (defun flyspell/save-word ()
                   (interactive)
                   (let ((current-location (point))
@@ -901,9 +834,6 @@
   ;; wrecks TRAMP for some reason, disabled by default:
   :config       (global-git-gutter+-mode -1))
 
-(use-package    goto-chg
-  :ensure       t)
-
 (use-package    helm-systemd
   :ensure       t
   :custom       (helm-systemd-list-all t)
@@ -931,28 +861,6 @@
   :ensure       t
   :config       (yas-global-mode 1))
 
-(use-package    semantic/bovine/c
-;; fixme -- is this needed/desirable:
-  :config       (add-to-list 'semantic-lex-c-preprocessor-symbol-file
-                             "/home/benjamin/bin/gcc-arm-none-eabi-7-2018-q2-update/lib/gcc/arm-none-eabi/7.3.1/include/stddef.h")
-                (add-to-list
-                 'semantic-lex-c-preprocessor-symbol-map
-                 '("__deprecated" . "")
-                 '("__syscall" . "")))
-
-(use-package    semantic
-  :custom       (semantic-idle-scheduler-idle-time 5)
-                (semanticdb-default-save-directory "~/.semanticdb")
-  :config       (semantic-mode 1)
-                (global-semantic-idle-scheduler-mode t)
-                (add-to-list 'semantic-default-submodes
-                             'global-semantic-idle-scheduler-mode)
-                (add-to-list 'semantic-default-submodes
-                             'global-semanticdb-minor-mode)
-                (semantic-add-system-include "/usr/lib/python3" 'python-mode)
-                (semantic-add-system-include "/usr/lib/python3.9" 'python-mode)
-                (semantic-add-system-include "/usr/lib/python3.10" 'python-mode)
-                (semantic-add-system-include "/usr/lib/python2.7" 'python-mode))
 
 (defun c-occur-overview ()
   "Grep for definitions/declarations etc, in C."
@@ -962,8 +870,6 @@
   (hydra-errgo/body)
   )
 
-(use-package    company-irony              :ensure t)
-(use-package    company-irony-c-headers    :ensure t)
 
 (use-package    cc-mode
   :after        (semantic)
@@ -1111,28 +1017,12 @@
   :ensure       t
   :config       (add-to-list 'auto-mode-alist '("\\.elf$" . elf-mode)))
 
-;; (use-package    face-remap
-;;   :config        (defun set-boring-buffer-face ()
-;;                    (interactive)
-;;                    (setq buffer-face-mode-face
-;;                          '(:background "gray" :foreground "black"))
-;;                    (buffer-face-mode))
-;;                 (add-hook 'help-mode-hook 'set-boring-buffer-face)
-;;                 (add-hook 'Info-mode-hook 'set-boring-buffer-face))
 
-(use-package    elec-pair
-  :disabled     ;; just for the annoying << stuff
-  :config       (electric-pair-mode 1))
 
 (use-package    smartparens
   :ensure       t
   :config       (smartparens-global-mode 1))
 
-(use-package    paren :disabled ;; kinda annoying tbh
-  :custom       (show-paren-delay 0.1)
-                (show-paren-highlight-openparen t)
-                (show-paren-when-point-inside-paren nil)
-  :config       (show-paren-mode 1))
 
 (use-package    eldoc
   :custom       (eldoc-idle-delay 1)
@@ -1149,14 +1039,6 @@
   :config       (add-hook 'visual-line-mode-hook #'visual-fill-column-mode)
                 (add-hook 'visual-fill-column-mode #'visual-line-mode-hook))
 
-;; (use-package    mu4e
-;;   :disabled     t
-;;   :custom       (mu4e-confirm-quit nil)
-;;   :config       (add-hook 'mu4e-view-mode-hook #'visual-line-mode)
-;;                 (add-hook 'mu4e-compose-mode-hook
-;;                  (lambi (local-set-key (kbd "C-a") 'beginning-of-line-or-block))))
-
-;; ?????
 (use-package    alert
   :disabled
   :ensure       t
@@ -1176,17 +1058,13 @@
 
 
 (use-package py-autopep8             :ensure t)
-(use-package stickyfunc-enhance      :ensure t)
 (use-package hydra                   :ensure t)
 (use-package vimish-fold             :ensure t)
 (use-package expand-region           :ensure t)
-(use-package switch-buffer-functions :ensure t)
 (use-package multiple-cursors        :ensure t)
 (use-package hungry-delete           :ensure t)
 (use-package move-text               :ensure t)
 (use-package git-timemachine         :ensure t)
-(use-package goto-chg                :ensure t)
-(use-package function-args           :ensure t)
 (use-package lispy                   :ensure t)
 (use-package helm-chrome             :ensure t)
 (use-package helm-google             :ensure t)
@@ -1195,21 +1073,22 @@
 (use-package fireplace               :ensure t)
 (use-package flyspell-correct-ivy    :ensure t)
 (use-package visual-regexp           :ensure t)
-(use-package visual-fill-column      :disabled)
 (use-package rainbow-delimiters      :disabled)
 
 
 ;;-- Some general hooks --------------------------------------------------------
 (defadvice yank (after indent-yanked-stuff activate)
   "Indent region after yanking stuff. In programming mode."
-  (when (derived-mode-p 'prog-mode)
+  (when (and (derived-mode-p 'prog-mode)
+             (not (derived-mode-p 'python-mode)))
     (exchange-point-and-mark)
     (call-interactively 'indent-region)
     (exchange-point-and-mark)))
 
 (defadvice yank-pop (after indent-yanked-stuff activate)
   "Indent region after yanking stuff. In programming mode."
-  (when (derived-mode-p 'prog-mode)
+  (when (and (derived-mode-p 'prog-mode)
+             (not (derived-mode-p 'python-mode)))
     (exchange-point-and-mark)
     (call-interactively 'indent-region)
     (exchange-point-and-mark)))
@@ -1241,13 +1120,9 @@
   (subword-mode 1)
   (flycheck-mode 1)
   (helm-gtags-mode 1)
-  (fci-mode -1)         ;; destroys company
-  (whitespace-mode 1)   ;; alternative to fci-mode
-  (hide-ifdef-mode 1)   ;; FIXME: tune
-  ;; (irony-mode 1)
-  (company-mode -1)
-  (auto-complete-mode -1)
-  (semantic-mode -1)
+  (fci-mode -1)
+  (whitespace-mode 1)
+  (hide-ifdef-mode 1)
   (setenv "GTAGSLIBPATH" "/home/benjamin/.gtags/"))
 
 (defun remove-dos-eol ()
@@ -1312,10 +1187,8 @@
 
 (setq-default
  fill-column                            80
- truncate-lines                         nil
  tab-width                              4
  cursor-type                            t
- ;; cursor-type                           'hollow
  blink-cursor-mode                      nil
  indent-tabs-mode                       nil
  truncate-lines                         t
@@ -1326,18 +1199,12 @@
 (savehist-mode 1)
 
 (setq
- truncate-lines                         t
  right-fringe-width                     0
- truncate-lines                         nil
  split-width-threshold                  300
  frame-inhibit-implied-resize           t
  max-mini-window-height                 0.3
  enable-recursive-minibuffers           nil
- ;; enable-recursive-minibuffers           t
- cursor-type                            t
- ;; cursor-type                            'hollow
  explicit-shell-file-name               "/bin/bash"
- indent-tabs-mode                       nil
  auto-hscroll-mode                      nil
  mouse-autoselect-window                nil
  shift-select-mode                      nil
@@ -1345,7 +1212,6 @@
  bookmark-save-flag                     1
  scroll-preserve-screen-position        nil
  scroll-error-top-bottom                t
- fill-column                            80
  sentence-end-double-space              nil
  inhibit-splash-screen                  t
  initial-major-mode                     'org-mode
@@ -1392,23 +1258,6 @@
 (add-to-list 'auto-mode-alist '("rc$"        . sh-mode))
 (add-to-list 'auto-mode-alist '("\\.bash"    . sh-mode))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auto-dim-other-buffers-face ((t (:background "#232326"))))
- '(avy-lead-face ((t (:background "MistyRose1" :foreground "black"))))
- '(avy-lead-face-0 ((t (:background "light goldenrod" :foreground "black"))))
- '(avy-lead-face-1 ((t (:background "powder blue" :foreground "black"))))
- '(avy-lead-face-2 ((t (:background "bisque" :foreground "black"))))
- '(font-lock-variable-name-face ((t (:foreground "dark blue"))))
- '(markdown-header-face-1 ((t (:inherit markdown-header-face :height 1.6))))
- '(markdown-header-face-2 ((t (:inherit markdown-header-face :foreground "dark green" :height 1.4))))
- '(markdown-header-face-3 ((t (:inherit markdown-header-face :foreground "saddle brown" :height 1.2))))
- '(whitespace-line ((t (:background "dark gray"))))
- '(whitespace-trailing ((t (:foreground "yellow" :weight bold))))
- '(window-divider ((t (:foreground "#707070")))))
 
 
 ;; Open some defaults
@@ -1418,25 +1267,13 @@
 (condition-case nil (kill-buffer "*scratch*") (error nil))
 
 
-;;--- super todo ----
-;; (defadvice select-frame (after highlight-focus activate)
-;;   (highlight-focus:check))
-
-;(load-file "./focus-stuff.el")
-
-(setq company-backends
-      (quote
-       (company-clang company-cmake company-capf company-files
-                      (company-dabbrev-code company-gtags company-etags company-keywords)
-                      company-oddmuse company-dabbrev)))
-
-(load-file "./lisp/defuns.el")
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region    'disabled nil)
 
 (provide 'init)
 ;;; init.el ends here
 
-(put 'narrow-to-region 'disabled nil)
-(put 'upcase-region 'disabled nil)
+;; The following is intentionally left here to prevent Custom from appending below:
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1444,24 +1281,7 @@
  ;; If there is more than one, they won't work right.
  '(auth-source-save-behavior nil)
  '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
- '(package-selected-packages
-   '(anaconda-mode auto-complete auto-complete-config auto-dim-other-buffers
-                   bitbake ccls cmake-mode company-irony company-irony-c-headers
-                   company-jedi counsel-projectile csv-mode dart-mode
-                   dart-server dockerfile-mode dts-mode eglot elf-mode elpy
-                   eproject expand-region fill-column-indicator fireplace
-                   flutter flutter-l10n-flycheck flycheck-irony flycheck-pos-tip
-                   flyspell-correct-ivy function-args git-gutter+
-                   git-timemachine go go-mode goto-chg helm-chrome helm-google
-                   helm-gtags helm-projectile helm-rg helm-systemd highlight
-                   highlight-indent-guides hungry-delete intel-hex-mode
-                   ivy-hydra ivy-rich lispy lsp-dart lsp-mode lsp-treemacs magit
-                   markdown-mode move-text multi-term multiple-cursors notmuch
-                   pdf-tools py-autopep8 pyenv-mode realgud scad-mode slack
-                   smartparens smex stickyfunc-enhance switch-buffer-functions
-                   tabbar term-projectile toml-mode undo-tree use-package
-                   vimish-fold visual-fill-column visual-regexp
-                   volatile-highlights wgrep yaml-mode yasnippet))
+ '(package-selected-packages nil)
  '(safe-local-variable-values
    '((projectile-project-root . "/home/benjamin/work/chargenode/ups")
      (projectile-project-root . "/home/benjamin/work/wireflow/hardware/bringup")

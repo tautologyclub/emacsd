@@ -101,7 +101,6 @@
 (global-set-key (kbd "<C-left>") nil)
 (global-set-key (kbd "<C-right>") nil)
 
-(global-set-key (kbd "M-<tab>") (lambi (benjamin/notify "H-t plz tyvm")))	   ;
 (global-set-key (kbd "C-S-<backspace>") 'delete-other-windows)
 (global-set-key      (kbd "<H-return>") 'dropdown-multiterm)
 (global-set-key    (kbd "<H-M-return>") 'dropdown-multiterm-right)
@@ -222,7 +221,6 @@
 (global-set-key     (kbd "s-i")    nil)
 (global-set-key   (kbd "C-S-i")   'tab-to-tab-stop)
 (global-set-key   (kbd "H-M-i")   'counsel-yank-pop)
-(global-set-key   (kbd "C-M-i")   'benjamin/indent-a-bit-around-point)         ;
 (global-set-key (kbd "M-s M-i")   'benjamin/indent-a-bit-around-point)
 (global-set-key   (kbd "M-s i")   'iedit-mode)
 (global-set-key   (kbd "C-x i")   'iedit-mode)                                 ;
@@ -379,14 +377,13 @@
 (global-set-key   (kbd "C-M-j")   'move-text-down)
 (global-set-key   (kbd "C-x j")   'dired-jump)
 
-(global-set-key (kbd "M-s M-j")   'slack-channel-select)
 (global-set-key    (kbd "C-\"")   (lambi (fastnav-search-char-forward 1 ?\" )))
                           ;-j     "
 
 (global-set-key     (kbd "s-k")    nil)
 (global-set-key     (kbd "C-k")   'previous-line)
 (global-set-key     (kbd "H-k")   'kill-inner)
-(global-set-key     (kbd "M-k")   'kill-line-save)
+;; (global-set-key     (kbd "M-k")   'kill-line-save)
 (global-set-key   (kbd "C-M-k")   'move-text-up)
 (global-set-key   (kbd "C-S-k")   (lambi (set-mark-if-inactive)
                                          (forward-line -1)))

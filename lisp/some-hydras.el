@@ -291,7 +291,6 @@ _J_ ^  ^ _j_ ^ ^     _U_nmark all     _d_elete       _s_: swoop-edit (broken)
   "
   _a_ abbrev:           %`abbrev-mode
   _s_ semantic:         %`semantic-mode
-  _T_    stickyfunc:    %`semantic-stickyfunc-mode
   _S_ flyspell:         %`flyspell-mode
   _e_ feebleline:       %`feebleline-mode
   _f_ auto-fill:        %`auto-fill-function
