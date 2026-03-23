@@ -356,7 +356,7 @@
                           ;-g      ?
 
 (global-set-key     (kbd "C-h")   'backward-char)
-(global-set-key     (kbd "H-h")    help-map)
+(global-set-key     (kbd "s-h")    help-map)
 (global-set-key     (kbd "M-h")   'hs-toggle-hiding)
 (global-set-key   (kbd "H-M-h")   'benjamin/highlight)
 (global-set-key   (kbd "H-M-H")   'hlt-unhighlight-region)

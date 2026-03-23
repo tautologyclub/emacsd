@@ -367,7 +367,7 @@
   :disabled     t ; this package sucks
   :ensure       t
   )
-
+bo
 ;; todo
 (use-package    helm
   :ensure       t
@@ -1272,63 +1272,3 @@
 
 (provide 'init)
 ;;; init.el ends here
-
-;; The following is intentionally left here to prevent Custom from appending below:
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(auth-source-save-behavior nil)
- '(org-agenda-files '("~/work/agenda.org") nil nil "Customized with use-package org")
- '(package-selected-packages nil)
- '(safe-local-variable-values
-   '((projectile-project-root . "/home/benjamin/work/chargenode/ups")
-     (projectile-project-root . "/home/benjamin/work/wireflow/hardware/bringup")
-     (lsp-clients-clangd-args
-      . "--compile-commands-dir=/home/benjamin/work/sensio/cs/build/cs_proximity_initiator/")
-     (projectile-project-root . "/home/benjamin/work/sensio/cs")
-     (projectile-project-root . "/home/benjamin/work/nefer/software")
-     (projectile-project-root . "/home/benjamin/work/stenhård/elbow-button")
-     (projectile-project-root . "/home/benjamin/work/eub/modbus-radar/west")
-     (projectile-project-root . "/home/benjamin/work/picadeli/vision")
-     (projectile-project-root . "/home/benjamin/work/ludafarm/mfg/target")
-     (projectile-project-root . "/home/benjamin/work/mfg-matter/firmware")
-     (projectile-project-root . "/home/benjamin/work/mimbly/firmware")
-     (projectile-project-root . "/home/benjamin/work/piab/iot-jumpoff")
-     (projectile-project-root . "/home/benjamin/work/sktc/vibration-sensor")
-     (projectile-project-root . "/home/benjamin/work/polygon-group/firmware")
-     (projectile-project-root . "/home/benjamin/work/stenhård/xit")
-     (projectile-project-root . "/home/benjamin/work/eub/radar-playground")
-     (projectile-project-root
-      . "/home/benjamin/work/eub/products/eub-gateway/gateway-t113-buildroot")
-     (projectile-project-root
-      . "/home/benjamin/work/eub/products/eub-gateway-gateway-t113-buildroot")
-     (projectile-project-root . "/home/benjamin/work/capillary/radar-sensor")
-     (projectile-project-root . "/home/benjamin/work/eub/products/forgetmenot")
-     (projectile-project-root . "/home/benjamin/work/nrf-workspace")
-     (projectile-project-root . "/home/benjamin/work/eub")
-     (projectile-project-root
-      . "/home/benjamin/work/eub/products/eub-gateway/nrf-cocpu/")
-     (projectile-project-root . "/home/benjamin/work/ludafarm/device-firmware")
-     (projectile-project-root . "/home/benjamin/work/eub/products/felix")
-     (projectile-project-root . "/home/benjamin/work/west")
-     (projectile-project-root . "/home/benjamin/work/eub/zephyr-template")
-     (projectile-project-root . "/home/benjamin/work/blippa")
-     (projectile-project-root . "/home/benjamin/work/sandvik/screen-sensor-2023")
-     (projectile-project-root . "/home/benjamin/work/ktc/ktc-han-port")
-     (projectile-project-root . "/home/benjamin/work/ktc/ktc-han/port")
-     (projectile-project-root . "/home/benjamin/work/freepower/cem_fw")
-     (projectile-project-root . "/home/benjamin/work/matter")
-     (projectile-project-root . "/home/benjamin/work/badgrader/")
-     (projectile-project-root . "/home/benjamin/work/aidiagnostics/")
-     (projectile-project-root . "/home/benjamin/work/willow/hub-firmware/")
-     (projectile-project-root . "/home/benjamin/.local/esp/")
-     (projectile-project-root . "/home/benjamin/.local/esp")
-     (projectile-project-root . "/home/benjamin/work/willow")
-     (projectile-project-root . "/home/benjamin/work/frigbot")
-     (projectile-project-root . "/home/benjamin/work/west/")
-     (projectile-project-root . "~/work/careofsweden")
-     (projectile-project-root . "/home/benjamin/work/sandvik")))
- '(warning-suppress-log-types '((comp) (comp)))
- '(warning-suppress-types '((comp))))
