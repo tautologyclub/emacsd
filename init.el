@@ -43,7 +43,7 @@
   :after        (ivy)
   :config       (define-key ivy-minibuffer-map (kbd "M-k") 'ivy-kill-buffer)
                 (define-key ivy-switch-buffer-map (kbd "C-k") nil)
-                (define-key ivy-minibuffer-map (kbd "H-t") 'ivy-jump-to-multiterm)
+                (define-key ivy-minibuffer-map (kbd "M-t") 'ivy-jump-to-multiterm)
                 ;; cheap hack:
                 (defun ivy--insert-symbol-boundaries () nil )
   )
@@ -87,6 +87,10 @@
   ) ;; not good enough(, yet?)
 
 ; -- others stuff --------------------------------------------------------------
+(use-package doom-themes
+  :ensure t
+  :config (load-theme 'doom-one t))
+
 (use-package lsp-mode
   :ensure t
   :commands (lsp ls-deferred)
@@ -226,8 +230,6 @@
                     (define-key map (kbd "C-k")   'previous-line)
                     (define-key map (kbd "C-l")   'forward-char)
                     (define-key map (kbd "C-h")   'backward-char)
-                    (define-key map (kbd "H-n")   'term-downdir)
-                    (define-key map (kbd "H-p")   'term-updir)
                     (define-key map (kbd "C-n")   'mark-line)
                     (define-key map (kbd "C-s")   'swiper)
                     (define-key map (kbd "C-m")   'term-send-return)
@@ -392,9 +394,7 @@
   :hook         (prog-mode-hook . helm-gtags-mode)
   :bind         (:map helm-gtags-mode-map
                       ("M-."   . helm-gtags-dwim)
-                      ("H-M-." . helm-gtags-find-rtag)
-                      ("C-," . helm-gtags-find-rtag)
-                      ("H-M-j" . helm-gtags-find-tag)))
+                      ("C-," . helm-gtags-find-rtag)))
 
 
 (use-package    ivy-rich ;;:disabled ;; slightly buggy
@@ -464,8 +464,6 @@
                       ("C-S-j"      . ivy-next-line-and-call)
                       ("C-r"        . ivy-previous-history-element)
                       ("C-s"        . ivy-next-history-element)
-                      ("H-o"        . ivy-dispatching-done)
-                      ("H-M-o"      . hydra-ivy/body)
                       ("C-v"        . ivy-scroll-up-command)
                       ("C-S-v"      . ivy-scroll-down-command)
                       ("M-r"        . ivy-backward-kill-word)
