@@ -3,40 +3,42 @@
 # i3lock blurred screen inspired by /u/patopop007 and the blog post
 # http://plankenau.com/blog/post-10/gaussianlock
 
-# Timings are on an Intel i7-2630QM @ 2.00GHz
-
 # Dependencies:
-# imagemagick
-# i3lock
-# scrot (optional but default)
+# imagemagick, i3lock, maim, flock
 
-IMAGE=/tmp/i3lock.bmp
-SCREENSHOT="maim $IMAGE" # 0.46s
-
-# Alternate screenshot method with imagemagick. NOTE: it is much slower
-# SCREENSHOT="import -window root $IMAGE" # 1.35s
-
-# Here are some imagemagick blur types
-# Uncomment one to use, if you have multiple, the last one will be used
-
-# All options are here: http://www.imagemagick.org/Usage/blur/#blur_args
-#BLURTYPE="0x5" # 7.52s
-#BLURTYPE="0x2" # 4.39s
-# BLURTYPE="5x2" # 3.80s
-# BLURTYPE="4x8"
-BLURTYPE="2x8" # 2.90s
-#BLURTYPE="2x3" # 2.92s
-
-# Get the screenshot, add the blur and lock the screen with it
-$SCREENSHOT
-# convert $IMAGE -scale 10% -blur $BLURTYPE -scale 1000% $IMAGE
-convert /tmp/i3lock.bmp -scale 20% -blur $BLURTYPE -scale 500% -define png:compression-level=0 /tmp/i3lock.png
+BMP=/tmp/i3lock.bmp
 IMAGE=/tmp/i3lock.png
+BLURTYPE="2x8"
+
+# Mutex: exit silently if already running
+exec 9>/tmp/blurlock.lock
+flock -n 9 || exit 1
+
+# Restore notifications and clean up temp files on exit (covers all paths)
+cleanup() {
+    rm -f "$BMP" "$IMAGE"
+    pkill -u "$USER" -USR2 dunst
+}
+trap cleanup EXIT
 
 # Silence notifications while locked
 pkill -u "$USER" -USR1 dunst
 
-/usr/bin/i3lock -n -i $IMAGE
-rm $IMAGE
+# Lock immediately with gray placeholder — no image generation cost
+i3lock -c 333333 &
 
-pkill -u "$USER" -USR2 dunst
+# Compute blurred screenshot in background
+(
+    maim "$BMP"
+    convert "$BMP" -scale 20% -blur "$BLURTYPE" -scale 500% \
+        -define png:compression-level=0 "$IMAGE"
+) &
+BLUR_PID=$!
+
+wait $BLUR_PID
+
+# Switch to blurred lock only if placeholder is still active (user hasn't unlocked yet)
+if pkill -u "$USER" i3lock; then
+
+    /usr/bin/i3lock -n -i "$IMAGE"
+fi
