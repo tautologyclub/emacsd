@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_KEYBOARD}=="1", RUN+="/usr/bin/systemd-run --uid=1000 --setenv=DISPLAY=:0 --setenv=XAUTHORITY=/home/benjamin/.Xauthority --setenv=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus --setenv=XDG_RUNTIME_DIR=/run/user/1000 /home/benjamin/bin/xcape-restart"

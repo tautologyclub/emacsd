@@ -1,0 +1,27 @@
+#!/bin/bash
+
+BATTERY=/org/freedesktop/UPower/devices/battery_BAT0
+STATE_FILE=/tmp/battery-warn-state
+
+PERCENTAGE=$(upower -i $BATTERY | awk '/percentage/ {gsub(/%/,""); print int($2)}')
+STATUS=$(upower -i $BATTERY | awk '/^\s+state:/ {print $2}')
+
+if [[ "$STATUS" != "discharging" ]]; then
+    rm -f "$STATE_FILE"
+    exit 0
+fi
+
+LAST=$(cat "$STATE_FILE" 2>/dev/null || echo 100)
+
+(( PERCENTAGE == LAST )) && exit 0
+
+if (( PERCENTAGE <= 9 )); then
+    notify-send -u critical "Battery: ${PERCENTAGE}%" "Plug in NOW"
+    echo "$PERCENTAGE" > "$STATE_FILE"
+elif (( PERCENTAGE <= 10 && LAST > 10 )); then
+    notify-send -u critical "Battery critical: 10%" "Plug in now!"
+    echo 10 > "$STATE_FILE"
+elif (( PERCENTAGE <= 20 && LAST > 20 )); then
+    notify-send -u normal "Battery low: ${PERCENTAGE}%" "Consider plugging in"
+    echo "$PERCENTAGE" > "$STATE_FILE"
+fi

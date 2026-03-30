@@ -1,0 +1,49 @@
+# i3status configuration file.
+# see "man i3status" for documentation.
+
+general {
+        colors = true
+        interval = 5
+}
+
+order += "wireless _first_"
+order += "battery all"
+order += "disk /"
+order += "load"
+order += "memory"
+order += "tztime local"
+
+wireless _first_ {
+        format_up = "W: %essid %ip"
+        format_down = "W: down"
+}
+
+battery all {
+        format = "BAT=%percentage|%remaining"
+        format_down = "no battery"
+        status_chr = "CHR"
+        status_bat = "BAT"
+        status_full = "FULL"
+        low_threshold = 20
+        threshold_type = percentage
+        color_bad = "#ff0000"
+        color_degraded = "#ffaa00"
+}
+
+disk "/" {
+        format = "HD=%avail"
+}
+
+load {
+        format = "LD=%1min"
+}
+
+memory {
+        format = "MEM=%used/%available"
+        threshold_degraded = "1G"
+        format_degraded = "MEMORY < %available"
+}
+
+tztime local {
+        format = "           %B %-d, %y    %H:%M  "
+}

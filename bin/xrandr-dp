@@ -1,0 +1,13 @@
+#!/bin/bash
+
+DISPLAY=:0
+XAUTHORITY=/home/benjamin/.Xauthority
+
+case "$1" in
+    plug)
+        xrandr --output DisplayPort-1 --right-of eDP --rate 30 --auto
+        ;;
+    unplug)
+        xrandr --output DisplayPort-1 --off
+        ;;
+esac

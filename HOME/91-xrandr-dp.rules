@@ -1,0 +1,2 @@
+ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card*", ENV{HOTPLUG}=="1", RUN+="/usr/bin/systemd-run --uid=1000 --setenv=DISPLAY=:0 --setenv=XAUTHORITY=/home/benjamin/.Xauthority --setenv=XDG_RUNTIME_DIR=/run/user/1000 /home/benjamin/.emacs.d/bin/xrandr-dp plug"
+ACTION=="remove", SUBSYSTEM=="drm", KERNEL=="card*", ENV{HOTPLUG}=="1", RUN+="/usr/bin/systemd-run --uid=1000 --setenv=DISPLAY=:0 --setenv=XAUTHORITY=/home/benjamin/.Xauthority --setenv=XDG_RUNTIME_DIR=/run/user/1000 /home/benjamin/.emacs.d/bin/xrandr-dp unplug"
