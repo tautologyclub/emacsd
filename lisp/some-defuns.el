@@ -274,13 +274,6 @@ With arg N insert N newlines."
   (indent-region (- (point) 800) (+ (point) 400))
   (message nil))
 
-;;;###autoload
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (list (line-beginning-position)
-           (line-beginning-position 2)))))
 
 ;;;###autoload
 (defadvice kill-ring-save (before slick-copy activate compile)

@@ -50,6 +50,7 @@
 (global-unset-key (kbd "C-x ESC"))
 (global-unset-key (kbd "C-<f10>"))
 (global-unset-key (kbd "C-_"))
+(global-unset-key (kbd "C-SPC"))
 
 ;; beautiful xcape hacks
 ;------------------------------------------------------------------------------;
@@ -57,14 +58,11 @@
 ;------------------------------------------------------------------------------;
 (global-set-key (kbd "M-RET") nil)                                           ;;;
 (global-set-key (kbd "C-s-f") 'find-file)
+(global-set-key (kbd "C-M-s-f") 'find-file-other-window)
 
 ;; dubious -- todo
-(global-set-key (kbd "C-;")     'hydra-lazy/body)                            ;;;
 (global-set-key (kbd "C-:")      nil)									     ;;;
-(global-set-key (kbd "C-'")     'hydra-lazy/body)							 ;;;
-(global-set-key (kbd "C-ö")     (lambi (hydra-lazy/body)
-                                       (shell-command "sleep 0.1 && xcape-restart")))							 ;;;
-(global-set-key (kbd "H-SPC")   " ")
+(global-set-key (kbd "C-SPC")   " ")
 ;; (global-set-key (kbd "C-s-0")   'benjamin/helm-buffers-list)              ;;;
 ;------------------------------------------------------------------------------;
 
@@ -81,6 +79,7 @@
 ;------------------------------------------------------------------------------;
 
 (global-set-key     (kbd "C-0")     'switch-to-buffer)
+(global-set-key     (kbd "C-å")     'benjamin/set-mark-command)
 (global-set-key     (kbd "C-1")   'my-decrement-number-decimal)
 (global-set-key     (kbd "C-2")   'my-increment-number-decimal)
 
@@ -96,7 +95,6 @@
 
 (global-set-key     (kbd "s-w")      nil)
 (global-set-key     (kbd "C-w")     'kill-region-or-line)
-(global-set-key     (kbd "C-W")     'kill-region)
 (global-set-key     (kbd "M-w")     'kill-ring-save)
 (global-set-key   (kbd "H-M-w")     'find-file-other-window)
 (global-set-key   (kbd "C-S-w")     nil)                         ;
@@ -141,8 +139,6 @@
 (global-set-key     (kbd "C-t")    ctl-x-map)
 (global-set-key     (kbd "M-t")   (lambi (insert "åt")))
 (global-set-key     (kbd "M-T")   (lambi (insert "ÅT")))
-(global-set-key     (kbd "H-t")   "qt") ; for mqtt :P
-(global-set-key     (kbd "H-T")   "QT") ; for mqtt :P
 (global-set-key   (kbd "C-M-t")   (lambi (transpose-words -1)))
 (global-set-key   (kbd "C-s-t")   'counsel-term-switch)
 ;(global-set-key   (kbd "H-M-t")   'multi-term-prev)
@@ -325,6 +321,7 @@
 (global-set-key   (kbd "C-s-k")   (lambi (scroll-up -5)))
 (global-set-key   (kbd "C-c k")   'kconfig-option-at-point-projectile-root)
 (global-set-key   (kbd "C-x k")   'volatile-kill-buffer)                       ;
+(global-set-key   (kbd "C-x C-k") 'volatile-kill-buffer)                       ;
                           ;-k      '                                         ;;;
 
 (global-set-key     (kbd "s-l")    nil)

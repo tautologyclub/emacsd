@@ -89,7 +89,12 @@
 ; -- others stuff --------------------------------------------------------------
 (use-package doom-themes
   :ensure t
-  :config (load-theme 'doom-one t))
+  :config
+  (load-theme 'doom-one t)
+  (set-face-attribute 'font-lock-variable-name-face nil
+                      :foreground "SeaGreen"
+                      :weight 'bold)
+)
 
 (use-package lsp-mode
   :ensure t
@@ -181,15 +186,8 @@
 (use-package lsp-treemacs
   :ensure t)
 
-(use-package ccls
- :ensure t
- :config
- (setq ccls-library-folders-fn (lambda (_workspace)
-                                 (list
-                                  "/home/benjamin/work/west/zephyr"
-                                  "")))
- :hook
- ((c-mode c++-mode) . (lambda () (require 'ccls) (lsp))))
+(add-hook 'c-mode-hook   #'lsp-deferred)
+(add-hook 'c++-mode-hook #'lsp-deferred)
 
 (use-package    undo-tree
   :ensure       t
@@ -209,66 +207,68 @@
                 (multi-term-switch-after-close nil)
                 (term-char-mode-buffer-read-only nil)
                 (term-char-mode-point-at-process-mark nil)
-  :config       (defun benjamin/term-hook ()
-                  "Run on open terminal."
-                  (set (make-local-variable 'scroll-margin) 0)
-                  (let ((map term-raw-map))
-                    (define-key map (kbd "M-o")   nil)
-                    (define-key map (kbd "C-t")   nil)
-                    (define-key map (kbd "C-_")   nil)
-                    (define-key map (kbd "C-b")   nil)
-                    (define-key map (kbd "C-t")   nil)
-                    (define-key map (kbd "C-g")  (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "M-o")   'other-window)
-                    (define-key map (kbd "C-t t") 'term-toggle-mode)
-                    (define-key map (kbd "C-d")   'term-send-raw)
-                    (define-key map (kbd "C-r")   'counsel-term-history)
-                    (define-key map (kbd "C-q")   'term-send-backward-word)
-                    (define-key map (kbd "C-f")   'term-send-forward-word)
-                    (define-key map (kbd "C-p")   'hydra-projectile/body)
-                    (define-key map (kbd "C-j")   'next-line)
-                    (define-key map (kbd "C-k")   'previous-line)
-                    (define-key map (kbd "C-l")   'forward-char)
-                    (define-key map (kbd "C-h")   'backward-char)
-                    (define-key map (kbd "C-n")   'mark-line)
-                    (define-key map (kbd "C-s")   'swiper)
-                    (define-key map (kbd "C-m")   'term-send-return)
-                    (define-key map (kbd "H-w")   'counsel-term-ff)
-                    (define-key map (kbd "C-y")   'term-paste)
-                    (define-key map (kbd "H-i")   'term-paste)
-                    (define-key map (kbd "H-f")   'avy-goto-word-or-subword-1)
-                    (define-key map (kbd "H-c")   'counsel-term-cd)
-                    (define-key map (kbd "M-r")   'term-send-backward-kill-word)
-                    (define-key map (kbd "M-q")   'term-send-backward-word)
-                    (define-key map (kbd "M-f")   'term-send-forward-word)
-                    (define-key map (kbd "M-p")   'term-send-up)
-                    (define-key map (kbd "M-n")   'term-send-down)
-                    (define-key map (kbd "M-d")   'term-send-delete-word)
-                    (define-key map (kbd "M-,")   'term-send-raw)
-                    (define-key map (kbd "C-S-a") 'beginning-of-line)
-                    (define-key map (kbd "C-S-e") 'end-of-line)
-                    ;; (define-key map (kbd "<f9>")  'term-send-backspace)
-                    (define-key map (kbd "TAB")   'term-send-raw)
-                    (define-key map (kbd "H-M-f") 'find-file-at-point)
-                    (define-key map (kbd "C-t t") 'term-toggle-mode)
-                    (define-key map (kbd "C-c C-c") 'term-interrupt-subjob)
-                    (define-key map (kbd "C-c C-e") 'term-send-esc)
-                    (define-key map (kbd "<C-backspace>") 'term-send-backward-kill-word)
-                    (define-key map (kbd "M-DEL") 'term-send-backward-kill-word)
-                    (define-key map (kbd "<C-return>")    'term-cd-input)
-                    (define-key map (kbd "H-k")     (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "H-l")     (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "[")       (lambi (term-send-raw-string "[]")))
-                    (define-key map (kbd "(")       (lambi (term-send-raw-string "()")))
-                    (define-key map (kbd "{")       (lambi (term-send-raw-string "{}")))
-                    (define-key map (kbd "C-S-l")   (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "H-M-u")   (lambi (term-send-raw-string "sudo ")))
-                    (define-key map (kbd "C-c C-z") (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "C-c C-x") (lambi (term-send-raw-string "")))
-                    (define-key map (kbd "C-c C-l") (lambi (term-send-raw-string "")))
-                    )
-                  )
-                (add-hook 'term-mode-hook 'benjamin/term-hook))
+  :config
+  (defun benjamin/term-hook ()
+    "Run on open terminal."
+    (set (make-local-variable 'scroll-margin) 0)
+    (let ((map term-raw-map))
+      (define-key map (kbd "M-o")   nil)
+      (define-key map (kbd "C-t")   nil)
+      (define-key map (kbd "C-_")   nil)
+      (define-key map (kbd "C-b")   nil)
+      (define-key map (kbd "C-t")   nil)
+      (define-key map (kbd "C-g")  (lambi (term-send-raw-string "")))
+      (define-key map (kbd "M-o")   'other-window)
+      (define-key map (kbd "C-t t") 'term-toggle-mode)
+      (define-key map (kbd "C-d")   'term-send-raw)
+      (define-key map (kbd "C-r")   'counsel-term-history)
+      (define-key map (kbd "C-q")   'term-send-backward-word)
+      (define-key map (kbd "C-f")   'term-send-forward-word)
+      (define-key map (kbd "C-p")   'hydra-projectile/body)
+      (define-key map (kbd "C-j")   'next-line)
+      (define-key map (kbd "C-k")   'previous-line)
+      (define-key map (kbd "C-l")   'forward-char)
+      (define-key map (kbd "C-h")   'backward-char)
+      (define-key map (kbd "C-n")   'mark-line)
+      (define-key map (kbd "C-s")   'swiper)
+      (define-key map (kbd "C-m")   'term-send-return)
+      (define-key map (kbd "H-w")   'counsel-term-ff)
+      (define-key map (kbd "C-y")   'term-paste)
+      (define-key map (kbd "H-i")   'term-paste)
+      (define-key map (kbd "H-f")   'avy-goto-word-or-subword-1)
+      (define-key map (kbd "H-c")   'counsel-term-cd)
+      (define-key map (kbd "M-r")   'term-send-backward-kill-word)
+      (define-key map (kbd "M-q")   'term-send-backward-word)
+      (define-key map (kbd "M-f")   'term-send-forward-word)
+      (define-key map (kbd "M-p")   'term-send-up)
+      (define-key map (kbd "M-n")   'term-send-down)
+      (define-key map (kbd "M-d")   'term-send-delete-word)
+      (define-key map (kbd "M-,")   'term-send-raw)
+      (define-key map (kbd "C-S-a") 'beginning-of-line)
+      (define-key map (kbd "C-S-e") 'end-of-line)
+      ;; (define-key map (kbd "<f9>")  'term-send-backspace)
+      (define-key map (kbd "TAB")   'term-send-raw)
+      (define-key map (kbd "H-M-f") 'find-file-at-point)
+      (define-key map (kbd "C-t t") 'term-toggle-mode)
+      (define-key map (kbd "C-c C-c") 'term-interrupt-subjob)
+      (define-key map (kbd "C-c C-e") 'term-send-esc)
+      (define-key map (kbd "<C-backspace>") 'term-send-backward-kill-word)
+      (define-key map (kbd "M-DEL") 'term-send-backward-kill-word)
+      (define-key map (kbd "<C-return>")    'term-cd-input)
+      (define-key map (kbd "H-k")     (lambi (term-send-raw-string "")))
+      (define-key map (kbd "H-l")     (lambi (term-send-raw-string "")))
+      (define-key map (kbd "[")       (lambi (term-send-raw-string "[]")))
+      (define-key map (kbd "(")       (lambi (term-send-raw-string "()")))
+      (define-key map (kbd "{")       (lambi (term-send-raw-string "{}")))
+      (define-key map (kbd "C-S-l")   (lambi (term-send-raw-string "")))
+      (define-key map (kbd "H-M-u")   (lambi (term-send-raw-string "sudo ")))
+      (define-key map (kbd "C-c C-z") (lambi (term-send-raw-string "")))
+      (define-key map (kbd "C-c C-x") (lambi (term-send-raw-string "")))
+      (define-key map (kbd "C-c C-l") (lambi (term-send-raw-string "")))
+      ))
+  (add-hook 'term-mode-hook 'benjamin/term-hook)
+  )
+
 
 (use-package    term-projectile
   :ensure       t)
@@ -616,7 +616,7 @@
   :demand t
   :custom
   (corfu-auto        t)
-  (corfu-auto-delay  0.4)
+  (corfu-auto-delay  1.0)
   (corfu-auto-prefix 2)
   (corfu-cycle       t)
   (corfu-quit-no-match 'separator)
@@ -655,16 +655,14 @@
   :config       (global-auto-revert-mode))
 
 (use-package    auto-dim-other-buffers
-  :disabled t
   :ensure       t
+  :demand       t
   :custom       (auto-dim-other-buffers-dim-on-switch-to-minibuffer nil)
   :config       (add-hook 'after-init-hook (lambda ()
                                              (when (fboundp 'auto-dim-other-buffers-mode)
                                                (auto-dim-other-buffers-mode t))))
-                (add-hook 'focus-in-hook 'adob--focus-change)
-                (add-hook 'focus-out-hook 'adob--focus-change)
                 (custom-set-faces
-                 '(auto-dim-other-buffers-face ((t (:background "#c7c7c7"))))))
+                 '(auto-dim-other-buffers-face ((t (:foreground "#9292c0" :background "#19232a"))))))
 
 (use-package    volatile-highlights
   :ensure       t
@@ -684,10 +682,15 @@
 
 (use-package    recentf
   :custom       (recentf-max-saved-items 10000)
-  :config       (recentf-mode 1))
+  :config       (recentf-mode 1)
+  )
 
 (use-package    whitespace
-  :custom       (whitespace-style '(face empty lines-tail trailing)))
+  :custom       (whitespace-style '(face empty lines-tail trailing))
+  :config       (custom-set-faces
+                 '(whitespace-line
+                   ((t (:foreground "#f2f2c0" :background "#000000")))))
+  )
 
 (use-package    hl-line
   :ensure       nil

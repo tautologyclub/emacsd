@@ -1,0 +1,2 @@
+# Blacklist shitty RealTek adapter
+SUBSYSTEM=="usb", ATTRS{idVendor}=="0bda", ATTRS{idProduct}=="4852", ATTR{authorized}="0"

@@ -189,13 +189,6 @@ With arg N insert N newlines."
   (exchange-point-and-mark)
   )
 
-;;;###autoload
-(defadvice kill-region (before slick-cut activate compile)
-  "When called interactively with no active region, kill a single line instead."
-  (interactive
-   (if mark-active (list (region-beginning) (region-end))
-     (list (line-beginning-position)
-           (line-beginning-position 2)))))
 
 ;;;###autoload
 (defun comment-or-uncomment-region-or-line ()

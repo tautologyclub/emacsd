@@ -8,7 +8,7 @@ keycode  16 = 7 ampersand ampersand U2087
 keycode  17 = 8 asterisk asterisk U2605
 keycode  18 = 9 parenleft parenleft U2089
 keycode  19 = 0 parenright parenright U2080
-keycode  24 = q Q parenleft parenright
+keycode  24 = q Q backslash slash
 
 !keycode  25 = w W backslash bar
 keycode  25 = w W KP_Up bar
