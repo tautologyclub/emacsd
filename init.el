@@ -108,6 +108,7 @@
     (setq lsp-headerline-breadcrumb-enable nil)
     (setq lsp-enable-file-watchers nil)
     (setq lsp-enable-indentation nil)
+    (setq lsp-enable-on-type-formatting nil)
     (setq lsp-completion-provider :none)
     (defun benjamin/lsp-setup-orderless ()
       (setf (alist-get 'styles (alist-get 'lsp-capf completion-category-defaults))
@@ -287,7 +288,7 @@
 (use-package    projectile
   :ensure       t
   :custom       (projectile-completion-system   'ivy)
-                (projectile-enable-caching       t)
+                (projectile-enable-caching       'persistent)
                 (projectile-globally-ignored-modes
                  '("erc-mode" "help-mode" "completion-list-mode"
                    "Buffer-menu-mode" "gnus-.*-mode" "occur-mode"))
@@ -476,7 +477,9 @@
                       ("C-t C-t"    . ivy-toggle-ignore)
                       ("<return>"   . ivy-alt-done)
                       ("C-<up>"     . ivy-previous-line-and-call)
-                      ("C-<down>"   . ivy-next-line-and-call))
+                      ("C-<down>"   . ivy-next-line-and-call)
+                      ("C-x d"      . ivy-dispatching-done)
+                      )
   :config       (ivy-mode 1)
                 (add-to-list 'ivy-ignore-buffers "\\*Flycheck")
                 (add-to-list 'ivy-ignore-buffers "\\*CEDET")
@@ -537,20 +540,21 @@
                             :before #'me/git-commit-set-fill-column))
 
 ;; todo
-(define-key magit-status-mode-map    "j" 'magit-section-forward)
-(define-key magit-status-mode-map    "k" 'magit-section-backward)
+(define-key magit-status-mode-map    "j"    'magit-section-forward)
+(define-key magit-status-mode-map    "k"    'magit-section-backward)
 (define-key magit-status-mode-map    "\C-k" nil)
-(define-key magit-hunk-section-map    "\C-j" nil)
-(define-key magit-hunk-section-map    "\C-k" nil)
-(define-key magit-file-section-map    "\C-j" nil)
-(define-key magit-file-section-map    "\C-k" nil)
+(define-key magit-hunk-section-map   "\C-j" nil)
+(define-key magit-hunk-section-map   "\C-k" nil)
+(define-key magit-file-section-map   "\C-j" nil)
+(define-key magit-file-section-map   "\C-k" nil)
 (define-key magit-status-mode-map    "\C-d" 'magit-discard)
-(define-key magit-log-mode-map       "j" 'magit-section-forward)
-(define-key magit-log-mode-map       "k" 'magit-section-backward)
-(define-key magit-commit-section-map "j" 'magit-section-forward)
-(define-key magit-commit-section-map "k" 'magit-section-backward)
-(define-key magit-diff-mode-map      "j" 'magit-section-forward)
-(define-key magit-diff-mode-map      "k" 'magit-section-backward)
+(define-key magit-log-mode-map       "j"    'magit-section-forward)
+(define-key magit-log-mode-map       "k"    'magit-section-backward)
+(define-key magit-commit-section-map "j"    'magit-section-forward)
+(define-key magit-commit-section-map "k"    'magit-section-backward)
+(define-key magit-diff-mode-map      "j"    'magit-section-forward)
+(define-key magit-diff-mode-map      "k"    'magit-section-backward)
+(define-key magit-revision-mode-map  "j"    'magit-section-forward)
 
 (use-package    magit-todos :disabled ;; prob slows down huge repos too much
   :ensure       t)
@@ -590,7 +594,10 @@
                       ("C-r"    . ivy-previous-history-element)
                       ("C-s"    . ivy-next-history-element)
                       ("M-r"    . ivy-backward-kill-word)
-                      ("C-c o"  . ivy-occur))
+                      ("C-c o"  . ivy-occur)
+                      ("C-x d"  . ivy-dispatching-done)
+                      ("C-SPC"  . ivy-dispatching-done)
+                      )
   :config       (define-key counsel-mode-map (kbd "H-f") nil)
                 (define-key counsel-find-file-map (kbd "H-r") 'counsel-up-directory)
                 (counsel-mode 1)
@@ -744,7 +751,7 @@
   :bind         (:map flyspell-mode-map
                       ("C-."   . nil)
                       ("C-;"   . flyspell-correct-word-before-point)
-                      ("H-M-y" . flyspell/save-word))
+                      ("C-M-y" . flyspell/save-word))
   :config       (defun flyspell/save-word ()
                   (interactive)
                   (let ((current-location (point))
@@ -761,8 +768,8 @@
                 ;; (org-ellipsis " {…}")
                 (org-ellipsis " {...}")
                 (org-agenda-files
-                 '("~/work/agenda.org"
-                   ))
+                 '("~/notes/inbox.org"
+                   "~/notes/projects.org"))
   :config       (add-hook 'org-mode-hook 'turn-on-auto-fill)
                 ;; (add-hook 'org-mode-hook (lambi (fringe-mode nil)) t t)
                 (add-to-list 'auto-mode-alist '("\\.txt$" . org-mode))
@@ -798,26 +805,24 @@
 
 (use-package    org-capture
   :after        (org)
-  :custom       (org-default-notes-file nil)
-  :config       (add-to-list 'org-agenda-files "~/notes/capture.org")
-                (setq org-capture-templates
-                  '(("t" "Task" entry (file+headline "" "Tasks")
-                     "* TODO %?\n  %u\n  %a")
-                    ("T" "Task with Clipboard" entry
-                     (file "~/notes/capture.org")
-                     "* TODO %?\n%U\n   %c" :empty-lines 1)
-                    ("n" "Note" entry (file "~/notes/capture.org")
+  :custom       (org-default-notes-file "~/notes/inbox.org")
+                (org-refile-targets
+                 '(("~/notes/projects.org" :maxlevel . 3)
+                   ("~/notes/inbox.org"    :maxlevel . 2)))
+  :config       (setq org-capture-templates
+                  '(("t" "Task" entry
+                     (file+headline "~/notes/inbox.org" "Inbox")
+                     "* TODO %?\n%U\n  %a" :empty-lines 1)
+                    ("n" "Note" entry
+                     (file+headline "~/notes/inbox.org" "Inbox")
                      "* NOTE %?\n%U" :empty-lines 1)
-                    ("N" "Note with Clipboard" entry
-                     (file "~/notes/capture.org")
-                     "* NOTE %?\n%U\n   %c" :empty-lines 1)
-                    ("e" "Event" entry
-                     (file+headline "~/notes/capture.org" "Transient")
-                     "* EVENT %?\n%U" :empty-lines 1)
-                    ("E" "Event With Clipboard" entry
-                     (file+headline "~/notes/capture.org/Events.org"
-                                    "Transient")
-                     "* EVENT %?\n%U\n   %c" :empty-lines 1))))
+                    ("p" "Project TODO" entry
+                     (file+headline "~/notes/projects.org" "Refile")
+                     "* TODO %?\n%U\n  %a" :empty-lines 1)
+                    ("P" "New Project" entry
+                     (file+headline "~/notes/projects.org" "Projects")
+                     "** %^{Project Name}\n:PROPERTIES:\n:CATEGORY: %^{slug}\n:END:\n\n%^{Brief description}\n\n*** TODO \n"
+                     :empty-lines 1))))
 
 (use-package    markdown-mode
   :ensure        t
@@ -852,8 +857,7 @@
   :hook (python-mode . (lambda ()
                          (require 'lsp-pyright)
                          (lsp-deferred)
-                         (electric-indent-local-mode -1)
-                         (add-hook 'before-save-hook #'lsp-format-buffer nil t)))
+                         (electric-indent-local-mode -1)))
   :custom
   (lsp-pyright-langserver-command "basedpyright-langserver")
   (lsp-pyright-disable-organize-imports t))
@@ -987,8 +991,10 @@
 
 
 (use-package    smartparens
+  :disable      nil
   :ensure       t
-  :config       (smartparens-global-mode 1))
+  ;; :config       (smartparens-global-mode 1)
+  )
 
 
 (use-package    eldoc
@@ -1169,7 +1175,7 @@
  split-width-threshold                  300
  frame-inhibit-implied-resize           t
  max-mini-window-height                 0.3
- enable-recursive-minibuffers           nil
+ enable-recursive-minibuffers           t
  explicit-shell-file-name               "/bin/bash"
  auto-hscroll-mode                      nil
  mouse-autoselect-window                nil

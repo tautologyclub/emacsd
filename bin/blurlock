@@ -39,6 +39,9 @@ wait $BLUR_PID
 
 # Switch to blurred lock only if placeholder is still active (user hasn't unlocked yet)
 if pkill -u "$USER" i3lock; then
-
+    # Wake the display before showing the blur — DPMS may have blanked the monitor
+    # while we were generating the screenshot, which would hide the lock screen
+    # until the user pressed a key.
+    xset dpms force on
     /usr/bin/i3lock -n -i "$IMAGE"
 fi

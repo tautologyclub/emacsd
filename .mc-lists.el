@@ -134,6 +134,7 @@
 
 (setq mc/cmds-to-run-once
       '(
+        beginning-of-defun
         benjamin/next-buffer
         benjamin/previous-buffer
         c-electric-pound
@@ -149,6 +150,7 @@
         hydra-toggle/fci-mode-and-exit
         iedit-mode
         iedit-switch-to-mc-mode
+        ignore-preserving-kill-region
         ivy-alt-done
         lispy-cursor-down
         markdown-outdent-or-delete

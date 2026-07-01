@@ -387,7 +387,7 @@
 (global-set-key (kbd "C-c RET")   'helm-global-mark-ring)
 (global-set-key   (kbd "M-s m")   'kmacro-start-macro)
 (global-set-key (kbd "M-s M-m")   'kmacro-end-macro)
-(global-set-key   (kbd "H-M-m")   'kmacro-call-macro)
+(global-set-key   (kbd "C-M-m")   'kmacro-call-macro)
 (global-set-key       (kbd "μ")   "$")                                       ;;;
 
 (global-set-key (kbd "C-.")     'exchange-point-and-mark)

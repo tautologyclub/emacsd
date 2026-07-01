@@ -103,9 +103,6 @@ export EDITOR="emacsclient -t"                  # $EDITOR should open in termina
 export VISUAL="emacsclient -c -a emacs"         # $VISUAL opens in GUI with non-daemon as alternate
 
 export PATH=/home/benjamin/bin:$PATH
-if [ -z "$(pgrep xcape)" ]; then
-        xcape-restart
-fi
 
 # having $TERM==xterm-termite messes up remote terminals among other
 # things. Easily fixed though:

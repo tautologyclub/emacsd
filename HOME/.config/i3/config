@@ -269,7 +269,7 @@ exec --no-startup-id feh --bg-scale /home/benjamin/escher.png
 
 exec --no-startup-id nitrogen --restore; sleep 1; compton --inactive-dim 0.15 -b
 exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id xfce4-power-manager
 exec --no-startup-id blueman-applet
 exec --no-startup-id pasystray --symbolic-icon
 exec_always --no-startup-id pkill xss-lock; xss-lock -- /home/benjamin/.emacs.d/bin/blurlock
@@ -375,6 +375,13 @@ bindsym $mod+v mode "volume"
 exec --no-startup-id pa-applet
 bindsym $mod+Ctrl+v exec pavucontrol
 
+# Solve coldplug DP-1 on my ThinkPad
+exec --no-startup-id echo detect | tee /sys/class/drm/card0-DP-1/status && xrandr --auto
+
 # exec_always --no-startup-id "/usr/bin/bash /home/benjamin/.emacs.d/HOME/start-emacs-daemon.sh"
+
+exec_always setxkbmap -option caps:super
+exec_always setxkbmap -layout us,se
+exec_always --no-startup-id xset dpms 720 720 720
 
 ################################################################################################
