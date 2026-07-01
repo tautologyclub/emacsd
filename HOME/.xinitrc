@@ -38,6 +38,11 @@ fi
 
 xmodmap -e "remove mod4 = Hyper_L"
 xmodmap -e "add mod3 = Hyper_L"
+
+if [ -x /home/benjamin/bin/xcape-restart ]; then
+    /home/benjamin/bin/xcape-restart --swedish
+fi
+
 # start some nice programs
 
 if [ -d /etc/X11/xinit/xinitrc.d ] ; then
@@ -80,10 +85,6 @@ exec $(get_session)
 # xterm -geometry 80x50+494+51 &
 # xterm -geometry 80x20+494-0 &
 #exec xterm -geometry 80x66+0+0 -name login
-
-if [ -f /home/benjamin/bin/xcape-restart ]; then
-    /home/benjamin/bin/./xcape-restart
-fi
 
 if [ -f /home/benjamin/.xrandr-setup.sh ]; then
      . /home/benjamin/.xrandr-setup.sh
