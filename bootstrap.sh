@@ -36,15 +36,17 @@ sudo apt-get install -y \
     `# wallpaper` \
     feh \
     `# audio` \
-    alsa-utils pulseaudio pavucontrol \
+    alsa-utils pulseaudio pavucontrol pasystray \
     `# network / bluetooth / power` \
     network-manager network-manager-gnome blueman xfce4-power-manager \
     `# polkit` \
     policykit-1-gnome \
     `# fonts & theming` \
     fonts-font-awesome \
+    `# browser` \
+    chromium \
     `# misc utilities` \
-    git screen curl wget jq xdg-utils \
+    git screen curl wget jq xdg-utils psmisc \
     `# embedded dev` \
     gdb
 

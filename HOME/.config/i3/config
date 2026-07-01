@@ -267,7 +267,7 @@ exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 # exec --no-startup-id feh --bg-scale /home/benjamin/4k-wallpaper.jpg
 exec --no-startup-id feh --bg-scale /home/benjamin/escher.png
 
-exec --no-startup-id nitrogen --restore; sleep 1; compton --inactive-dim 0.15 -b
+exec --no-startup-id picom --inactive-dim 0.15 -b
 exec --no-startup-id nm-applet
 # exec --no-startup-id xfce4-power-manager
 exec --no-startup-id blueman-applet
@@ -349,7 +349,6 @@ bindsym $mod+Shift+b mode "brightness"
 ################################################################################################
 
 
-exec --no-startup-id volumeicon
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -10%
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +10%
 bindsym XF86AudioMute exec amixer -q -D pulse set Master toggle
@@ -372,7 +371,6 @@ mode "volume" {
 bindsym $mod+v mode "volume"
 
 #exec --no-startup-id pulseaudio
-exec --no-startup-id pa-applet
 bindsym $mod+Ctrl+v exec pavucontrol
 
 # Solve coldplug DP-1 on my ThinkPad
