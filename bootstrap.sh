@@ -108,6 +108,7 @@ sudo udevadm trigger
 info "Enabling systemd --user services..."
 systemctl --user daemon-reload
 systemctl --user enable emacs.service
+systemctl --user enable --now battery-warn.timer
 # nrfgdb and rttlog require SEGGER JLink — enable manually once installed
 
 # ── 6. MANUAL STEPS ───────────────────────────────────────────────────────────
